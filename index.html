@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Daily Grind — Vol. 4</title>
+
+  <meta property="og:title" content="The Daily Grind — Vol. 4">
+  <meta property="og:description" content="El café abrió. La camisa viene. Registrate para ser de los primeros.">
+  <meta property="og:image" content="https://2930fccc.the-daily-grind.pages.dev/LogoTDG.svg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Daily Grind — Vol. 4">
+  <meta name="twitter:description" content="El café abrió. La camisa viene. Registrate para ser de los primeros.">
+  <link rel="icon" href="LogoTDG.svg" type="image/svg+xml">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0e1e56;
+      --navy-2: #0b1845;
+      --sky:    #51b5f2;
+      --sky-lt: #a6d9f8;
+      --cream:  #f9f3ec;
+      --beige:  #e3ded9;
+      --beige-2:#d9d4cf;
+      --dark:   #212529;
+      --mid:    #6C757D;
+      --white:  #FFFFFF;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────
+       HEADER
+    ───────────────────────────────────── */
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px 24px;
+      background-color: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header img {
+      height: 48px;
+      width: auto;
+    }
+
+    /* ─────────────────────────────────────
+       HERO
+    ───────────────────────────────────── */
+    .hero {
+      background-color: var(--navy);
+      color: var(--white);
+      padding: 96px 24px 112px;
+      position: relative;
+      overflow: hidden;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(11,24,69,0.82) 0%,
+        rgba(11,24,69,0.68) 50%,
+        rgba(11,24,69,0.88) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(42px, 7vw, 76px);
+      font-weight: 700;
+      line-height: 1.03;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      max-width: 400px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--sky);
+      color: var(--navy);
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 15px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 56px;
+      transition: background-color 0.2s, transform 0.15s;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-cta:hover {
+      background-color: var(--sky-lt);
+      transform: translateY(-2px);
+    }
+
+    .perks {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .perk-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: var(--sky);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────
+       SHARED LABELS & UTILITIES
+    ───────────────────────────────────── */
+    .section-label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 14px;
+    }
+
+    .section-label.dark { color: var(--mid); }
+
+    /* ─────────────────────────────────────
+       VOLUMES
+    ───────────────────────────────────── */
+    .volumes {
+      background-color: var(--navy-2);
+      padding: 96px 24px;
+      text-align: center;
+    }
+
+    .volumes-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 56px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.2;
+    }
+
+    .volumes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 860px;
+      margin: 0 auto;
+      background-color: rgba(81,181,242,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .volume-item {
+      padding: 40px 28px;
+      background-color: var(--navy-2);
+      text-align: left;
+      transition: background-color 0.3s;
+    }
+
+    .volume-item:hover { background-color: rgba(81,181,242,0.05); }
+    .volume-item.active { background-color: rgba(81,181,242,0.08); }
+
+    .volume-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 14px;
+    }
+
+    .volume-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+
+    .volume-item.active .volume-name { color: var(--sky); }
+
+    .volume-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      line-height: 1.65;
+    }
+
+    /* ─────────────────────────────────────
+       COMIC
+    ───────────────────────────────────── */
+    .comic {
+      background-color: var(--navy-2);
+      padding: 88px 0 72px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .comic-head {
+      padding: 0 24px;
+      margin-bottom: 40px;
+    }
+
+    .comic-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .comic-chapter {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background-color: var(--sky);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    .comic-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .comic-title-jp {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      letter-spacing: 0.06em;
+    }
+
+    .comic-pages {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 40px 24px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .comic-pages::-webkit-scrollbar { display: none; }
+
+    .comic-pages img {
+      flex-shrink: 0;
+      height: 560px;
+      width: auto;
+      border-radius: 8px;
+      scroll-snap-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .comic-coming {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(166,217,248,0.45);
+      letter-spacing: 0.08em;
+      margin-top: 8px;
+      padding: 0 24px;
+    }
+
+    /* ─────────────────────────────────────
+       PRODUCT
+    ───────────────────────────────────── */
+    .product {
+      background-color: var(--beige);
+      padding: 96px 24px;
+    }
+
+    .product-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 64px;
+      align-items: start;
+    }
+
+    .product-divider {
+      background-color: var(--beige-2);
+      align-self: stretch;
+    }
+
+    .product-block-label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 16px;
+    }
+
+    .product-block h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .product-block p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.72;
+    }
+
+    .cafe-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      image-orientation: from-image;
+    }
+
+    .camisa-video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      display: block;
+      background-color: var(--navy);
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 24px;
+      transition: background-color 0.2s, transform 0.15s;
+    }
+
+    .product-cta:hover {
+      background-color: var(--navy-2);
+      transform: translateY(-1px);
+    }
+
+    /* ─────────────────────────────────────
+       AMBIENTE (carousel)
+    ───────────────────────────────────── */
+    .ambiente {
+      background-color: var(--navy);
+      padding: 96px 24px;
+      text-align: center;
+    }
+
+    .ambiente-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.05;
+    }
+
+    .ambiente-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      max-width: 440px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+
+    .ambiente-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .ambiente-slot {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--navy-2);
+    }
+
+    .ambiente-slot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      image-orientation: from-image;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .ambiente-slot img.active { opacity: 1; }
+
+    /* ─────────────────────────────────────
+       FORM SECTION
+    ───────────────────────────────────── */
+    .form-section {
+      padding: 88px 20px;
+      background-color: var(--beige);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .form-section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 360px;
+    }
+
+    .form-card {
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 4px 40px rgba(14,30,86,0.10);
+    }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 20px;
+    }
+
+    .divider-line {
+      height: 1px;
+      background-color: var(--beige);
+      margin-bottom: 24px;
+    }
+
+    .row { display: flex; gap: 16px; }
+    .row .field { flex: 1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .field input,
+    .field select {
+      border: 1.5px solid var(--beige);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dark);
+      background-color: var(--cream);
+      transition: border-color 0.2s, background-color 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--sky);
+      background-color: var(--white);
+    }
+
+    .field input::placeholder { color: var(--beige-2); }
+
+    .date-row { display: flex; gap: 8px; }
+
+    .date-row .date-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .date-row .date-field select {
+      border: 1.5px solid var(--beige);
+      border-radius: 8px;
+      padding: 11px 8px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dark);
+      background-color: var(--cream);
+      transition: border-color 0.2s, background-color 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236C757D' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 22px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .date-row .date-field select:focus {
+      border-color: var(--sky);
+      background-color: var(--white);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background-color: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background-color 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .btn:hover { background-color: var(--navy-2); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .btn.loading .spinner { display: block; }
+    .btn.loading .btn-text { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .privacy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--mid);
+      margin-top: 16px;
+      justify-content: center;
+    }
+
+    /* ─────────────────────────────────────
+       SUCCESS
+    ───────────────────────────────────── */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 32px 0 16px;
+    }
+
+    .success-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--navy);
+      color: var(--white);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .success h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .success p { font-size: 14px; color: var(--mid); }
+
+    /* ─────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────── */
+    .footer {
+      background-color: var(--navy-2);
+      text-align: center;
+      padding: 40px 20px 32px;
+    }
+
+    .footer-logo {
+      height: 48px;
+      width: auto;
+      opacity: 0.8;
+      margin-bottom: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+
+    .footer-ai {
+      font-size: 11px;
+      color: rgba(81,181,242,0.5);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─────────────────────────────────────
+       REVEAL
+    ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.34s; }
+
+    /* ─────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────── */
+    @media (max-width: 768px) {
+      .product-inner {
+        grid-template-columns: 1fr;
+        gap: 56px 0;
+      }
+      .product-divider { display: none; }
+
+      .ambiente-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .ambiente-slot:last-child {
+        grid-column: span 2;
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 72px 20px 88px; min-height: 520px; }
+      .volumes { padding: 64px 20px; }
+      .volumes-grid { grid-template-columns: 1fr; }
+      .volume-item { text-align: left; padding: 28px 20px; }
+      .comic { padding: 64px 20px; }
+      .product { padding: 64px 20px; }
+      .ambiente { padding: 64px 20px; }
+      .ambiente-grid { grid-template-columns: 1fr; }
+      .ambiente-slot:last-child { grid-column: span 1; aspect-ratio: 3 / 4; }
+      .form-card { padding: 28px 20px; }
+      .row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <img src="LogoTDG.svg" alt="The Daily Grind">
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline poster="img/debut-fallback.jpeg">
+      <source src="img/hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-label">Vol. 4 — Ya está aquí</span>
+      <h1>Mismo ritual.<br><em>Otro nivel.</em></h1>
+      <p class="hero-desc">El café abrió. La camisa viene.<br>Registrate para ser de los primeros.</p>
+      <a href="#form" class="hero-cta">Quiero estar adentro →</a>
+      <div class="perks">
+        <div class="perk"><div class="perk-icon">✓</div><span>La camisa Vol. 4</span></div>
+        <div class="perk"><div class="perk-icon">✓</div><span>Early access al drop</span></div>
+        <div class="perk"><div class="perk-icon">✓</div><span>Tu lugar en la lista</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VOLUMES ── -->
+  <section class="volumes">
+    <span class="section-label reveal">La historia</span>
+    <h2 class="volumes-title reveal">Una historia que se despliega en volúmenes.</h2>
+    <div class="volumes-grid">
+      <div class="volume-item reveal reveal-delay-1">
+        <p class="volume-num">Vol. 1</p>
+        <p class="volume-name">Música</p>
+        <p class="volume-desc">Un álbum que instaló el nombre y el espíritu antes de que hubiera un espacio físico.</p>
+      </div>
+      <div class="volume-item reveal reveal-delay-2">
+        <p class="volume-num">Vol. 2 &amp; 3</p>
+        <p class="volume-name">Moda</p>
+        <p class="volume-desc">Poleras con estética cuidada. La marca dejó de ser solo sonido y se volvió algo que se usa.</p>
+      </div>
+      <div class="volume-item active reveal reveal-delay-3">
+        <p class="volume-num">Vol. 4</p>
+        <p class="volume-name">La cafetería</p>
+        <p class="volume-desc">Arte y gastronomía en un espacio que existe porque debe existir. Y la camisa que lo sella.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMIC ── -->
+  <section class="comic">
+    <div class="comic-head reveal">
+      <div class="comic-meta">
+        <span class="section-label" style="margin-bottom:0; color:var(--sky);">El universo TDG</span>
+        <span class="comic-chapter">Cap. 01</span>
+      </div>
+      <h2 class="comic-title">Un día en The Daily Grind.</h2>
+      <p class="comic-title-jp">デイリー・グラインドでの一日</p>
+    </div>
+    <div class="comic-pages reveal">
+      <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1">
+      <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2">
+      <img src="img/comic-03.png" alt="Un día en The Daily Grind — pág. 3">
+      <img src="img/comic-04.png" alt="Un día en The Daily Grind — pág. 4">
+      <img src="img/comic-05.png" alt="Un día en The Daily Grind — pág. 5">
+    </div>
+    <p class="comic-coming">Más capítulos en camino.</p>
+  </section>
+
+  <!-- ── AMBIENTE ── -->
+  <section class="ambiente">
+    <span class="section-label reveal">Verano TDG 26</span>
+    <h2 class="ambiente-title reveal">El ambiente es el mensaje.</h2>
+    <p class="ambiente-sub reveal">Lo que pasa en los márgenes de una buena taza.</p>
+    <div class="ambiente-grid">
+      <!-- Slot 1: comunidad / gente -->
+      <div class="ambiente-slot reveal reveal-delay-1">
+        <img src="img/verano-1.jpeg"  alt="Verano TDG">
+        <img src="img/verano-10.jpeg" alt="Verano TDG">
+        <img src="img/verano-11.jpeg" alt="Verano TDG">
+        <img src="img/verano-2.jpeg"  alt="Verano TDG">
+        <img src="img/verano-3.jpeg"  alt="Verano TDG">
+      </div>
+      <!-- Slot 2: lifestyle / editorial -->
+      <div class="ambiente-slot reveal reveal-delay-2">
+        <img src="img/verano-4.jpg"   alt="Verano TDG">
+        <img src="img/verano-5.jpg"   alt="Verano TDG">
+        <img src="img/verano-6.jpg"   alt="Verano TDG">
+        <img src="img/verano-14.jpeg" alt="Verano TDG">
+        <img src="img/verano-15.jpeg" alt="Verano TDG">
+      </div>
+      <!-- Slot 3: noche / artistas / escenario -->
+      <div class="ambiente-slot reveal reveal-delay-3">
+        <img src="img/verano-7.jpg"   alt="Verano TDG">
+        <img src="img/verano-8.jpg"   alt="Verano TDG">
+        <img src="img/verano-9.jpg"   alt="Verano TDG">
+        <img src="img/verano-12.jpeg" alt="Verano TDG">
+        <img src="img/verano-13.jpeg" alt="Verano TDG">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FORM ── -->
+  <div class="form-section" id="form">
+    <span class="section-label dark">El drop</span>
+    <h2 class="form-section-title">Registrate una sola vez.</h2>
+    <p class="form-section-sub">Cuando salga la camisa, sos el primero en saber.</p>
+
+    <div class="form-card">
+      <h3 class="form-title">Tus datos</h3>
+      <p class="form-sub">Una sola vez. Después, nosotros nos encargamos.</p>
+      <div class="divider-line"></div>
+
+      <form id="clientForm">
+        <div class="row">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Juan" required>
+          </div>
+          <div class="field">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" placeholder="García" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="juan@email.com" required>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input type="tel" id="telefono" placeholder="+56 9 0000 0000" required>
+        </div>
+        <div class="field">
+          <label>Fecha de cumpleaños</label>
+          <div class="date-row">
+            <div class="date-field">
+              <select id="cumple-dia" required>
+                <option value="" disabled selected>Día</option>
+              </select>
+            </div>
+            <div class="date-field">
+              <select id="cumple-mes" required>
+                <option value="" disabled selected>Mes</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+            </div>
+            <div class="date-field">
+              <select id="cumple-anio" required>
+                <option value="" disabled selected>Año</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="instagram">Instagram</label>
+          <input type="text" id="instagram" placeholder="@usuario">
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">
+          <span class="btn-text">Registrarme</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div id="formError" style="display:none;color:#dc3545;font-size:12px;margin-top:10px;text-align:center;">
+          Hubo un error al enviar. Intentá de nuevo en unos segundos.
+        </div>
+      </form>
+
+      <div class="privacy">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Tus datos están seguros y no serán compartidos.
+      </div>
+
+      <div id="successMsg" class="success">
+        <div class="success-ring">✓</div>
+        <h2>Ya estás adentro.</h2>
+        <p>Pronto vas a saber para qué.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <img src="LogoTDG.svg" alt="The Daily Grind" class="footer-logo">
+    <p class="footer-copy">© 2026 The Daily Grind · Todos los derechos reservados</p>
+    <p class="footer-ai">Potenciado con IA · Todo parecido con una buena taza es completamente intencional</p>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby10UITZsg6yOvpxZhHjPOCEVCWE9ZvsIj8SSoY2YjyPtBnTq-Fqde9k6-Pr4lNpUNt/exec';
+
+    // ── Días ──
+    const diaSelect = document.getElementById('cumple-dia');
+    for (let d = 1; d <= 31; d++) {
+      const o = document.createElement('option');
+      o.value = String(d).padStart(2, '0');
+      o.textContent = d;
+      diaSelect.appendChild(o);
+    }
+
+    // ── Años ──
+    const anioSelect = document.getElementById('cumple-anio');
+    const yr = new Date().getFullYear();
+    for (let y = yr - 10; y >= yr - 80; y--) {
+      const o = document.createElement('option');
+      o.value = y; o.textContent = y;
+      anioSelect.appendChild(o);
+    }
+
+    // ── Submit ──
+    const form = document.getElementById('clientForm');
+    const btn  = document.getElementById('submitBtn');
+    const err  = document.getElementById('formError');
+    const suc  = document.getElementById('successMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.style.display = 'none';
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      const dia  = document.getElementById('cumple-dia').value;
+      const mes  = document.getElementById('cumple-mes').value;
+      const anio = document.getElementById('cumple-anio').value;
+      const cumple = (anio && mes && dia) ? `${anio}-${mes}-${dia}` : '';
+
+      let ig = document.getElementById('instagram').value.trim();
+      if (ig && !ig.startsWith('@')) ig = '@' + ig;
+
+      const payload = {
+        nombre:           document.getElementById('nombre').value.trim(),
+        apellido:         document.getElementById('apellido').value.trim(),
+        email:            document.getElementById('email').value.trim(),
+        telefono:         document.getElementById('telefono').value.trim(),
+        fecha_cumpleanos: cumple,
+        instagram:        ig,
+        origen:           'landing-vol4',
+      };
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error();
+        form.style.display = 'none';
+        document.querySelector('.form-sub').style.display = 'none';
+        document.querySelector('.divider-line').style.display = 'none';
+        document.querySelector('.privacy').style.display = 'none';
+        suc.style.display = 'block';
+      } catch {
+        err.style.display = 'block';
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    });
+
+    // ── Carousel ambiente ──
+    (function () {
+      const INTERVAL = 4000;
+      const slots = Array.from(document.querySelectorAll('.ambiente-slot'));
+      slots.forEach(slot => slot.querySelectorAll('img')[0].classList.add('active'));
+      slots.forEach((slot, i) => {
+        let cur = 0;
+        setTimeout(() => {
+          setInterval(() => {
+            const imgs = slot.querySelectorAll('img');
+            imgs[cur].classList.remove('active');
+            cur = (cur + 1) % imgs.length;
+            imgs[cur].classList.add('active');
+          }, INTERVAL);
+        }, i * 1333);
+      });
+    })();
+
+    // ── Reveal on scroll ──
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('visible'));
+    }
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        const t = document.querySelector(this.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+
+</body>
+</html>
