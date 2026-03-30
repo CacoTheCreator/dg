@@ -81,7 +81,11 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
     }
+
+    .hero-video.playing { opacity: 1; }
 
     .hero-overlay {
       position: absolute;
@@ -746,6 +750,52 @@
     }
 
     /* ─────────────────────────────────────
+       PAGE LOADER
+    ───────────────────────────────────── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background-color: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease;
+    }
+
+    #loader.hidden { opacity: 0; pointer-events: none; }
+
+    #loader-logo {
+      height: 56px;
+      width: auto;
+      margin-bottom: 36px;
+    }
+
+    #loader-track {
+      width: 52px;
+      height: 2px;
+      background-color: rgba(81,181,242,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #loader-track::after {
+      content: '';
+      display: block;
+      width: 40%;
+      height: 100%;
+      background-color: var(--sky);
+      border-radius: 2px;
+      animation: loader-slide 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes loader-slide {
+      from { transform: translateX(-100%); }
+      to   { transform: translateX(260%); }
+    }
+
+    /* ─────────────────────────────────────
        REVEAL
     ───────────────────────────────────── */
     .reveal {
@@ -795,6 +845,12 @@
   </style>
 </head>
 <body>
+
+  <!-- ── LOADER ── -->
+  <div id="loader">
+    <img id="loader-logo" src="LogoTDG.svg" alt="The Daily Grind">
+    <div id="loader-track"></div>
+  </div>
 
   <!-- ── HEADER ── -->
   <header class="header">
@@ -854,11 +910,11 @@
       <p class="comic-title-jp">デイリー・グラインドでの一日</p>
     </div>
     <div class="comic-pages reveal">
-      <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1">
-      <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2">
-      <img src="img/comic-03.png" alt="Un día en The Daily Grind — pág. 3">
-      <img src="img/comic-04.png" alt="Un día en The Daily Grind — pág. 4">
-      <img src="img/comic-05.png" alt="Un día en The Daily Grind — pág. 5">
+      <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1" loading="lazy" decoding="async">
+      <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2" loading="lazy" decoding="async">
+      <img src="img/comic-03.png" alt="Un día en The Daily Grind — pág. 3" loading="lazy" decoding="async">
+      <img src="img/comic-04.png" alt="Un día en The Daily Grind — pág. 4" loading="lazy" decoding="async">
+      <img src="img/comic-05.png" alt="Un día en The Daily Grind — pág. 5" loading="lazy" decoding="async">
     </div>
     <p class="comic-coming">Más capítulos en camino.</p>
   </section>
@@ -871,27 +927,27 @@
     <div class="ambiente-grid">
       <!-- Slot 1: comunidad / gente -->
       <div class="ambiente-slot reveal reveal-delay-1">
-        <img src="img/verano-1.jpeg"  alt="Verano TDG">
-        <img src="img/verano-10.jpeg" alt="Verano TDG">
-        <img src="img/verano-11.jpeg" alt="Verano TDG">
-        <img src="img/verano-2.jpeg"  alt="Verano TDG">
-        <img src="img/verano-3.jpeg"  alt="Verano TDG">
+        <img src="img/verano-1.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-10.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-11.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-2.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-3.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
       </div>
       <!-- Slot 2: lifestyle / editorial -->
       <div class="ambiente-slot reveal reveal-delay-2">
-        <img src="img/verano-4.jpg"   alt="Verano TDG">
-        <img src="img/verano-5.jpg"   alt="Verano TDG">
-        <img src="img/verano-6.jpg"   alt="Verano TDG">
-        <img src="img/verano-14.jpeg" alt="Verano TDG">
-        <img src="img/verano-15.jpeg" alt="Verano TDG">
+        <img src="img/verano-4.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-5.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-6.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-14.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-15.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
       </div>
       <!-- Slot 3: noche / artistas / escenario -->
       <div class="ambiente-slot reveal reveal-delay-3">
-        <img src="img/verano-7.jpg"   alt="Verano TDG">
-        <img src="img/verano-8.jpg"   alt="Verano TDG">
-        <img src="img/verano-9.jpg"   alt="Verano TDG">
-        <img src="img/verano-12.jpeg" alt="Verano TDG">
-        <img src="img/verano-13.jpeg" alt="Verano TDG">
+        <img src="img/verano-7.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-8.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-9.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-12.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-13.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -997,6 +1053,17 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby10UITZsg6yOvpxZhHjPOCEVCWE9ZvsIj8SSoY2YjyPtBnTq-Fqde9k6-Pr4lNpUNt/exec';
+
+    // ── Page loader ──
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+      loader.classList.add('hidden');
+      loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    });
+
+    // ── Hero video fade-in ──
+    const heroVideo = document.querySelector('.hero-video');
+    heroVideo.addEventListener('canplay', () => heroVideo.classList.add('playing'), { once: true });
 
     // ── Días ──
     const diaSelect = document.getElementById('cumple-dia');
