@@ -372,6 +372,7 @@
       overflow-x: auto;
       padding: 4px 40px 24px;
       scroll-snap-type: x mandatory;
+      scroll-padding-inline: 40px;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
@@ -385,6 +386,30 @@
       border-radius: 8px;
       scroll-snap-align: center;
       box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .comic-hint {
+      display: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(166,217,248,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: -4px 0 18px;
+      text-align: center;
+      animation: hint-pulse 2.4s ease-in-out infinite;
+    }
+    .comic-hint.hidden { display: none !important; }
+    .comic-hint .arrow-left { display: inline-block; margin-right: 10px; animation: hint-nudge 2s ease-in-out infinite; }
+    .comic-hint .arrow-right { display: inline-block; margin-left: 10px; animation: hint-nudge 2s ease-in-out infinite reverse; }
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; }
+    }
+    @keyframes hint-nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
     }
 
     .comic-coming {
@@ -923,7 +948,23 @@
       .volumes { padding: 64px 20px; }
       .volumes-grid { grid-template-columns: 1fr; }
       .volume-item { text-align: left; padding: 28px 20px; }
-      .comic { padding: 64px 20px; }
+      .volume-item.volume-link::after { top: 20px; right: 20px; font-size: 16px; }
+
+      .comic { padding: 64px 0 56px; }
+      .comic-head { padding: 0 20px; }
+      .comic-hint { display: block; }
+      .comic-pages {
+        padding: 4px 20px 20px;
+        gap: 14px;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: 20px;
+      }
+      .comic-pages img {
+        height: 420px;
+        scroll-snap-align: start;
+      }
+      .comic-coming { padding: 0 20px; }
+
       .product { padding: 64px 20px; }
       .ambiente { padding: 64px 20px; }
       .ambiente-grid { grid-template-columns: 1fr; }
@@ -998,7 +1039,8 @@
       <h2 class="comic-title">Un día en The Daily Grind.</h2>
       <p class="comic-title-jp">デイリー・グラインドでの一日</p>
     </div>
-    <div class="comic-pages reveal">
+    <p class="comic-hint" id="comicHint"><span class="arrow-left">←</span>Desliza para leer<span class="arrow-right">→</span></p>
+    <div class="comic-pages reveal" id="comicPages">
       <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1" loading="lazy" decoding="async">
       <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2" loading="lazy" decoding="async">
       <img src="img/comic-03.png" alt="Un día en The Daily Grind — pág. 3" loading="lazy" decoding="async">
@@ -1260,6 +1302,15 @@
     } else {
       revealEls.forEach(el => el.classList.add('visible'));
     }
+
+    // ── Comic hint: hide on first scroll ──
+    (function () {
+      const pages = document.getElementById('comicPages');
+      const hint  = document.getElementById('comicHint');
+      if (!pages || !hint) return;
+      const hide = () => { hint.classList.add('hidden'); pages.removeEventListener('scroll', hide); };
+      pages.addEventListener('scroll', hide, { passive: true, once: true });
+    })();
 
     // ── Smooth scroll ──
     document.querySelectorAll('a[href^="#"]').forEach(a => {
