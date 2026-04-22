@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promos — The Daily Grind</title>
+<meta name="description" content="Promociones vigentes de The Daily Grind. Combos y ofertas del día.">
+
+<meta property="og:title" content="Promos — The Daily Grind">
+<meta property="og:description" content="Combos y ofertas del Vol. 4.">
+<meta property="og:url" content="https://dailygrind.cl/promos">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="LogoTDG.svg" type="image/svg+xml">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0e1e56;
+    --navy-2: #0b1845;
+    --sky:    #51b5f2;
+    --sky-lt: #a6d9f8;
+    --cream:  #f9f3ec;
+    --beige:  #e3ded9;
+    --beige-2:#d9d4cf;
+    --dark:   #212529;
+    --mid:    #6C757D;
+    --white:  #FFFFFF;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background-color: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(81,181,242,0.12);
+  }
+
+  .header img { height: 48px; width: auto; }
+
+  .nav {
+    display: flex;
+    gap: 26px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--sky-lt);
+  }
+
+  .nav a { transition: color 0.2s ease; }
+  .nav a:hover, .nav a.active { color: var(--white); }
+
+  @media (max-width: 520px) {
+    .nav { gap: 18px; font-size: 12px; }
+  }
+
+  /* HERO */
+  .hero {
+    background-color: var(--navy);
+    padding: 96px 24px 64px;
+    text-align: center;
+    position: relative;
+  }
+
+  .section-label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 8vw, 84px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 24px;
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 .accent { color: var(--sky); }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--sky-lt); }
+
+  .hero .lede {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--sky-lt);
+    max-width: 56ch;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* PROMOS */
+  .promos {
+    background-color: var(--navy-2);
+    padding: 80px 24px;
+  }
+
+  .promos-wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .promo {
+    background-color: rgba(81,181,242,0.06);
+    border: 1px solid rgba(81,181,242,0.18);
+    border-radius: 10px;
+    padding: 32px 32px 32px 36px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+    align-items: center;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--sky);
+  }
+
+  .promo:hover {
+    background-color: rgba(81,181,242,0.1);
+    border-color: rgba(81,181,242,0.32);
+  }
+
+  .promo .category {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background-color: var(--sky);
+    padding: 5px 11px;
+    border-radius: 3px;
+    white-space: nowrap;
+    height: fit-content;
+  }
+
+  .promo .name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.2vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .promo .name .mul { color: var(--sky); margin: 0 0.15em; font-weight: 700; }
+
+  .promo .desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--sky-lt);
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+
+  .promo .desc em {
+    color: var(--white);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .promo .price {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .promo .price .currency {
+    font-family: 'Syne', sans-serif;
+    color: var(--sky);
+    font-size: 24px;
+    font-weight: 700;
+    vertical-align: top;
+    margin-right: 2px;
+  }
+
+  .promo .price .amount {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(44px, 6vw, 64px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+
+  .promo .price .note {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sky-lt);
+    margin-top: 10px;
+  }
+
+  @media (max-width: 780px) {
+    .promo {
+      grid-template-columns: 1fr;
+      padding: 24px 22px;
+      gap: 16px;
+    }
+    .promo .category { justify-self: start; }
+    .promo .price { text-align: left; }
+  }
+
+  /* CTA */
+  .cta {
+    background-color: var(--navy);
+    padding: 96px 24px 80px;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+
+  .cta h2 em { font-style: italic; color: var(--sky); font-weight: 400; }
+
+  .cta p {
+    color: var(--sky-lt);
+    font-weight: 300;
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .cta .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--sky);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .cta .btn:hover {
+    transform: translateY(-1px);
+    background: var(--white);
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 24px;
+    background-color: var(--navy);
+    border-top: 1px solid rgba(81,181,242,0.1);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--sky-lt);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer .muted { opacity: 0.55; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/"><img src="LogoTDG.svg" alt="The Daily Grind"></a>
+  <nav class="nav">
+    <a href="/">Inicio</a>
+    <a href="/menu">Carta</a>
+    <a href="/promos" class="active">Promos</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="section-label">Promociones vigentes</span>
+  <h1>Mismo ritual. <em>Otro nivel.</em></h1>
+  <p class="lede">Combos pensados para tu rutina. Cambian según el día, siempre valen la pena. Consultá en caja por la promo del día.</p>
+</section>
+
+<section class="promos">
+  <div class="promos-wrap">
+
+    <article class="promo">
+      <span class="category">La del día</span>
+      <div class="body">
+        <div class="name">Promo <span class="mul">·</span> Daily</div>
+        <p class="desc"><em>La sorpresa del día.</em> Cambia según lo que tengamos, siempre vale la pena. Consultá en caja.</p>
+      </div>
+      <div class="price">
+        <span class="currency">$</span><span class="amount">3.500</span>
+        <span class="note">Todos los días</span>
+      </div>
+    </article>
+
+    <article class="promo">
+      <span class="category">La más pedida</span>
+      <div class="body">
+        <div class="name">Sandwich <span class="mul">+</span> Galleta <span class="mul">+</span> Café</div>
+        <p class="desc"><em>Sándwich</em> Aliado (jamón, queso, tomate, orégano) o Masa madre (jamón, queso, pesto) · <em>Galleta</em> New York · <em>Café</em> Rito.</p>
+      </div>
+      <div class="price">
+        <span class="currency">$</span><span class="amount">5.500</span>
+        <span class="note">Combo destacado</span>
+      </div>
+    </article>
+
+    <article class="promo">
+      <span class="category">Almuerzo épico</span>
+      <div class="body">
+        <div class="name">Café <span class="mul">+</span> Almuerzo</div>
+        <p class="desc">Café Rito con <em>almuerzo épico del día</em>. Para ir sin vueltas.</p>
+      </div>
+      <div class="price">
+        <span class="currency">$</span><span class="amount">7.000</span>
+        <span class="note">Combo cafetería</span>
+      </div>
+    </article>
+
+    <article class="promo">
+      <span class="category">Almuerzo épico</span>
+      <div class="body">
+        <div class="name">Kapo <span class="mul">+</span> Almuerzo</div>
+        <p class="desc">Kapo clásico con <em>almuerzo épico del día</em>. El chileno de siempre.</p>
+      </div>
+      <div class="price">
+        <span class="currency">$</span><span class="amount">6.500</span>
+        <span class="note">Combo refrescante</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="cta">
+  <span class="section-label">Todo junto</span>
+  <h2>Arte, café y rutina <em>en el mismo lugar.</em></h2>
+  <p>Vení a conocernos.</p>
+  <a href="/menu" class="btn">Ver la carta completa →</a>
+</section>
+
+<footer class="footer">
+  <div>The Daily Grind · Vol. 04</div>
+  <div class="muted">Platos de verdad, todos los días.</div>
+</footer>
+
+</body>
+</html>

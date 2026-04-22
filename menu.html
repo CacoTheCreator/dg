@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta — The Daily Grind</title>
+<meta name="description" content="La carta de The Daily Grind. Café, sándwiches, dulces y almuerzos épicos.">
+
+<meta property="og:title" content="Carta — The Daily Grind">
+<meta property="og:description" content="Platos de verdad, todos los días.">
+<meta property="og:url" content="https://dailygrind.cl/menu">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="LogoTDG.svg" type="image/svg+xml">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0e1e56;
+    --navy-2: #0b1845;
+    --sky:    #51b5f2;
+    --sky-lt: #a6d9f8;
+    --cream:  #f9f3ec;
+    --beige:  #e3ded9;
+    --beige-2:#d9d4cf;
+    --dark:   #212529;
+    --mid:    #6C757D;
+    --white:  #FFFFFF;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background-color: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header img { height: 48px; width: auto; }
+
+  .nav {
+    display: flex;
+    gap: 26px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--sky-lt);
+  }
+
+  .nav a { transition: color 0.2s ease; }
+  .nav a:hover, .nav a.active { color: var(--white); }
+
+  @media (max-width: 520px) {
+    .nav { gap: 18px; font-size: 12px; }
+  }
+
+  /* HERO — cream */
+  .hero {
+    background-color: var(--cream);
+    padding: 96px 24px 64px;
+    text-align: center;
+  }
+
+  .section-label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 18px;
+  }
+
+  .section-label.dark { color: var(--mid); }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 8vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 22px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--sky); font-weight: 400; }
+
+  .hero .lede {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--mid);
+    max-width: 54ch;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* MENU SECTIONS */
+  .menu {
+    background-color: var(--cream);
+    padding: 40px 24px 80px;
+  }
+
+  .menu-wrap { max-width: 880px; margin: 0 auto; }
+
+  .category {
+    padding: 48px 0 16px;
+    border-top: 1px solid var(--beige-2);
+  }
+
+  .category:first-child { border-top: 0; padding-top: 24px; }
+
+  .category-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .category-head .num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--sky);
+    letter-spacing: 0.04em;
+  }
+
+  .category-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .category-head h2 em {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--mid);
+    margin-left: 10px;
+    font-size: 0.65em;
+  }
+
+  .items { display: flex; flex-direction: column; }
+
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px dashed var(--beige-2);
+  }
+
+  .item:last-child { border-bottom: 0; }
+
+  .item .name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .item .name em {
+    color: var(--sky);
+    font-style: normal;
+    font-weight: 300;
+    margin-left: 8px;
+    font-size: 0.85em;
+  }
+
+  .item .desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.55;
+    max-width: 62ch;
+  }
+
+  .item .price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  .item .price .currency { color: var(--sky); }
+
+  .item .price.tbd {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+  }
+
+  /* COMBOS — navy section, stands out */
+  .combos {
+    background-color: var(--navy-2);
+    color: var(--white);
+    padding: 80px 24px;
+  }
+
+  .combos-wrap { max-width: 880px; margin: 0 auto; }
+
+  .combos-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.5vw, 42px);
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .combos-title em { font-style: italic; color: var(--sky); font-weight: 400; }
+
+  .combos-sub {
+    color: var(--sky-lt);
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .combos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .combo-card {
+    background-color: rgba(81,181,242,0.06);
+    border: 1px solid rgba(81,181,242,0.18);
+    border-radius: 10px;
+    padding: 24px 22px;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .combo-card:hover {
+    background-color: rgba(81,181,242,0.1);
+    border-color: rgba(81,181,242,0.32);
+    transform: translateY(-2px);
+  }
+
+  .combo-card .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 14px;
+  }
+
+  .combo-card .name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .combo-card .name .plus { color: var(--sky); margin: 0 0.15em; }
+
+  .combo-card .desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--sky-lt);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    min-height: 3.5em;
+  }
+
+  .combo-card .price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.025em;
+    color: var(--white);
+  }
+
+  .combo-card .price .currency { color: var(--sky); font-size: 0.75em; }
+
+  /* CTA */
+  .cta {
+    background-color: var(--cream);
+    padding: 96px 24px 80px;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.5vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+
+  .cta h2 em { font-style: italic; color: var(--sky); font-weight: 400; }
+
+  .cta p {
+    color: var(--mid);
+    font-weight: 300;
+    font-size: 15px;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 24px;
+    background-color: var(--navy);
+    color: var(--sky-lt);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer .muted { opacity: 0.55; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/"><img src="LogoTDG.svg" alt="The Daily Grind"></a>
+  <nav class="nav">
+    <a href="/">Inicio</a>
+    <a href="/menu" class="active">Carta</a>
+    <a href="/promos">Promos</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="section-label dark">Carta — la del día</span>
+  <h1>Platos de verdad, <em>todos los días.</em></h1>
+  <p class="lede">Café de especialidad, sándwiches frescos, dulces caseros y almuerzos épicos. La rutina que esperás.</p>
+</section>
+
+<section class="menu">
+  <div class="menu-wrap">
+
+    <div class="category">
+      <div class="category-head">
+        <span class="num">01</span>
+        <h2>Café <em>cafetería Rito</em></h2>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div>
+            <div class="name">Café Rito <em>espresso de especialidad</em></div>
+            <div class="desc">Nuestro café de la casa. Tostadura cuidada, extracción limpia. Base de casi todo lo demás.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+        <div class="item">
+          <div>
+            <div class="name">Más opciones <em>espresso · americano · latte · flat white · cortado · cappuccino</em></div>
+            <div class="desc">Pedinos lo que quieras. Si lo hacemos bien, lo encontrás en la barra.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <span class="num">02</span>
+        <h2>Bebidas <em>frías &amp; calientes</em></h2>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div>
+            <div class="name">Kapo <em>el clásico chileno</em></div>
+            <div class="desc">El que toma el chileno de siempre. Helado en vaso y directo a la vena.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+        <div class="item">
+          <div>
+            <div class="name">Otras bebidas <em>té · infusiones · jugos del día</em></div>
+            <div class="desc">Rotamos según temporada. Consultá en caja qué tenemos hoy.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <span class="num">03</span>
+        <h2>Sándwiches</h2>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div>
+            <div class="name">Aliado</div>
+            <div class="desc">Jamón, queso, tomate, orégano. El que nunca falla.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+        <div class="item">
+          <div>
+            <div class="name">Masa madre</div>
+            <div class="desc">Jamón, queso, pesto. Con masa madre del día.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+        <div class="item">
+          <div>
+            <div class="name">Más opciones <em>consultá carta vigente</em></div>
+            <div class="desc">Rotamos sándwiches según estación y lo que la cocina tenga inspirado.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <span class="num">04</span>
+        <h2>Dulces</h2>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div>
+            <div class="name">Galleta New York</div>
+            <div class="desc">Grandes, densas, con la cantidad exacta de chip de chocolate. Receta firma.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+        <div class="item">
+          <div>
+            <div class="name">Pastelería del día <em>consultá mostrador</em></div>
+            <div class="desc">Rotamos lo que horneamos. Preguntanos por los recién salidos.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <span class="num">05</span>
+        <h2>Almuerzos <em>épicos</em></h2>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div>
+            <div class="name">Almuerzo épico del día</div>
+            <div class="desc">Plato rotativo del día. Cocina honesta, porción real, sin decoración de relleno.</div>
+          </div>
+          <div class="price tbd">en caja</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="combos">
+  <div class="combos-wrap">
+    <span class="section-label">Combos vigentes</span>
+    <h2 class="combos-title">Ahorrá tiempo <em>y plata.</em></h2>
+    <p class="combos-sub">Combos pensados para tu rutina.</p>
+
+    <div class="combos-grid">
+      <div class="combo-card">
+        <div class="label">La del día</div>
+        <div class="name">Promo Daily</div>
+        <div class="desc">La sorpresa del día. Cambia según lo que tengamos.</div>
+        <div class="price"><span class="currency">$</span>3.500</div>
+      </div>
+      <div class="combo-card">
+        <div class="label">La más pedida</div>
+        <div class="name">Sandwich <span class="plus">+</span> Galleta <span class="plus">+</span> Café</div>
+        <div class="desc">Aliado o masa madre · Galleta New York · Café Rito.</div>
+        <div class="price"><span class="currency">$</span>5.500</div>
+      </div>
+      <div class="combo-card">
+        <div class="label">Combo cafetería</div>
+        <div class="name">Café <span class="plus">+</span> Almuerzo</div>
+        <div class="desc">Café Rito con almuerzo épico del día. Para ir sin vueltas.</div>
+        <div class="price"><span class="currency">$</span>7.000</div>
+      </div>
+      <div class="combo-card">
+        <div class="label">Combo refrescante</div>
+        <div class="name">Kapo <span class="plus">+</span> Almuerzo</div>
+        <div class="desc">Kapo clásico con almuerzo épico del día. El chileno de siempre.</div>
+        <div class="price"><span class="currency">$</span>6.500</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <span class="section-label dark">La filosofía</span>
+  <h2>Mismo ritual. <em>Otro nivel.</em></h2>
+  <p>Arte, café y rutina en el mismo lugar.</p>
+</section>
+
+<footer class="footer">
+  <div>The Daily Grind · Vol. 04</div>
+  <div class="muted">Carta actualizada · precios en caja</div>
+</footer>
+
+</body>
+</html>
