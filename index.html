@@ -284,6 +284,35 @@
       line-height: 1.65;
     }
 
+    .volume-item.volume-link {
+      position: relative;
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .volume-item.volume-link:hover {
+      transform: translateY(-2px);
+      background-color: rgba(81,181,242,0.14);
+    }
+    .volume-item.volume-link::after {
+      content: "↗";
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--sky);
+      opacity: 0.55;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .volume-item.volume-link:hover::after {
+      opacity: 1;
+      transform: translate(3px, -3px);
+    }
+
     /* ─────────────────────────────────────
        COMIC
     ───────────────────────────────────── */
@@ -723,6 +752,61 @@
     .success p { font-size: 14px; color: var(--mid); }
 
     /* ─────────────────────────────────────
+       DISCOVER STRIP
+    ───────────────────────────────────── */
+    .discover-strip {
+      background-color: var(--cream);
+      text-align: center;
+      padding: 56px 20px 64px;
+    }
+    .discover-kicker {
+      font-family: 'Syne', sans-serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--sky);
+      letter-spacing: 0.03em;
+      margin-bottom: 22px;
+    }
+    .discover-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .discover-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      background-color: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .discover-btn:hover {
+      background-color: var(--navy);
+      color: var(--cream);
+      transform: translateY(-1px);
+    }
+    .discover-btn .arrow {
+      font-size: 14px;
+      transition: transform 0.2s;
+    }
+    .discover-btn:hover .arrow { transform: translate(2px, -2px); }
+    @media (max-width: 480px) {
+      .discover-strip { padding: 44px 20px 52px; }
+      .discover-actions { flex-direction: column; width: 100%; max-width: 260px; margin: 0 auto; }
+      .discover-btn { width: 100%; justify-content: center; }
+    }
+
+    /* ─────────────────────────────────────
        FOOTER
     ───────────────────────────────────── */
     .footer {
@@ -896,11 +980,11 @@
         <p class="volume-name">Moda</p>
         <p class="volume-desc">Poleras con estética cuidada. La marca dejó de ser solo sonido y se volvió algo que se usa.</p>
       </div>
-      <div class="volume-item active reveal reveal-delay-3">
+      <a href="/menu" class="volume-item volume-link active reveal reveal-delay-3">
         <p class="volume-num">Vol. 4</p>
         <p class="volume-name">La cafetería</p>
         <p class="volume-desc">Arte y gastronomía en un espacio que existe porque debe existir. Y la camisa que lo sella.</p>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -1048,6 +1132,15 @@
       </div>
     </div>
   </div>
+
+  <!-- ── DISCOVER STRIP ── -->
+  <section class="discover-strip">
+    <p class="discover-kicker">Y mientras tanto, disfruta el sabor.</p>
+    <div class="discover-actions">
+      <a href="/menu" class="discover-btn">Ver el menú <span class="arrow">↗</span></a>
+      <a href="/promos" class="discover-btn">Ver las promos <span class="arrow">↗</span></a>
+    </div>
+  </section>
 
   <!-- ── FOOTER ── -->
   <footer class="footer">
