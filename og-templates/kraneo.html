@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px; height: 630px;
+    background: #0e1e56; color: #f9f3ec;
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+
+  .canvas {
+    position: relative; width: 1200px; height: 630px;
+    padding: 56px 72px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background:
+      radial-gradient(circle at 88% 12%, rgba(81,181,242,0.18), transparent 42%),
+      #0e1e56;
+  }
+
+  .top { display: flex; align-items: flex-start; justify-content: space-between; }
+  .chip {
+    font-weight: 500; text-transform: uppercase; letter-spacing: 0.24em;
+    font-size: 13px; color: #51b5f2;
+    border: 1px solid rgba(81,181,242,0.6);
+    padding: 8px 14px;
+  }
+  .ja {
+    font-weight: 500; font-size: 18px; color: rgba(166,217,248,0.55);
+    letter-spacing: 0.06em;
+  }
+
+  .lockup { margin-top: 4px; }
+  .lockup__h {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 140px; line-height: 0.96; letter-spacing: -0.035em;
+    color: #f9f3ec;
+  }
+  .lockup__h em {
+    font-family: "DM Sans", sans-serif; font-style: italic; font-weight: 300;
+    color: #51b5f2; letter-spacing: -0.02em;
+  }
+
+  .stack {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-top: 28px;
+    font-family: "Syne", sans-serif; font-weight: 700; font-size: 20px;
+    color: rgba(166,217,248,0.78);
+  }
+  .stack__num { color: rgba(166,217,248,0.45); }
+  .stack__name { color: #a6d9f8; }
+  .stack__sep { color: rgba(166,217,248,0.3); }
+
+  .rule { height: 1px; background: rgba(166,217,248,0.22); }
+  .bottom {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-top: 16px;
+  }
+  .vol, .url {
+    font-weight: 500; text-transform: uppercase; letter-spacing: 0.22em;
+    font-size: 15px;
+  }
+  .vol  { color: #f9f3ec; }
+  .url  { color: rgba(166,217,248,0.65); }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <div class="top">
+    <div class="chip">Friends de la casa</div>
+    <div class="ja">第四巻 · クラネオ</div>
+  </div>
+
+  <div class="lockup">
+    <div class="lockup__h">Bienvenidos,</div>
+    <div class="lockup__h"><em>Kraneo.</em></div>
+
+    <div class="stack">
+      <span class="stack__num">01</span><span class="stack__name">DG-006 · Triple</span>
+      <span class="stack__sep">·</span>
+      <span class="stack__num">02</span><span class="stack__name">DG-007 · Gira UAI</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="rule"></div>
+    <div class="bottom">
+      <div class="vol">Daily Grind × Kraneo · MMXXVI</div>
+      <div class="url">dailygrind.cl / kraneo</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
