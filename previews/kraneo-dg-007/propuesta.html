@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DG-007 · Kraneo · Banco Falabella · The Daily Grind</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --sky-bg:  #e9f4fd;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --mid:     #6C757D;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 64px 80px;
+    background: var(--cream);
+  }
+
+  /* Header */
+  .head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--navy);
+  }
+  .head__brand {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.32em;
+    color: var(--navy);
+  }
+  .head__brand small {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--mid);
+  }
+  .head__meta {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px 16px;
+    text-align: right;
+    font-size: 11px;
+  }
+  .head__meta dt {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--mid);
+  }
+  .head__meta dd {
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .head__meta dd strong {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* Title */
+  .title {
+    margin-top: 36px;
+    margin-bottom: 28px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    color: var(--navy);
+  }
+
+  /* PARA / DE block */
+  .partyblock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 48px;
+    padding: 24px 28px;
+    background: rgba(81, 181, 242, 0.06);
+    border: 1px solid rgba(14, 30, 86, 0.08);
+  }
+  .partyblock__cell .label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .partyblock__cell strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .partyblock__cell span {
+    color: var(--mid);
+    font-size: 12px;
+  }
+
+  /* Intro paragraph */
+  .intro {
+    margin: 28px 0 36px;
+    padding-left: 16px;
+    border-left: 3px solid var(--sky);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--navy);
+    max-width: 680px;
+  }
+
+  /* Section */
+  .section {
+    margin-top: 40px;
+  }
+  .section__head {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .section__num {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.12em;
+  }
+  .section__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--navy);
+  }
+  .section__body {
+    padding-left: 48px;
+  }
+  .section__lead {
+    margin-bottom: 18px;
+    font-size: 12.5px;
+    color: var(--navy);
+  }
+
+  /* Recommended block (oferta recomendada) */
+  .reco {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+    padding: 24px 26px;
+    background: var(--sky-bg);
+    border-left: 3px solid var(--sky);
+  }
+  .reco__eyebrow {
+    grid-column: 1 / -1;
+    display: inline-block;
+    background: var(--sky);
+    color: var(--navy);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    width: max-content;
+    margin-bottom: 4px;
+  }
+  .reco__left p {
+    font-size: 12.5px;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .reco__bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .reco__bullets li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .reco__bullets li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--sky);
+  }
+  .reco__right {
+    align-self: start;
+  }
+  .reco__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.08);
+    font-size: 12px;
+  }
+  .reco__row:last-child { border-bottom: none; }
+  .reco__row dt {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--mid);
+    font-size: 10px;
+  }
+  .reco__row dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .reco__row--calc dt { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--navy); font-weight: 300; }
+  .reco__row--calc dd { font-family: var(--body); font-weight: 500; font-size: 13px; }
+  .reco__row--discount dt { color: var(--sky); font-weight: 500; }
+  .reco__row--discount dd { color: var(--sky); }
+  .reco__row--total {
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--navy);
+  }
+  .reco__row--total dt {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .reco__row--total dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--navy);
+  }
+  .reco__pesos {
+    margin-top: 8px;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--mid);
+    text-align: right;
+  }
+
+  /* Generic table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .table thead th {
+    text-align: left;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.18);
+  }
+  .table thead th:last-child,
+  .table tbody td:last-child { text-align: right; }
+  .table tbody td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.08);
+    vertical-align: top;
+  }
+  .table tbody tr:last-child td { border-bottom: none; }
+  .table tbody td.name {
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .table tbody td.name small {
+    display: block;
+    margin-top: 2px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--mid);
+    font-size: 11px;
+  }
+  .table tbody td.total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .table tbody td.total small {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--mid);
+    font-size: 11px;
+  }
+
+  /* Branding A/B grid */
+  .branding {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .branding__card {
+    padding: 22px 22px 20px;
+    border: 1px solid rgba(14, 30, 86, 0.14);
+    background: rgba(255, 255, 255, 0.4);
+  }
+  .branding__card--reco {
+    border-color: var(--sky);
+    background: var(--sky-bg);
+  }
+  .branding__eyebrow {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 8px;
+  }
+  .branding__card--reco .branding__eyebrow {
+    background: var(--sky);
+    color: var(--navy);
+    padding: 3px 8px;
+    font-weight: 500;
+  }
+  .branding__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .branding__desc {
+    font-size: 12px;
+    color: var(--navy);
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .branding__specs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+    font-size: 11.5px;
+  }
+  .branding__specs li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    color: var(--navy);
+  }
+  .branding__specs li span:first-child {
+    color: var(--mid);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .branding__price {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding-top: 12px;
+    border-top: 1px solid rgba(14, 30, 86, 0.14);
+  }
+  .branding__price dt {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .branding__price dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+  }
+  .branding__price dd small {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--body);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mid);
+    font-size: 11px;
+  }
+
+  /* Service operativo table */
+  .service__note {
+    margin-top: 14px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+
+  /* Otras líneas grid */
+  .otras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .otras__card {
+    padding: 20px;
+    border: 1px solid rgba(14, 30, 86, 0.12);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .otras__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .otras__cat {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+  .otras__desc {
+    font-size: 12px;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .otras__price {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding-top: 10px;
+    border-top: 1px solid rgba(14, 30, 86, 0.14);
+  }
+  .otras__price dt {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .otras__price dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  /* Condiciones */
+  .conditions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 32px;
+    margin-top: 8px;
+  }
+  .conditions li {
+    list-style: none;
+    position: relative;
+    padding-left: 18px;
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+  .conditions li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--sky);
+  }
+  .conditions li strong { font-weight: 500; }
+
+  /* Pricing notice */
+  .pricing-note {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: rgba(81, 181, 242, 0.10);
+    border-left: 3px solid var(--sky);
+    font-size: 11.5px;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+  .pricing-note strong {
+    font-weight: 500;
+    color: var(--sky);
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer */
+  .foot {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--navy);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: end;
+  }
+  .foot__cta {
+    font-size: 12.5px;
+    color: var(--navy);
+    max-width: 360px;
+  }
+  .foot__sig {
+    text-align: right;
+  }
+  .foot__sig strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .foot__sig span {
+    display: block;
+    font-size: 11px;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .foot__sig em {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11.5px;
+    color: var(--navy);
+  }
+
+  /* Print */
+  @page {
+    size: Letter;
+    margin: 0;
+  }
+
+  @media print {
+    html, body { background: var(--cream); }
+    .page { padding: 36px 48px 56px; max-width: none; }
+    .reco, .branding__card--reco { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pricing-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { break-inside: avoid; }
+    .reco { break-inside: avoid; }
+    .branding__card, .otras__card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <header class="head">
+    <div class="head__brand">
+      THE DAILY GRIND
+      <small>ザ・デイリー・グラインド</small>
+    </div>
+    <dl class="head__meta">
+      <dt>Cotización</dt><dd><strong>N°DG-007</strong></dd>
+      <dt>Emisión</dt><dd>13 · 05 · 2026</dd>
+      <dt>Vigencia</dt><dd>30 días</dd>
+    </dl>
+  </header>
+
+  <h1 class="title">Mini Daily Grind · gira universitaria Banco Falabella</h1>
+
+  <section class="partyblock">
+    <div class="partyblock__cell">
+      <span class="label">Para</span>
+      <strong>Kraneo</strong>
+      <span>productora</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">De</span>
+      <strong>The Daily Grind</strong>
+      <span>pulpabrava@gmail.com</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">Activación</span>
+      <strong>Banco Falabella · gira universitaria</strong>
+      <span>5 universidades · 200 minis por sede</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">Volumen total</span>
+      <strong>1.000 minis branded</strong>
+      <span>Santiago de Chile</span>
+    </div>
+  </section>
+
+  <p class="intro">
+    Paquete de gira universitaria Banco Falabella: <strong>5 sedes × 200 minis ~80cc = 1.000 minis branded</strong>. Tres sabores en simultáneo desde la máquina Ventus, el estudiante elige el suyo en la fila. El descuento friends del 30% aplica al servicio operativo de este primer paquete con Kraneo.
+  </p>
+
+  <!-- 01 -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">01</span>
+      <h2 class="section__title">Triple Daily Grind · mini</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Paquete cerrado: 5 sedes × 200 minis = <strong>1.000 minis</strong>. Precio plano por mini, composición libre por sede.
+      </p>
+
+      <div class="reco">
+        <span class="reco__eyebrow">Oferta recomendada</span>
+
+        <div class="reco__left">
+          <p>
+            Açaí, pistacho y mix corren en paralelo desde la máquina Ventus. El estudiante elige el suyo en mini de <strong>~80cc</strong> en la fila.
+          </p>
+          <ul class="reco__bullets">
+            <li>Tres dispensadores Ventus en paralelo en cada sede</li>
+            <li>200 minis por universidad, 1.000 minis totales</li>
+            <li>Vaso branded Banco Falabella (sección 03)</li>
+            <li>Cuchara compatible con el formato</li>
+            <li>Precio plano, sin importar la mezcla</li>
+            <li>Operación coordinada con Kraneo para las 5 fechas</li>
+          </ul>
+        </div>
+
+        <dl class="reco__right">
+          <div class="reco__row">
+            <dt>Precio por mini</dt>
+            <dd>0,038 UF neto</dd>
+          </div>
+          <div class="reco__row">
+            <dt>Volumen del paquete</dt>
+            <dd>1.000 minis · 5 sedes</dd>
+          </div>
+          <div class="reco__row reco__row--calc">
+            <dt>1.000 minis × 0,038 UF</dt>
+            <dd>38,00 UF</dd>
+          </div>
+          <div class="reco__row reco__row--calc">
+            <dt>5 entregas + 1 anfitrión c/u (lista)</dt>
+            <dd>16,50 UF</dd>
+          </div>
+          <div class="reco__row reco__row--discount">
+            <dt>Friends −30% sobre servicio</dt>
+            <dd>−4,95 UF</dd>
+          </div>
+          <div class="reco__row reco__row--calc">
+            <dt>Subtotal neto</dt>
+            <dd>49,55 UF</dd>
+          </div>
+          <div class="reco__row reco__row--calc">
+            <dt>IVA 19%</dt>
+            <dd>9,41 UF</dd>
+          </div>
+          <div class="reco__row reco__row--total">
+            <dt>Total con IVA</dt>
+            <dd>58,96 UF</dd>
+          </div>
+          <p class="reco__pesos">Referencial en pesos (UF $42.000) ≈ $2.476.320</p>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">02</span>
+      <h2 class="section__title">Alternativas single-flavor en mini</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Si Banco Falabella prefiere concepto cerrado en un sabor para toda la gira. Servicio operativo y friends 30% aplican igual.
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Oferta</th>
+            <th>P. por mini</th>
+            <th>Total con IVA · 1.000 minis + servicio friends</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Pistacho<small>sello de la casa</small></td>
+            <td>0,028 UF</td>
+            <td class="total">47,06 UF<small>≈ $1.976.520</small></td>
+          </tr>
+          <tr>
+            <td class="name">Mix preparado<small>½ açaí + ½ pistacho</small></td>
+            <td>0,036 UF</td>
+            <td class="total">56,58 UF<small>≈ $2.376.360</small></td>
+          </tr>
+          <tr>
+            <td class="name">Açaí<small>el icónico</small></td>
+            <td>0,042 UF</td>
+            <td class="total">63,72 UF<small>≈ $2.676.240</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 BRANDING -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">03</span>
+      <h2 class="section__title">Branding del vaso · Banco Falabella</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Dos rutas para que el vaso lleve identidad Banco Falabella, adicionales al precio por mini. Con 1.000 unidades el paquete cubre el tiraje mínimo de impresión directa.
+      </p>
+
+      <div class="branding">
+
+        <div class="branding__card branding__card--reco">
+          <span class="branding__eyebrow">Opción A · recomendada</span>
+          <h3 class="branding__title">Vaso impreso custom</h3>
+          <p class="branding__desc">
+            Impresión directa sobre el vaso con identidad Banco Falabella.
+          </p>
+          <ul class="branding__specs">
+            <li><span>Tiraje mínimo</span><span>500 unidades · 1.000 las cubre</span></li>
+            <li><span>Lead time</span><span>7 — 10 días hábiles</span></li>
+            <li><span>Color</span><span>hasta 4 colores incluidos</span></li>
+          </ul>
+          <dl class="branding__price">
+            <dt>Adicional · 1.000 minis</dt>
+            <dd>8,00 UF<small>≈ $336.000 neto · 0,008 UF c/u</small></dd>
+          </dl>
+        </div>
+
+        <div class="branding__card">
+          <span class="branding__eyebrow">Opción B</span>
+          <h3 class="branding__title">Vaso transparente + sticker BF</h3>
+          <p class="branding__desc">
+            Vaso transparente con sticker custom troquelado Banco Falabella aplicado en operación.
+          </p>
+          <ul class="branding__specs">
+            <li><span>Tiraje mínimo</span><span>sin mínimo relevante</span></li>
+            <li><span>Lead time</span><span>3 — 5 días hábiles</span></li>
+            <li><span>Sticker</span><span>troquelado 4×4 ó 5×5 cm</span></li>
+          </ul>
+          <dl class="branding__price">
+            <dt>Adicional · 1.000 minis</dt>
+            <dd>2,00 UF<small>≈ $84.000 neto · 0,002 UF c/u</small></dd>
+          </dl>
+        </div>
+
+      </div>
+
+      <p class="service__note">
+        Banco Falabella decide la ruta. La Opción B queda como alternativa si los plazos se acortan.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 SERVICIO OPERATIVO -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">04</span>
+      <h2 class="section__title">Servicio operativo</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Tarifas por sede × 5 universidades. La modalidad puede variar entre sedes.
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Modalidad por sede</th>
+            <th>Lista × 5 sedes</th>
+            <th>Friends −30%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Entrega básica<small>Transporte refrigerado + descarga + briefing al equipo Kraneo.</small></td>
+            <td>7,00 UF</td>
+            <td class="total">4,90 UF</td>
+          </tr>
+          <tr>
+            <td class="name">Entrega + 1 anfitrión<small>1 anfitrión Daily Grind sirviendo hasta 3 h por sede.</small></td>
+            <td>16,50 UF</td>
+            <td class="total">11,55 UF</td>
+          </tr>
+          <tr>
+            <td class="name">Entrega + 2 anfitriones<small>2 anfitriones Daily Grind sirviendo hasta 3 h por sede.</small></td>
+            <td>26,00 UF</td>
+            <td class="total">18,20 UF</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="service__note">
+        El descuento friends del 30% aplica al servicio operativo total de este paquete. La tarifa por mini queda como lista cuenta Kraneo para próximas activaciones.
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 OTRAS LÍNEAS -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">05</span>
+      <h2 class="section__title">Otras líneas Daily Grind</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Otras modalidades de catering corporativo Daily Grind para próximas activaciones con Kraneo.
+      </p>
+
+      <div class="otras">
+
+        <div class="otras__card">
+          <h3 class="otras__title">Mini Plus</h3>
+          <p class="otras__cat">Toppings premium</p>
+          <p class="otras__desc">
+            Triple Daily Grind en mini con barra de toppings: granola artesanal, frutas frescas, miel de Quilpué y semillas.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>0,048 UF por mini</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Coffee Cart</h3>
+          <p class="otras__cat">Café especialidad</p>
+          <p class="otras__desc">
+            Carrito Daily Grind con barista en sitio. Café de especialidad de origen único para reuniones y eventos AM.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>10 UF por turno</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Brunch Daily Grind</h3>
+          <p class="otras__cat">Combo evento mañana</p>
+          <p class="otras__desc">
+            Mini Daily Grind + café de especialidad + pastelería artesanal por persona. Pensado para activaciones AM y desayunos ejecutivos.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>0,18 UF por persona</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Pop-up Daily Grind</h3>
+          <p class="otras__cat">Estación branded full</p>
+          <p class="otras__desc">
+            Estación completa con identidad Daily Grind y equipo dedicado. Para activaciones de jornada completa.
+          </p>
+          <dl class="otras__price">
+            <dt>Cotización</dt>
+            <dd>a medida</dd>
+          </dl>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 CONDICIONES -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">06</span>
+      <h2 class="section__title">Condiciones</h2>
+    </div>
+    <div class="section__body">
+      <ul class="conditions">
+        <li>Las 5 fechas y sedes se coordinan con Kraneo al confirmar la gira.</li>
+        <li>Vigencia de la cotización: 30 días desde la emisión.</li>
+        <li>Confirmación de volumen y modalidad por sede: hasta 48 horas antes de cada activación sin recargo.</li>
+        <li>Valores cotizados en UF. UF referencial al 13 de mayo de 2026: $42.000.</li>
+        <li>Forma de pago: 50% al confirmar la gira, 50% contra entrega de la última sede. Factura electrónica a Kraneo.</li>
+        <li>Aviso mínimo: 5 días hábiles antes de cada activación. Para Opción A de branding, 10 días hábiles antes de la primera sede.</li>
+        <li><strong>Friends 30%:</strong> aplica al servicio operativo total de este paquete. La tarifa por mini queda como lista cuenta Kraneo para próximas activaciones.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="foot__cta">
+      Para cerrar la gira o conversar próximas activaciones, me escriben directo.
+    </p>
+    <div class="foot__sig">
+      <strong>Juan Latorre</strong>
+      <span>The Daily Grind</span>
+      <em>pulpabrava@gmail.com</em>
+      <em>dailygrind.cl</em>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
