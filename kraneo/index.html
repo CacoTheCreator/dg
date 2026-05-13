@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1e56">
+<meta name="robots" content="noindex,nofollow">
+<title>Daily Grind × Kraneo</title>
+
+<meta property="og:title" content="Daily Grind × Kraneo">
+<meta property="og:description" content="Propuestas activas para Kraneo. Acceso restringido a productora.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Daily Grind × Kraneo">
+<meta property="og:url" content="https://dailygrind.cl/kraneo">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daily Grind × Kraneo">
+<meta name="twitter:description" content="Propuestas activas. Acceso restringido.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: var(--body);
+    font-variant-emoji: text;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+    font-weight: 500;
+  }
+
+  .label--muted { color: rgba(166,217,248,.55); }
+
+  .intro {
+    border-bottom: 1px solid rgba(166,217,248,.22);
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+  }
+
+  .intro__eyebrow {
+    margin-bottom: 14px;
+    color: var(--sky);
+  }
+
+  .intro__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(34px, 6.4vw, 56px);
+    letter-spacing: -.01em;
+    line-height: 1;
+  }
+
+  .intro__title em {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .intro__lead {
+    margin-top: 18px;
+    font-weight: 300;
+    font-size: clamp(15px, 2.2vw, 17px);
+    line-height: 1.55;
+    color: rgba(166,217,248,.85);
+    max-width: 560px;
+  }
+
+  /* ── Gate ────────────────────────────────────── */
+  .gate {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 28px 0 8px;
+  }
+
+  .gate__eyebrow {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+  }
+
+  .gate__hint {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(166,217,248,.78);
+  }
+
+  .gate__form {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .gate__input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(166,217,248,.4);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: .5em;
+    color: var(--cream);
+    text-align: center;
+    transition: border-color .15s;
+  }
+
+  .gate__input:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
+
+  .gate__input::placeholder { color: rgba(166,217,248,.35); }
+
+  .gate__submit {
+    background: var(--sky);
+    border: none;
+    border-radius: 6px;
+    padding: 14px 22px;
+    color: var(--navy);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s, transform .15s;
+  }
+
+  .gate__submit:hover,
+  .gate__submit:focus-visible {
+    background: var(--sky-lt);
+    transform: translateY(-1px);
+    outline: none;
+  }
+
+  .gate__error {
+    font-size: 12px;
+    color: #ff9a9a;
+    min-height: 16px;
+  }
+
+  /* ── Portal (post-unlock) ────────────────────── */
+  .portal { display: none; }
+  .portal.is-open { display: block; }
+
+  .portal__label {
+    margin-top: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky-lt);
+    opacity: .7;
+  }
+
+  ul.gallery {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (min-width: 720px) {
+    ul.gallery { grid-template-columns: 1fr 1fr; gap: 18px; }
+  }
+
+  ul.gallery a {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 22px 24px;
+    border: 1px solid rgba(166,217,248,.18);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(81,181,242,.04), rgba(81,181,242,0) 60%);
+    transition: border-color .18s, transform .18s, background .18s;
+    min-height: 158px;
+    justify-content: space-between;
+  }
+
+  ul.gallery a:hover,
+  ul.gallery a:focus-visible {
+    border-color: var(--sky);
+    background: linear-gradient(180deg, rgba(81,181,242,.1), rgba(81,181,242,0) 60%);
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  ul.gallery .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  ul.gallery .vol {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .26em;
+    color: var(--sky);
+  }
+
+  ul.gallery .date {
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(166,217,248,.55);
+  }
+
+  ul.gallery h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -.005em;
+    color: var(--cream);
+  }
+
+  ul.gallery h2 em {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  ul.gallery .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  ul.gallery .chip {
+    font-size: 9px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--sky-lt);
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  ul.gallery .chip.alt {
+    background: transparent;
+    border: 1px solid rgba(166,217,248,.4);
+    color: var(--sky-lt);
+  }
+
+  footer.foot {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(166,217,248,.18);
+    color: rgba(166,217,248,.55);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  footer.foot em {
+    font-style: italic;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: .04em;
+    display: block;
+    margin-top: 6px;
+    color: rgba(166,217,248,.4);
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <span class="label">DAILY GRIND</span>
+    <span class="label label--muted">第四巻 · KRANEO</span>
+  </header>
+
+  <section class="intro">
+    <p class="label intro__eyebrow">Acceso productora · MMXXVI</p>
+    <h1 class="intro__title">Kraneo <em>· en proceso</em></h1>
+    <p class="intro__lead">Espacio dedicado para Kraneo dentro del universo Daily Grind. Propuestas activas, lotes en curso, material compartido. Acceso restringido — ingresa el código que te compartimos.</p>
+  </section>
+
+  <section id="gate" class="gate" aria-label="Acceso con código">
+    <span class="gate__eyebrow">Código de acceso</span>
+    <span class="gate__hint">4 dígitos. Si no lo tienes, pídemelo directo.</span>
+    <form class="gate__form" id="pinForm" novalidate>
+      <input
+        class="gate__input"
+        id="pinInput"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        pattern="[0-9]*"
+        maxlength="4"
+        minlength="4"
+        placeholder="• • • •"
+        aria-label="Código de 4 dígitos"
+        required
+      >
+      <button type="submit" class="gate__submit" id="pinSubmit">Abrir →&#xFE0E;</button>
+    </form>
+    <span class="gate__error" id="pinError" role="status" aria-live="polite"></span>
+  </section>
+
+  <section id="portal" class="portal" aria-label="Portal Kraneo">
+    <div class="portal__label">Propuestas activas</div>
+    <ul class="gallery">
+
+      <li>
+        <a href="/kraneo/dg-007/">
+          <div class="top">
+            <span class="vol">DG-007</span>
+            <span class="date">13·05·2026</span>
+          </div>
+          <h2>Banco Falabella <em>· gira universitaria mini</em></h2>
+          <div class="tag-row">
+            <span class="chip">Propuesta</span>
+            <span class="chip alt">5 sedes · 1.000 minis</span>
+            <span class="chip alt">Branding A / B</span>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/kraneo/dg-006/propuesta.pdf" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="vol">DG-006</span>
+            <span class="date">13·05·2026</span>
+          </div>
+          <h2>Banco Falabella <em>· triple Daily Grind</em></h2>
+          <div class="tag-row">
+            <span class="chip">Propuesta · PDF</span>
+            <span class="chip alt">341 KB</span>
+            <span class="chip alt">Açaí · pistacho · mix</span>
+          </div>
+        </a>
+      </li>
+
+    </ul>
+  </section>
+
+  <footer class="foot">
+    Daily Grind · Kraneo · MMXXVI
+    <em>acceso restringido · no indexable</em>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    var PIN = "1010";
+    var STORAGE_KEY = "tdg.kraneo.unlocked";
+
+    var gate = document.getElementById("gate");
+    var portal = document.getElementById("portal");
+    var form = document.getElementById("pinForm");
+    var input = document.getElementById("pinInput");
+    var error = document.getElementById("pinError");
+
+    function reveal() {
+      gate.style.display = "none";
+      portal.classList.add("is-open");
+    }
+
+    function tryUnlock(value) {
+      if (value === PIN) {
+        try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
+        reveal();
+        return true;
+      }
+      return false;
+    }
+
+    // Si ya unlockeó en esta sesión, abrir directo.
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === "1") {
+        reveal();
+      }
+    } catch (_) {}
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = (input.value || "").trim();
+      if (!/^\d{4}$/.test(value)) {
+        error.textContent = "Cuatro dígitos, sin letras.";
+        return;
+      }
+      if (!tryUnlock(value)) {
+        error.textContent = "Código incorrecto. Reintenta.";
+        input.select();
+        return;
+      }
+      error.textContent = "";
+    });
+
+    input.addEventListener("input", function () {
+      error.textContent = "";
+    });
+  })();
+</script>
+
+</body>
+</html>
