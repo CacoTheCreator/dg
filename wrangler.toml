@@ -1,0 +1,15 @@
+name = "dg"
+main = "src/worker.js"
+compatibility_date = "2025-05-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+# Las rutas /laconsola/* siguen siendo manejadas por el Worker
+# dailygrind-laconsola (más específicas, ganan por match más-específico).
+[[routes]]
+pattern = "dailygrind.cl/*"
+zone_name = "dailygrind.cl"

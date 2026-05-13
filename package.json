@@ -1,0 +1,14 @@
+{
+  "name": "dg",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dailygrind.cl — sitio estático servido por Cloudflare Worker (dg). HTML vanilla, sin frameworks.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "preview": "python3 -m http.server 5175"
+  },
+  "devDependencies": {
+    "wrangler": "^3"
+  }
+}

@@ -1,0 +1,15 @@
+.git
+.gitignore
+.claude
+.wrangler
+.DS_Store
+CLAUDE.md
+CONTEXT_THE_DAILY_GRIND.md
+recursos
+previews
+node_modules
+package.json
+package-lock.json
+wrangler.toml
+src
+.assetsignore
