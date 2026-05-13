@@ -9,6 +9,7 @@
     "preview": "python3 -m http.server 5175"
   },
   "devDependencies": {
+    "playwright": "^1.60.0",
     "wrangler": "^3"
   }
 }
