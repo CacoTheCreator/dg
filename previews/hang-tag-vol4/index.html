@@ -767,6 +767,20 @@
     .preview-card:last-child .tag { margin-bottom: 0; }
   }
 
+  /* mobile real: el hang tag a scale(1.45) desborda viewports < 480px.
+     Bajamos el scale gradualmente y reducimos el padding lateral del shell. */
+  @media screen and (max-width: 480px) {
+    .preview-shell { padding: 20px 10px 56px; }
+    .tag { transform: scale(1.2); margin-bottom: 28mm; }
+    .preview-card:last-child .tag { margin-bottom: 8mm; }
+  }
+
+  @media screen and (max-width: 380px) {
+    .preview-shell { padding: 16px 6px 48px; }
+    .tag { transform: scale(1.05); margin-bottom: 18mm; }
+    .preview-card:last-child .tag { margin-bottom: 6mm; }
+  }
+
   /* keep print at exact 1:1 */
   @media print {
     .preview-shell, .preview-head, .preview-meta, .preview-foot { display: none !important; }
