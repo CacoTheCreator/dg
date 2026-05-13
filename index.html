@@ -164,6 +164,7 @@
       margin-bottom: 56px;
       transition: background-color 0.2s, transform 0.15s;
       letter-spacing: 0.01em;
+      font-variant-emoji: text;
     }
 
     .hero-cta:hover {
@@ -300,7 +301,7 @@
       background-color: rgba(81,181,242,0.14);
     }
     .volume-item.volume-link::after {
-      content: "↗";
+      content: "↗\FE0E";
       position: absolute;
       top: 22px;
       right: 24px;
@@ -310,6 +311,7 @@
       color: var(--sky);
       opacity: 0.55;
       transition: opacity 0.25s, transform 0.25s;
+      font-variant-emoji: text;
     }
     .volume-item.volume-link:hover::after {
       opacity: 1;
@@ -402,6 +404,7 @@
       margin: -4px 0 18px;
       text-align: center;
       animation: hint-pulse 2.4s ease-in-out infinite;
+      font-variant-emoji: text;
     }
     .comic-hint.hidden { display: none !important; }
     .comic-hint .arrow-left { display: inline-block; margin-right: 10px; animation: hint-nudge 2s ease-in-out infinite; }
@@ -826,6 +829,7 @@
     .discover-btn .arrow {
       font-size: 14px;
       transition: transform 0.2s;
+      font-variant-emoji: text;
     }
     .discover-btn:hover .arrow { transform: translate(2px, -2px); }
     @media (max-width: 480px) {
@@ -1000,7 +1004,7 @@
       <span class="hero-label">Vol. 4 — Ya está aquí</span>
       <h1>Mismo ritual.<br><em>Otro nivel.</em></h1>
       <p class="hero-desc">El café abrió. La camisa viene.<br>Registrate para ser de los primeros.</p>
-      <a href="#form" class="hero-cta">Quiero estar adentro →</a>
+      <a href="#form" class="hero-cta">Quiero estar adentro →&#xFE0E;</a>
       <div class="perks">
         <div class="perk"><div class="perk-icon"></div><span>La camisa Vol. 4</span></div>
         <div class="perk"><div class="perk-icon"></div><span>Early access al drop</span></div>
@@ -1042,7 +1046,7 @@
       <h2 class="comic-title">Un día en The Daily Grind.</h2>
       <p class="comic-title-jp">デイリー・グラインドでの一日</p>
     </div>
-    <p class="comic-hint" id="comicHint"><span class="arrow-left">←</span>Desliza para leer<span class="arrow-right">→</span></p>
+    <p class="comic-hint" id="comicHint"><span class="arrow-left">←&#xFE0E;</span>Desliza para leer<span class="arrow-right">→&#xFE0E;</span></p>
     <div class="comic-pages reveal" id="comicPages">
       <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1" loading="lazy" decoding="async">
       <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2" loading="lazy" decoding="async">
@@ -1182,9 +1186,9 @@
   <section class="discover-strip">
     <p class="discover-kicker">Y mientras tanto, disfruta el sabor.</p>
     <div class="discover-actions">
-      <a href="/menu" class="discover-btn">Ver el menú <span class="arrow">↗</span></a>
-      <a href="/promos" class="discover-btn">Ver las promos <span class="arrow">↗</span></a>
-      <a href="/laconsola/" class="discover-btn">Entrar a La Consola <span class="arrow">↗</span></a>
+      <a href="/menu" class="discover-btn">Ver el menú <span class="arrow">↗&#xFE0E;</span></a>
+      <a href="/promos" class="discover-btn">Ver las promos <span class="arrow">↗&#xFE0E;</span></a>
+      <a href="/laconsola/" class="discover-btn">Entrar a La Consola <span class="arrow">↗&#xFE0E;</span></a>
     </div>
   </section>
 
