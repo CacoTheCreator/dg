@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DG-006 · Daily Grind × Kraneo · Triple</title>
+
+<script>
+  // Auth guard idéntico al de dg-007: el portal /kraneo es la única
+  // puerta de entrada al mundo Kraneo.
+  (function () {
+    try {
+      if (sessionStorage.getItem("tdg.kraneo.unlocked") !== "1") {
+        var next = encodeURIComponent(location.pathname + location.search);
+        location.replace("/kraneo/?return=" + next);
+      }
+    } catch (_) {
+      location.replace("/kraneo/");
+    }
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: var(--body);
+    font-variant-emoji: text;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 100vh;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+    font-weight: 500;
+  }
+
+  .label--muted { color: rgba(166,217,248,.55); }
+
+  .head h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(26px, 4.6vw, 38px);
+    letter-spacing: -.01em;
+    line-height: 1.05;
+    margin-top: 8px;
+  }
+
+  .head h1 em {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .head__sub {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(166,217,248,.78);
+    max-width: 540px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: background .15s, transform .15s, border-color .15s;
+    font-variant-emoji: text;
+  }
+
+  .btn--primary {
+    background: var(--sky);
+    color: var(--navy);
+  }
+  .btn--primary:hover { background: var(--sky-lt); transform: translateY(-1px); }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--sky-lt);
+    border: 1px solid rgba(166,217,248,.4);
+  }
+  .btn--ghost:hover { border-color: var(--sky); color: var(--cream); }
+
+  .viewer {
+    flex: 1;
+    min-height: 60vh;
+    border-radius: 6px;
+    border: 1px solid rgba(166,217,248,.18);
+    background: rgba(11,24,69,.5);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .viewer iframe,
+  .viewer embed {
+    width: 100%;
+    height: 100%;
+    min-height: 60vh;
+    border: 0;
+    display: block;
+  }
+
+  .viewer__fallback {
+    display: none;
+    padding: 24px;
+    text-align: center;
+    color: rgba(166,217,248,.7);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .viewer__fallback strong { color: var(--cream); display: block; margin-bottom: 8px; font-family: var(--display); }
+
+  /* Mobile: los visores PDF embebidos no funcionan en muchos browsers
+     mobile, mostramos el fallback con link directo. */
+  @media (max-width: 720px) {
+    .viewer iframe, .viewer embed { display: none; }
+    .viewer__fallback { display: block; }
+    .viewer { min-height: 0; padding: 28px 20px; }
+  }
+
+  footer.foot {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(166,217,248,.18);
+    color: rgba(166,217,248,.55);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <a href="/kraneo/" class="label">← Kraneo</a>
+    <span class="label label--muted">DG-006 · 13·05·2026</span>
+  </header>
+
+  <section class="head">
+    <span class="label">Propuesta · PDF</span>
+    <h1>Banco Falabella, <em>triple Daily Grind.</em></h1>
+    <p class="head__sub">Açaí, pistacho y mix. Documento PDF · 341 KB.</p>
+    <div class="actions" style="margin-top:18px;">
+      <a class="btn btn--primary" href="/kraneo/dg-006/propuesta.pdf" target="_blank" rel="noopener">Abrir en pestaña →&#xFE0E;</a>
+      <a class="btn btn--ghost" href="/kraneo/dg-006/propuesta.pdf" download>Descargar PDF</a>
+    </div>
+  </section>
+
+  <section class="viewer">
+    <iframe src="/kraneo/dg-006/propuesta.pdf#view=FitH" title="DG-006 · Banco Falabella · triple Daily Grind"></iframe>
+    <embed src="/kraneo/dg-006/propuesta.pdf#view=FitH" type="application/pdf">
+    <div class="viewer__fallback">
+      <strong>Tocá para abrir el PDF</strong>
+      En celular el visor embebido no carga bien. Usa los botones de arriba para abrir o descargar.
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Daily Grind · Kraneo · MMXXVI</span>
+    <span>acceso restringido</span>
+  </footer>
+
+</main>
+
+</body>
+</html>

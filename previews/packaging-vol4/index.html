@@ -1275,6 +1275,40 @@
     .mockup-notes { grid-template-columns: 1fr; }
   }
 
+  /* Mobile: el sleeve original es de print (280mm × 220mm) y desborda
+     viewports angostos. Lo escalamos y colapsamos el espacio visual. */
+  @media (max-width: 720px) {
+    body { padding: 16px; gap: 12px; }
+    .viewer-label {
+      position: static;
+      padding: 0 0 4px;
+      opacity: .55;
+      font-size: 9px;
+      text-align: left;
+      width: 100%;
+    }
+    .panel-tag { margin-bottom: -10px; opacity: .6; font-size: 10px; }
+    .panel {
+      transform: scale(0.36);
+      transform-origin: top center;
+      margin-bottom: calc(-1 * (var(--h) + var(--bleed) * 2) * 0.64);
+      box-shadow: 0 6px 20px rgba(11,24,69,.45);
+    }
+    .panel:last-of-type {
+      margin-bottom: calc(-1 * (var(--h) + var(--bleed) * 2) * 0.64 + 24px);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .panel {
+      transform: scale(0.32);
+      margin-bottom: calc(-1 * (var(--h) + var(--bleed) * 2) * 0.68);
+    }
+    .panel:last-of-type {
+      margin-bottom: calc(-1 * (var(--h) + var(--bleed) * 2) * 0.68 + 24px);
+    }
+  }
+
   /* ================ DIELINE: PLANO TÉCNICO ================ */
 
   .dieline-section {

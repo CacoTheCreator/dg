@@ -378,7 +378,7 @@
       </li>
 
       <li>
-        <a href="/kraneo/dg-006/propuesta.pdf" target="_blank" rel="noopener">
+        <a href="/kraneo/dg-006/">
           <div class="top">
             <span class="vol">DG-006</span>
             <span class="date">13·05·2026</span>
@@ -415,8 +415,27 @@
     var input = document.getElementById("pinInput");
     var error = document.getElementById("pinError");
 
+    function safeReturnTarget() {
+      try {
+        var params = new URLSearchParams(location.search);
+        var ret = params.get("return");
+        if (!ret) return null;
+        // Solo aceptamos rutas internas a /kraneo/. Bloquea redirects abiertos.
+        if (/^\/kraneo\/dg-\d{3}\/?(?:\?.*)?$/.test(ret)) return ret;
+        return null;
+      } catch (_) {
+        return null;
+      }
+    }
+
     function reveal() {
       gate.style.display = "none";
+      var ret = safeReturnTarget();
+      if (ret) {
+        // El visitante venía de una propuesta directa; lo devolvemos.
+        location.replace(ret);
+        return;
+      }
       portal.classList.add("is-open");
     }
 

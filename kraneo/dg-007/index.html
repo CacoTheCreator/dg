@@ -6,6 +6,21 @@
 <meta name="robots" content="noindex,nofollow">
 <title>DG-007 · Kraneo · Banco Falabella · The Daily Grind</title>
 
+<script>
+  // Auth guard: si el visitante no abrió primero el portal /kraneo,
+  // lo mandamos a entrar. Lo más temprano posible para evitar flash.
+  (function () {
+    try {
+      if (sessionStorage.getItem("tdg.kraneo.unlocked") !== "1") {
+        var next = encodeURIComponent(location.pathname + location.search);
+        location.replace("/kraneo/?return=" + next);
+      }
+    } catch (_) {
+      location.replace("/kraneo/");
+    }
+  })();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
@@ -578,6 +593,19 @@
     .section { break-inside: avoid; }
     .reco { break-inside: avoid; }
     .branding__card, .otras__card { break-inside: avoid; }
+  }
+
+  /* Mobile polish: stacks 2-col grids, reduce padding */
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px 48px; }
+    .partyblock,
+    .reco,
+    .branding,
+    .otras,
+    .conditions {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
   }
 </style>
 </head>
