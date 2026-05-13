@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Preview · Feed Vol. 4 · The Daily Grind</title>
+<meta property="og:title" content="Feed Vol. 4 — preview The Daily Grind">
+<meta property="og:description" content="Curaduría editorial de las piezas que llegan con Vol. 4. Solo para socios.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--sky); color: var(--cream); }
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .label {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--navy);
+  }
+  .label--muted { color: rgba(14, 30, 86, 0.6); }
+  .label--sky   { color: var(--sky); }
+
+  .display {
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .intro {
+    padding: 24px 0 4px;
+    max-width: 640px;
+  }
+  .intro__eyebrow { margin-bottom: 12px; }
+  .intro__title {
+    font-size: 44px;
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .intro__lead {
+    margin-top: 20px;
+    max-width: 520px;
+    font-size: 16px;
+  }
+  .intro em.italic { font-style: italic; font-weight: 300; }
+
+  /* Grid editorial */
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 880px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
+  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; gap: 14px; } }
+
+  .card {
+    background: transparent;
+    border: 1px solid rgba(14, 30, 86, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+  .card:hover {
+    border-color: var(--navy);
+    transform: translateY(-1px);
+  }
+
+  .card__media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: var(--cream);
+    overflow: hidden;
+  }
+  .card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 12px 14px 14px;
+    border-top: 1px solid rgba(14, 30, 86, 0.15);
+    gap: 12px;
+  }
+  .card__num {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    color: rgba(14, 30, 86, 0.5);
+  }
+  .card__name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    flex: 1;
+    text-align: left;
+  }
+  .card__date {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    color: rgba(14, 30, 86, 0.55);
+    white-space: nowrap;
+  }
+
+  /* Lightbox */
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 30, 86, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    cursor: zoom-out;
+  }
+  .lightbox.is-open { display: flex; }
+
+  .lightbox__inner {
+    max-width: min(880px, 96vw);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--cream);
+    cursor: auto;
+  }
+
+  .lightbox__img {
+    flex: 1;
+    min-height: 0;
+    object-fit: contain;
+    width: 100%;
+    max-height: 76vh;
+    background: var(--cream);
+  }
+
+  .lightbox__bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 18px 16px;
+    border-top: 1px solid rgba(14, 30, 86, 0.15);
+    gap: 14px;
+  }
+
+  .lightbox__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .lightbox__actions {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+  }
+
+  .lightbox__download {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--sky);
+    cursor: pointer;
+  }
+  .lightbox__download:hover { color: var(--navy); }
+
+  .lightbox__close {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: rgba(14, 30, 86, 0.6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .lightbox__close:hover { color: var(--navy); }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <a href="/previews" class="label">← Previews</a>
+    <span class="label label--muted">第四巻 · Feed</span>
+  </header>
+
+  <section class="intro">
+    <p class="label label--muted intro__eyebrow">Vol. 4 · Feed</p>
+    <h1 class="intro__title">
+      Lo que viene,<br>
+      en pantalla.
+    </h1>
+    <p class="intro__lead">
+      Curaduría editorial de las piezas que llegan con la reapertura.
+      <em class="italic">Mismo ritual. Otro nivel.</em> Tap en cualquiera para verla en grande y descargarla.
+    </p>
+  </section>
+
+  <section class="grid" id="grid">
+
+    <article class="card" data-src="/previews/feed-vol4/volvemos.png" data-title="Volvemos" data-num="01" data-date="MIÉ 13 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/volvemos.png" alt="Volvemos · reapertura"></div>
+      <div class="card__meta"><span class="card__num">01</span><span class="card__name">Volvemos</span><span class="card__date">13 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/manifiesto.png" data-title="Manifiesto" data-num="02" data-date="JUE 14 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/manifiesto.png" alt="El ambiente es el mensaje"></div>
+      <div class="card__meta"><span class="card__num">02</span><span class="card__name">Manifiesto</span><span class="card__date">14 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/pistacho.png" data-title="Pistacho · save the date" data-num="04" data-date="VIE 15 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/pistacho.png" alt="Pistacho · save the date"></div>
+      <div class="card__meta"><span class="card__num">04</span><span class="card__name">Pistacho</span><span class="card__date">15 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/ritual.png" data-title="Ritual diario" data-num="03" data-date="SÁB 16 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/ritual.png" alt="Ritual diario"></div>
+      <div class="card__meta"><span class="card__num">03</span><span class="card__name">Ritual</span><span class="card__date">16 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/lineup.png" data-title="Line-up · Nachosky × Eldiez" data-num="05" data-date="DOM 17 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/lineup.png" alt="Line-up Nachosky Eldiez"></div>
+      <div class="card__meta"><span class="card__num">05</span><span class="card__name">Line-up</span><span class="card__date">17 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/apparel-stodak.png" data-title="Vol. 2 Apparel · colofón Stodak" data-num="07" data-date="VIE 22 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/apparel-stodak.png" alt="Apparel · colofón Stodak"></div>
+      <div class="card__meta"><span class="card__num">07</span><span class="card__name">Apparel · Stodak</span><span class="card__date">22 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/la-consola.png" data-title="La Consola · tease" data-num="08" data-date="MAR 26 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/la-consola.png" alt="La Consola tease"></div>
+      <div class="card__meta"><span class="card__num">08</span><span class="card__name">La Consola</span><span class="card__date">26 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/eldiez-tease.png" data-title="Eldiez · tease loyalty" data-num="09" data-date="VIE 29 MAY">
+      <div class="card__media"><img src="/previews/feed-vol4/eldiez-tease.png" alt="Eldiez tease loyalty"></div>
+      <div class="card__meta"><span class="card__num">09</span><span class="card__name">Eldiez</span><span class="card__date">29 may</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/volumen-sobre-velocidad.png" data-title="Volumen sobre velocidad" data-num="11" data-date="MANIFIESTO">
+      <div class="card__media"><img src="/previews/feed-vol4/volumen-sobre-velocidad.png" alt="Volumen sobre velocidad"></div>
+      <div class="card__meta"><span class="card__num">11</span><span class="card__name">Volumen sobre velocidad</span><span class="card__date">manifiesto</span></div>
+    </article>
+
+    <article class="card" data-src="/previews/feed-vol4/por-venir-quedarse-volver.png" data-title="Por venir, quedarse, volver" data-num="23" data-date="MANIFIESTO">
+      <div class="card__media"><img src="/previews/feed-vol4/por-venir-quedarse-volver.png" alt="Por venir, quedarse, volver"></div>
+      <div class="card__meta"><span class="card__num">23</span><span class="card__name">Por venir, quedarse, volver</span><span class="card__date">manifiesto</span></div>
+    </article>
+
+  </section>
+
+  <footer class="row foot">
+    <span class="label label--muted">Para socios · noindex · vibecoded en el lab · MMXXVI</span>
+    <a href="/previews" class="label label--muted">← Previews</a>
+  </footer>
+
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de pieza">
+  <div class="lightbox__inner" onclick="event.stopPropagation()">
+    <img class="lightbox__img" id="lightbox-img" alt="">
+    <div class="lightbox__bar">
+      <span class="lightbox__title" id="lightbox-title"></span>
+      <span class="lightbox__actions">
+        <a class="lightbox__download" id="lightbox-download" href="#" download>Descargar PNG ↓</a>
+        <button type="button" class="lightbox__close" id="lightbox-close">Cerrar · ESC</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    "use strict";
+    var grid = document.getElementById("grid");
+    var lightbox = document.getElementById("lightbox");
+    var img = document.getElementById("lightbox-img");
+    var title = document.getElementById("lightbox-title");
+    var download = document.getElementById("lightbox-download");
+    var closeBtn = document.getElementById("lightbox-close");
+
+    function open(card) {
+      var src = card.getAttribute("data-src");
+      var t = card.getAttribute("data-title");
+      img.src = src;
+      img.alt = t;
+      title.textContent = t;
+      download.href = src;
+      var filename = src.split("/").pop();
+      download.setAttribute("download", filename);
+      lightbox.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close() {
+      lightbox.classList.remove("is-open");
+      img.src = "";
+      document.body.style.overflow = "";
+    }
+
+    grid.addEventListener("click", function (e) {
+      var card = e.target.closest(".card");
+      if (!card) return;
+      open(card);
+    });
+
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) close();
+    });
+
+    closeBtn.addEventListener("click", close);
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lightbox.classList.contains("is-open")) close();
+    });
+  })();
+</script>
+
+</body>
+</html>

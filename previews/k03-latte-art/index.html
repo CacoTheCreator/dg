@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Preview · K03 Latte Art · The Daily Grind</title>
+<meta property="og:title" content="K03 Latte Art — preview The Daily Grind">
+<meta property="og:description" content="Teaser interactivo del próximo título de La Consola. Solo para socios.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--sky); color: var(--cream); }
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 32px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .label {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--navy);
+  }
+  .label--muted { color: rgba(14, 30, 86, 0.6); }
+  .label--sky   { color: var(--sky); }
+
+  .display {
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .display--md { font-size: 22px; }
+
+  .intro {
+    max-width: 480px;
+  }
+  .intro__eyebrow { margin-bottom: 12px; }
+  .intro__title {
+    font-size: 40px;
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .intro__lead {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 460px;
+  }
+  .intro em.italic { font-style: italic; font-weight: 300; }
+
+  /* Game head */
+
+  .game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+  }
+
+  .game__head, .game__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    gap: 16px;
+  }
+
+  /* Espresso canvas */
+
+  .espresso {
+    position: relative;
+    width: min(480px, 92vw);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--navy);
+    overflow: hidden;
+    cursor: crosshair;
+    touch-action: none;
+    box-shadow: inset 0 0 0 1px rgba(166, 217, 248, 0.18);
+  }
+
+  .espresso canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .espresso__hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(166, 217, 248, 0.55);
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+  .espresso__hint.is-hidden { opacity: 0; }
+
+  .controls {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+
+  .reset {
+    background: none;
+    border: none;
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: rgba(14, 30, 86, 0.6);
+    cursor: pointer;
+    padding: 0;
+  }
+  .reset:hover { color: var(--navy); }
+
+  .hint {
+    text-align: right;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(14, 30, 86, 0.55);
+  }
+
+  /* Disclosure: el juego completo viene */
+
+  .promise {
+    border-top: 1px solid rgba(14, 30, 86, 0.15);
+    padding-top: 18px;
+    margin-top: 8px;
+    max-width: 540px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .promise__eyebrow { margin-bottom: 6px; }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .intro__title { font-size: 32px; }
+    .controls { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <a href="/previews" class="label">← Previews</a>
+    <span class="label label--muted">第四巻 · K03</span>
+  </header>
+
+  <section class="intro">
+    <p class="label label--muted intro__eyebrow">La Consola · K03</p>
+    <h1 class="intro__title">
+      Latte Art.<br>
+      <em class="italic">Próximamente.</em>
+    </h1>
+    <p class="intro__lead">
+      Esto es un teaser. Una sola gesto: arrastrá el dedo o el cursor sobre el
+      espresso y dejá un trazo de leche. Sin reglas, sin podio, sin tiempo.
+      Solo para que se sienta la idea.
+    </p>
+  </section>
+
+  <section class="game">
+
+    <div class="game__head">
+      <div class="row" style="gap: 12px">
+        <span class="display display--md">K03</span>
+        <span class="label label--muted">·</span>
+        <span class="display display--md">LATTE ART</span>
+      </div>
+      <div class="row" style="gap: 12px">
+        <span class="label label--muted">ラテアート</span>
+        <span class="label">VOL · 04</span>
+      </div>
+    </div>
+
+    <div class="espresso" id="espresso" aria-label="Espresso · canvas de teaser">
+      <canvas id="canvas"></canvas>
+      <div class="espresso__hint" id="hint">
+        <span id="hint-keyboard">Arrastrá para verter</span>
+        <span id="hint-touch" hidden>Desliza el dedo para verter</span>
+      </div>
+    </div>
+
+    <div class="game__foot">
+      <div class="controls">
+        <button type="button" class="reset" id="reset">Limpiar</button>
+      </div>
+      <div class="hint">Sin score, sin tiempo.</div>
+    </div>
+
+  </section>
+
+  <section class="promise">
+    <p class="label label--sky promise__eyebrow">Lo que viene</p>
+    <p>
+      El K03 completo llega a <a href="/laconsola/" style="border-bottom: 1px solid rgba(14,30,86,0.3);">La Consola</a>
+      con tres figuras (hoja, corazón, rosetta), tempo de vertido,
+      medalla por figura completada y entrada al podio si la jarra mantiene el pulso.
+      Esto es solo el primer sorbo.
+    </p>
+  </section>
+
+  <footer class="row foot">
+    <span class="label label--muted">Para socios · noindex · vibecoded en el lab · MMXXVI</span>
+    <a href="/previews" class="label label--muted">← Previews</a>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    var COLOR_FOAM = "#a6d9f8";
+    var COLOR_FOAM_HIGHLIGHT = "#f9f3ec";
+
+    var box = document.getElementById("espresso");
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var hint = document.getElementById("hint");
+    var hintTouch = document.getElementById("hint-touch");
+    var hintKeyboard = document.getElementById("hint-keyboard");
+    var resetBtn = document.getElementById("reset");
+
+    var dpr = window.devicePixelRatio || 1;
+    var pouring = false;
+    var lastX = 0, lastY = 0;
+    var hintHidden = false;
+
+    function isTouchPrimary() {
+      return window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    }
+    if (isTouchPrimary()) {
+      if (hintKeyboard) hintKeyboard.hidden = true;
+      if (hintTouch) hintTouch.hidden = false;
+    }
+
+    function fit() {
+      var rect = box.getBoundingClientRect();
+      var size = Math.floor(rect.width);
+      // Preservar el dibujo en resize: copiar antes de cambiar dimensiones
+      var saved = null;
+      if (canvas.width > 0) {
+        saved = document.createElement("canvas");
+        saved.width = canvas.width;
+        saved.height = canvas.height;
+        saved.getContext("2d").drawImage(canvas, 0, 0);
+      }
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (saved) {
+        ctx.drawImage(saved, 0, 0, saved.width / dpr, saved.height / dpr);
+      }
+    }
+
+    function pointFromEvent(e) {
+      var rect = canvas.getBoundingClientRect();
+      var x, y;
+      if (e.touches && e.touches.length) {
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+      } else {
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+      }
+      return { x: x, y: y };
+    }
+
+    function drawDot(x, y) {
+      // Trazo principal — sky-lt grueso
+      ctx.fillStyle = COLOR_FOAM;
+      ctx.beginPath();
+      ctx.arc(x, y, 9, 0, Math.PI * 2);
+      ctx.fill();
+      // Highlight más claro al centro — efecto de espuma fresca
+      ctx.fillStyle = COLOR_FOAM_HIGHLIGHT;
+      ctx.globalAlpha = 0.45;
+      ctx.beginPath();
+      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    function drawSegment(x0, y0, x1, y1) {
+      ctx.strokeStyle = COLOR_FOAM;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = 18;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+      // Highlight central del chorro
+      ctx.strokeStyle = COLOR_FOAM_HIGHLIGHT;
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    function hideHint() {
+      if (hintHidden) return;
+      hintHidden = true;
+      hint.classList.add("is-hidden");
+    }
+
+    function startPour(e) {
+      e.preventDefault();
+      var p = pointFromEvent(e);
+      pouring = true;
+      lastX = p.x;
+      lastY = p.y;
+      drawDot(p.x, p.y);
+      hideHint();
+    }
+
+    function continuePour(e) {
+      if (!pouring) return;
+      e.preventDefault();
+      var p = pointFromEvent(e);
+      drawSegment(lastX, lastY, p.x, p.y);
+      drawDot(p.x, p.y);
+      lastX = p.x;
+      lastY = p.y;
+    }
+
+    function stopPour() {
+      pouring = false;
+    }
+
+    function clearAll() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hintHidden = false;
+      hint.classList.remove("is-hidden");
+    }
+
+    // Mouse
+    canvas.addEventListener("mousedown", startPour);
+    window.addEventListener("mousemove", continuePour);
+    window.addEventListener("mouseup", stopPour);
+
+    // Touch
+    canvas.addEventListener("touchstart", startPour, { passive: false });
+    canvas.addEventListener("touchmove", continuePour, { passive: false });
+    canvas.addEventListener("touchend", stopPour);
+    canvas.addEventListener("touchcancel", stopPour);
+
+    resetBtn.addEventListener("click", clearAll);
+
+    window.addEventListener("resize", fit);
+    fit();
+  })();
+</script>
+
+</body>
+</html>
