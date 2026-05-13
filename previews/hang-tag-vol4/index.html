@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<meta property="og:title" content="The Daily Grind — Hang Tag · Vol. 4">
+<meta property="og:description" content="Preview interno · Vol. 4 · First Pour MMXXV">
+<title>Preview · The Daily Grind — Hang Tag · Vol. 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* === REAL BRAND PALETTE (extracted from dailygrind.cl) === */
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+
+    --bleed: 3mm;
+    --w: 60mm;
+    --h: 100mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page { size: 66mm 106mm; margin: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--navy);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: block;
+  }
+
+  @media print {
+    body {
+      padding: 0;
+      display: flex;
+      gap: 0;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .tag {
+    width: calc(var(--w) + var(--bleed) * 2);
+    height: calc(var(--h) + var(--bleed) * 2);
+    background: var(--cream);
+    padding: var(--bleed);
+    position: relative;
+    box-shadow: 0 6px 40px rgba(11,24,69,.55);
+    overflow: hidden;
+  }
+
+  .safe {
+    width: 100%;
+    height: 100%;
+    padding: 6mm 5mm 5mm 5mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .punch {
+    position: absolute;
+    top: 5mm;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3.5mm;
+    height: 3.5mm;
+    border-radius: 50%;
+    border: .35mm dashed var(--navy);
+    opacity: .55;
+    z-index: 3;
+  }
+
+  /* navy band cap to anchor brand at the top */
+  .topband {
+    position: absolute;
+    top: var(--bleed);
+    left: var(--bleed);
+    right: var(--bleed);
+    height: 11mm;
+    background: var(--navy);
+    z-index: 1;
+  }
+
+  .topband::after {
+    content: "";
+    position: absolute;
+    bottom: -1.4mm;
+    left: 0;
+    right: 0;
+    height: 1.4mm;
+    background: var(--sky);
+  }
+
+  .vol-mark {
+    position: absolute;
+    top: 7.4mm;
+    right: 7mm;
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 6pt;
+    letter-spacing: .14em;
+    z-index: 2;
+  }
+
+  .vol-mark .num { color: var(--sky-lt); }
+
+  .lang-mark {
+    position: absolute;
+    top: 7.7mm;
+    left: 7mm;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 5pt;
+    letter-spacing: .26em;
+    z-index: 2;
+  }
+
+  /* ================== FRONT ================== */
+
+  .front .head {
+    margin-top: 7mm;
+    text-align: center;
+    padding-bottom: 3mm;
+    border-bottom: .35mm solid var(--navy);
+  }
+
+  .wordmark {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    letter-spacing: -.005em;
+    line-height: 1;
+    color: var(--navy);
+  }
+
+  .wordmark .a { color: var(--navy); }
+
+  .wordmark .dot {
+    display: inline-block;
+    width: 1.2mm;
+    height: 1.2mm;
+    background: var(--sky);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 .9mm 0 .4mm;
+    transform: translateY(-.4mm);
+  }
+
+  .roastline {
+    font-family: "Syne", sans-serif;
+    font-weight: 400;
+    font-size: 7pt;
+    letter-spacing: .04em;
+    line-height: 1.1;
+    margin-top: 2.5mm;
+    color: var(--navy);
+  }
+
+  .roastline em {
+    font-style: italic;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .first-pour {
+    margin: 2mm auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6mm;
+    padding: 1mm 2.2mm;
+    border: .35mm solid var(--navy);
+    border-radius: 1mm;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 4.6pt;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--cream);
+  }
+
+  .first-pour .seal {
+    width: 1.4mm;
+    height: 1.4mm;
+    border-radius: 50%;
+    background: var(--sky);
+    box-shadow: 0 0 0 .25mm var(--cream), 0 0 0 .55mm var(--navy);
+    display: inline-block;
+  }
+
+  .first-pour .roman {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: .12em;
+    color: var(--sky);
+  }
+
+  .meta-block {
+    margin-top: 3mm;
+    padding-top: 2.5mm;
+    border-top: .25mm solid rgba(14,30,86,.25);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8mm 3mm;
+    font-size: 5.5pt;
+  }
+
+  .meta-block .k {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(14,30,86,.55);
+    font-size: 4.6pt;
+  }
+
+  .meta-block .v {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-top: .7mm;
+    color: var(--navy);
+  }
+
+  .profile {
+    margin-top: 3mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 5.6pt;
+    letter-spacing: .01em;
+    line-height: 1.4;
+    color: var(--navy);
+  }
+
+  .profile .h {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 4.6pt;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 1.5mm;
+  }
+
+  .extraction {
+    margin-top: 3mm;
+    padding: 1.8mm 2.5mm;
+    background: var(--sky-lt);
+    border-radius: 1mm;
+  }
+
+  .extraction .h {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 4.4pt;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 1.2mm;
+  }
+
+  .extraction .row {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 4.6pt;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--navy);
+    margin-bottom: .6mm;
+  }
+
+  .extraction .row:last-child { margin-bottom: 0; }
+
+  .extraction .row .label { width: 14mm; }
+
+  .extraction .row .bar {
+    flex: 1;
+    height: 1.2mm;
+    background: var(--cream);
+    position: relative;
+    border-radius: .6mm;
+    overflow: hidden;
+  }
+
+  .extraction .row .bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--sky);
+    width: var(--p, 50%);
+  }
+
+  .extraction .row .val { width: 8mm; text-align: right; font-family: "Syne"; font-weight: 700; }
+
+  /* ===== detachable stub ===== */
+
+  .stub {
+    margin-top: auto;
+    position: relative;
+    padding: 4.2mm 0 0;
+    height: 22mm;
+  }
+
+  /* perforation line — dashed across the safe area */
+  .stub::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -5mm;
+    right: -5mm;
+    height: .4mm;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--navy) 0,
+      var(--navy) .9mm,
+      transparent .9mm,
+      transparent 1.6mm
+    );
+    opacity: .8;
+  }
+
+  /* registration cross-marks at 4 corners of the stub */
+  .reg {
+    position: absolute;
+    width: 1.6mm;
+    height: 1.6mm;
+    pointer-events: none;
+  }
+  .reg::before,
+  .reg::after {
+    content: "";
+    position: absolute;
+    background: var(--navy);
+  }
+  .reg::before {
+    top: 50%; left: 0; right: 0; height: .3mm; transform: translateY(-50%);
+  }
+  .reg::after {
+    left: 50%; top: 0; bottom: 0; width: .3mm; transform: translateX(-50%);
+  }
+  .reg.tl { top: 1.4mm; left: 1mm; }
+  .reg.tr { top: 1.4mm; right: 1mm; }
+  .reg.bl { bottom: 1.4mm; left: 1mm; }
+  .reg.br { bottom: 1.4mm; right: 1mm; }
+
+  .footer-front {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 5pt;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--navy);
+    padding: 0 4mm;
+  }
+
+  .footer-front .lot { font-weight: 500; }
+
+  .footer-front .pill {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    background: var(--sky);
+    color: var(--navy);
+    padding: 1.1mm 2.2mm;
+    border-radius: 1mm;
+    letter-spacing: .22em;
+    font-size: 5pt;
+  }
+
+  /* ================== BACK ================== */
+
+  .back .topband { background: var(--navy); }
+
+  .back .ritual {
+    margin-top: 7mm;
+    padding-bottom: 2.5mm;
+    border-bottom: .35mm solid var(--navy);
+  }
+
+  .ritual-eyebrow {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 4.6pt;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 2mm;
+  }
+
+  .ritual-line {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    line-height: 1.05;
+    letter-spacing: -.005em;
+    color: var(--navy);
+  }
+
+  .ritual-line em {
+    font-style: italic;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .ritual-jp {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 5.5pt;
+    letter-spacing: .1em;
+    color: var(--navy);
+    opacity: .65;
+    margin-top: 1.5mm;
+  }
+
+  .care-title {
+    margin-top: 2.5mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 4.6pt;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky);
+  }
+
+  .care-poem {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 6.4pt;
+    line-height: 1.4;
+    margin-top: 1.5mm;
+    letter-spacing: .005em;
+    color: var(--navy);
+  }
+
+  .care-poem em {
+    font-family: "Syne", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--sky);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-size: 6pt;
+  }
+
+  .symbols {
+    margin-top: 3mm;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.6mm;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .symbols .sym {
+    width: 6.4mm;
+    height: 6.4mm;
+    border: .3mm solid var(--navy);
+    border-radius: 1mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+
+  .symbols .sym.accent {
+    background: var(--sky);
+    border-color: var(--sky);
+  }
+
+  .symbols svg {
+    width: 4.6mm;
+    height: 4.6mm;
+  }
+
+  .symbols svg * {
+    stroke: var(--navy);
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .care-list {
+    margin-top: 2.5mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 5.2pt;
+    line-height: 1.4;
+    letter-spacing: .02em;
+    list-style: none;
+    color: var(--navy);
+  }
+
+  .care-list li {
+    padding-left: 4mm;
+    position: relative;
+    margin-bottom: .4mm;
+  }
+
+  .care-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.4mm;
+    width: 1.6mm;
+    height: 1.6mm;
+    background: var(--sky);
+    border-radius: 50%;
+  }
+
+  .footer-back {
+    font-family: "DM Sans", sans-serif;
+    font-size: 4.6pt;
+    letter-spacing: .14em;
+    line-height: 1.4;
+    padding: 0 4mm;
+  }
+
+  /* designer colofón — sits in the body, above the perforation, so it stays with the prenda */
+  .colofon {
+    margin-top: 2.5mm;
+    text-align: center;
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 4.4pt;
+    letter-spacing: .06em;
+    color: var(--navy);
+    opacity: .7;
+  }
+
+  .colofon .mark {
+    font-style: normal;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-right: 1.2mm;
+  }
+
+  .footer-back .row {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .footer-back .row + .row { margin-top: 1.2mm; }
+
+  .footer-back .url {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    letter-spacing: .18em;
+    color: var(--sky);
+  }
+
+  .barcode-wrap {
+    margin: 2mm 0;
+  }
+
+  .barcode {
+    display: flex;
+    gap: .25mm;
+    height: 5mm;
+    align-items: stretch;
+  }
+
+  .barcode i { display: block; background: var(--navy); }
+
+  .barcode-serial {
+    margin-top: 1mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 4.4pt;
+    letter-spacing: .28em;
+    color: var(--navy);
+    text-align: center;
+  }
+
+  .barcode-serial em {
+    font-style: normal;
+    color: var(--sky);
+    font-weight: 700;
+  }
+
+  /* viewer chrome */
+  @media print {
+    body { background: white; padding: 0; gap: 0; flex-wrap: nowrap; }
+    .tag { box-shadow: none; page-break-after: always; }
+    .tag:last-child { page-break-after: auto; }
+  }
+
+  .viewer-label { display: none; }
+
+  /* ===== preview chrome — only on screen, hidden on print ===== */
+
+  .preview-shell {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  .preview-head {
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(166,217,248,.22);
+  }
+
+  .preview-head .crumbs {
+    font-size: 11px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky-lt);
+    opacity: .8;
+  }
+
+  .preview-head .crumbs a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .preview-head .crumbs a:hover { border-color: var(--sky); }
+
+  .preview-head h1 {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 4.4vw, 34px);
+    letter-spacing: -.005em;
+    margin-top: 12px;
+    color: var(--cream);
+    line-height: 1.05;
+  }
+
+  .preview-head h1 em {
+    font-style: italic;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .preview-meta {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 26px;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(166,217,248,.7);
+  }
+
+  .preview-meta b {
+    display: block;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: .04em;
+    text-transform: none;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .preview-stage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .preview-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .preview-card .face-label {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--sky-lt);
+    opacity: .75;
+  }
+
+  .preview-foot {
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(166,217,248,.18);
+    color: rgba(166,217,248,.6);
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .preview-foot em {
+    font-style: italic;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: .04em;
+    color: rgba(166,217,248,.55);
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* enlarge tags on small/medium screens for readable preview */
+  @media screen and (max-width: 720px) {
+    .preview-stage { flex-direction: column; gap: 36px; }
+    .tag {
+      transform: scale(1.45);
+      transform-origin: top center;
+      margin-bottom: 50mm;
+      box-shadow: 0 8px 36px rgba(0,0,0,.45);
+    }
+    .preview-card:last-child .tag { margin-bottom: 12mm; }
+  }
+
+  @media screen and (min-width: 721px) and (max-width: 1024px) {
+    .tag { transform: scale(1.3); transform-origin: top center; margin-bottom: 30mm; }
+    .preview-card:last-child .tag { margin-bottom: 0; }
+  }
+
+  /* keep print at exact 1:1 */
+  @media print {
+    .preview-shell, .preview-head, .preview-meta, .preview-foot { display: none !important; }
+    .preview-stage { display: contents !important; }
+    .preview-card { display: contents !important; }
+    .preview-card .face-label { display: none !important; }
+    .tag { transform: none !important; box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="preview-shell">
+    <header class="preview-head">
+      <div class="crumbs">
+        <a href="/previews">PREVIEW</a> &nbsp;·&nbsp; THE DAILY GRIND &nbsp;·&nbsp; VOL. 04
+      </div>
+      <h1>Hang tag — apparel <em>línea café</em></h1>
+      <div class="preview-meta">
+        <div>FORMATO<b>60 × 100 mm · doble cara</b></div>
+        <div>EDICIÓN<b>First Pour · I · MMXXV</b></div>
+        <div>DISEÑO<b>Martín Undurraga &mdash; Stodak</b></div>
+        <div>ESTADO<b>Borrador para revisión</b></div>
+      </div>
+    </header>
+
+    <div class="preview-stage">
+      <div class="preview-card">
+        <span class="face-label">Frente</span>
+  <!-- ================ FRONT ================ -->
+  <article class="tag front">
+    <div class="punch"></div>
+    <div class="topband"></div>
+    <div class="lang-mark">ザ・デイリー</div>
+    <div class="vol-mark">VOL · <span class="num">04</span></div>
+    <div class="safe">
+
+      <div class="head">
+        <div class="wordmark">
+          <span class="a">THE&nbsp;DAILY</span><span class="dot"></span><span class="a">GRIND</span>
+        </div>
+        <div class="roastline">Mismo ritual. <em>Otro nivel.</em></div>
+        <div style="text-align:center">
+          <span class="first-pour">
+            <span class="seal"></span>
+            FIRST POUR
+            <span class="roman">·&nbsp;I&nbsp;·</span>
+            MMXXV
+          </span>
+        </div>
+      </div>
+
+      <div class="meta-block">
+        <div>
+          <div class="k">Roast date</div>
+          <div class="v">31 · DIC · 2025</div>
+        </div>
+        <div>
+          <div class="k">Origin</div>
+          <div class="v">SANTIAGO, CL</div>
+        </div>
+        <div>
+          <div class="k">Variety</div>
+          <div class="v">100% COTTON</div>
+        </div>
+        <div>
+          <div class="k">Process</div>
+          <div class="v">RING-SPUN</div>
+        </div>
+        <div>
+          <div class="k">Weight</div>
+          <div class="v">220 GSM</div>
+        </div>
+        <div>
+          <div class="k">Cup score</div>
+          <div class="v">88.5 / 100</div>
+        </div>
+      </div>
+
+      <div class="extraction" aria-hidden="true">
+        <div class="h">Extraction curve</div>
+        <div class="row"><span class="label">Wear 01</span><span class="bar" style="--p:96%"></span><span class="val">96</span></div>
+        <div class="row"><span class="label">Wash 05</span><span class="bar" style="--p:84%"></span><span class="val">84</span></div>
+        <div class="row"><span class="label">Wash 30</span><span class="bar" style="--p:71%"></span><span class="val">71</span></div>
+        <div class="row"><span class="label">Best era</span><span class="bar" style="--p:88%"></span><span class="val">88</span></div>
+      </div>
+
+      <div class="stub">
+        <span class="reg tl"></span>
+        <span class="reg tr"></span>
+        <span class="reg bl"></span>
+        <span class="reg br"></span>
+        <div class="footer-front">
+          <span class="lot">LOT · 001 · MMXXV</span>
+          <span class="pill">ELDIEZ</span>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+      </div><!-- /preview-card front -->
+
+      <div class="preview-card">
+        <span class="face-label">Reverso</span>
+  <!-- ================ BACK ================ -->
+  <article class="tag back">
+    <div class="punch"></div>
+    <div class="topband"></div>
+    <div class="lang-mark">グラインド</div>
+    <div class="vol-mark">REF · <span class="num">T01</span></div>
+    <div class="safe">
+
+      <div class="ritual">
+        <div class="ritual-eyebrow">El ambiente es el mensaje</div>
+        <div class="ritual-line">
+          La prenda <em>también</em> envejece como un buen café.
+        </div>
+        <div class="ritual-jp">服も、コーヒーのように熟成する</div>
+      </div>
+
+      <div class="care-title">Honest warning</div>
+      <p class="care-poem">
+        <em>Color change may occur</em> — cada lavado descafeína un poco la prenda. Es parte del tueste. La camisa se va volviendo tuya.
+      </p>
+
+      <div class="symbols" aria-hidden="true">
+        <div class="sym" title="Wash 30°">
+          <svg viewBox="0 0 24 24"><path d="M3 7c0-1 1-2 2-2h14c1 0 2 1 2 2v10c0 1-1 2-2 2H5c-1 0-2-1-2-2zM3 7c2 2 5 2 9 2s7 0 9-2"/><text x="12" y="17" text-anchor="middle" font-family="Syne" font-weight="700" font-size="7" fill="#0e1e56" stroke="none">30</text></svg>
+        </div>
+        <div class="sym" title="No bleach">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16l-3 14H7zM5 5l14 16"/></svg>
+        </div>
+        <div class="sym accent" title="Tumble dry low">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.4" stroke-width="2"/></svg>
+        </div>
+        <div class="sym" title="Iron medium">
+          <svg viewBox="0 0 24 24"><path d="M3 17l3-7h12l3 7zM3 17h18M9 13h.5M12 13h.5M15 13h.5"/></svg>
+        </div>
+        <div class="sym" title="Hand finished">
+          <svg viewBox="0 0 24 24"><path d="M5 13c0-3 3-5 7-5s7 2 7 5v3c0 1.5-1 2.5-2.5 2.5H7.5C6 18.5 5 17.5 5 16zM9 8V5M12 8V4M15 8V5"/></svg>
+        </div>
+      </div>
+
+      <ul class="care-list">
+        <li>Lavar a 30°. El frío preserva el aroma.</li>
+        <li>No usar cloro. Mata el carácter.</li>
+        <li>Secar a la sombra, como un grano fresco.</li>
+        <li>Planchar al revés. Respeta la frente.</li>
+        <li>Las manchas de café no son defectos. Son notas de cata.</li>
+      </ul>
+
+      <div class="colofon">
+        <span class="mark">Diseño</span>
+        <span>Martín Undurraga &mdash; Stodak</span>
+      </div>
+
+      <div class="stub">
+        <span class="reg tl"></span>
+        <span class="reg tr"></span>
+        <span class="reg bl"></span>
+        <span class="reg br"></span>
+
+        <div class="barcode-wrap">
+          <div class="barcode" aria-hidden="true">
+            <i style="width:.6mm"></i><i style="width:.3mm"></i><i style="width:.9mm"></i><i style="width:.3mm"></i><i style="width:.5mm"></i><i style="width:.7mm"></i><i style="width:.3mm"></i><i style="width:1.1mm"></i><i style="width:.4mm"></i><i style="width:.3mm"></i><i style="width:.8mm"></i><i style="width:.3mm"></i><i style="width:.6mm"></i><i style="width:.4mm"></i><i style="width:.9mm"></i><i style="width:.3mm"></i><i style="width:.5mm"></i><i style="width:.7mm"></i><i style="width:.3mm"></i><i style="width:1.1mm"></i><i style="width:.4mm"></i><i style="width:.6mm"></i>
+          </div>
+          <div class="barcode-serial">0001&nbsp;·&nbsp;<em>31·12·25</em>&nbsp;·&nbsp;CL</div>
+        </div>
+
+        <div class="footer-back">
+          <div class="row">
+            <span class="url">DAILYGRIND.CL</span>
+            <span>© TDG · MMXXV → MMXXVI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </article>
+      </div><!-- /preview-card back -->
+    </div><!-- /preview-stage -->
+
+    <footer class="preview-foot">
+      Borrador interno · The Daily Grind · MMXXV → MMXXVI
+      <em>Compartir solo con personas autorizadas. La tirada física puede variar respecto a esta vista.</em>
+    </footer>
+  </div><!-- /preview-shell -->
+
+</body>
+</html>
