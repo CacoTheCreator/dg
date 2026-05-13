@@ -1,0 +1,2126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>The Daily Grind — Packaging Sleeve · Vol. 4 · T01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+  /* === REAL BRAND PALETTE (extracted from dailygrind.cl) === */
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+
+    --bleed: 5mm;
+    --w: 280mm;
+    --h: 220mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page { size: 290mm 230mm; margin: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--navy);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    padding: 36px;
+    display: flex;
+    gap: 36px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ----- Visor chrome ----- */
+
+  .viewer-label {
+    position: fixed;
+    top: 12px;
+    left: 14px;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    opacity: .8;
+    z-index: 99;
+  }
+
+  .panel-tag {
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    opacity: .65;
+    margin-bottom: -18px;
+  }
+
+  /* ----- Sleeve panel (front and back share base) ----- */
+
+  .panel {
+    width: calc(var(--w) + var(--bleed) * 2);
+    height: calc(var(--h) + var(--bleed) * 2);
+    background: var(--cream);
+    padding: var(--bleed);
+    position: relative;
+    box-shadow: 0 12px 60px rgba(11,24,69,.5);
+    overflow: hidden;
+  }
+
+  .safe {
+    width: 100%;
+    height: 100%;
+    padding: 14mm 18mm 12mm 18mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ----- Top navy band (shared) ----- */
+
+  .topband {
+    position: absolute;
+    top: var(--bleed);
+    left: var(--bleed);
+    right: var(--bleed);
+    height: 18mm;
+    background: var(--navy);
+    z-index: 1;
+  }
+
+  .topband::after {
+    content: "";
+    position: absolute;
+    bottom: -1.6mm;
+    left: 0;
+    right: 0;
+    height: 1.6mm;
+    background: var(--sky);
+  }
+
+  .lang-mark {
+    position: absolute;
+    top: 12mm;
+    left: 14mm;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 10pt;
+    letter-spacing: .28em;
+    z-index: 2;
+  }
+
+  .vol-mark {
+    position: absolute;
+    top: 11mm;
+    right: 14mm;
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    letter-spacing: .14em;
+    z-index: 2;
+  }
+
+  .vol-mark .num { color: var(--sky-lt); font-size: 14pt; }
+
+  /* ----- Left side perforation indicator ----- */
+
+  .perf-left {
+    position: absolute;
+    top: 24mm;
+    bottom: 16mm;
+    left: 8mm;
+    width: .5mm;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      var(--navy) 0,
+      var(--navy) 1.4mm,
+      transparent 1.4mm,
+      transparent 2.4mm
+    );
+    opacity: .85;
+    z-index: 2;
+  }
+
+  .perf-label {
+    position: absolute;
+    left: 10mm;
+    top: 50%;
+    transform: rotate(-90deg) translateX(50%);
+    transform-origin: left top;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 6.4pt;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    color: var(--navy);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .perf-label .arrow { color: var(--sky); }
+
+  /* ================== FRONT ================== */
+
+  .front .head {
+    margin-top: 18mm;
+    text-align: center;
+  }
+
+  .headline {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 64pt;
+    line-height: .98;
+    letter-spacing: -.01em;
+    color: var(--navy);
+  }
+
+  .headline .dot {
+    display: inline-block;
+    width: 4mm;
+    height: 4mm;
+    background: var(--sky);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 4mm;
+    transform: translateY(-2mm);
+  }
+
+  .subline {
+    margin-top: 4mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 12pt;
+    letter-spacing: .04em;
+    color: var(--sky);
+  }
+
+  .first-pour {
+    margin: 8mm auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4mm;
+    padding: 3mm 6mm;
+    border: .5mm solid var(--navy);
+    border-radius: 2mm;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--cream);
+  }
+
+  .first-pour .seal {
+    width: 4mm;
+    height: 4mm;
+    border-radius: 50%;
+    background: var(--sky);
+    box-shadow: 0 0 0 .6mm var(--cream), 0 0 0 1.2mm var(--navy);
+    display: inline-block;
+  }
+
+  .first-pour .roman {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: .14em;
+    color: var(--sky);
+  }
+
+  .first-pour-wrap { text-align: center; }
+
+  /* ----- The die-cut window: el corazón conceptual ----- */
+
+  .window-wrap {
+    margin: 14mm auto 0;
+    width: 110mm;
+    position: relative;
+  }
+
+  .window {
+    width: 100%;
+    height: 50mm;
+    border: .5mm dashed var(--navy);
+    border-radius: 3mm;
+    background: var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .window::before {
+    content: "TROQUEL · 80 × 40 MM";
+    position: absolute;
+    top: -7mm;
+    left: 0;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 5pt;
+    letter-spacing: .3em;
+    color: var(--navy);
+    opacity: .55;
+    text-transform: uppercase;
+  }
+
+  .window::after {
+    content: "ENMARCA WORDMARK BORDADO DE LA PRENDA";
+    position: absolute;
+    bottom: -7mm;
+    left: 0;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 5pt;
+    letter-spacing: .3em;
+    color: var(--navy);
+    opacity: .55;
+    text-transform: uppercase;
+  }
+
+  .window .wordmark-stitch {
+    font-family: "Sacramento", cursive;
+    font-size: 36pt;
+    color: var(--white);
+    text-align: center;
+    line-height: .95;
+    transform: rotate(-6deg);
+    text-shadow: 0 .3mm 0 rgba(11,24,69,.18);
+  }
+
+  .window .wordmark-stitch .line {
+    display: block;
+  }
+
+  .window .wordmark-stitch .line.b {
+    margin-left: 14mm;
+    margin-top: -4mm;
+  }
+
+  /* ----- Right side hang tag indicator ----- */
+
+  .hangtag-indicator {
+    position: absolute;
+    top: 100mm;
+    right: 6mm;
+    text-align: right;
+    z-index: 2;
+  }
+
+  .hangtag-indicator .arrow {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--sky);
+    letter-spacing: .04em;
+  }
+
+  .hangtag-indicator .label {
+    margin-top: 1mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 5.6pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .hangtag-cord {
+    position: absolute;
+    top: 22mm;
+    right: -5mm;
+    width: 12mm;
+    height: 70mm;
+    z-index: 1;
+  }
+
+  .hangtag-cord::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: .8mm;
+    height: 100%;
+    background: var(--sky-lt);
+    transform: translateX(-50%);
+  }
+
+  .hangtag-cord::after {
+    content: "";
+    position: absolute;
+    bottom: -20mm;
+    left: 50%;
+    width: 28mm;
+    height: 40mm;
+    background: var(--cream);
+    border: .35mm solid var(--navy);
+    border-radius: 1mm;
+    transform: translateX(-50%);
+    box-shadow: 0 2mm 4mm rgba(11,24,69,.18);
+  }
+
+  .hangtag-mini {
+    position: absolute;
+    bottom: -19mm;
+    left: 50%;
+    width: 28mm;
+    transform: translateX(-50%);
+    z-index: 3;
+    padding: 2mm;
+    text-align: center;
+  }
+
+  .hangtag-mini .top {
+    height: 3.6mm;
+    background: var(--navy);
+    margin: -2mm -2mm 2mm -2mm;
+  }
+
+  .hangtag-mini .word {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 4pt;
+    letter-spacing: -.01em;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .hangtag-mini .word .d {
+    display: inline-block;
+    width: .5mm;
+    height: .5mm;
+    background: var(--sky);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 .4mm;
+  }
+
+  .hangtag-mini .meta {
+    margin-top: 1.4mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 3.2pt;
+    letter-spacing: .14em;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+
+  .hangtag-mini .meta .ref {
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+  }
+
+  /* ----- Front footer ----- */
+
+  .footer-front {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 9pt;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--navy);
+    padding: 0 4mm;
+  }
+
+  .footer-front .pill {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    background: var(--sky);
+    color: var(--navy);
+    padding: 2mm 5mm;
+    border-radius: 1.5mm;
+    letter-spacing: .28em;
+    font-size: 9pt;
+  }
+
+  /* ================== BACK ================== */
+
+  .back .ritual {
+    margin-top: 22mm;
+    padding-bottom: 4mm;
+    border-bottom: .5mm solid var(--navy);
+  }
+
+  .ritual-eyebrow {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 3mm;
+  }
+
+  .ritual-line {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 22pt;
+    line-height: 1.04;
+    letter-spacing: -.005em;
+    color: var(--navy);
+    max-width: 200mm;
+  }
+
+  .ritual-line em {
+    font-style: italic;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .ritual-jp {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 10pt;
+    letter-spacing: .12em;
+    color: var(--navy);
+    opacity: .65;
+    margin-top: 3mm;
+  }
+
+  .care-title {
+    margin-top: 6mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--sky);
+  }
+
+  .care-poem {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 12pt;
+    line-height: 1.4;
+    margin-top: 2mm;
+    letter-spacing: .005em;
+    color: var(--navy);
+    max-width: 220mm;
+  }
+
+  .care-poem em {
+    font-family: "Syne", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--sky);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-size: 11pt;
+  }
+
+  /* care symbols + list aligned in a 2-col grid */
+
+  .care-grid {
+    margin-top: 5mm;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5mm 7mm;
+    align-items: center;
+  }
+
+  .symbols {
+    display: grid;
+    grid-template-columns: repeat(5, 14mm);
+    gap: 3mm;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .symbols .sym {
+    width: 14mm;
+    height: 14mm;
+    border: .5mm solid var(--navy);
+    border-radius: 2mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+
+  .symbols .sym.accent {
+    background: var(--sky);
+    border-color: var(--sky);
+  }
+
+  .symbols svg {
+    width: 10mm;
+    height: 10mm;
+  }
+
+  .symbols svg * {
+    stroke: var(--navy);
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .care-list {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 10pt;
+    line-height: 1.45;
+    letter-spacing: .02em;
+    list-style: none;
+    color: var(--navy);
+    align-self: center;
+  }
+
+  .care-list li {
+    padding-left: 7mm;
+    position: relative;
+    margin-bottom: 1mm;
+  }
+
+  .care-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2.6mm;
+    width: 2.6mm;
+    height: 2.6mm;
+    background: var(--sky);
+    border-radius: 50%;
+  }
+
+  /* Shipping block (optional address line) */
+
+  .shipping {
+    margin-top: 6mm;
+    background: var(--sky-lt);
+    padding: 4mm 5mm;
+    border-radius: 1.5mm;
+    display: flex;
+    align-items: baseline;
+    gap: 5mm;
+  }
+
+  .shipping .k {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  .shipping .line {
+    flex: 1;
+    border-bottom: .35mm solid var(--navy);
+    height: 6mm;
+  }
+
+  /* Colofón above the bottom stub */
+
+  .colofon {
+    margin-top: 5mm;
+    text-align: center;
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 8pt;
+    letter-spacing: .06em;
+    color: var(--navy);
+    opacity: .7;
+  }
+
+  .colofon .mark {
+    font-style: normal;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-right: 2mm;
+  }
+
+  /* Bottom detachable stub on back */
+
+  .stub-bottom {
+    margin-top: auto;
+    position: relative;
+    padding-top: 6mm;
+    padding-bottom: 2mm;
+  }
+
+  .stub-bottom::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -18mm;
+    right: -18mm;
+    height: .5mm;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--navy) 0,
+      var(--navy) 1.2mm,
+      transparent 1.2mm,
+      transparent 2.2mm
+    );
+    opacity: .85;
+  }
+
+  .reg {
+    position: absolute;
+    width: 3mm;
+    height: 3mm;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .reg::before,
+  .reg::after {
+    content: "";
+    position: absolute;
+    background: var(--navy);
+  }
+  .reg::before {
+    top: 50%; left: 0; right: 0; height: .35mm; transform: translateY(-50%);
+  }
+  .reg::after {
+    left: 50%; top: 0; bottom: 0; width: .35mm; transform: translateX(-50%);
+  }
+  .reg.tl { top: 2.6mm; left: 2mm; }
+  .reg.tr { top: 2.6mm; right: 2mm; }
+  .reg.bl { bottom: 1.6mm; left: 2mm; }
+  .reg.br { bottom: 1.6mm; right: 2mm; }
+
+  .barcode-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8mm;
+  }
+
+  .barcode-wrap { flex: 0 0 auto; }
+
+  .barcode {
+    display: flex;
+    gap: .35mm;
+    height: 9mm;
+    align-items: stretch;
+  }
+
+  .barcode i { display: block; background: var(--navy); }
+
+  .barcode-serial {
+    margin-top: 1.4mm;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: .3em;
+    color: var(--navy);
+    text-align: center;
+  }
+
+  .barcode-serial em {
+    font-style: normal;
+    color: var(--sky);
+    font-weight: 700;
+  }
+
+  .footer-back-meta {
+    text-align: right;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .footer-back-meta .url {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    letter-spacing: .22em;
+    color: var(--sky);
+    font-size: 8pt;
+    display: block;
+    margin-bottom: 1mm;
+  }
+
+  /* ================ MOCKUP: VISTA REALISTA ================ */
+
+  .mockup-section {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 40px;
+    padding-top: 60px;
+    border-top: .5px solid rgba(166,217,248,.18);
+  }
+
+  .mockup-section .section-tag {
+    display: block;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    opacity: .8;
+    margin-bottom: 6px;
+  }
+
+  .mockup-section .section-title {
+    color: var(--cream);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: -.005em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .mockup-section .section-sub {
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: .02em;
+    margin-bottom: 36px;
+    opacity: .8;
+  }
+
+  .surface {
+    position: relative;
+    width: 100%;
+    padding: 120px 60px;
+    border-radius: 6px;
+    background:
+      radial-gradient(ellipse at 28% 22%, #fdf6ec 0%, #f3ebdc 45%, #ead9be 100%);
+    box-shadow: inset 0 0 80px rgba(120,90,40,.08);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* paper grain on surface */
+  .surface::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg, rgba(80,60,30,.022) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(-45deg, rgba(80,60,30,.018) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+
+  /* vignette */
+  .surface::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(60,40,15,.18) 100%);
+    pointer-events: none;
+  }
+
+  .sleeve-mock {
+    position: relative;
+    width: 720px;
+    height: 540px;
+    background:
+      linear-gradient(135deg, #fcf7ef 0%, var(--cream) 35%, #efe5d3 100%);
+    padding: 30px 38px 26px;
+    transform: rotate(-3deg);
+    box-shadow:
+      0 2px 4px rgba(11,24,69,.05),
+      0 12px 28px rgba(11,24,69,.18),
+      0 40px 80px rgba(11,24,69,.16),
+      inset 0 0 60px rgba(180,140,80,.05);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+
+  /* paper micro-grain on the sleeve */
+  .sleeve-mock::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(11,24,69,.014) 0 1px, transparent 1px 2px),
+      repeating-linear-gradient(90deg, rgba(11,24,69,.012) 0 1px, transparent 1px 2px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* subtle warm highlight from top-left */
+  .sleeve-mock::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, rgba(255,250,235,.4) 0%, transparent 35%, transparent 70%, rgba(60,40,15,.08) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* mock topband */
+  .m-topband {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 44px;
+    background: var(--navy);
+    z-index: 2;
+  }
+  .m-topband::after {
+    content: "";
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 4px;
+    background: var(--sky);
+  }
+
+  .m-lang {
+    position: absolute;
+    top: 18px;
+    left: 30px;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: .3em;
+    z-index: 3;
+  }
+
+  .m-vol {
+    position: absolute;
+    top: 16px;
+    right: 30px;
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: .14em;
+    z-index: 3;
+  }
+
+  .m-vol .num { color: var(--sky-lt); font-size: 17px; }
+
+  /* perforation line */
+  .m-perf {
+    position: absolute;
+    top: 60px;
+    bottom: 40px;
+    left: 16px;
+    width: 1px;
+    background-image: repeating-linear-gradient(
+      to bottom, var(--navy) 0, var(--navy) 4px, transparent 4px, transparent 8px);
+    opacity: .8;
+    z-index: 2;
+  }
+
+  .m-perf-label {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    letter-spacing: .36em;
+    text-transform: uppercase;
+    color: var(--navy);
+    white-space: nowrap;
+    z-index: 2;
+    opacity: .85;
+  }
+
+  .m-perf-label .arr { color: var(--sky); }
+
+  /* mock body */
+  .m-body {
+    margin-top: 44px;
+    padding: 28px 24px 0;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    position: relative;
+  }
+
+  .m-head {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 92px;
+    line-height: .95;
+    letter-spacing: -.015em;
+    color: var(--navy);
+  }
+
+  .m-head .dot {
+    display: inline-block;
+    width: 14px; height: 14px;
+    background: var(--sky);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 14px;
+    transform: translateY(-8px);
+  }
+
+  .m-sub {
+    margin-top: 8px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: .04em;
+    color: var(--sky);
+  }
+
+  .m-chip {
+    margin: 22px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 18px;
+    border: 1.2px solid var(--navy);
+    border-radius: 4px;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--cream);
+  }
+
+  .m-chip .seal {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--sky);
+    box-shadow: 0 0 0 1.6px var(--cream), 0 0 0 3px var(--navy);
+    display: inline-block;
+  }
+
+  .m-chip .roman {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: .14em;
+    color: var(--sky);
+  }
+
+  /* the die-cut window with the actual shirt visible inside */
+  .m-window-wrap {
+    margin: 32px auto 0;
+    width: 280px;
+    position: relative;
+  }
+
+  .m-window-wrap::before,
+  .m-window-wrap::after {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--navy);
+    opacity: .5;
+    position: absolute;
+    left: 0;
+  }
+
+  .m-window-wrap::before {
+    content: "TROQUEL · 80 × 40 MM";
+    top: -14px;
+  }
+
+  .m-window-wrap::after {
+    content: "ENMARCA EL WORDMARK BORDADO";
+    bottom: -14px;
+  }
+
+  .m-window {
+    width: 100%;
+    height: 130px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      inset 0 0 0 1px var(--cream),
+      inset 0 0 0 2px rgba(11,24,69,.55),
+      inset 0 6px 14px rgba(11,24,69,.18);
+  }
+
+  .m-window img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% 32%;
+    display: block;
+    /* slight warm light on the visible fabric */
+    filter: brightness(1.02) saturate(1.05);
+  }
+
+  /* tiny shadow at the window edge to suggest depth */
+  .m-window::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 4px 12px rgba(11,24,69,.22), inset 0 -2px 6px rgba(11,24,69,.1);
+    pointer-events: none;
+  }
+
+  /* mock front footer */
+  .m-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--navy);
+    padding: 0 6px 6px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .m-footer .pill {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    background: var(--sky);
+    color: var(--navy);
+    padding: 6px 14px;
+    border-radius: 4px;
+    letter-spacing: .3em;
+    font-size: 11px;
+  }
+
+  /* hang tag dangling outside the sleeve, attached by sky-lt cord */
+  .m-hangtag {
+    position: absolute;
+    top: 50px;
+    right: -68px;
+    width: 112px;
+    z-index: 3;
+    transform: rotate(8deg);
+  }
+
+  .m-hangtag .cord {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(166,217,248,0) 0%, var(--sky-lt) 30%, var(--sky-lt) 100%);
+    transform: translateX(-50%) rotate(-8deg);
+    transform-origin: top center;
+    z-index: 2;
+  }
+
+  .m-hangtag .tag {
+    position: relative;
+    width: 100%;
+    height: 158px;
+    background: var(--cream);
+    box-shadow:
+      0 2px 4px rgba(11,24,69,.1),
+      0 10px 20px rgba(11,24,69,.22),
+      0 22px 40px rgba(11,24,69,.16);
+    padding: 14px 10px;
+    border-radius: 1px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .m-hangtag .tag::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background: var(--navy);
+  }
+  .m-hangtag .tag::after {
+    content: "";
+    position: absolute;
+    top: 5px; left: 50%;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    border: 1px dashed var(--navy);
+    background: var(--cream);
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .m-hangtag .word {
+    margin-top: 22px;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    letter-spacing: -.005em;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1;
+  }
+
+  .m-hangtag .word .d {
+    display: inline-block;
+    width: 2px; height: 2px;
+    background: var(--sky);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 1.5px;
+  }
+
+  .m-hangtag .ritual {
+    margin-top: 6px;
+    font-family: "Syne", sans-serif;
+    font-weight: 400;
+    font-size: 7px;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .m-hangtag .ritual em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .m-hangtag .meta {
+    margin-top: auto;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 6px;
+    letter-spacing: .18em;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .m-hangtag .meta .ref {
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+  }
+
+  .m-hangtag .meta .pill-mini {
+    display: inline-block;
+    margin-top: 3px;
+    padding: 2px 5px;
+    background: var(--sky);
+    color: var(--navy);
+    border-radius: 2px;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 6px;
+    letter-spacing: .26em;
+  }
+
+  /* annotation strip below the mockup */
+  .mockup-notes {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: .82;
+  }
+
+  .mockup-notes .n {
+    border-top: .5px solid rgba(166,217,248,.25);
+    padding-top: 12px;
+  }
+
+  .mockup-notes .n .k {
+    color: var(--sky);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 820px) {
+    .sleeve-mock { transform: rotate(-3deg) scale(.7); }
+    .mockup-notes { grid-template-columns: 1fr; }
+  }
+
+  /* ================ DIELINE: PLANO TÉCNICO ================ */
+
+  .dieline-section {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 60px;
+    padding-top: 60px;
+    border-top: .5px solid rgba(166,217,248,.18);
+  }
+
+  .dieline-section .section-tag {
+    display: block;
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    opacity: .8;
+    margin-bottom: 6px;
+  }
+
+  .dieline-section .section-title {
+    color: var(--cream);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: -.005em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .dieline-section .section-sub {
+    color: var(--sky-lt);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: .02em;
+    margin-bottom: 36px;
+    opacity: .8;
+    max-width: 720px;
+  }
+
+  /* sheet container — looks like drafting paper */
+  .sheet {
+    background: #fbf6ec;
+    border-radius: 3px;
+    padding: 30px 30px 22px;
+    box-shadow:
+      0 4px 8px rgba(11,24,69,.08),
+      0 24px 60px rgba(11,24,69,.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* faint grid overlay so it reads as drafting paper */
+  .sheet::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(rgba(11,24,69,.04) 1px, transparent 1px) 0 0/100% 20px,
+      linear-gradient(90deg, rgba(11,24,69,.04) 1px, transparent 1px) 0 0/20px 100%;
+    pointer-events: none;
+    opacity: .4;
+  }
+
+  .sheet svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sheet-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 16px;
+    border-bottom: .5px solid rgba(14,30,86,.18);
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sheet-header .ttl {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .04em;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .sheet-header .meta {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .sheet-header .meta .accent { color: var(--sky); }
+
+  /* Legend */
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin: 14px 0 18px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--navy);
+    position: relative;
+    z-index: 1;
+  }
+
+  .legend .item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legend .swatch {
+    width: 32px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 1px solid var(--navy);
+  }
+
+  .legend .swatch.cut { background: var(--navy); height: 1.4px; border: none; }
+  .legend .swatch.fold {
+    background: repeating-linear-gradient(to right, var(--navy) 0 6px, transparent 6px 9px);
+    height: 1.4px; border: none;
+  }
+  .legend .swatch.perf {
+    background: repeating-linear-gradient(to right, var(--navy) 0 1.5px, transparent 1.5px 3px);
+    height: 1.4px; border: none;
+  }
+  .legend .swatch.bleed {
+    background: repeating-linear-gradient(to right, #c2867a 0 3px, transparent 3px 5px);
+    height: 1.4px; border: none;
+  }
+  .legend .swatch.window-sw {
+    background: rgba(81,181,242,.18);
+    border: 1px dashed var(--navy);
+  }
+
+  /* Cross-section + specs block under the dieline */
+  .cross-and-specs {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 36px;
+    margin-top: 36px;
+  }
+
+  .cross-section {
+    background: #fbf6ec;
+    border-radius: 3px;
+    padding: 30px 26px 22px;
+    box-shadow:
+      0 4px 8px rgba(11,24,69,.08),
+      0 16px 40px rgba(11,24,69,.18);
+    position: relative;
+  }
+
+  .cross-section .h {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .04em;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .cross-section .sub {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--navy);
+    opacity: .65;
+    margin-bottom: 18px;
+  }
+
+  .cross-section svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Spec table */
+  .specs {
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .specs .group {
+    border-top: .5px solid rgba(166,217,248,.25);
+    padding: 14px 0;
+  }
+
+  .specs .group:last-child { border-bottom: .5px solid rgba(166,217,248,.25); }
+
+  .specs .group .k {
+    color: var(--sky);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .specs .group .v {
+    color: var(--cream);
+    opacity: .9;
+  }
+
+  .specs .group .v b {
+    color: var(--sky-lt);
+    font-weight: 500;
+  }
+
+  .specs .group .v code {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    color: var(--sky-lt);
+    background: rgba(166,217,248,.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+  }
+
+  /* Production notes */
+  .production-notes {
+    margin-top: 36px;
+    background: rgba(166,217,248,.06);
+    border-left: 2px solid var(--sky);
+    padding: 22px 28px;
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .production-notes .h {
+    color: var(--sky);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .production-notes ol {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+  }
+
+  .production-notes li {
+    counter-increment: step;
+    padding-left: 28px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .production-notes li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 0;
+    color: var(--sky);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+
+  @media (max-width: 820px) {
+    .cross-and-specs { grid-template-columns: 1fr; }
+    .legend { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .panel { box-shadow: none; page-break-after: always; }
+    .panel:last-of-type { page-break-after: auto; }
+    .viewer-label, .panel-tag, .mockup-section { display: none; }
+    .dieline-section { color: black; }
+    .sheet, .cross-section { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="viewer-label">the daily grind · vol. 4 · t01 · sleeve · 280×220mm + 5mm bleed · cream 300gsm</div>
+
+  <!-- ================ FRONT ================ -->
+  <div class="panel-tag">Frente · la primera prensa</div>
+  <article class="panel front">
+    <div class="topband"></div>
+    <div class="lang-mark">グラインド</div>
+    <div class="vol-mark">VOL · <span class="num">04</span></div>
+
+    <div class="perf-left"></div>
+    <div class="perf-label"><span class="arrow">→</span>&nbsp;&nbsp;PRIMERA APERTURA · ROMPER AQUÍ&nbsp;&nbsp;<span class="arrow">←</span></div>
+
+    <div class="safe">
+
+      <div class="head">
+        <div class="headline">
+          VOL <span class="dot"></span> 04
+        </div>
+        <div class="subline">Vol. 04 · Café · The Daily Grind</div>
+
+        <div class="first-pour-wrap">
+          <span class="first-pour">
+            <span class="seal"></span>
+            FIRST POUR
+            <span class="roman">·&nbsp;I&nbsp;·</span>
+            MMXXV
+          </span>
+        </div>
+      </div>
+
+      <!-- the die-cut window: el packaging cita la prenda -->
+      <div class="window-wrap">
+        <div class="window">
+          <div class="wordmark-stitch">
+            <span class="line">The Daily</span>
+            <span class="line b">Grind</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- hang tag dangling on the right side, sujeto con cordón sky-lt -->
+      <div class="hangtag-cord"></div>
+      <div class="hangtag-mini">
+        <div class="top"></div>
+        <div class="word">THE DAILY<span class="d"></span>GRIND</div>
+        <div class="meta">
+          REF · <span class="ref">T01</span><br>
+          31 · DIC · 2025<br>
+          LOT · 001
+        </div>
+      </div>
+      <div class="hangtag-indicator">
+        <div class="arrow">↗</div>
+        <div class="label">Tire del cordón azul</div>
+      </div>
+
+      <div class="footer-front">
+        <span>LOT · 001 · MMXXV</span>
+        <span class="pill">ELDIEZ</span>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ================ BACK ================ -->
+  <div class="panel-tag">Reverso · la sentencia técnica</div>
+  <article class="panel back">
+    <div class="topband"></div>
+    <div class="lang-mark">ザ・デイリー</div>
+    <div class="vol-mark">REF · <span class="num">T01</span></div>
+
+    <div class="perf-left"></div>
+    <div class="perf-label"><span class="arrow">→</span>&nbsp;&nbsp;PRIMERA APERTURA · ROMPER AQUÍ&nbsp;&nbsp;<span class="arrow">←</span></div>
+
+    <div class="safe">
+
+      <div class="ritual">
+        <div class="ritual-eyebrow">El ambiente es el mensaje</div>
+        <div class="ritual-line">
+          La prenda <em>también</em> envejece como un buen café.
+        </div>
+        <div class="ritual-jp">服も、コーヒーのように熟成する</div>
+      </div>
+
+      <div class="care-title">Honest warning</div>
+      <p class="care-poem">
+        <em>Color change may occur</em> — cada lavado descafeína un poco la prenda. Es parte del tueste. La camisa se va volviendo tuya.
+      </p>
+
+      <div class="care-grid">
+        <div class="symbols" aria-hidden="true">
+          <div class="sym" title="Wash 30°">
+            <svg viewBox="0 0 24 24"><path d="M3 7c0-1 1-2 2-2h14c1 0 2 1 2 2v10c0 1-1 2-2 2H5c-1 0-2-1-2-2zM3 7c2 2 5 2 9 2s7 0 9-2"/><text x="12" y="17" text-anchor="middle" font-family="Syne" font-weight="700" font-size="7" fill="#0e1e56" stroke="none">30</text></svg>
+          </div>
+          <div class="sym" title="No bleach">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16l-3 14H7zM5 5l14 16"/></svg>
+          </div>
+          <div class="sym accent" title="Tumble dry low">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.4" stroke-width="2"/></svg>
+          </div>
+          <div class="sym" title="Iron medium">
+            <svg viewBox="0 0 24 24"><path d="M3 17l3-7h12l3 7zM3 17h18M9 13h.5M12 13h.5M15 13h.5"/></svg>
+          </div>
+          <div class="sym" title="Hand finished">
+            <svg viewBox="0 0 24 24"><path d="M5 13c0-3 3-5 7-5s7 2 7 5v3c0 1.5-1 2.5-2.5 2.5H7.5C6 18.5 5 17.5 5 16zM9 8V5M12 8V4M15 8V5"/></svg>
+          </div>
+        </div>
+
+        <ul class="care-list">
+          <li>Lavar a 30°. El frío preserva el aroma.</li>
+          <li>No usar cloro. Mata el carácter.</li>
+          <li>Secar a la sombra, como un grano fresco.</li>
+          <li>Planchar al revés. Respeta la frente.</li>
+          <li>Las manchas de café no son defectos. Son notas de cata.</li>
+        </ul>
+      </div>
+
+      <div class="shipping">
+        <span class="k">Envío para</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="colofon">
+        <span class="mark">Diseño</span>
+        <span>Martín Undurraga &mdash; Stodak</span>
+      </div>
+
+      <div class="stub-bottom">
+        <span class="reg tl"></span>
+        <span class="reg tr"></span>
+        <span class="reg bl"></span>
+        <span class="reg br"></span>
+
+        <div class="barcode-row">
+          <div class="barcode-wrap">
+            <div class="barcode" aria-hidden="true">
+              <i style="width:1.2mm"></i><i style="width:.6mm"></i><i style="width:1.8mm"></i><i style="width:.6mm"></i><i style="width:1mm"></i><i style="width:1.4mm"></i><i style="width:.6mm"></i><i style="width:2.2mm"></i><i style="width:.8mm"></i><i style="width:.6mm"></i><i style="width:1.6mm"></i><i style="width:.6mm"></i><i style="width:1.2mm"></i><i style="width:.8mm"></i><i style="width:1.8mm"></i><i style="width:.6mm"></i><i style="width:1mm"></i><i style="width:1.4mm"></i><i style="width:.6mm"></i><i style="width:2.2mm"></i><i style="width:.8mm"></i><i style="width:1.2mm"></i>
+            </div>
+            <div class="barcode-serial">0001&nbsp;·&nbsp;<em>31·12·25</em>&nbsp;·&nbsp;CL</div>
+          </div>
+
+          <div class="footer-back-meta">
+            <span class="url">DAILYGRIND.CL</span>
+            © TDG · MMXXV → MMXXVI
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ================ MOCKUP: VISTA REALISTA ================ -->
+  <section class="mockup-section" id="vista-realista">
+    <span class="section-tag">Vista realista · presentación</span>
+    <h2 class="section-title">Así llega a la mano del cliente</h2>
+    <p class="section-sub">Sleeve cream 300gsm con la prenda visible por la ventana troquelada. Hang tag colgando con cordón sky-lt. Fotomontaje, no render.</p>
+
+    <div class="surface">
+      <div class="sleeve-mock">
+        <div class="m-topband"></div>
+        <span class="m-lang">グラインド</span>
+        <span class="m-vol">VOL · <span class="num">04</span></span>
+
+        <div class="m-perf"></div>
+        <span class="m-perf-label"><span class="arr">→</span>&nbsp;&nbsp;PRIMERA APERTURA · ROMPER AQUÍ&nbsp;&nbsp;<span class="arr">←</span></span>
+
+        <div class="m-body">
+          <div class="m-head">VOL<span class="dot"></span>04</div>
+          <div class="m-sub">Vol. 04 · Café · The Daily Grind</div>
+
+          <div>
+            <span class="m-chip">
+              <span class="seal"></span>
+              FIRST POUR
+              <span class="roman">·&nbsp;I&nbsp;·</span>
+              MMXXV
+            </span>
+          </div>
+
+          <div class="m-window-wrap">
+            <div class="m-window">
+              <img src="camisa-producto.png" alt="Camisa Vol. 4 visible a través de la ventana troquelada del sleeve">
+            </div>
+          </div>
+
+          <div class="m-footer">
+            <span>LOT · 001 · MMXXV</span>
+            <span class="pill">ELDIEZ</span>
+          </div>
+        </div>
+
+        <!-- hang tag colgando por el lado derecho -->
+        <div class="m-hangtag">
+          <div class="cord"></div>
+          <div class="tag">
+            <div class="word">THE&nbsp;DAILY<span class="d"></span>GRIND</div>
+            <div class="ritual">Mismo ritual.<br><em>Otro nivel.</em></div>
+            <div class="meta">
+              REF · <span class="ref">T01</span><br>
+              31 · DIC · 2025<br>
+              LOT · 001 · MMXXV
+              <br><span class="pill-mini">ELDIEZ</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mockup-notes">
+      <div class="n">
+        <span class="k">Material</span>
+        Cartulina cream 300gsm sin recubrimiento. Acabado mate, sin laminado.
+      </div>
+      <div class="n">
+        <span class="k">Tintas</span>
+        Tres planas: navy #0e1e56, sky #51b5f2, sky-lt #a6d9f8. Sin negro.
+      </div>
+      <div class="n">
+        <span class="k">Troqueles</span>
+        Ventana frente 80 × 40mm. Perforación lateral izquierda. Stub inferior reverso opcional.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================ DIELINE: PLANO TÉCNICO ================ -->
+  <section class="dieline-section" id="plano-tecnico">
+    <span class="section-tag">Plano técnico · guía de producción</span>
+    <h2 class="section-title">Dieline a escala 1:1</h2>
+    <p class="section-sub">Layout flat sin plegar. Para imprenta, troqueladora y cosedor. Todas las medidas en milímetros. Producir bajo estos parámetros sin alteración salvo aprobación previa.</p>
+
+    <div class="sheet">
+
+      <div class="sheet-header">
+        <div>
+          <div class="ttl">The Daily · Grind · Vol. 04 · T01</div>
+          <div style="font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic;font-size:11px;color:var(--navy);opacity:.7;margin-top:2px;">Sleeve packaging · plano de corte y plegado</div>
+        </div>
+        <div class="meta">
+          DWG <span class="accent">SLV-T01-01</span> · REV 01<br>
+          ESCALA 1:1 · MM<br>
+          STODAK · 13 · 05 · 2026
+        </div>
+      </div>
+
+      <svg viewBox="0 0 1040 510" xmlns="http://www.w3.org/2000/svg" aria-label="Dieline flat unfolded sleeve">
+        <defs>
+          <marker id="arr-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#0e1e56"/>
+          </marker>
+          <marker id="arr-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M10,0 L0,5 L10,10 z" fill="#0e1e56"/>
+          </marker>
+        </defs>
+
+        <!-- BLEED outline -->
+        <rect x="63" y="63" width="840" height="322" fill="none" stroke="#c2867a" stroke-width="1" stroke-dasharray="3 2"/>
+
+        <!-- TRIM (the actual sleeve perimeter) -->
+        <rect x="70" y="70" width="826" height="308" fill="#fdf8ee" stroke="#0e1e56" stroke-width="1.6"/>
+
+        <!-- Safe area indicator (8mm inside trim) -->
+        <rect x="81" y="81" width="804" height="286" fill="none" stroke="#0e1e56" stroke-width="0.4" stroke-dasharray="2 3" opacity="0.35"/>
+
+        <!-- Fold lines (score) at x=462 and x=504 -->
+        <line x1="462" y1="70" x2="462" y2="378" stroke="#0e1e56" stroke-width="1" stroke-dasharray="6 3"/>
+        <line x1="504" y1="70" x2="504" y2="378" stroke="#0e1e56" stroke-width="1" stroke-dasharray="6 3"/>
+
+        <!-- Window cutout on FRONT panel -->
+        <rect x="644" y="175" width="112" height="56" rx="3" ry="3"
+              fill="#51b5f2" fill-opacity="0.16" stroke="#0e1e56" stroke-width="1.2" stroke-dasharray="3 2"/>
+
+        <!-- Perforation 1: PRIMERA APERTURA on FRONT, vertical, 20mm in from spine fold -->
+        <line x1="532" y1="98" x2="532" y2="350" stroke="#0e1e56" stroke-width="0.9" stroke-dasharray="1.5 2"/>
+
+        <!-- Perforation 2: STUB on BACK, horizontal, 40mm from bottom -->
+        <line x1="70" y1="322" x2="462" y2="322" stroke="#0e1e56" stroke-width="0.9" stroke-dasharray="1.5 2"/>
+
+        <!-- Panel labels -->
+        <text x="266" y="216" text-anchor="middle" font-family="Syne" font-weight="700" font-size="14" letter-spacing="0.16em" fill="#0e1e56">REVERSO</text>
+        <text x="266" y="236" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" letter-spacing="0.3em" fill="#0e1e56" opacity="0.55">PRINT FACE B · 280 × 220 MM</text>
+
+        <text x="483" y="220" text-anchor="middle" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.22em" fill="#0e1e56" transform="rotate(-90 483 220)">SPINE 30</text>
+
+        <text x="700" y="125" text-anchor="middle" font-family="Syne" font-weight="700" font-size="14" letter-spacing="0.16em" fill="#0e1e56">FRENTE</text>
+        <text x="700" y="143" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" letter-spacing="0.3em" fill="#0e1e56" opacity="0.55">PRINT FACE A · 280 × 220 MM</text>
+
+        <text x="700" y="206" text-anchor="middle" font-family="Syne" font-weight="700" font-size="8" letter-spacing="0.22em" fill="#0e1e56">VENTANA · 80 × 40 · R2</text>
+
+        <text x="266" y="352" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" letter-spacing="0.26em" fill="#0e1e56" opacity="0.75">STUB INFERIOR · 280 × 40 · OPCIONAL</text>
+
+        <!-- ============ DIMENSION CHAINS ============ -->
+
+        <!-- Top chain · sub-dims (280 / 30 / 280) -->
+        <line x1="70" y1="48" x2="70" y2="36" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="462" y1="48" x2="462" y2="36" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="504" y1="48" x2="504" y2="36" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="896" y1="48" x2="896" y2="36" stroke="#0e1e56" stroke-width="0.3"/>
+
+        <line x1="70" y1="42" x2="462" y2="42" stroke="#0e1e56" stroke-width="0.6" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="266" y="36" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="10" fill="#0e1e56">280</text>
+
+        <line x1="462" y1="42" x2="504" y2="42" stroke="#0e1e56" stroke-width="0.6" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="483" y="36" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="10" fill="#0e1e56">30</text>
+
+        <line x1="504" y1="42" x2="896" y2="42" stroke="#0e1e56" stroke-width="0.6" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="700" y="36" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="10" fill="#0e1e56">280</text>
+
+        <!-- Top chain · total -->
+        <line x1="70" y1="22" x2="896" y2="22" stroke="#0e1e56" stroke-width="0.6" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="483" y="16" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="11" letter-spacing="0.06em" fill="#0e1e56">FLAT TOTAL · 590 mm</text>
+
+        <!-- Right chain · height -->
+        <line x1="908" y1="70" x2="920" y2="70" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="908" y1="378" x2="920" y2="378" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="914" y1="70" x2="914" y2="378" stroke="#0e1e56" stroke-width="0.6" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="938" y="224" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="11" fill="#0e1e56" transform="rotate(90 938 224)">220 mm</text>
+
+        <!-- Bleed label top-left -->
+        <text x="60" y="60" text-anchor="end" font-family="DM Sans" font-weight="500" font-size="8" letter-spacing="0.22em" fill="#c2867a">BLEED +5</text>
+        <line x1="63" y1="63" x2="55" y2="55" stroke="#c2867a" stroke-width="0.4"/>
+
+        <!-- Safe area label -->
+        <text x="86" y="78" font-family="DM Sans" font-weight="500" font-size="7" letter-spacing="0.18em" fill="#0e1e56" opacity="0.6">SAFE · INSET 8</text>
+
+        <!-- ============ WINDOW CALLOUTS ============ -->
+
+        <!-- Window width 80 (above window) -->
+        <line x1="644" y1="167" x2="756" y2="167" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="700" y="160" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" fill="#0e1e56">80</text>
+
+        <!-- Window height 40 (right of window) -->
+        <line x1="772" y1="175" x2="772" y2="231" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="785" y="207" font-family="DM Sans" font-weight="500" font-size="9" fill="#0e1e56">40</text>
+
+        <!-- Window vertical offset (75mm from top of trim) -->
+        <line x1="618" y1="70" x2="618" y2="175" stroke="#0e1e56" stroke-width="0.4" stroke-dasharray="2 2"/>
+        <line x1="610" y1="175" x2="626" y2="175" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="610" y1="70" x2="626" y2="70" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="618" y1="78" x2="618" y2="167" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="612" y="125" text-anchor="end" font-family="DM Sans" font-weight="500" font-size="8" fill="#0e1e56">75</text>
+
+        <!-- Window horizontal position on FRONT (centered, 100mm from spine fold) -->
+        <line x1="504" y1="248" x2="504" y2="262" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="644" y1="248" x2="644" y2="262" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="504" y1="254" x2="644" y2="254" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="574" y="270" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" fill="#0e1e56">100</text>
+
+        <!-- ============ PERFORATION CALLOUTS ============ -->
+
+        <!-- Perf 1 callout (under front panel) -->
+        <line x1="532" y1="378" x2="532" y2="410" stroke="#0e1e56" stroke-width="0.4" stroke-dasharray="2 2"/>
+        <text x="532" y="424" text-anchor="middle" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.2em" fill="#0e1e56">PERF · PRIMERA APERTURA</text>
+        <text x="532" y="436" text-anchor="middle" font-family="DM Sans" font-weight="300" font-size="8" letter-spacing="0.08em" fill="#0e1e56" opacity="0.7">paso 2mm / hueco 0.5mm · longitud 252mm · inset 20mm del fold spine→frente</text>
+
+        <!-- Perf 1 inset dim (28mm = 20mm spine inset, but we measure from x=504 to x=532) -->
+        <line x1="504" y1="290" x2="504" y2="296" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="532" y1="290" x2="532" y2="296" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="504" y1="293" x2="532" y2="293" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="518" y="304" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="8" fill="#0e1e56">20</text>
+
+        <!-- Perf 2 callout (left of back panel) -->
+        <line x1="62" y1="322" x2="40" y2="322" stroke="#0e1e56" stroke-width="0.4" stroke-dasharray="2 2"/>
+        <text x="36" y="318" text-anchor="end" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.2em" fill="#0e1e56">PERF · STUB</text>
+        <text x="36" y="330" text-anchor="end" font-family="DM Sans" font-weight="300" font-size="8" letter-spacing="0.08em" fill="#0e1e56" opacity="0.7">paso 2 / hueco 0.5 · longitud 280</text>
+
+        <!-- Perf 2 vertical position dim (40mm from bottom) -->
+        <line x1="468" y1="322" x2="476" y2="322" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="468" y1="378" x2="476" y2="378" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="472" y1="326" x2="472" y2="374" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start)" marker-end="url(#arr-end)"/>
+        <text x="466" y="354" text-anchor="end" font-family="DM Sans" font-weight="500" font-size="8" fill="#0e1e56">40</text>
+
+        <!-- ============ FOLD CALLOUTS ============ -->
+        <line x1="483" y1="396" x2="483" y2="404" stroke="#0e1e56" stroke-width="0.3"/>
+        <line x1="462" y1="400" x2="504" y2="400" stroke="#0e1e56" stroke-width="0.5"/>
+        <text x="483" y="468" text-anchor="middle" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.2em" fill="#0e1e56">FOLDS · SCORE 1MM</text>
+        <text x="483" y="480" text-anchor="middle" font-family="DM Sans" font-weight="300" font-size="8" letter-spacing="0.08em" fill="#0e1e56" opacity="0.7">2 ranuras de plegado en seco · profundidad 50% del calibre</text>
+
+        <!-- ============ TITLE BLOCK BOTTOM RIGHT (alt - keep simple, the sheet-header has it) ============ -->
+        <!-- Decorative crosshair registration marks at 4 corners -->
+        <g stroke="#0e1e56" stroke-width="0.6" fill="none">
+          <circle cx="76" cy="76" r="3"/><line x1="71" y1="76" x2="81" y2="76"/><line x1="76" y1="71" x2="76" y2="81"/>
+          <circle cx="890" cy="76" r="3"/><line x1="885" y1="76" x2="895" y2="76"/><line x1="890" y1="71" x2="890" y2="81"/>
+          <circle cx="76" cy="372" r="3"/><line x1="71" y1="372" x2="81" y2="372"/><line x1="76" y1="367" x2="76" y2="377"/>
+          <circle cx="890" cy="372" r="3"/><line x1="885" y1="372" x2="895" y2="372"/><line x1="890" y1="367" x2="890" y2="377"/>
+        </g>
+      </svg>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="item"><span class="swatch cut"></span>Línea de corte (trim)</div>
+        <div class="item"><span class="swatch fold"></span>Línea de pliegue (score)</div>
+        <div class="item"><span class="swatch perf"></span>Perforación</div>
+        <div class="item"><span class="swatch bleed"></span>Bleed +5mm</div>
+        <div class="item"><span class="swatch window-sw"></span>Ventana troquelada</div>
+      </div>
+
+    </div>
+
+    <!-- ============ CROSS-SECTION + SPECS ============ -->
+    <div class="cross-and-specs">
+
+      <div class="cross-section">
+        <div class="h">Sección transversal — sleeve envuelta</div>
+        <div class="sub">Vista superior del wrap sobre la prenda plegada</div>
+
+        <svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg" aria-label="Sección transversal sleeve">
+          <defs>
+            <marker id="arr-end-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#0e1e56"/>
+            </marker>
+            <marker id="arr-start-2" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M10,0 L0,5 L10,10 z" fill="#0e1e56"/>
+            </marker>
+          </defs>
+
+          <!-- Folded shirt -->
+          <rect x="62" y="120" width="336" height="36" fill="#a6d9f8" fill-opacity="0.55" stroke="#51b5f2" stroke-width="1"/>
+          <text x="230" y="142" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" letter-spacing="0.22em" fill="#0e1e56">CAMISA · FOLDED 280 × 30 MM (CROSS)</text>
+
+          <!-- Sleeve outline: BACK on top, SPINE on left, FRONT on bottom -->
+          <!-- BACK panel (top) -->
+          <rect x="50" y="100" width="360" height="14" fill="#fdf8ee" stroke="#0e1e56" stroke-width="1.4"/>
+          <text x="230" y="111" text-anchor="middle" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.16em" fill="#0e1e56">BACK · 280 mm</text>
+
+          <!-- SPINE panel (left) -->
+          <rect x="36" y="100" width="14" height="76" fill="#fdf8ee" stroke="#0e1e56" stroke-width="1.4"/>
+          <text x="43" y="138" text-anchor="middle" font-family="Syne" font-weight="700" font-size="7" letter-spacing="0.16em" fill="#0e1e56" transform="rotate(-90 43 138)">SPINE 30</text>
+
+          <!-- FRONT panel (bottom) -->
+          <rect x="50" y="162" width="360" height="14" fill="#fdf8ee" stroke="#0e1e56" stroke-width="1.4"/>
+          <text x="230" y="173" text-anchor="middle" font-family="Syne" font-weight="700" font-size="9" letter-spacing="0.16em" fill="#0e1e56">FRENTE · 280 mm</text>
+
+          <!-- Open side indicator (right) -->
+          <line x1="410" y1="100" x2="410" y2="176" stroke="#51b5f2" stroke-width="2" stroke-dasharray="2 3"/>
+          <text x="425" y="138" text-anchor="middle" font-family="Syne" font-weight="700" font-size="8" letter-spacing="0.22em" fill="#51b5f2" transform="rotate(90 425 138)">OPEN · TAG EXITS</text>
+
+          <!-- Hang tag cord dangling from open side -->
+          <line x1="416" y1="138" x2="445" y2="195" stroke="#a6d9f8" stroke-width="1.4"/>
+          <rect x="430" y="195" width="22" height="32" fill="#fdf8ee" stroke="#0e1e56" stroke-width="0.8"/>
+          <rect x="430" y="195" width="22" height="4" fill="#0e1e56"/>
+          <text x="441" y="216" text-anchor="middle" font-family="Syne" font-weight="700" font-size="5" fill="#0e1e56">TAG</text>
+
+          <!-- Top open (collar exits) -->
+          <line x1="50" y1="92" x2="410" y2="92" stroke="#51b5f2" stroke-width="2" stroke-dasharray="2 3"/>
+          <text x="230" y="84" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="8" letter-spacing="0.26em" fill="#51b5f2">OPEN · COLLAR EXITS ↑</text>
+
+          <!-- Bottom open -->
+          <line x1="50" y1="184" x2="410" y2="184" stroke="#51b5f2" stroke-width="2" stroke-dasharray="2 3"/>
+          <text x="230" y="196" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="8" letter-spacing="0.26em" fill="#51b5f2">OPEN · HEM EXITS ↓</text>
+
+          <!-- Dimension: full width -->
+          <line x1="36" y1="248" x2="50" y2="248" stroke="#0e1e56" stroke-width="0.3"/>
+          <line x1="410" y1="248" x2="36" y2="248" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start-2)" marker-end="url(#arr-end-2)"/>
+          <text x="223" y="262" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" fill="#0e1e56">PERÍMETRO ENVUELTO · 590 mm</text>
+
+          <!-- Dimension: depth -->
+          <line x1="36" y1="100" x2="22" y2="100" stroke="#0e1e56" stroke-width="0.3"/>
+          <line x1="36" y1="176" x2="22" y2="176" stroke="#0e1e56" stroke-width="0.3"/>
+          <line x1="28" y1="100" x2="28" y2="176" stroke="#0e1e56" stroke-width="0.5" marker-start="url(#arr-start-2)" marker-end="url(#arr-end-2)"/>
+          <text x="18" y="142" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="9" fill="#0e1e56" transform="rotate(-90 18 142)">≈ 30 mm</text>
+          <text x="18" y="170" text-anchor="middle" font-family="DM Sans" font-weight="300" font-size="6.5" letter-spacing="0.06em" fill="#0e1e56" opacity="0.65" transform="rotate(-90 18 170)">profundidad · papel exagerado</text>
+
+          <!-- North arrow / orientation -->
+          <g transform="translate(420, 30)">
+            <circle cx="0" cy="0" r="14" fill="none" stroke="#0e1e56" stroke-width="0.6"/>
+            <line x1="0" y1="-14" x2="0" y2="14" stroke="#0e1e56" stroke-width="0.6"/>
+            <line x1="-14" y1="0" x2="14" y2="0" stroke="#0e1e56" stroke-width="0.6"/>
+            <text x="0" y="-18" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="7" letter-spacing="0.18em" fill="#0e1e56">FRONT</text>
+            <text x="0" y="26" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="7" letter-spacing="0.18em" fill="#0e1e56">BACK</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="specs">
+        <div class="group">
+          <span class="k">Sustrato</span>
+          <div class="v">Cartulina sin recubrimiento (uncoated) <b>cream natural 300 gsm</b>. Recomendado: Fedrigoni Materica Kraft, Arena Rough, o equivalente local. Espesor de calibre <code>≈ 360 μm</code>. Fibra a 90° del lado largo del flat.</div>
+        </div>
+        <div class="group">
+          <span class="k">Tintas</span>
+          <div class="v">
+            Tres tintas planas, sin negro de proceso:<br>
+            · Navy <code>#0e1e56</code> · Pantone 281 C (aprox)<br>
+            · Sky <code>#51b5f2</code> · Pantone 2925 C (aprox)<br>
+            · Sky-lt <code>#a6d9f8</code> · mezcla 30% sky + 70% blanco soporte.<br>
+            Sin barniz ni laminado. Sin foil en esta tirada (foil sky reservado para futuras iteraciones).
+          </div>
+        </div>
+        <div class="group">
+          <span class="k">Troqueles</span>
+          <div class="v">
+            · Ventana frente <b>80 × 40 mm</b> · esquinas R 2 mm · posición x=410, y=75 medido desde el borde superior izquierdo del flat.<br>
+            · Stub inferior reverso <b>280 × 40 mm</b> · perforación horizontal opcional · activar solo si la pieza viaja por delivery con etiqueta de envío adherida.
+          </div>
+        </div>
+        <div class="group">
+          <span class="k">Pliegues y perforaciones</span>
+          <div class="v">
+            · 2 ranuras de pliegue en seco (score) a x=280 y x=310. Profundidad 50% del calibre.<br>
+            · Perf primera apertura: paso 2 mm / hueco 0.5 mm. Vertical en FRENTE, 20 mm desde el pliegue spine→frente. Longitud 252 mm.<br>
+            · Perf stub: misma especificación, horizontal en REVERSO, 40 mm desde el borde inferior.
+          </div>
+        </div>
+        <div class="group">
+          <span class="k">Hilo del hang tag</span>
+          <div class="v">
+            Cordón trenzado de algodón <b>sky-lt</b> <code>#a6d9f8</code> · Ø 1.2 mm · longitud 90 mm · nudo simple en cada extremo. Atraviesa el hang tag y se ata al cuello de la prenda — no al sleeve. El sleeve no perfora ni se interrumpe por el hilo.
+          </div>
+        </div>
+        <div class="group">
+          <span class="k">Tolerancias</span>
+          <div class="v">
+            Registro de color <code>± 0.3 mm</code> · troquelado <code>± 0.5 mm</code> · corte exterior <code>± 0.3 mm</code> · pliegue <code>± 1 mm</code>. Bleed sangrado 5 mm en todo el perímetro. Safe area inset 8 mm.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PRODUCTION NOTES ============ -->
+    <div class="production-notes">
+      <span class="h">Notas de producción · pipeline</span>
+      <ol>
+        <li>Imprimir sobre la cara A (frente) del pliego cream 300gsm. Reverso (cara B) recibe la segunda corrida de las mismas tres tintas planas.</li>
+        <li>Aplicar troquel de ventana 80×40mm en la posición indicada — antes del pliegue para evitar deformación de la pieza.</li>
+        <li>Hender (score) las dos líneas de pliegue spine. No usar troquel pasante para los scores — solo score en seco que respete fibra.</li>
+        <li>Aplicar las dos perforaciones (PERF1 vertical en frente · PERF2 horizontal en reverso). La PERF2 solo se activa si la pieza viaja con etiqueta de envío adherida.</li>
+        <li>Cortar exterior y separar piezas. Apilar plano sin pre-plegar — el armado se hace en la fase de empaque.</li>
+        <li>Empaque manual: doblar el sleeve por los dos scores formando un wrap C, deslizar la prenda doblada desde el lado abierto, dejar el hang tag asomando con su cordón sky-lt visible.</li>
+        <li>Sin sello adhesivo de cierre — la sleeve se mantiene por fricción con la prenda y por el hang tag cruzando el lado abierto.</li>
+        <li>Inspección final: ventana alineada con el wordmark bordado, hang tag completo y legible, perforaciones intactas, sin huellas dactilares sobre las tintas planas.</li>
+      </ol>
+    </div>
+  </section>
+
+</body>
+</html>

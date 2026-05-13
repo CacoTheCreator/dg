@@ -199,6 +199,49 @@
     color: var(--sky-lt);
   }
 
+  /* Card de sistema: dos links, no envoltura <a> */
+  ul.gallery li.card-system {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 22px 24px;
+    border: 1px solid rgba(166,217,248,.18);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(81,181,242,.04), rgba(81,181,242,0) 60%);
+    min-height: 158px;
+    justify-content: space-between;
+    font-variant-emoji: text;
+  }
+
+  ul.gallery li.card-system .card-lede {
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: rgba(166,217,248,.78);
+  }
+
+  ul.gallery li.card-system a.chip,
+  ul.gallery li.card-system a.chip.alt {
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .15s, background .15s, border-color .15s, color .15s;
+  }
+
+  ul.gallery li.card-system a.chip:hover,
+  ul.gallery li.card-system a.chip:focus-visible {
+    transform: translateY(-1px);
+    background: var(--sky);
+    color: var(--navy);
+    outline: none;
+  }
+
+  ul.gallery li.card-system a.chip.alt:hover,
+  ul.gallery li.card-system a.chip.alt:focus-visible {
+    background: var(--sky-lt);
+    border-color: var(--sky);
+    color: var(--navy);
+  }
+
   footer.foot {
     margin-top: 56px;
     padding-top: 24px;
@@ -234,19 +277,17 @@
     <div class="section-label">Activo · Vol. 04</div>
 
     <ul class="gallery">
-      <li>
-        <a href="/previews/hang-tag-vol4">
-          <div class="top">
-            <span class="vol">VOL · 04 · APPAREL</span>
-            <span class="date">31·12·25</span>
-          </div>
-          <h2>Hang tag <em>línea café</em></h2>
-          <div class="tag-row">
-            <span class="chip">Hang tag</span>
-            <span class="chip alt">60 × 100 mm</span>
-            <span class="chip alt">Stodak</span>
-          </div>
-        </a>
+      <li class="card-system">
+        <div class="top">
+          <span class="vol">VOL · 04 · APPAREL · T01</span>
+          <span class="date">SISTEMA DE MERCH</span>
+        </div>
+        <h2>Packaging y hang tag <em>· Vol. 4 · T01</em></h2>
+        <p class="card-lede">Sistema de merch para la primera prenda de la línea Café. Sleeve cream con ventana troquelada que enmarca la prenda y hang tag editorial con perforación. Misma voz, dos piezas.</p>
+        <div class="tag-row">
+          <a class="chip" href="/previews/packaging-vol4/">Packaging sleeve →&#xFE0E;</a>
+          <a class="chip alt" href="/previews/hang-tag-vol4/">Hang tag →&#xFE0E;</a>
+        </div>
       </li>
 
       <li>
@@ -275,6 +316,21 @@
             <span class="chip">Interactivo</span>
             <span class="chip alt">Canvas drag</span>
             <span class="chip alt">1 acción · sin score</span>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/previews/kraneo-dg-007">
+          <div class="top">
+            <span class="vol">KRANEO · DG-007</span>
+            <span class="date">13·05·2026</span>
+          </div>
+          <h2>Banco Falabella <em>· gira universitaria mini</em></h2>
+          <div class="tag-row">
+            <span class="chip">Con código</span>
+            <span class="chip alt">5 sedes · 1.000 minis</span>
+            <span class="chip alt">Branding A / B</span>
           </div>
         </a>
       </li>
