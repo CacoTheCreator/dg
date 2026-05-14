@@ -607,11 +607,38 @@
       gap: 14px;
     }
   }
+
+  /* Back link al portal Kraneo */
+  .back-bar {
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(14, 30, 86, 0.18);
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sky);
+    text-decoration: none;
+    font-variant-emoji: text;
+    transition: color .15s, transform .15s;
+  }
+  .back-link:hover { color: var(--navy); transform: translateX(-2px); }
+  @media print { .back-bar { display: none; } }
 </style>
 </head>
 <body>
 
 <main class="page">
+
+  <nav class="back-bar" aria-label="Volver al portal Kraneo">
+    <a href="/kraneo/" class="back-link">←&#xFE0E; Volver al portal</a>
+  </nav>
 
   <header class="head">
     <div class="head__brand">
