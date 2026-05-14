@@ -151,13 +151,13 @@
     background: #b9d4a5;
     transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
     box-shadow:
-      inset 0 -22px 36px rgba(0, 0, 0, 0.28),
+      inset 0 -22px 36px rgba(14, 30, 86, 0.28),
       inset 0 12px 22px rgba(255, 255, 255, 0.08),
       0 0 0 1px rgba(166, 217, 248, 0.12);
   }
   .bean.is-burning {
     box-shadow:
-      inset 0 -22px 36px rgba(0, 0, 0, 0.4),
+      inset 0 -22px 36px rgba(14, 30, 86, 0.4),
       inset 0 0 30px rgba(255, 90, 60, 0.18),
       0 0 0 1px rgba(255, 120, 60, 0.32);
     transform: scale(0.985);
@@ -323,7 +323,7 @@
       <em class="italic">Próximamente.</em>
     </h1>
     <p class="intro__lead">
-      El grano se calienta. Vos decidís cuándo sacarlo. Un solo botón.
+      El grano se calienta. Tú decides cuándo sacarlo. Un solo botón.
       Sin reglas, sin podio. Solo el timing.
     </p>
   </section>
@@ -403,15 +403,15 @@
     // Veredicto según segundo en que sacaste
     function verdictFor(t) {
       if (t <  3) return ["Verde.", "El grano ni se enteró. Otra ronda."];
-      if (t <  7) return ["Amarillo.", "Todavía es harina, no café. Esperá."];
+      if (t <  7) return ["Amarillo.", "Todavía es harina, no café. Espera."];
       if (t < 11) return ["Dorado.", "Casi. Falta el primer crack."];
       if (t < 13) return ["Light roast.", "Cítrico. Sutil. Si te gusta delicado, es tu punto."];
       if (t < 15) return ["Cinnamon.", "Bordeando el dulzor. Floral, ácido."];
       if (t < 17) return ["City roast.", "El punto canónico de Daily Grind."];
-      if (t < 19) return ["Full city.", "Cuerpo, dulzor, equilibrio. La barra lo aprueba."];
+      if (t < 19) return ["Full city.", "Cuerpo y dulzor balanceados. La barra lo aprueba."];
       if (t < 21) return ["Vienna.", "Oscuro, intenso. Para los que cargan."];
       if (t < 24) return ["Italian.", "Casi quemado. Amargo, denso. Te late."];
-      return ["Quemado.", "El grano se rindió. Sacalo antes la próxima."];
+      return ["Quemado.", "El grano se rindió. Sácalo antes la próxima."];
     }
 
     var stage   = document.getElementById("stage");
