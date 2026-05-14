@@ -406,7 +406,11 @@
   (function () {
     "use strict";
 
-    var PIN = "0707";
+    // Dos audiencias entran al mismo mundo Kraneo:
+    //   0707 → Kraneo (productora, link compartido /kraneo)
+    //   1010 → socios internos (link desde /previews)
+    // Ambos códigos abren el mismo portal y propuestas.
+    var PINS = ["0707", "1010"];
     var STORAGE_KEY = "tdg.kraneo.unlocked";
 
     var gate = document.getElementById("gate");
@@ -440,7 +444,7 @@
     }
 
     function tryUnlock(value) {
-      if (value === PIN) {
+      if (PINS.indexOf(value) !== -1) {
         try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
         reveal();
         return true;
