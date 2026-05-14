@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Preview · K04 Tostado · The Daily Grind</title>
+<meta property="og:title" content="K04 Tostado — preview The Daily Grind">
+<meta property="og:description" content="Teaser del cuarto título de La Consola. Mirá el grano. Apretá cuando esté listo.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-laconsola.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="K04 Tostado — La Consola · The Daily Grind">
+<meta property="og:url" content="https://dailygrind.cl/previews/k04-tostado/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="K04 Tostado — preview The Daily Grind">
+<meta name="twitter:description" content="Teaser del cuarto título de La Consola. Solo para socios.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-laconsola.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--sky); color: var(--cream); }
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 32px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .label {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--navy);
+  }
+  .label--muted { color: rgba(14, 30, 86, 0.6); }
+  .label--sky   { color: var(--sky); }
+
+  .display {
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .display--md { font-size: 22px; }
+
+  .intro { max-width: 480px; }
+  .intro__eyebrow { margin-bottom: 12px; }
+  .intro__title {
+    font-size: 40px;
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .intro__lead {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 460px;
+  }
+  .intro em.italic { font-style: italic; font-weight: 300; }
+
+  /* Game */
+
+  .game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+  }
+
+  .game__head, .game__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    gap: 16px;
+  }
+
+  /* Roaster stage */
+
+  .stage {
+    position: relative;
+    width: min(420px, 86vw);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--navy);
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(166, 217, 248, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bean {
+    width: 56%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: #b9d4a5;
+    transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+    box-shadow:
+      inset 0 -22px 36px rgba(0, 0, 0, 0.28),
+      inset 0 12px 22px rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(166, 217, 248, 0.12);
+  }
+  .bean.is-burning {
+    box-shadow:
+      inset 0 -22px 36px rgba(0, 0, 0, 0.4),
+      inset 0 0 30px rgba(255, 90, 60, 0.18),
+      0 0 0 1px rgba(255, 120, 60, 0.32);
+    transform: scale(0.985);
+  }
+
+  .stage__phase {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 10px;
+    color: rgba(166, 217, 248, 0.7);
+  }
+
+  .stage__crack {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--body);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(166, 217, 248, 0.45);
+    opacity: 0;
+    transition: opacity 280ms ease;
+  }
+  .stage__crack.is-visible { opacity: 1; }
+
+  /* Verdict */
+
+  .verdict {
+    width: 100%;
+    max-width: 480px;
+    min-height: 64px;
+    text-align: center;
+  }
+  .verdict__head {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0;
+    color: var(--navy);
+  }
+  .verdict__head em {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+  .verdict__sub {
+    margin-top: 6px;
+    font-size: 13px;
+    color: rgba(14, 30, 86, 0.72);
+  }
+  .verdict.is-hidden { opacity: 0; }
+  .verdict { transition: opacity 200ms ease; }
+
+  /* Controls */
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .pull {
+    width: 100%;
+    max-width: 320px;
+    background: var(--navy);
+    color: var(--cream);
+    border: none;
+    border-radius: 4px;
+    padding: 18px 24px;
+    font-family: var(--display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 160ms ease, transform 120ms ease;
+  }
+  .pull:hover { background: var(--navy-2); }
+  .pull:active { transform: translateY(1px); }
+  .pull[disabled] {
+    background: rgba(14, 30, 86, 0.28);
+    cursor: default;
+  }
+
+  .reset {
+    background: none;
+    border: none;
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: rgba(14, 30, 86, 0.6);
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .reset:hover { color: var(--navy); }
+
+  .timer {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: rgba(14, 30, 86, 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Promise + foot */
+
+  .promise {
+    border-top: 1px solid rgba(14, 30, 86, 0.15);
+    padding-top: 18px;
+    margin-top: 8px;
+    max-width: 540px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .promise__eyebrow { margin-bottom: 6px; }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .intro__title { font-size: 32px; }
+    .verdict__head { font-size: 18px; }
+    .pull { font-size: 12px; padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <a href="/previews" class="label">← Previews</a>
+    <span class="label label--muted">第四巻 · K04</span>
+  </header>
+
+  <section class="intro">
+    <p class="label label--muted intro__eyebrow">La Consola · K04</p>
+    <h1 class="intro__title">
+      Tostado.<br>
+      <em class="italic">Próximamente.</em>
+    </h1>
+    <p class="intro__lead">
+      El grano se calienta. Vos decidís cuándo sacarlo. Un solo botón.
+      Sin reglas, sin podio. Solo el timing.
+    </p>
+  </section>
+
+  <section class="game">
+
+    <div class="game__head">
+      <div class="row" style="gap: 12px">
+        <span class="display display--md">K04</span>
+        <span class="label label--muted">·</span>
+        <span class="display display--md">TOSTADO</span>
+      </div>
+      <div class="row" style="gap: 12px">
+        <span class="label label--muted">焙煎</span>
+        <span class="label">VOL · 04</span>
+      </div>
+    </div>
+
+    <div class="stage" id="stage" aria-label="Tostadora · el grano se calienta">
+      <div class="stage__phase" id="phase">VERDE</div>
+      <div class="bean" id="bean"></div>
+      <div class="stage__crack" id="crack">first crack</div>
+    </div>
+
+    <div class="game__foot">
+      <span class="label label--muted">tiempo</span>
+      <span class="timer" id="timer">00.0s</span>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="pull" id="pull">SACAR LOTE</button>
+      <button type="button" class="reset" id="reset" hidden>Otro lote</button>
+    </div>
+
+    <div class="verdict is-hidden" id="verdict" aria-live="polite">
+      <p class="verdict__head" id="verdict-head"></p>
+      <p class="verdict__sub" id="verdict-sub"></p>
+    </div>
+
+  </section>
+
+  <section class="promise">
+    <p class="label label--sky promise__eyebrow">Lo que viene</p>
+    <p>
+      El K04 completo llega a <a href="/laconsola/" style="border-bottom: 1px solid rgba(14,30,86,0.3);">La Consola</a>
+      con curvas de tostado por origen, tres ventanas ideales (city, full city, vienna)
+      y entrada al podio si sacaste el lote justo cuando suena el primer crack.
+      Esto es un primer encendido.
+    </p>
+  </section>
+
+  <footer class="row foot">
+    <span class="label label--muted">Para socios · noindex · vibecoded en el lab · MMXXVI</span>
+    <a href="/previews" class="label label--muted">← Previews</a>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    // Cada fase: [umbral en segundos, label, color de grano, mostrar crack?]
+    var PHASES = [
+      { until:  3,  label: "VERDE",       color: "#b9d4a5" },
+      { until:  7,  label: "AMARILLO",    color: "#d6c884" },
+      { until: 11,  label: "DORADO",      color: "#c8a266" },
+      { until: 13,  label: "LIGHT",       color: "#a87a4e", crack: "first crack" },
+      { until: 15,  label: "CINNAMON",    color: "#8a5a3a" },
+      { until: 17,  label: "CITY",        color: "#6c4128" },
+      { until: 19,  label: "FULL CITY",   color: "#522f1c" },
+      { until: 21,  label: "VIENNA",      color: "#3a1f14", crack: "second crack" },
+      { until: 24,  label: "ITALIAN",     color: "#23120c" },
+      { until: 99,  label: "QUEMADO",     color: "#0d0604", burning: true }
+    ];
+
+    // Veredicto según segundo en que sacaste
+    function verdictFor(t) {
+      if (t <  3) return ["Verde.", "El grano ni se enteró. Otra ronda."];
+      if (t <  7) return ["Amarillo.", "Todavía es harina, no café. Esperá."];
+      if (t < 11) return ["Dorado.", "Casi. Falta el primer crack."];
+      if (t < 13) return ["Light roast.", "Cítrico. Sutil. Si te gusta delicado, es tu punto."];
+      if (t < 15) return ["Cinnamon.", "Bordeando el dulzor. Floral, ácido."];
+      if (t < 17) return ["City roast.", "El punto canónico de Daily Grind."];
+      if (t < 19) return ["Full city.", "Cuerpo, dulzor, equilibrio. La barra lo aprueba."];
+      if (t < 21) return ["Vienna.", "Oscuro, intenso. Para los que cargan."];
+      if (t < 24) return ["Italian.", "Casi quemado. Amargo, denso. Te late."];
+      return ["Quemado.", "El grano se rindió. Sacalo antes la próxima."];
+    }
+
+    var stage   = document.getElementById("stage");
+    var bean    = document.getElementById("bean");
+    var phase   = document.getElementById("phase");
+    var crack   = document.getElementById("crack");
+    var timerEl = document.getElementById("timer");
+    var pullBtn = document.getElementById("pull");
+    var resetBtn = document.getElementById("reset");
+    var verdict = document.getElementById("verdict");
+    var vHead   = document.getElementById("verdict-head");
+    var vSub    = document.getElementById("verdict-sub");
+
+    var startedAt = 0;
+    var rafId = 0;
+    var running = false;
+    var lastCrack = "";
+
+    function fmt(t) {
+      return (t).toFixed(1) + "s";
+    }
+
+    function applyPhase(t) {
+      var i, p;
+      for (i = 0; i < PHASES.length; i += 1) {
+        p = PHASES[i];
+        if (t < p.until) {
+          phase.textContent = p.label;
+          bean.style.background = p.color;
+          bean.classList.toggle("is-burning", !!p.burning);
+          if (p.crack && p.crack !== lastCrack) {
+            crack.textContent = p.crack;
+            crack.classList.add("is-visible");
+            lastCrack = p.crack;
+            setTimeout(function () { crack.classList.remove("is-visible"); }, 1600);
+          }
+          return;
+        }
+      }
+    }
+
+    function tick() {
+      var t = (performance.now() - startedAt) / 1000;
+      timerEl.textContent = fmt(t);
+      applyPhase(t);
+      if (running) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    function start() {
+      startedAt = performance.now();
+      running = true;
+      lastCrack = "";
+      crack.classList.remove("is-visible");
+      verdict.classList.add("is-hidden");
+      pullBtn.disabled = false;
+      pullBtn.textContent = "SACAR LOTE";
+      resetBtn.hidden = true;
+      timerEl.textContent = "00.0s";
+      applyPhase(0);
+      tick();
+    }
+
+    function stop() {
+      if (!running) return;
+      running = false;
+      cancelAnimationFrame(rafId);
+      var t = (performance.now() - startedAt) / 1000;
+      timerEl.textContent = fmt(t);
+      applyPhase(t);
+      var v = verdictFor(t);
+      vHead.textContent = v[0];
+      vSub.textContent  = v[1];
+      verdict.classList.remove("is-hidden");
+      pullBtn.disabled = true;
+      pullBtn.textContent = "LOTE SACADO";
+      resetBtn.hidden = false;
+    }
+
+    pullBtn.addEventListener("click", stop);
+    resetBtn.addEventListener("click", start);
+
+    // Espacio = sacar
+    window.addEventListener("keydown", function (e) {
+      if (e.code === "Space" && running) {
+        e.preventDefault();
+        stop();
+      } else if (e.code === "KeyR" && !running) {
+        start();
+      }
+    });
+
+    start();
+  })();
+</script>
+
+</body>
+</html>

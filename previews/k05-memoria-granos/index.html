@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Preview · K05 Memoria de Granos · The Daily Grind</title>
+<meta property="og:title" content="K05 Memoria de Granos — preview The Daily Grind">
+<meta property="og:description" content="Teaser del quinto título de La Consola. Voltea pares. Encontrá las ocho variedades.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-laconsola.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="K05 Memoria de Granos — La Consola · The Daily Grind">
+<meta property="og:url" content="https://dailygrind.cl/previews/k05-memoria-granos/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="K05 Memoria de Granos — preview The Daily Grind">
+<meta name="twitter:description" content="Teaser del quinto título de La Consola. Solo para socios.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-laconsola.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--sky); color: var(--cream); }
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 32px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .label {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--navy);
+  }
+  .label--muted { color: rgba(14, 30, 86, 0.6); }
+  .label--sky   { color: var(--sky); }
+
+  .display {
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .display--md { font-size: 22px; }
+
+  .intro { max-width: 480px; }
+  .intro__eyebrow { margin-bottom: 12px; }
+  .intro__title {
+    font-size: 40px;
+    font-family: var(--display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .intro__lead {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 460px;
+  }
+  .intro em.italic { font-style: italic; font-weight: 300; }
+
+  /* Game */
+
+  .game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+  }
+
+  .game__head, .game__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    gap: 16px;
+  }
+
+  .meta {
+    display: flex;
+    gap: 26px;
+    align-items: baseline;
+  }
+  .meta__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta__stat strong {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+  }
+  .meta__stat span {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(14, 30, 86, 0.55);
+  }
+
+  /* Board */
+
+  .board {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    position: relative;
+    perspective: 800px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .card.is-flipped .card__inner,
+  .card.is-found .card__inner {
+    transform: rotateY(180deg);
+  }
+
+  .card__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .card__face--back {
+    background: var(--navy);
+    color: var(--sky-lt);
+    border: 1px solid rgba(14, 30, 86, 0.16);
+  }
+  .card__face--back::before {
+    content: "■";
+    font-size: 14px;
+    color: rgba(166, 217, 248, 0.45);
+  }
+
+  .card__face--front {
+    background: var(--cream);
+    color: var(--navy);
+    border: 1px solid var(--sky);
+    transform: rotateY(180deg);
+    gap: 4px;
+  }
+  .card.is-found .card__face--front {
+    background: rgba(81, 181, 242, 0.12);
+    border-color: rgba(81, 181, 242, 0.5);
+  }
+
+  .card__name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .card__region {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(14, 30, 86, 0.62);
+  }
+
+  .card[disabled] { cursor: default; }
+
+  /* Verdict */
+
+  .verdict {
+    width: 100%;
+    max-width: 480px;
+    min-height: 64px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .verdict.is-visible { opacity: 1; }
+  .verdict__head {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0;
+    color: var(--navy);
+  }
+  .verdict__head em {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+  .verdict__sub {
+    margin-top: 6px;
+    font-size: 13px;
+    color: rgba(14, 30, 86, 0.72);
+  }
+
+  /* Controls */
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .reset {
+    background: none;
+    border: 1px solid rgba(14, 30, 86, 0.2);
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--navy);
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 3px;
+    transition: border-color 160ms ease, background 160ms ease;
+  }
+  .reset:hover {
+    border-color: var(--navy);
+    background: rgba(14, 30, 86, 0.04);
+  }
+
+  /* Promise + foot */
+
+  .promise {
+    border-top: 1px solid rgba(14, 30, 86, 0.15);
+    padding-top: 18px;
+    margin-top: 8px;
+    max-width: 540px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .promise__eyebrow { margin-bottom: 6px; }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .intro__title { font-size: 32px; }
+    .verdict__head { font-size: 18px; }
+    .card__name { font-size: 11px; }
+    .card__region { font-size: 8px; }
+    .board { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="row">
+    <a href="/previews" class="label">← Previews</a>
+    <span class="label label--muted">第四巻 · K05</span>
+  </header>
+
+  <section class="intro">
+    <p class="label label--muted intro__eyebrow">La Consola · K05</p>
+    <h1 class="intro__title">
+      Memoria de Granos.<br>
+      <em class="italic">Próximamente.</em>
+    </h1>
+    <p class="intro__lead">
+      Voltéa pares. Encontrá las ocho variedades. Un ejercicio de barra
+      entre pedido y entrega.
+    </p>
+  </section>
+
+  <section class="game">
+
+    <div class="game__head">
+      <div class="row" style="gap: 12px">
+        <span class="display display--md">K05</span>
+        <span class="label label--muted">·</span>
+        <span class="display display--md">MEMORIA</span>
+      </div>
+      <div class="row" style="gap: 12px">
+        <span class="label label--muted">記憶</span>
+        <span class="label">VOL · 04</span>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div class="meta__stat">
+        <strong id="moves">0</strong>
+        <span>intentos</span>
+      </div>
+      <div class="meta__stat">
+        <strong id="time">00:00</strong>
+        <span>tiempo</span>
+      </div>
+      <div class="meta__stat">
+        <strong id="found">0/8</strong>
+        <span>pares</span>
+      </div>
+    </div>
+
+    <div class="board" id="board" aria-label="Tablero de memoria"></div>
+
+    <div class="verdict" id="verdict" aria-live="polite">
+      <p class="verdict__head" id="verdict-head"></p>
+      <p class="verdict__sub" id="verdict-sub"></p>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="reset" id="reset">Nueva ronda</button>
+    </div>
+
+  </section>
+
+  <section class="promise">
+    <p class="label label--sky promise__eyebrow">Lo que viene</p>
+    <p>
+      El K05 completo llega a <a href="/laconsola/" style="border-bottom: 1px solid rgba(14,30,86,0.3);">La Consola</a>
+      con catálogo expandido por origen, dificultades (6, 8, 12 pares),
+      mejor intento del mes en el podio y reverso ilustrado por variedad.
+      Esto es la primera baraja.
+    </p>
+  </section>
+
+  <footer class="row foot">
+    <span class="label label--muted">Para socios · noindex · vibecoded en el lab · MMXXVI</span>
+    <a href="/previews" class="label label--muted">← Previews</a>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    var VARIETIES = [
+      { name: "Yirgacheffe", region: "Etiopía" },
+      { name: "Sidamo",      region: "Etiopía" },
+      { name: "Huila",       region: "Colombia" },
+      { name: "Santos",      region: "Brasil" },
+      { name: "Geisha",      region: "Panamá" },
+      { name: "Antigua",     region: "Guatemala" },
+      { name: "Kenya AA",    region: "Kenia" },
+      { name: "Mandheling",  region: "Indonesia" }
+    ];
+
+    var BEST_KEY = "previews.k05.memoria-granos.best";
+
+    var board    = document.getElementById("board");
+    var movesEl  = document.getElementById("moves");
+    var timeEl   = document.getElementById("time");
+    var foundEl  = document.getElementById("found");
+    var verdict  = document.getElementById("verdict");
+    var vHead    = document.getElementById("verdict-head");
+    var vSub     = document.getElementById("verdict-sub");
+    var resetBtn = document.getElementById("reset");
+
+    var cards = [];
+    var flipped = [];
+    var moves = 0;
+    var foundPairs = 0;
+    var lockBoard = false;
+    var startedAt = 0;
+    var timerId = 0;
+    var hasStarted = false;
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i -= 1) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+      }
+      return a;
+    }
+
+    function fmtTime(ms) {
+      var s = Math.floor(ms / 1000);
+      var mm = Math.floor(s / 60);
+      var ss = s % 60;
+      return (mm < 10 ? "0" + mm : mm) + ":" + (ss < 10 ? "0" + ss : ss);
+    }
+
+    function startTimer() {
+      startedAt = performance.now();
+      hasStarted = true;
+      timerId = setInterval(function () {
+        timeEl.textContent = fmtTime(performance.now() - startedAt);
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = 0;
+      }
+    }
+
+    function build() {
+      board.innerHTML = "";
+      cards = [];
+      flipped = [];
+      moves = 0;
+      foundPairs = 0;
+      lockBoard = false;
+      hasStarted = false;
+      stopTimer();
+      timeEl.textContent = "00:00";
+      movesEl.textContent = "0";
+      foundEl.textContent = "0/8";
+      verdict.classList.remove("is-visible");
+
+      var deck = shuffle(VARIETIES.concat(VARIETIES));
+      deck.forEach(function (v, idx) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "card";
+        btn.setAttribute("data-name", v.name);
+        btn.setAttribute("data-idx", String(idx));
+        btn.setAttribute("aria-label", "Carta " + (idx + 1));
+
+        var inner = document.createElement("div");
+        inner.className = "card__inner";
+
+        var back = document.createElement("div");
+        back.className = "card__face card__face--back";
+
+        var front = document.createElement("div");
+        front.className = "card__face card__face--front";
+        var name = document.createElement("span");
+        name.className = "card__name";
+        name.textContent = v.name;
+        var region = document.createElement("span");
+        region.className = "card__region";
+        region.textContent = v.region;
+        front.appendChild(name);
+        front.appendChild(region);
+
+        inner.appendChild(back);
+        inner.appendChild(front);
+        btn.appendChild(inner);
+
+        btn.addEventListener("click", function () { onFlip(btn); });
+        board.appendChild(btn);
+        cards.push(btn);
+      });
+    }
+
+    function onFlip(card) {
+      if (lockBoard) return;
+      if (card.classList.contains("is-flipped")) return;
+      if (card.classList.contains("is-found")) return;
+
+      if (!hasStarted) startTimer();
+
+      card.classList.add("is-flipped");
+      flipped.push(card);
+
+      if (flipped.length === 2) {
+        moves += 1;
+        movesEl.textContent = String(moves);
+        evaluate();
+      }
+    }
+
+    function evaluate() {
+      var a = flipped[0];
+      var b = flipped[1];
+      if (a.getAttribute("data-name") === b.getAttribute("data-name")) {
+        a.classList.add("is-found");
+        b.classList.add("is-found");
+        a.setAttribute("disabled", "");
+        b.setAttribute("disabled", "");
+        flipped = [];
+        foundPairs += 1;
+        foundEl.textContent = foundPairs + "/8";
+        if (foundPairs === VARIETIES.length) {
+          win();
+        }
+      } else {
+        lockBoard = true;
+        setTimeout(function () {
+          a.classList.remove("is-flipped");
+          b.classList.remove("is-flipped");
+          flipped = [];
+          lockBoard = false;
+        }, 800);
+      }
+    }
+
+    function win() {
+      stopTimer();
+      var elapsed = performance.now() - startedAt;
+      var best = readBest();
+      var isRecord = !best || moves < best.moves || (moves === best.moves && elapsed < best.elapsed);
+      if (isRecord) {
+        writeBest({ moves: moves, elapsed: elapsed });
+        vHead.innerHTML = "Completaste. <em>Récord personal.</em>";
+      } else {
+        vHead.textContent = "Completaste.";
+      }
+      vSub.textContent = moves + " intentos · " + fmtTime(elapsed) +
+        (best && !isRecord ? " · mejor: " + best.moves + " · " + fmtTime(best.elapsed) : "");
+      verdict.classList.add("is-visible");
+    }
+
+    function readBest() {
+      try {
+        var raw = localStorage.getItem(BEST_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (_) { return null; }
+    }
+    function writeBest(b) {
+      try { localStorage.setItem(BEST_KEY, JSON.stringify(b)); } catch (_) {}
+    }
+
+    resetBtn.addEventListener("click", build);
+
+    build();
+  })();
+</script>
+
+</body>
+</html>
