@@ -166,6 +166,24 @@ npx wrangler d1 execute publisher --remote --file=migrations/NNNN_xxx.sql
 echo -n "nuevo-pin" | npx wrangler secret put PUBLISHER_PIN
 ```
 
+### Backup operacional (D1 + R2)
+
+Script único, read-only, fuera del repo: `scripts/backup.sh`.
+
+```bash
+scripts/backup.sh                  # full: dump D1 + sync R2
+scripts/backup.sh --d1-only        # solo dump SQL del D1
+scripts/backup.sh --r2-only        # solo sync R2 → mirror local
+scripts/backup.sh --prune-days 60  # borra carpetas YYYY-MM-DD anteriores a 60d
+```
+
+- **Destino:** `$DG_BACKUPS_ROOT` (default `~/dailygrind-backups/`). Nunca dentro del repo (gitignored como defensa).
+- **R2 listing:** se hace consultando la tabla `assets` del propio Publisher en D1, porque ni `wrangler` 3.x ni 4.x exponen `r2 object list`. La tabla `assets` es la fuente de verdad: cada upload se registra ahí con su key R2.
+- **R2 mirror:** acumulativo (no borra objetos antiguos). Solo descarga keys nuevas. El mirror puede contener assets ya borrados de R2 — esto es intencional para audit forense.
+- **Cadencia recomendada:** full diario (launchd), `--d1-only` antes de cualquier `wrangler deploy` que toque el Publisher, `--prune-days 60` mensual.
+- **Líneas rojas:** jamás borrar bucket `dg-media`, jamás `TRUNCATE`/`DROP` en D1, jamás editar migrations existentes (siempre nueva file aditiva), jamás quitar el cron `* * * * *` del `wrangler.toml`, jamás linkear `/publisher/` desde el sitio público, jamás commitear `.env` ni dumps SQL.
+- **Escalar a Juan si:** backup falla 2 veces seguidas, R2 mirror aparece con menos objetos que el último listing, o `wrangler d1 migrations list publisher` no muestra una migration recién aplicada.
+
 ### Memoria asociada
 
 Si trabajás con memoria, ver: `project_daily_grind_publisher` (vínculo principal), `project_dailygrindcl_stack`, `project_dailygrindcl_real_repo`.

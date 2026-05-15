@@ -16,3 +16,10 @@ package-lock.json
 # Audit / render artifacts (regenerables)
 og-templates/mobile-shots/
 og-templates/mobile-shots-kraneo/
+
+# Defensa: backups operacionales NUNCA viven dentro del repo
+# (destino canónico: ~/dailygrind-backups, fuera del repo)
+dailygrind-backups/
+*-backups/
+*.sql.gz
+backup-dumps/
