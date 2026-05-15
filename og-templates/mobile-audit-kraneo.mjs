@@ -12,7 +12,8 @@ const iphone = devices["iPhone 13"];
 const targets = [
   { url: "https://dailygrind.cl/kraneo/",                  name: "01-kraneo-gate",         unlock: false },
   { url: "https://dailygrind.cl/kraneo/",                  name: "02-kraneo-portal",       unlock: true  },
-  { url: "https://dailygrind.cl/kraneo/dg-007/",           name: "03-dg-007-propuesta",    unlock: false },
+  { url: "https://dailygrind.cl/kraneo/dg-007/",           name: "03-dg-007-propuesta",    unlock: true  },
+  { url: "https://dailygrind.cl/kraneo/dg-006/",           name: "08-dg-006-wrapper",      unlock: true  },
   { url: "https://dailygrind.cl/previews/",                name: "04-previews-gallery",    unlock: false },
   { url: "https://dailygrind.cl/previews/packaging-vol4/", name: "05-packaging-sleeve",    unlock: false },
   { url: "https://dailygrind.cl/previews/hang-tag-vol4/",  name: "06-hang-tag",            unlock: false },

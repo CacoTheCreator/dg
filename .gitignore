@@ -9,3 +9,10 @@ CONTEXT_THE_DAILY_GRIND.md
 .claude/
 node_modules
 package-lock.json
+
+# Wrangler local cache
+.wrangler/
+
+# Audit / render artifacts (regenerables)
+og-templates/mobile-shots/
+og-templates/mobile-shots-kraneo/
