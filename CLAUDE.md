@@ -93,3 +93,79 @@ Todas las páginas servidas al público bajo `/previews/*` deben incluir `<meta 
 - **Deploy mechanism:** solo `npx wrangler deploy` desde este repo. Ningún `wrangler pages deploy` ni nada que toque Cloudflare Pages.
 - Si vas a agregar una página o asset, recuerda chequear `.assetsignore` por si está bloqueado.
 - Cero emojis decorativos (`✓`, `❤`, etc.) en el copy editorial. Marcadores brand: `■`, `→`, `↗`, `·`.
+
+---
+
+## Publisher interno — `/publisher/`
+
+Este repo además del sitio público hospeda un **panel privado de publicación a Facebook Page e Instagram Business**, vivo en `https://dailygrind.cl/publisher/`. Está montado sobre el mismo Worker `dg`. **No es público ni para clientes** — es herramienta interna del equipo Daily Grind.
+
+### Topología
+
+| Pieza | Ubicación |
+|---|---|
+| Frontend SPA | `publisher/index.html` (HTML+CSS+JS vanilla, estética Vol. 04, PIN gate, drag-drop, calendario, historial) |
+| Routes API | `src/worker.js` bloque `/publisher/api/*` (auth, queue CRUD, upload, whoami, history) |
+| Media proxy | `src/worker.js` bloque `/publisher/media/*` (R2 → HTTP, cache 1 año, X-Robots-Tag noindex) |
+| Cron scheduler | `src/worker.js` export `scheduled()` (corre cada minuto via Cron Trigger del Worker) |
+| Migrations | `migrations/0001_init.sql`, `0002_add_story.sql`, … (rebuild de tablas para CHECK constraints) |
+| Schema D1 | tablas `queue`, `history`, `sessions`, `assets` |
+| Storage R2 | bucket `dg-media`, sirve por `/publisher/media/{uuid}.{ext}` |
+| Setup runbook | `SETUP.md` (one-time CF setup, secrets, deploy) |
+
+### Bindings (en `wrangler.toml`)
+
+- `[[d1_databases]] binding = "DB"` → database `publisher` (id `7347c39b-a3cc-4b90-97db-4acd57540c4b`)
+- `[[r2_buckets]] binding = "MEDIA"` → bucket `dg-media`
+- `[triggers] crons = ["* * * * *"]` → ejecuta `scheduled()` cada minuto
+
+### Secrets (set via `npx wrangler secret put NAME`)
+
+`APP_ID, APP_SECRET, LONG_USER_TOKEN, PAGE_ACCESS_TOKEN, PAGE_ID, IG_USER_ID, PUBLISHER_PIN`.
+
+Los tokens vienen del flujo del local publisher en `~/Documents/agency/output/daily-grind/social-media-dept/publisher/` (folder archivada, ahí vive `bootstrap_tokens.py` para renovar).
+
+### Reglas del Publisher
+
+1. **No linkear desde páginas públicas.** El sidebar, footer e index.html del sitio público no deben mencionar `/publisher/`. Acceso solo por URL directa + PIN.
+2. **PIN gate vía secret `PUBLISHER_PIN`.** Cookie `dg-publisher-session` Path=/publisher HttpOnly Secure 30 días.
+3. **noindex obligado.** Tanto `publisher/index.html` (`<meta name="robots" content="noindex,nofollow">`) como `/publisher/media/*` (`X-Robots-Tag: noindex, nofollow`).
+4. **Migrations son aditivas y reversibles.** Cada cambio de schema = nueva file `migrations/NNNN_*.sql` aplicada con `npx wrangler d1 execute publisher --remote --file=...`. Nunca editar las existentes.
+5. **El Cron es la única vía de publicación.** No publicar desde el handler de `fetch` (riesgo de doble-post si el usuario clickea dos veces).
+6. **Rate limit IG 25/24h respetado** dentro de `processQueue` (cuenta history). No alterar.
+7. **Reintentos**: 3 attempts con backoff 5min × attempts para errores reales. Backoff 1 min para `pending: ...` (Meta aún procesando).
+8. **`/publisher/media/*` no requiere auth** porque Meta debe poder fetchear los assets para publicar. Los nombres son UUIDs — discovery por fuerza bruta es inviable.
+9. **Token renewal cada ~55 días.** El `LONG_USER_TOKEN` dura 60 días. Cuando vence, también muere el `PAGE_ACCESS_TOKEN`. Renovar con `bootstrap_tokens.py` local y reupload con `wrangler secret put`.
+10. **Si agregás un kind nuevo** (ej. fb-reel, fb-story): hay que (a) extender `ALLOWED` en worker, (b) agregar handler `xxYy(env, params)`, (c) extender CHECK constraint via migration, (d) agregar card y KIND_FIELDS al frontend, (e) extender buildPayloads.
+
+### Reglas que NO aplican al Publisher (excepciones al resto del repo)
+
+- Las rutas `/publisher/*` SÍ son served por el Worker con lógica (no por `env.ASSETS.fetch`). El handler intercepta antes de caer a assets.
+- `migrations/` y `SETUP.md` están excluidos en `.assetsignore` para no exponer SQL ni runbook.
+- El Publisher tiene su propio look interno (más dashboard que editorial), pero hereda paleta + fuentes + voz castellano chileno.
+
+### Comandos comunes
+
+```bash
+# Deploy (publica worker + sitio + publisher de una vez)
+npx wrangler deploy
+
+# Ver logs en vivo del Worker (cron + requests)
+npx wrangler tail
+
+# Estado de la cola
+npx wrangler d1 execute publisher --remote --command="SELECT id, platform, kind, status, scheduled_at FROM queue;"
+
+# Estado del historial
+npx wrangler d1 execute publisher --remote --command="SELECT platform, kind, status, finalized_at, permalink, substr(error,1,80) as err FROM history ORDER BY finalized_at DESC LIMIT 20;"
+
+# Aplicar nueva migration
+npx wrangler d1 execute publisher --remote --file=migrations/NNNN_xxx.sql
+
+# Rotar PIN
+echo -n "nuevo-pin" | npx wrangler secret put PUBLISHER_PIN
+```
+
+### Memoria asociada
+
+Si trabajás con memoria, ver: `project_daily_grind_publisher` (vínculo principal), `project_dailygrindcl_stack`, `project_dailygrindcl_real_repo`.

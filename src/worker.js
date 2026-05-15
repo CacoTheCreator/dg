@@ -1,18 +1,19 @@
-// dg — Cloudflare Worker que sirve dailygrind.cl como sitio estático.
+// dg — Cloudflare Worker que sirve dailygrind.cl como sitio estático
+// + Publisher (FB Page + IG Business via Graph API, cola en D1, media en R2).
+//
 // Source canónico bajo control editorial; redeploy con `npx wrangler deploy`.
-// Las rutas /laconsola/* son manejadas por el Worker dailygrind-laconsola
-// porque son más específicas — Cloudflare hace match más-específico primero.
+
+const GRAPH = (env) => `https://graph.facebook.com/${env.META_GRAPH_VERSION || "v23.0"}`;
 
 export default {
   /**
    * @param {Request} request
-   * @param {{ ASSETS: { fetch: (req: Request) => Promise<Response> } }} env
+   * @param {Env} env
    */
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Compatibilidad: el mundo Kraneo se mudó de /previews/kraneo-dg-XXX
-    // a /kraneo/dg-XXX. Redirigimos links viejos ya compartidos.
+    // Compat: links viejos /previews/kraneo-dg-XXX → /kraneo/dg-XXX
     const krMatch = url.pathname.match(/^\/previews\/kraneo-dg-(\d{3})(\/.*)?$/);
     if (krMatch) {
       const slug = krMatch[1];
@@ -24,6 +25,632 @@ export default {
       return Response.redirect(target.toString(), 301);
     }
 
+    // Publisher API
+    if (url.pathname.startsWith("/publisher/api/")) {
+      return handleApi(request, env, ctx);
+    }
+    // Media proxy (R2)
+    if (url.pathname.startsWith("/publisher/media/")) {
+      return handleMedia(request, env);
+    }
+
     return env.ASSETS.fetch(request);
   },
+
+  /**
+   * Cron Trigger: corre cada minuto, procesa items debidos en la cola.
+   * @param {ScheduledEvent} event
+   * @param {Env} env
+   */
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(processQueue(env));
+  },
 };
+
+// ============================================================================
+// API router
+// ============================================================================
+
+async function handleApi(request, env, ctx) {
+  const url = new URL(request.url);
+  const path = url.pathname.replace(/^\/publisher\/api/, "");
+
+  try {
+    // Público: auth
+    if (path === "/auth" && request.method === "POST") return apiAuth(request, env);
+
+    // Protegidos
+    const session = await getSession(request, env);
+    if (!session) return json({ error: "unauthorized" }, 401);
+
+    if (path === "/me" && request.method === "GET") return json({ ok: true, expires_at: session.expires_at });
+    if (path === "/logout" && request.method === "POST") return apiLogout(request, env, session);
+
+    if (path === "/queue" && request.method === "GET") return apiQueueList(env);
+    if (path === "/queue" && request.method === "POST") return apiQueueAdd(request, env);
+    if (path === "/history" && request.method === "GET") return apiHistory(request, env);
+    if (path === "/upload" && request.method === "POST") return apiUpload(request, env);
+    if (path === "/whoami" && request.method === "GET") return apiWhoami(env);
+
+    const idMatch = path.match(/^\/queue\/([a-z0-9-]+)(\/publish-now)?$/);
+    if (idMatch) {
+      const id = idMatch[1];
+      const publishNow = !!idMatch[2];
+      if (publishNow && request.method === "POST") return apiQueuePublishNow(env, id);
+      if (request.method === "DELETE") return apiQueueCancel(env, id);
+      if (request.method === "PATCH") return apiQueueReschedule(request, env, id);
+    }
+
+    const statsMatch = path.match(/^\/history\/([a-z0-9-]+)\/stats$/);
+    if (statsMatch) {
+      const id = statsMatch[1];
+      const refresh = url.searchParams.get("refresh") === "true";
+      if (request.method === "GET") return apiHistoryStats(env, id, refresh);
+    }
+
+    return json({ error: "not_found" }, 404);
+  } catch (e) {
+    return json({ error: e.message, stack: e.stack }, 500);
+  }
+}
+
+// ============================================================================
+// Auth
+// ============================================================================
+
+async function apiAuth(request, env) {
+  const { pin } = await request.json().catch(() => ({}));
+  if (!pin || !env.PUBLISHER_PIN) return json({ error: "missing" }, 400);
+  if (pin !== env.PUBLISHER_PIN) {
+    await sleep(800 + Math.random() * 400); // small constant delay
+    return json({ error: "wrong_pin" }, 401);
+  }
+  const token = crypto.randomUUID() + "-" + crypto.randomUUID();
+  const ttlDays = parseInt(env.SESSION_TTL_DAYS || "30", 10);
+  const now = new Date();
+  const expires = new Date(now.getTime() + ttlDays * 86400_000);
+  await env.DB.prepare("INSERT INTO sessions (token, created_at, expires_at) VALUES (?, ?, ?)")
+    .bind(token, now.toISOString(), expires.toISOString()).run();
+  return new Response(JSON.stringify({ ok: true, expires_at: expires.toISOString() }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Set-Cookie": `dg-publisher-session=${token}; Path=/publisher; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttlDays * 86400}`,
+    },
+  });
+}
+
+async function apiLogout(request, env, session) {
+  await env.DB.prepare("DELETE FROM sessions WHERE token = ?").bind(session.token).run();
+  return new Response(JSON.stringify({ ok: true }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Set-Cookie": `dg-publisher-session=deleted; Path=/publisher; HttpOnly; Secure; SameSite=Lax; Max-Age=0`,
+    },
+  });
+}
+
+async function getSession(request, env) {
+  const cookie = request.headers.get("Cookie") || "";
+  const m = cookie.match(/dg-publisher-session=([^;]+)/);
+  if (!m) return null;
+  const token = m[1];
+  const row = await env.DB.prepare(
+    "SELECT token, created_at, expires_at, label FROM sessions WHERE token = ? AND expires_at > ?"
+  ).bind(token, new Date().toISOString()).first();
+  return row || null;
+}
+
+// ============================================================================
+// Queue API
+// ============================================================================
+
+const ALLOWED = {
+  fb: ["text", "link", "photo"],
+  ig: ["photo", "reel", "carousel", "story"],
+};
+
+async function apiQueueList(env) {
+  const { results } = await env.DB.prepare(
+    "SELECT id, platform, kind, params, scheduled_at, status, attempts, last_error, created_at FROM queue ORDER BY scheduled_at ASC"
+  ).all();
+  return json({ items: results.map(decodeItem) });
+}
+
+async function apiQueueAdd(request, env) {
+  const body = await request.json().catch(() => ({}));
+  const { platform, kind, params, scheduled_at } = body;
+  if (!ALLOWED[platform] || !ALLOWED[platform].includes(kind)) {
+    return json({ error: "platform_kind_invalido" }, 400);
+  }
+  if (!scheduled_at || isNaN(Date.parse(scheduled_at))) {
+    return json({ error: "scheduled_at_invalido" }, 400);
+  }
+  validateParams(platform, kind, params || {});
+
+  const id = crypto.randomUUID().slice(0, 8);
+  const whenUtc = new Date(scheduled_at).toISOString();
+  await env.DB.prepare(
+    "INSERT INTO queue (id, platform, kind, params, scheduled_at, status, attempts, created_at) VALUES (?,?,?,?,?,'pending',0,?)"
+  ).bind(id, platform, kind, JSON.stringify(params), whenUtc, new Date().toISOString()).run();
+  return json({ ok: true, id });
+}
+
+async function apiQueueCancel(env, id) {
+  await env.DB.prepare("DELETE FROM queue WHERE id = ?").bind(id).run();
+  return json({ ok: true });
+}
+
+async function apiQueueReschedule(request, env, id) {
+  const { scheduled_at } = await request.json().catch(() => ({}));
+  if (!scheduled_at || isNaN(Date.parse(scheduled_at))) return json({ error: "scheduled_at_invalido" }, 400);
+  const whenUtc = new Date(scheduled_at).toISOString();
+  await env.DB.prepare(
+    "UPDATE queue SET scheduled_at = ?, status = 'pending', attempts = 0, last_error = NULL WHERE id = ?"
+  ).bind(whenUtc, id).run();
+  return json({ ok: true });
+}
+
+async function apiQueuePublishNow(env, id) {
+  await env.DB.prepare("UPDATE queue SET scheduled_at = ?, status = 'pending' WHERE id = ?")
+    .bind(new Date().toISOString(), id).run();
+  return json({ ok: true });
+}
+
+async function apiHistory(request, env) {
+  const url = new URL(request.url);
+  const limit = Math.min(parseInt(url.searchParams.get("limit") || "50", 10), 500);
+  const { results } = await env.DB.prepare(
+    `SELECT h.id, h.platform, h.kind, h.params, h.scheduled_at, h.status, h.attempts,
+            h.media_id, h.post_id, h.permalink, h.error, h.finalized_at,
+            s.likes, s.comments, s.shares, s.saves, s.reach, s.views, s.total_interactions,
+            s.fetched_at as stats_fetched_at
+     FROM history h LEFT JOIN stats s ON s.history_id = h.id
+     ORDER BY h.finalized_at DESC LIMIT ?`
+  ).bind(limit).all();
+  return json({ items: results.map(decodeItem) });
+}
+
+// ============================================================================
+// Stats por post (Meta insights)
+// ============================================================================
+
+const STATS_TTL_MS = 3600_000; // 1h
+
+async function apiHistoryStats(env, id, refresh) {
+  const item = await env.DB.prepare("SELECT * FROM history WHERE id = ?").bind(id).first();
+  if (!item) return json({ error: "not_found" }, 404);
+  if (item.status !== "published") return json({ error: "not_published" }, 400);
+
+  if (!refresh) {
+    const cached = await env.DB.prepare(
+      "SELECT * FROM stats WHERE history_id = ? AND fetched_at > ?"
+    ).bind(id, new Date(Date.now() - STATS_TTL_MS).toISOString()).first();
+    if (cached) {
+      return json({
+        cached: true, fetched_at: cached.fetched_at,
+        likes: cached.likes, comments: cached.comments, shares: cached.shares,
+        saves: cached.saves, reach: cached.reach, views: cached.views,
+        total_interactions: cached.total_interactions,
+        data: JSON.parse(cached.data || "{}"),
+      });
+    }
+  }
+
+  let stats;
+  try {
+    stats = await fetchPostStats(env, item);
+  } catch (e) {
+    return json({ error: "fetch_failed", message: e.message }, 502);
+  }
+
+  await env.DB.prepare(
+    `INSERT OR REPLACE INTO stats
+      (history_id, fetched_at, likes, comments, shares, saves, reach, views, total_interactions, data)
+     VALUES (?,?,?,?,?,?,?,?,?,?)`
+  ).bind(
+    id, new Date().toISOString(),
+    stats.likes || 0, stats.comments || 0, stats.shares || 0,
+    stats.saves || 0, stats.reach || 0, stats.views || 0,
+    stats.total_interactions || 0, JSON.stringify(stats.raw || {})
+  ).run();
+
+  return json({ cached: false, fetched_at: new Date().toISOString(), ...stats });
+}
+
+async function fetchPostStats(env, item) {
+  const token = env.PAGE_ACCESS_TOKEN;
+  if (item.platform === "fb") {
+    const targetId = item.post_id || item.media_id;
+    if (!targetId) return { likes: 0, comments: 0, shares: 0, raw: { note: "no id" } };
+    const data = await metaGet(`/${targetId}`, {
+      fields: "message,created_time,permalink_url,shares,reactions.summary(total_count).limit(0),comments.summary(total_count).limit(0)",
+      access_token: token,
+    }, env);
+    // Insights endpoint extra (reach, impressions)
+    let insights = {};
+    try {
+      const ins = await metaGet(`/${targetId}/insights`, {
+        metric: "post_impressions_unique,post_clicks",
+        access_token: token,
+      }, env);
+      for (const m of ins.data || []) insights[m.name] = m.values?.[0]?.value;
+    } catch (_) { /* sin scope o no aplica */ }
+    return {
+      likes: data.reactions?.summary?.total_count || 0,
+      comments: data.comments?.summary?.total_count || 0,
+      shares: data.shares?.count || 0,
+      reach: insights.post_impressions_unique || 0,
+      views: insights.post_clicks || 0,
+      saves: 0,
+      total_interactions: (data.reactions?.summary?.total_count || 0) + (data.comments?.summary?.total_count || 0) + (data.shares?.count || 0),
+      raw: { ...data, insights },
+    };
+  }
+  if (item.platform === "ig") {
+    const mediaId = item.media_id;
+    if (!mediaId) return { likes: 0, comments: 0, raw: { note: "no media_id" } };
+    const fields = "id,caption,media_type,media_product_type,like_count,comments_count,permalink,timestamp,thumbnail_url";
+    const data = await metaGet(`/${mediaId}`, { fields, access_token: token }, env);
+    let insights = {};
+    try {
+      const metricList = item.kind === "reel"
+        ? "reach,plays,likes,comments,shares,saved,total_interactions"
+        : item.kind === "story"
+          ? "reach,impressions,replies"
+          : "reach,saved,likes,comments,shares,total_interactions";
+      const ins = await metaGet(`/${mediaId}/insights`, { metric: metricList, access_token: token }, env);
+      for (const m of ins.data || []) insights[m.name] = m.values?.[0]?.value;
+    } catch (_) { /* scope instagram_manage_insights faltante o medio no soporta */ }
+    const likes = (typeof insights.likes === "number") ? insights.likes : (data.like_count || 0);
+    const comments = (typeof insights.comments === "number") ? insights.comments : (data.comments_count || 0);
+    return {
+      likes, comments,
+      shares: insights.shares || 0,
+      saves: insights.saved || 0,
+      reach: insights.reach || 0,
+      views: insights.plays || insights.impressions || 0,
+      total_interactions: insights.total_interactions || (likes + comments),
+      raw: { ...data, insights },
+    };
+  }
+  return { likes: 0, comments: 0, raw: { note: "unknown_platform" } };
+}
+
+function decodeItem(row) {
+  try { row.params = JSON.parse(row.params); } catch { /* keep raw */ }
+  return row;
+}
+
+function validateParams(platform, kind, p) {
+  const req = (k) => { if (!p[k]) throw new Error(`params.${k} requerido`); };
+  if (platform === "fb" && kind === "text") req("message");
+  if (platform === "fb" && kind === "link") req("url");
+  if (platform === "fb" && kind === "photo") req("image_url");
+  if (platform === "ig" && kind === "photo") req("image_url");
+  if (platform === "ig" && kind === "reel") req("video_url");
+  if (platform === "ig" && kind === "carousel") {
+    if (!Array.isArray(p.image_urls) || p.image_urls.length < 2 || p.image_urls.length > 10) {
+      throw new Error("carousel requiere image_urls array entre 2 y 10");
+    }
+  }
+  if (platform === "ig" && kind === "story") {
+    if (!p.image_url && !p.video_url) throw new Error("story requiere image_url o video_url");
+  }
+}
+
+// ============================================================================
+// Upload → R2
+// ============================================================================
+
+async function apiUpload(request, env) {
+  const form = await request.formData();
+  const file = form.get("file");
+  if (!file || typeof file === "string") return json({ error: "no_file" }, 400);
+  const name = file.name || "blob";
+  const ext = (name.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const key = `${crypto.randomUUID()}.${ext}`;
+  await env.MEDIA.put(key, file.stream(), {
+    httpMetadata: { contentType: file.type || "application/octet-stream" },
+  });
+  await env.DB.prepare(
+    "INSERT INTO assets (key, content_type, size_bytes, uploaded_at) VALUES (?,?,?,?)"
+  ).bind(key, file.type || "", file.size || 0, new Date().toISOString()).run();
+  return json({
+    ok: true,
+    key,
+    url: `https://dailygrind.cl/publisher/media/${key}`,
+    contentType: file.type,
+    size: file.size,
+  });
+}
+
+async function handleMedia(request, env) {
+  const url = new URL(request.url);
+  const key = decodeURIComponent(url.pathname.replace("/publisher/media/", ""));
+  const obj = await env.MEDIA.get(key);
+  if (!obj) return new Response("Not found", { status: 404 });
+  return new Response(obj.body, {
+    headers: {
+      "Content-Type": obj.httpMetadata?.contentType || "application/octet-stream",
+      "Cache-Control": "public, max-age=31536000, immutable",
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}
+
+// ============================================================================
+// Whoami
+// ============================================================================
+
+async function apiWhoami(env) {
+  const r = await metaGet(`/${env.PAGE_ID}`, {
+    fields: "name,id,fan_count,instagram_business_account{id,username,name,followers_count}",
+    access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return json(r);
+}
+
+// ============================================================================
+// Cron: scheduled publisher
+// ============================================================================
+
+async function processQueue(env) {
+  const nowIso = new Date().toISOString();
+  const dueLimit = 10;
+  const { results } = await env.DB.prepare(
+    "SELECT id, platform, kind, params, scheduled_at, status, attempts FROM queue WHERE status IN ('pending','retrying') AND scheduled_at <= ? ORDER BY scheduled_at ASC LIMIT ?"
+  ).bind(nowIso, dueLimit).all();
+  if (!results.length) return;
+
+  // Rate limit IG en las últimas 24h
+  const rateLimit = parseInt(env.IG_RATE_LIMIT_24H || "25", 10);
+  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const igCountRow = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM history WHERE platform='ig' AND status='published' AND finalized_at > ?"
+  ).bind(since).first();
+  let igPublishedLast24h = igCountRow?.n || 0;
+
+  for (const raw of results) {
+    const item = decodeItem({ ...raw });
+    if (item.platform === "ig" && igPublishedLast24h >= rateLimit) {
+      // posponer 30 min, no quemar intentos
+      const newWhen = new Date(Date.now() + 30 * 60_000).toISOString();
+      await env.DB.prepare("UPDATE queue SET scheduled_at = ? WHERE id = ?").bind(newWhen, item.id).run();
+      continue;
+    }
+    await env.DB.prepare("UPDATE queue SET status = 'publishing' WHERE id = ?").bind(item.id).run();
+
+    try {
+      const result = await publishItem(env, item);
+      // OK: insert history, delete queue
+      await env.DB.batch([
+        env.DB.prepare(
+          "INSERT INTO history (id, platform, kind, params, scheduled_at, status, attempts, media_id, post_id, permalink, created_at, finalized_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+        ).bind(
+          item.id, item.platform, item.kind, JSON.stringify(item.params),
+          item.scheduled_at, "published", item.attempts + 1,
+          result.media_id || null, result.post_id || null, result.permalink || null,
+          raw.created_at || new Date().toISOString(), new Date().toISOString()
+        ),
+        env.DB.prepare("DELETE FROM queue WHERE id = ?").bind(item.id),
+      ]);
+      if (item.platform === "ig") igPublishedLast24h++;
+    } catch (e) {
+      const attempts = item.attempts + 1;
+      const MAX_ATTEMPTS = 3;
+      const errMsg = String(e.message || e).slice(0, 1000);
+      const isPending = errMsg.startsWith("pending:");
+      if (attempts >= MAX_ATTEMPTS && !isPending) {
+        // final failure
+        await env.DB.batch([
+          env.DB.prepare(
+            "INSERT INTO history (id, platform, kind, params, scheduled_at, status, attempts, error, created_at, finalized_at) VALUES (?,?,?,?,?,?,?,?,?,?)"
+          ).bind(
+            item.id, item.platform, item.kind, JSON.stringify(item.params),
+            item.scheduled_at, "failed", attempts, errMsg,
+            raw.created_at || new Date().toISOString(), new Date().toISOString()
+          ),
+          env.DB.prepare("DELETE FROM queue WHERE id = ?").bind(item.id),
+        ]);
+      } else {
+        const backoffMin = isPending ? 1 : 5 * attempts;
+        const newWhen = new Date(Date.now() + backoffMin * 60_000).toISOString();
+        await env.DB.prepare(
+          "UPDATE queue SET status = 'retrying', attempts = ?, scheduled_at = ?, last_error = ?, params = ? WHERE id = ?"
+        ).bind(isPending ? item.attempts : attempts, newWhen, errMsg, JSON.stringify(item.params), item.id).run();
+      }
+    }
+  }
+}
+
+// ============================================================================
+// Graph API (FB + IG)
+// ============================================================================
+
+async function publishItem(env, item) {
+  const { platform, kind, params } = item;
+  if (platform === "fb") {
+    if (kind === "text") return fbFeed(env, { message: params.message });
+    if (kind === "link") return fbFeed(env, { link: params.url, message: params.message });
+    if (kind === "photo") return fbPhoto(env, params.image_url, params.caption);
+  }
+  if (platform === "ig") {
+    if (kind === "photo") return igPhoto(env, params);
+    if (kind === "reel") return igReel(env, item, params);
+    if (kind === "carousel") return igCarousel(env, item, params);
+    if (kind === "story") return igStory(env, params);
+  }
+  throw new Error(`platform/kind no soportado: ${platform}/${kind}`);
+}
+
+async function fbFeed(env, { message, link }) {
+  const r = await metaPost(`/${env.PAGE_ID}/feed`, {
+    message, link, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { post_id: r.id, permalink: `https://www.facebook.com/${r.id}` };
+}
+
+async function fbPhoto(env, imageUrl, caption) {
+  requirePublicUrl(imageUrl);
+  const r = await metaPost(`/${env.PAGE_ID}/photos`, {
+    url: imageUrl, caption, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { post_id: r.post_id, media_id: r.id, permalink: r.post_id ? `https://www.facebook.com/${r.post_id}` : null };
+}
+
+async function igPhoto(env, params) {
+  requirePublicUrl(params.image_url);
+  // Si ya hay container creado en intento anterior, reusarlo
+  if (!params._container) {
+    const c = await metaPost(`/${env.IG_USER_ID}/media`, {
+      image_url: params.image_url, caption: params.caption, access_token: env.PAGE_ACCESS_TOKEN,
+    }, env);
+    params._container = c.id;
+  }
+  const status = await igStatus(env, params._container);
+  if (status === "ERROR") throw new Error(`container ERROR`);
+  if (status !== "FINISHED") throw new Error(`pending: ${status}`);
+  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
+    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
+}
+
+async function igReel(env, item, params) {
+  requirePublicUrl(params.video_url);
+  if (!params._container) {
+    const c = await metaPost(`/${env.IG_USER_ID}/media`, {
+      media_type: "REELS",
+      video_url: params.video_url,
+      caption: params.caption,
+      share_to_feed: params.share_to_feed ? "true" : "false",
+      access_token: env.PAGE_ACCESS_TOKEN,
+    }, env);
+    params._container = c.id;
+  }
+  const status = await igStatus(env, params._container);
+  if (status === "ERROR") throw new Error("container ERROR");
+  if (status !== "FINISHED") throw new Error(`pending: ${status}`);
+  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
+    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
+}
+
+async function igStory(env, params) {
+  const isVideo = !!params.video_url;
+  const mediaUrl = params.video_url || params.image_url;
+  if (!mediaUrl) throw new Error("story requires image_url or video_url");
+  requirePublicUrl(mediaUrl);
+  if (!params._container) {
+    const payload = {
+      media_type: "STORIES",
+      access_token: env.PAGE_ACCESS_TOKEN,
+    };
+    if (isVideo) payload.video_url = mediaUrl;
+    else payload.image_url = mediaUrl;
+    const c = await metaPost(`/${env.IG_USER_ID}/media`, payload, env);
+    params._container = c.id;
+  }
+  const status = await igStatus(env, params._container);
+  if (status === "ERROR") throw new Error("container ERROR");
+  if (status !== "FINISHED") throw new Error(`pending: ${status}`);
+  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
+    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
+}
+
+async function igCarousel(env, item, params) {
+  for (const u of params.image_urls) requirePublicUrl(u);
+  if (!params._children) {
+    const children = [];
+    for (const u of params.image_urls) {
+      const c = await metaPost(`/${env.IG_USER_ID}/media`, {
+        image_url: u, is_carousel_item: "true", access_token: env.PAGE_ACCESS_TOKEN,
+      }, env);
+      children.push(c.id);
+    }
+    params._children = children;
+  }
+  for (const cid of params._children) {
+    const s = await igStatus(env, cid);
+    if (s === "ERROR") throw new Error("child container ERROR");
+    if (s !== "FINISHED") throw new Error(`pending: child ${cid} ${s}`);
+  }
+  if (!params._container) {
+    const c = await metaPost(`/${env.IG_USER_ID}/media`, {
+      media_type: "CAROUSEL", children: params._children.join(","),
+      caption: params.caption, access_token: env.PAGE_ACCESS_TOKEN,
+    }, env);
+    params._container = c.id;
+  }
+  const s = await igStatus(env, params._container);
+  if (s === "ERROR") throw new Error("carousel ERROR");
+  if (s !== "FINISHED") throw new Error(`pending: carousel ${s}`);
+  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
+    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
+}
+
+async function igStatus(env, containerId) {
+  const r = await metaGet(`/${containerId}`, {
+    fields: "status_code", access_token: env.PAGE_ACCESS_TOKEN,
+  }, env);
+  return r.status_code;
+}
+
+async function resolvePermalink(env, mediaId) {
+  try {
+    const r = await metaGet(`/${mediaId}`, {
+      fields: "permalink", access_token: env.PAGE_ACCESS_TOKEN,
+    }, env);
+    return r.permalink || null;
+  } catch { return null; }
+}
+
+async function metaGet(path, params, env) {
+  const url = new URL(`${GRAPH(env)}${path}`);
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== null && v !== undefined) url.searchParams.append(k, String(v));
+  }
+  const resp = await fetch(url.toString());
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(`Graph ${resp.status}: ${JSON.stringify(data.error || data)}`);
+  return data;
+}
+
+async function metaPost(path, params, env) {
+  const body = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== null && v !== undefined) body.append(k, String(v));
+  }
+  const resp = await fetch(`${GRAPH(env)}${path}`, { method: "POST", body });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(`Graph ${resp.status}: ${JSON.stringify(data.error || data)}`);
+  return data;
+}
+
+// ============================================================================
+// Util
+// ============================================================================
+
+function requirePublicUrl(u) {
+  if (!u || typeof u !== "string") throw new Error("url vacia");
+  if (!/^https?:\/\//.test(u)) throw new Error(`url no http(s): ${u}`);
+  if (/localhost|127\.0\.0\.1/.test(u)) throw new Error("url localhost no es publica");
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}

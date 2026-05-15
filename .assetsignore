@@ -13,3 +13,6 @@ package-lock.json
 wrangler.toml
 src
 .assetsignore
+migrations
+SETUP.md
+leadform.html

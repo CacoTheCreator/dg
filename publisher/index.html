@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1e56">
+<meta name="robots" content="noindex,nofollow">
+<title>Daily Grind · Publisher</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --navy-3:  #08123a;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --sky-mute: rgba(166,217,248,.65);
+    --sky-soft: rgba(166,217,248,.22);
+    --sky-line: rgba(166,217,248,.18);
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --red:     #ff7a5c;
+    --green:   #8de28f;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono:    "JetBrains Mono", ui-monospace, monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--navy); color: var(--cream); font-family: var(--body); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+  input, textarea, select { font: inherit; }
+
+  /* ── Shell ────────────────────────────── */
+  .shell { width: 100%; max-width: 1100px; margin: 0 auto; padding: 36px 24px 96px; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .label { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--sky); font-weight: 500; }
+  .label--muted { color: var(--sky-mute); }
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
+
+  .head {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+    padding-bottom: 28px; margin-bottom: 36px; border-bottom: 1px solid var(--sky-line);
+  }
+  .head__brand { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .head__title { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.01em; line-height: 1; }
+  .head__title em { font-family: var(--body); font-style: italic; font-weight: 300; color: var(--sky); }
+  .head__sub { color: var(--sky-mute); font-weight: 300; font-size: 13px; }
+  .head__meta { display: flex; gap: 18px; color: var(--sky-mute); font-size: 12px; align-items: center; }
+  .head__logout { background: none; border: 1px solid var(--sky-soft); color: var(--cream); padding: 8px 14px; border-radius: 6px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; transition: border-color .2s; }
+  .head__logout:hover { border-color: var(--sky); }
+
+  /* ── Sección ──────────────────────────── */
+  section { margin-bottom: 56px; }
+  .section__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; gap: 16px; }
+  .section__title { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3vw, 30px); letter-spacing: -.005em; }
+  .section__count { color: var(--sky-mute); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+
+  /* ── Gate ─────────────────────────────── */
+  .gate { max-width: 460px; margin: 80px auto 0; padding: 0 24px; }
+  .gate__brand { font-family: var(--display); font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 8px; }
+  .gate__brand em { font-family: var(--body); font-style: italic; font-weight: 300; color: var(--sky); }
+  .gate__sub { color: var(--sky-mute); font-size: 13px; margin-bottom: 36px; }
+  .gate__form { display: flex; flex-direction: column; gap: 14px; }
+  .gate__input { background: transparent; border: 1px solid var(--sky-soft); border-radius: 8px; padding: 16px 18px; color: var(--cream); font-size: 16px; letter-spacing: .04em; transition: border-color .2s; }
+  .gate__input:focus { outline: none; border-color: var(--sky); }
+  .gate__err { color: var(--red); font-size: 13px; min-height: 16px; }
+  .btn { background: var(--sky); color: var(--navy); border: none; border-radius: 8px; padding: 14px 18px; font-weight: 500; letter-spacing: .04em; transition: opacity .2s; }
+  .btn:disabled { opacity: .5; cursor: wait; }
+  .btn--ghost { background: transparent; color: var(--cream); border: 1px solid var(--sky-soft); }
+  .btn--ghost:hover { border-color: var(--sky); }
+  .btn--danger { background: transparent; color: var(--red); border: 1px solid rgba(255,122,92,.4); }
+  .btn--danger:hover { border-color: var(--red); }
+
+  /* ── Compositor ───────────────────────── */
+  .composer { background: var(--navy-2); border: 1px solid var(--sky-line); border-radius: 12px; padding: 24px; }
+  .composer__kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 20px; }
+  .kind-card { background: transparent; border: 1px solid var(--sky-soft); border-radius: 8px; padding: 14px 12px; color: var(--cream); text-align: left; transition: all .2s; }
+  .kind-card:hover { border-color: var(--sky-lt); }
+  .kind-card[aria-selected="true"] { background: var(--sky); color: var(--navy); border-color: var(--sky); }
+  .kind-card__name { font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+  .kind-card__hint { font-size: 11px; opacity: .75; letter-spacing: .04em; }
+
+  .form-row { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--sky); margin-bottom: 8px; }
+  .form-input, .form-textarea { width: 100%; background: var(--navy-3); border: 1px solid var(--sky-soft); border-radius: 8px; padding: 12px 14px; color: var(--cream); font-size: 14px; }
+  .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--sky); }
+  .form-textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+
+  .drop {
+    border: 1px dashed var(--sky-soft); border-radius: 8px; padding: 20px; text-align: center;
+    background: var(--navy-3); transition: all .2s; cursor: pointer; min-height: 120px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  }
+  .drop:hover, .drop--over { border-color: var(--sky); background: var(--navy-2); }
+  .drop__title { font-size: 14px; color: var(--cream); }
+  .drop__hint { font-size: 12px; color: var(--sky-mute); }
+  .drop input[type=file] { display: none; }
+  .drop__preview { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .preview { width: 96px; height: 96px; object-fit: cover; border-radius: 6px; border: 1px solid var(--sky-soft); }
+
+  .when-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .when-row { grid-template-columns: 1fr; } }
+
+  .composer__actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .composer__status { font-size: 12px; color: var(--sky-mute); margin-top: 12px; min-height: 18px; }
+  .composer__status--err { color: var(--red); }
+  .composer__status--ok { color: var(--green); }
+
+  /* ── Cola ─────────────────────────────── */
+  .item-list { display: flex; flex-direction: column; gap: 12px; }
+  .item {
+    background: var(--navy-2); border: 1px solid var(--sky-line); border-radius: 10px;
+    padding: 16px; display: grid; grid-template-columns: 84px 1fr auto; gap: 14px; align-items: start;
+  }
+  @media (max-width: 480px) { .item { grid-template-columns: 64px 1fr; } .item__actions { grid-column: 1/-1; } }
+  .item__thumb {
+    width: 84px; height: 84px; border-radius: 8px; background: var(--navy-3);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .item__thumb img, .item__thumb video { width: 100%; height: 100%; object-fit: cover; }
+  .item__thumb-text { font-family: var(--display); font-size: 11px; letter-spacing: .2em; color: var(--sky-mute); padding: 8px; text-align: center; }
+  .item__body { min-width: 0; }
+  .item__meta { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+  .badge { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; font-weight: 500; }
+  .badge--fb { background: rgba(81,181,242,.18); color: var(--sky-lt); }
+  .badge--ig { background: rgba(255,122,92,.18); color: #ffb59c; }
+  .badge--pending { background: var(--sky-soft); color: var(--cream); }
+  .badge--retrying { background: rgba(255,200,80,.18); color: #ffd28a; }
+  .badge--published { background: rgba(141,226,143,.16); color: var(--green); }
+  .badge--failed { background: rgba(255,122,92,.18); color: var(--red); }
+  .item__when { font-family: var(--mono); font-size: 12px; color: var(--sky-mute); }
+  .item__caption { font-size: 14px; line-height: 1.5; color: var(--cream); margin-top: 6px; word-wrap: break-word; }
+  .item__caption--muted { color: var(--sky-mute); font-style: italic; }
+  .item__err { font-size: 12px; color: var(--red); margin-top: 4px; font-family: var(--mono); }
+  .item__actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .item__btn { background: none; border: 1px solid var(--sky-soft); color: var(--cream); padding: 6px 10px; border-radius: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; transition: border-color .2s; }
+  .item__btn:hover { border-color: var(--sky); }
+  .item__btn--danger:hover { border-color: var(--red); color: var(--red); }
+  .item__link { color: var(--sky); font-size: 12px; text-decoration: underline; }
+  .stats {
+    display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--sky-soft);
+    font-family: var(--mono); font-size: 12px; color: var(--sky-mute);
+  }
+  .stats__metric { color: var(--cream); font-weight: 500; }
+  .stats__metric strong { color: var(--sky); font-weight: 500; }
+  .stats__refresh { background: none; border: 1px solid var(--sky-soft); color: var(--sky-mute); padding: 3px 8px; border-radius: 4px; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; transition: border-color .2s; }
+  .stats__refresh:hover { border-color: var(--sky); color: var(--cream); }
+  .stats__empty { color: var(--sky-mute); font-style: italic; }
+  .stats__time { font-size: 10px; color: var(--sky-mute); margin-left: auto; }
+
+  .empty { padding: 32px; text-align: center; color: var(--sky-mute); border: 1px dashed var(--sky-soft); border-radius: 10px; font-style: italic; }
+
+  /* ── Toast ────────────────────────────── */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy-2); border: 1px solid var(--sky); color: var(--cream); padding: 14px 18px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.4); max-width: 340px; transition: opacity .3s, transform .3s; }
+  .toast--err { border-color: var(--red); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ===================== GATE ===================== -->
+<div id="gate" class="gate">
+  <div class="gate__brand">Publisher <em>· Daily Grind</em></div>
+  <div class="gate__sub">Acceso restringido al equipo. Ingresa la clave compartida.</div>
+  <form id="gate-form" class="gate__form" autocomplete="off">
+    <input id="gate-pin" class="gate__input" type="password" placeholder="Clave" autocomplete="off" autofocus>
+    <div id="gate-err" class="gate__err"></div>
+    <button class="btn" type="submit">Entrar →</button>
+  </form>
+</div>
+
+<!-- ===================== APP ====================== -->
+<div id="app" class="shell hidden">
+
+  <header class="head">
+    <div>
+      <div class="label label--muted">■ Daily Grind · Vol. 04</div>
+      <h1 class="head__title" style="margin-top:6px">Publisher <em>· cola y agenda</em></h1>
+      <div class="head__sub" id="whoami">Cargando cuenta…</div>
+    </div>
+    <button id="logout" class="head__logout">Salir</button>
+  </header>
+
+  <!-- ───── Nueva publicación ───── -->
+  <section>
+    <div class="section__head">
+      <h2 class="section__title">Nueva publicación</h2>
+      <span class="section__count mono" id="tz-note"></span>
+    </div>
+    <div class="composer">
+      <div class="composer__kinds" role="tablist" id="kinds">
+        <button class="kind-card" data-kind="fb-text"     role="tab" aria-selected="true">
+          <div class="kind-card__name">Texto</div>
+          <div class="kind-card__hint">Facebook Page</div>
+        </button>
+        <button class="kind-card" data-kind="fb-link"     role="tab" aria-selected="false">
+          <div class="kind-card__name">Link</div>
+          <div class="kind-card__hint">Facebook Page</div>
+        </button>
+        <button class="kind-card" data-kind="fb-photo"    role="tab" aria-selected="false">
+          <div class="kind-card__name">Foto</div>
+          <div class="kind-card__hint">Facebook Page</div>
+        </button>
+        <button class="kind-card" data-kind="ig-photo"    role="tab" aria-selected="false">
+          <div class="kind-card__name">Foto feed</div>
+          <div class="kind-card__hint">Instagram</div>
+        </button>
+        <button class="kind-card" data-kind="ig-reel"     role="tab" aria-selected="false">
+          <div class="kind-card__name">Reel</div>
+          <div class="kind-card__hint">Instagram</div>
+        </button>
+        <button class="kind-card" data-kind="ig-carousel" role="tab" aria-selected="false">
+          <div class="kind-card__name">Carrusel</div>
+          <div class="kind-card__hint">Instagram</div>
+        </button>
+        <button class="kind-card" data-kind="ig-story"    role="tab" aria-selected="false">
+          <div class="kind-card__name">Story</div>
+          <div class="kind-card__hint">Instagram</div>
+        </button>
+      </div>
+
+      <!-- Campos dinámicos -->
+      <div id="composer-fields"></div>
+
+      <div class="when-row">
+        <div class="form-row">
+          <label class="form-label" for="when">Cuándo</label>
+          <input id="when" class="form-input" type="datetime-local">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="when-quick">Atajos</label>
+          <select id="when-quick" class="form-input">
+            <option value="">— elegir —</option>
+            <option value="now">Ahora</option>
+            <option value="+30m">En 30 min</option>
+            <option value="+1h">En 1 hora</option>
+            <option value="+3h">En 3 horas</option>
+            <option value="today-12">Hoy 12:00</option>
+            <option value="today-19">Hoy 19:00</option>
+            <option value="tomorrow-9">Mañana 09:00</option>
+            <option value="tomorrow-12">Mañana 12:00</option>
+            <option value="tomorrow-19">Mañana 19:00</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="composer__actions">
+        <button id="btn-schedule" class="btn" type="button">Agendar →</button>
+        <button id="btn-publish-now" class="btn btn--ghost" type="button">Publicar ahora ↗</button>
+      </div>
+      <div id="composer-status" class="composer__status"></div>
+    </div>
+  </section>
+
+  <!-- ───── Cola ───── -->
+  <section>
+    <div class="section__head">
+      <h2 class="section__title">Cola</h2>
+      <span class="section__count" id="queue-count">0 publicaciones agendadas</span>
+    </div>
+    <div id="queue" class="item-list"></div>
+  </section>
+
+  <!-- ───── Historial ───── -->
+  <section>
+    <div class="section__head">
+      <h2 class="section__title">Historial</h2>
+      <span class="section__count" id="history-count">— recientes</span>
+    </div>
+    <div id="history" class="item-list"></div>
+  </section>
+
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div id="toast" class="toast hidden"></div>
+
+<script>
+// ============================================================================
+// Estado + helpers
+// ============================================================================
+const TZ = "America/Santiago";
+const API = "/publisher/api";
+const dtfmt = new Intl.DateTimeFormat("es-CL", {
+  timeZone: TZ, year: "numeric", month: "short", day: "2-digit",
+  hour: "2-digit", minute: "2-digit", hour12: false,
+});
+
+document.getElementById("tz-note").textContent = "Hora · Santiago (CLT)";
+
+async function api(path, opts = {}) {
+  const resp = await fetch(API + path, {
+    credentials: "include",
+    headers: opts.body ? { "Content-Type": "application/json", ...(opts.headers || {}) } : (opts.headers || {}),
+    method: opts.method || "GET",
+    body: opts.body ? JSON.stringify(opts.body) : opts.raw || undefined,
+  });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) {
+    const err = new Error(data.error || ("HTTP " + resp.status));
+    err.data = data; err.status = resp.status;
+    throw err;
+  }
+  return data;
+}
+async function apiUpload(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  const resp = await fetch(API + "/upload", { method: "POST", credentials: "include", body: fd });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data.error || "upload_failed");
+  return data;
+}
+function toast(msg, kind) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast" + (kind === "err" ? " toast--err" : "");
+  setTimeout(() => el.classList.add("hidden"), 4200);
+}
+function fmtWhen(iso) { try { return dtfmt.format(new Date(iso)); } catch { return iso; } }
+function isoLocalToUtc(s) {
+  if (!s) return null;
+  // datetime-local viene sin zona → asumir local del usuario
+  const d = new Date(s);
+  return d.toISOString();
+}
+function nowPlus(minutes) {
+  const d = new Date(Date.now() + minutes * 60_000);
+  // Strip seconds for datetime-local
+  d.setSeconds(0, 0);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60_000).toISOString().slice(0, 16);
+}
+function setAtHourToday(h, dayOffset = 0) {
+  const d = new Date(); d.setDate(d.getDate() + dayOffset);
+  d.setHours(h, 0, 0, 0);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60_000).toISOString().slice(0, 16);
+}
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+// ============================================================================
+// Gate
+// ============================================================================
+const gateForm = document.getElementById("gate-form");
+const gateErr = document.getElementById("gate-err");
+gateForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const pin = document.getElementById("gate-pin").value.trim();
+  gateErr.textContent = "";
+  try {
+    await api("/auth", { method: "POST", body: { pin } });
+    boot();
+  } catch (err) {
+    gateErr.textContent = err.status === 401 ? "Clave incorrecta." : "Error al entrar.";
+  }
+});
+
+document.getElementById("logout").addEventListener("click", async () => {
+  try { await api("/logout", { method: "POST" }); } catch {}
+  location.reload();
+});
+
+// ============================================================================
+// Compositor
+// ============================================================================
+const KIND_FIELDS = {
+  "fb-text": [
+    { type: "textarea", key: "message", label: "Mensaje", placeholder: "Texto del post." },
+  ],
+  "fb-link": [
+    { type: "url",      key: "url",     label: "Link", placeholder: "https://dailygrind.cl/..." },
+    { type: "textarea", key: "message", label: "Mensaje (opcional)", optional: true },
+  ],
+  "fb-photo": [
+    { type: "file",     key: "image",   label: "Foto", accept: "image/*" },
+    { type: "textarea", key: "caption", label: "Caption" },
+  ],
+  "ig-photo": [
+    { type: "file",     key: "image",   label: "Foto", accept: "image/*" },
+    { type: "textarea", key: "caption", label: "Caption" },
+    { type: "checkbox", key: "also_fb", label: "También publicar en Facebook Page" },
+  ],
+  "ig-reel": [
+    { type: "file",     key: "video",   label: "Video (.mp4)", accept: "video/mp4" },
+    { type: "textarea", key: "caption", label: "Caption" },
+    { type: "checkbox", key: "share_to_feed", label: "Compartir al feed de IG" },
+  ],
+  "ig-carousel": [
+    { type: "files",    key: "images",  label: "Fotos (2 a 10)", accept: "image/*" },
+    { type: "textarea", key: "caption", label: "Caption" },
+  ],
+  "ig-story": [
+    { type: "file",     key: "media",   label: "Foto o video (9:16)", accept: "image/*,video/mp4" },
+  ],
+};
+
+const state = {
+  kind: "fb-text",
+  uploads: {},    // key → { url, key, contentType }
+  uploadsMulti: [], // for carousel
+};
+
+const fieldsRoot = document.getElementById("composer-fields");
+function renderFields() {
+  const fields = KIND_FIELDS[state.kind] || [];
+  fieldsRoot.innerHTML = fields.map((f) => fieldHtml(f)).join("");
+  fields.forEach((f) => {
+    if (f.type === "file" || f.type === "files") wireDrop(f);
+  });
+}
+
+function fieldHtml(f) {
+  const id = "f-" + f.key;
+  if (f.type === "textarea") {
+    return `<div class="form-row"><label class="form-label" for="${id}">${f.label}</label>
+      <textarea id="${id}" class="form-textarea" placeholder="${f.placeholder || ""}"></textarea></div>`;
+  }
+  if (f.type === "url") {
+    return `<div class="form-row"><label class="form-label" for="${id}">${f.label}</label>
+      <input id="${id}" class="form-input" type="url" placeholder="${f.placeholder || ""}"></div>`;
+  }
+  if (f.type === "checkbox") {
+    return `<div class="form-row"><label style="display:flex;gap:10px;align-items:center;color:var(--cream);font-size:14px"><input id="${id}" type="checkbox" style="width:18px;height:18px;accent-color:var(--sky)"> ${f.label}</label></div>`;
+  }
+  if (f.type === "file" || f.type === "files") {
+    const multi = f.type === "files" ? " multiple" : "";
+    return `<div class="form-row"><label class="form-label">${f.label}</label>
+      <label class="drop" id="drop-${f.key}" for="${id}">
+        <div class="drop__title">Arrastra aquí o click para elegir</div>
+        <div class="drop__hint" id="hint-${f.key}">${f.type === "files" ? "Entre 2 y 10 archivos" : "Un archivo"} · sube directo a R2</div>
+        <div class="drop__preview" id="preview-${f.key}"></div>
+        <input id="${id}" type="file" accept="${f.accept || "*"}"${multi}>
+      </label></div>`;
+  }
+  return "";
+}
+
+function wireDrop(f) {
+  const drop = document.getElementById("drop-" + f.key);
+  const input = document.getElementById("f-" + f.key);
+  const preview = document.getElementById("preview-" + f.key);
+  const hint = document.getElementById("hint-" + f.key);
+  if (!drop) return;
+
+  ["dragenter","dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("drop--over"); }));
+  ["dragleave","drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("drop--over"); }));
+  drop.addEventListener("drop", (e) => { const files = Array.from(e.dataTransfer.files); handleFiles(f, files, preview, hint); });
+  input.addEventListener("change", (e) => { const files = Array.from(e.target.files); handleFiles(f, files, preview, hint); });
+}
+
+async function handleFiles(f, files, preview, hint) {
+  if (!files.length) return;
+  if (f.type === "file") {
+    hint.textContent = "Subiendo " + files[0].name + "…";
+    try {
+      const up = await apiUpload(files[0]);
+      state.uploads[f.key] = up;
+      preview.innerHTML = previewHtml(up, files[0]);
+      hint.textContent = "Subido · " + up.url;
+    } catch (e) { hint.textContent = "Error: " + e.message; }
+  } else {
+    hint.textContent = "Subiendo " + files.length + " archivos…";
+    state.uploadsMulti = [];
+    preview.innerHTML = "";
+    for (const file of files) {
+      try {
+        const up = await apiUpload(file);
+        state.uploadsMulti.push(up);
+        preview.insertAdjacentHTML("beforeend", previewHtml(up, file));
+      } catch (e) { hint.textContent = "Error: " + e.message; return; }
+    }
+    hint.textContent = state.uploadsMulti.length + " archivos listos";
+  }
+}
+
+function previewHtml(up, file) {
+  const ct = up.contentType || file.type || "";
+  if (ct.startsWith("image/")) return `<img class="preview" src="${up.url}" alt="">`;
+  if (ct.startsWith("video/")) return `<video class="preview" src="${up.url}" muted></video>`;
+  return `<div class="preview" style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--sky-mute)">${escapeHtml(file.name)}</div>`;
+}
+
+document.getElementById("kinds").addEventListener("click", (e) => {
+  const card = e.target.closest(".kind-card"); if (!card) return;
+  document.querySelectorAll(".kind-card").forEach((c) => c.setAttribute("aria-selected", "false"));
+  card.setAttribute("aria-selected", "true");
+  state.kind = card.dataset.kind;
+  state.uploads = {}; state.uploadsMulti = [];
+  renderFields();
+});
+
+document.getElementById("when-quick").addEventListener("change", (e) => {
+  const v = e.target.value;
+  const w = document.getElementById("when");
+  if (v === "now") w.value = nowPlus(0);
+  else if (v === "+30m") w.value = nowPlus(30);
+  else if (v === "+1h") w.value = nowPlus(60);
+  else if (v === "+3h") w.value = nowPlus(180);
+  else if (v === "today-12") w.value = setAtHourToday(12);
+  else if (v === "today-19") w.value = setAtHourToday(19);
+  else if (v === "tomorrow-9") w.value = setAtHourToday(9, 1);
+  else if (v === "tomorrow-12") w.value = setAtHourToday(12, 1);
+  else if (v === "tomorrow-19") w.value = setAtHourToday(19, 1);
+});
+
+function buildPayloads(scheduledAtUtc) {
+  const k = state.kind;
+  const get = (key) => (document.getElementById("f-" + key) || {}).value || "";
+  const checked = (key) => !!(document.getElementById("f-" + key) || {}).checked;
+  const out = [];
+  if (k === "fb-text") {
+    out.push({ platform: "fb", kind: "text", params: { message: get("message") }, scheduled_at: scheduledAtUtc });
+  } else if (k === "fb-link") {
+    out.push({ platform: "fb", kind: "link", params: { url: get("url"), message: get("message") }, scheduled_at: scheduledAtUtc });
+  } else if (k === "fb-photo") {
+    const u = state.uploads.image; if (!u) throw new Error("Falta subir la foto");
+    out.push({ platform: "fb", kind: "photo", params: { image_url: u.url, caption: get("caption") }, scheduled_at: scheduledAtUtc });
+  } else if (k === "ig-photo") {
+    const u = state.uploads.image; if (!u) throw new Error("Falta subir la foto");
+    const caption = get("caption");
+    out.push({ platform: "ig", kind: "photo", params: { image_url: u.url, caption }, scheduled_at: scheduledAtUtc });
+    if (checked("also_fb")) {
+      out.push({ platform: "fb", kind: "photo", params: { image_url: u.url, caption }, scheduled_at: scheduledAtUtc });
+    }
+  } else if (k === "ig-reel") {
+    const u = state.uploads.video; if (!u) throw new Error("Falta subir el video");
+    out.push({ platform: "ig", kind: "reel", params: { video_url: u.url, caption: get("caption"), share_to_feed: checked("share_to_feed") }, scheduled_at: scheduledAtUtc });
+  } else if (k === "ig-carousel") {
+    const us = state.uploadsMulti; if (us.length < 2) throw new Error("Mínimo 2 fotos");
+    out.push({ platform: "ig", kind: "carousel", params: { image_urls: us.map((u) => u.url), caption: get("caption") }, scheduled_at: scheduledAtUtc });
+  } else if (k === "ig-story") {
+    const u = state.uploads.media; if (!u) throw new Error("Falta subir foto o video");
+    const isVideo = (u.contentType || "").startsWith("video/");
+    const params = isVideo ? { video_url: u.url } : { image_url: u.url };
+    out.push({ platform: "ig", kind: "story", params, scheduled_at: scheduledAtUtc });
+  }
+  return out;
+}
+
+async function submitSchedule(immediate) {
+  const status = document.getElementById("composer-status");
+  status.className = "composer__status";
+  const w = document.getElementById("when").value;
+  let whenIso;
+  if (immediate) whenIso = new Date().toISOString();
+  else if (!w) { status.textContent = "Elige fecha y hora"; status.classList.add("composer__status--err"); return; }
+  else whenIso = isoLocalToUtc(w);
+  try {
+    const payloads = buildPayloads(whenIso);
+    for (const p of payloads) await api("/queue", { method: "POST", body: p });
+    status.textContent = immediate ? "Publicando…" : "Agendado · " + fmtWhen(whenIso);
+    status.classList.add("composer__status--ok");
+    toast("Encolado.");
+    // limpiar uploads
+    state.uploads = {}; state.uploadsMulti = [];
+    renderFields();
+    document.getElementById("when").value = "";
+    await refreshQueue();
+    await refreshHistory();
+  } catch (e) {
+    status.textContent = "Error: " + e.message;
+    status.classList.add("composer__status--err");
+  }
+}
+
+document.getElementById("btn-schedule").addEventListener("click", () => submitSchedule(false));
+document.getElementById("btn-publish-now").addEventListener("click", () => submitSchedule(true));
+
+// ============================================================================
+// Cola + Historial
+// ============================================================================
+async function refreshQueue() {
+  const { items } = await api("/queue");
+  const el = document.getElementById("queue");
+  document.getElementById("queue-count").textContent = items.length === 1 ? "1 publicación agendada" : items.length + " publicaciones agendadas";
+  if (!items.length) { el.innerHTML = '<div class="empty">Cola vacía. Las publicaciones que agendes aparecen acá.</div>'; return; }
+  el.innerHTML = items.map(itemHtml).join("");
+  el.querySelectorAll("[data-action]").forEach((b) => b.addEventListener("click", onItemAction));
+}
+async function refreshHistory() {
+  const { items } = await api("/history?limit=50");
+  const el = document.getElementById("history");
+  document.getElementById("history-count").textContent = items.length + " últimas";
+  if (!items.length) { el.innerHTML = '<div class="empty">Aún no se ha publicado nada desde acá.</div>'; return; }
+  el.innerHTML = items.map(historyHtml).join("");
+  el.querySelectorAll("[data-stats-id]").forEach((b) => b.addEventListener("click", onStatsRefresh));
+}
+
+async function onStatsRefresh(e) {
+  const btn = e.currentTarget;
+  const id = btn.dataset.statsId;
+  btn.disabled = true; btn.textContent = "…";
+  try {
+    const stats = await api(`/history/${id}/stats?refresh=true`);
+    const card = document.querySelector(`[data-history-id="${id}"]`);
+    if (!card) return;
+    const newItem = { ...stats, id, stats_fetched_at: stats.fetched_at };
+    // Re-render solo el bloque de stats; preservamos el resto del card buscando el .stats container
+    const statsEl = card.querySelector(".stats");
+    if (statsEl) {
+      const wrap = document.createElement("div");
+      wrap.innerHTML = statsHtml({ ...newItem, status: "published", platform: card.querySelector(".badge--fb,.badge--ig")?.textContent.split(" · ")[0].toLowerCase(), kind: card.querySelector(".badge")?.textContent.split(" · ")[1] || "" });
+      statsEl.replaceWith(wrap.firstElementChild);
+      // re-bind
+      card.querySelectorAll("[data-stats-id]").forEach((b) => b.addEventListener("click", onStatsRefresh));
+    }
+    toast("Stats actualizadas.");
+  } catch (err) {
+    btn.disabled = false; btn.textContent = "Reintentar";
+    toast("Error: " + err.message, "err");
+  }
+}
+
+function thumbHtml(item) {
+  const p = item.params || {};
+  const u = p.image_url || (p.image_urls || [])[0] || p.video_url;
+  if (u && (p.video_url === u)) return `<video src="${u}" muted></video>`;
+  if (u) return `<img src="${u}" alt="">`;
+  return `<div class="item__thumb-text">${(item.platform || "").toUpperCase()}<br>${(item.kind || "").toUpperCase()}</div>`;
+}
+
+function itemHtml(item) {
+  const p = item.params || {};
+  const cap = p.message || p.caption || p.url || "";
+  const isProcessing = (item.last_error || "").startsWith("pending:");
+  let statusBadge;
+  if (item.status === "publishing" || isProcessing) {
+    statusBadge = `<span class="badge badge--retrying">Procesando…</span>`;
+  } else if (item.status === "retrying") {
+    statusBadge = `<span class="badge badge--retrying">Reintentando ${item.attempts}/3</span>`;
+  } else {
+    statusBadge = `<span class="badge badge--pending">Pendiente</span>`;
+  }
+  const err = (item.last_error && !isProcessing) ? `<div class="item__err">${escapeHtml(item.last_error)}</div>` : "";
+  return `<div class="item" data-id="${item.id}">
+    <div class="item__thumb">${thumbHtml(item)}</div>
+    <div class="item__body">
+      <div class="item__meta">
+        <span class="badge badge--${item.platform}">${item.platform.toUpperCase()} · ${item.kind}</span>
+        ${statusBadge}
+        <span class="item__when">${fmtWhen(item.scheduled_at)}</span>
+      </div>
+      <div class="item__caption ${cap ? '' : 'item__caption--muted'}">${cap ? escapeHtml(cap) : '(sin texto)'}</div>
+      ${err}
+    </div>
+    <div class="item__actions">
+      <button class="item__btn" data-action="publish-now" data-id="${item.id}">Publicar ya</button>
+      <button class="item__btn item__btn--danger" data-action="cancel" data-id="${item.id}">Cancelar</button>
+    </div>
+  </div>`;
+}
+
+function historyHtml(item) {
+  const p = item.params || {};
+  const cap = p.message || p.caption || p.url || "";
+  const badge = item.status === "published"
+    ? `<span class="badge badge--published">Publicado</span>`
+    : `<span class="badge badge--failed">Falló · ${item.attempts} intentos</span>`;
+  const link = item.permalink ? `<a class="item__link" href="${item.permalink}" target="_blank" rel="noopener">Ver post ↗</a>` : "";
+  const err = item.error ? `<div class="item__err">${escapeHtml(item.error)}</div>` : "";
+  const stats = item.status === "published" ? statsHtml(item) : "";
+  return `<div class="item" data-history-id="${item.id}">
+    <div class="item__thumb">${thumbHtml(item)}</div>
+    <div class="item__body">
+      <div class="item__meta">
+        <span class="badge badge--${item.platform}">${item.platform.toUpperCase()} · ${item.kind}</span>
+        ${badge}
+        <span class="item__when">${fmtWhen(item.finalized_at)}</span>
+      </div>
+      <div class="item__caption ${cap ? '' : 'item__caption--muted'}">${cap ? escapeHtml(cap) : '(sin texto)'}</div>
+      ${err}
+      ${link}
+      ${stats}
+    </div>
+    <div></div>
+  </div>`;
+}
+
+function statsHtml(item) {
+  const hasStats = item.stats_fetched_at != null;
+  if (!hasStats) {
+    return `<div class="stats">
+      <span class="stats__empty">Stats no cargadas todavía.</span>
+      <button class="stats__refresh" data-stats-id="${item.id}">Cargar</button>
+    </div>`;
+  }
+  const labels = {
+    likes: item.platform === "ig" ? "me gusta" : "reacciones",
+    comments: "comentarios",
+    shares: "shares",
+    saves: "guardados",
+    reach: "alcance",
+    views: item.kind === "reel" ? "plays" : (item.platform === "ig" ? "vistas" : "clicks"),
+  };
+  const parts = [];
+  for (const k of ["likes", "comments", "shares", "saves", "reach", "views"]) {
+    const v = item[k];
+    if (typeof v === "number" && v > 0) {
+      parts.push(`<span class="stats__metric"><strong>${v.toLocaleString("es-CL")}</strong> ${labels[k]}</span>`);
+    }
+  }
+  if (!parts.length) parts.push(`<span class="stats__empty">Sin actividad aún.</span>`);
+  return `<div class="stats">
+    ${parts.join(" · ")}
+    <span class="stats__time">${fmtWhen(item.stats_fetched_at)}</span>
+    <button class="stats__refresh" data-stats-id="${item.id}">Actualizar</button>
+  </div>`;
+}
+
+async function onItemAction(e) {
+  const id = e.currentTarget.dataset.id;
+  const action = e.currentTarget.dataset.action;
+  if (action === "cancel") {
+    if (!confirm("¿Cancelar esta publicación?")) return;
+    await api("/queue/" + id, { method: "DELETE" });
+    toast("Cancelada.");
+    await refreshQueue();
+  } else if (action === "publish-now") {
+    await api("/queue/" + id + "/publish-now", { method: "POST" });
+    toast("Marcado para publicar en el próximo tick (~1 min).");
+    await refreshQueue();
+  }
+}
+
+// ============================================================================
+// Boot
+// ============================================================================
+async function boot() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderFields();
+  try {
+    const w = await api("/whoami");
+    const ig = w.instagram_business_account || {};
+    document.getElementById("whoami").textContent = `${w.name} · ${w.fan_count || 0} seguidores · IG @${ig.username || "?"} (${ig.followers_count || 0})`;
+  } catch (e) {
+    document.getElementById("whoami").textContent = "Error consultando la cuenta.";
+  }
+  await refreshQueue();
+  await refreshHistory();
+  setInterval(refreshQueue, 30_000);
+  setInterval(refreshHistory, 60_000);
+}
+
+// Auto-boot if session exists
+(async () => {
+  try { await api("/me"); boot(); } catch { /* show gate */ }
+})();
+</script>
+</body>
+</html>

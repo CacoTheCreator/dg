@@ -13,3 +13,33 @@ not_found_handling = "404-page"
 [[routes]]
 pattern = "dailygrind.cl/*"
 zone_name = "dailygrind.cl"
+
+# Publisher: cola persistente y audit log
+[[d1_databases]]
+binding = "DB"
+database_name = "publisher"
+database_id = "7347c39b-a3cc-4b90-97db-4acd57540c4b"
+
+# Publisher: hosting de imágenes y videos para FB/IG
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "dg-media"
+
+# Publisher: scheduler corre cada minuto
+[triggers]
+crons = ["* * * * *"]
+
+# Variables públicas (no son secretos)
+[vars]
+META_GRAPH_VERSION = "v23.0"
+IG_RATE_LIMIT_24H = "25"
+SESSION_TTL_DAYS = "30"
+
+# Secrets requeridos (setear via `npx wrangler secret put NOMBRE`):
+#   PAGE_ID
+#   IG_USER_ID
+#   PAGE_ACCESS_TOKEN
+#   LONG_USER_TOKEN
+#   APP_ID
+#   APP_SECRET
+#   PUBLISHER_PIN
