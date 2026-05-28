@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+
+<title>The Power Block · preview — The Daily Grind</title>
+
+<meta property="og:title" content="The Power Block · Daily Grind">
+<meta property="og:description" content="Sándwich premium + bebida o shot. 13:00 a 15:30. Comes y vuelves a la sala.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://dailygrind.cl/previews/power-block/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Power Block · Daily Grind">
+<meta name="twitter:description" content="Sándwich + bebida o shot. Sin pesadez de almuerzo.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+    --ember:   #e85a2d;
+    --ember-lt:#f08566;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .crumbs-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(232,90,45,.18);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .crumbs-bar img { height: 32px; width: auto; }
+  .crumbs {
+    font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--sky-lt); opacity: .8;
+  }
+  .crumbs a { transition: color .15s; }
+  .crumbs a:hover { color: var(--ember); }
+
+  /* HERO — energía contenida */
+  .hero {
+    padding: 88px 24px 56px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(232,90,45,.22), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(81,181,242,.08), transparent 50%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--ember-lt);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(232,90,45,.42);
+    border-radius: 999px;
+  }
+
+  .hero h1 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(40px, 8vw, 84px);
+    line-height: .98; letter-spacing: -.025em;
+    color: var(--cream);
+    margin: 0 auto 24px;
+    max-width: 940px;
+  }
+  .hero h1 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--ember);
+  }
+  .hero .sub {
+    font-family: "Syne", sans-serif;
+    font-weight: 400; font-style: italic;
+    font-size: clamp(16px, 2.6vw, 22px);
+    line-height: 1.4; color: var(--ember-lt);
+    max-width: 56ch; margin: 0 auto 28px;
+  }
+  .hero .lede {
+    font-weight: 300; font-size: clamp(14.5px, 1.9vw, 16.5px);
+    line-height: 1.65; color: rgba(249,243,236,.78);
+    max-width: 58ch; margin: 0 auto;
+  }
+
+  /* MECÁNICA — bloque oscuro intenso */
+  .mecanica {
+    background: var(--navy-2);
+    color: var(--cream);
+    padding: 96px 24px;
+    position: relative;
+  }
+  .mecanica::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ember), transparent);
+  }
+  .mecanica-inner { max-width: 880px; margin: 0 auto; }
+
+  .section-label {
+    display: block; text-align: center;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .32em; text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 22px;
+  }
+  .mecanica h2 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.4vw, 52px);
+    line-height: 1.04; letter-spacing: -.02em;
+    color: var(--cream);
+    text-align: center; margin: 0 auto 44px;
+    max-width: 720px;
+  }
+  .mecanica h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--ember);
+  }
+
+  .combo-card {
+    background: rgba(232,90,45,.06);
+    border: 1px solid rgba(232,90,45,.22);
+    border-radius: 8px;
+    padding: 36px 32px 32px;
+    display: grid; grid-template-columns: 1fr; gap: 22px;
+  }
+  @media (min-width: 720px) {
+    .combo-card {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 40px 44px; gap: 32px;
+    }
+  }
+
+  .combo-card .items { display: flex; flex-direction: column; gap: 10px; }
+  .combo-card .item {
+    display: flex; align-items: baseline; gap: 12px;
+    font-family: "Syne", sans-serif; font-weight: 400;
+    font-size: clamp(20px, 3vw, 26px);
+    color: var(--cream);
+    line-height: 1.2; letter-spacing: -.005em;
+  }
+  .combo-card .item .pill {
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--navy);
+    background: var(--ember);
+    padding: 4px 10px; border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .combo-card .item em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: rgba(166,217,248,.6);
+    font-size: 15px;
+  }
+
+  .combo-price {
+    text-align: right;
+    border-left: 1px dashed rgba(232,90,45,.32);
+    padding-left: 32px;
+  }
+  @media (max-width: 719px) {
+    .combo-price {
+      border-left: none;
+      border-top: 1px dashed rgba(232,90,45,.32);
+      padding: 22px 0 0; text-align: left;
+    }
+  }
+  .combo-price .label {
+    display: block;
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+    color: rgba(166,217,248,.55);
+    margin-bottom: 10px;
+  }
+  .combo-price .amount {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(48px, 8vw, 76px);
+    line-height: .9; letter-spacing: -.03em;
+    color: var(--cream);
+  }
+  .combo-price .currency {
+    font-size: 50%;
+    color: var(--ember);
+    vertical-align: top; margin-right: 4px;
+  }
+
+  /* BENEFICIOS */
+  .beneficios {
+    background: var(--navy);
+    padding: 88px 24px;
+  }
+  .beneficios-inner { max-width: 1040px; margin: 0 auto; }
+  .beneficios h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4.6vw, 42px);
+    line-height: 1.05; letter-spacing: -.015em;
+    text-align: center;
+    color: var(--cream);
+    margin-bottom: 56px;
+    max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  .beneficios h3 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--ember);
+  }
+
+  .ben-grid {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 720px) {
+    .ben-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  }
+
+  .ben {
+    background: rgba(232,90,45,.05);
+    border: 1px solid rgba(232,90,45,.18);
+    border-radius: 6px;
+    padding: 28px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .2s, background .2s;
+  }
+  .ben:hover { border-color: rgba(232,90,45,.4); background: rgba(232,90,45,.08); }
+  .ben .num {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: .26em;
+    color: var(--ember);
+  }
+  .ben h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 19px; line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -.005em;
+  }
+  .ben p {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.6; color: rgba(166,217,248,.78);
+  }
+
+  /* HORARIO */
+  .horario {
+    background: var(--navy);
+    padding: 80px 24px 64px;
+    text-align: center;
+    border-top: 1px solid rgba(232,90,45,.14);
+  }
+  .horario .chip {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--ember);
+    color: var(--cream);
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 13px; letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .horario .chip::before {
+    content: "■"; color: var(--cream); font-size: 9px;
+  }
+  .horario h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3.6vw, 30px);
+    color: var(--cream);
+    margin-bottom: 8px;
+    letter-spacing: -.005em;
+  }
+  .horario .detail {
+    font-size: 14px; font-weight: 300;
+    color: rgba(166,217,248,.7);
+    max-width: 50ch; margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* PREVIEW FOOT */
+  .preview-foot {
+    background: var(--navy);
+    border-top: 1px solid rgba(166,217,248,.14);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: rgba(166,217,248,.55);
+    font-size: 11px; letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .preview-foot em {
+    font-style: italic; font-weight: 300;
+    text-transform: none; letter-spacing: .04em;
+    display: block; margin-top: 8px;
+    color: rgba(166,217,248,.42);
+  }
+  .preview-foot a {
+    color: var(--sky-lt);
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .preview-foot a:hover { border-color: var(--ember); }
+
+  .ph {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(232,90,45,.15);
+    border: 1px dashed rgba(232,90,45,.5);
+    border-radius: 3px;
+    color: var(--ember-lt);
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    font-size: .82em;
+  }
+
+  @media (max-width: 480px) {
+    .crumbs-bar { padding: 12px 16px; }
+    .crumbs { font-size: 9.5px; letter-spacing: .22em; }
+    .hero { padding: 60px 18px 44px; }
+    .mecanica { padding: 64px 18px; }
+    .beneficios { padding: 64px 18px; }
+    .horario { padding: 56px 18px; }
+    .combo-card { padding: 26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="crumbs-bar">
+    <a href="/"><img src="/LogoTDG.svg" alt="The Daily Grind"></a>
+    <div class="crumbs">
+      <a href="/previews/activaciones/">PROGRAMA</a> &nbsp;·&nbsp; VOL · 04 &nbsp;·&nbsp; POWER BLOCK
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">■ 13:00 — 15:30</span>
+    <h1>Comes y <em>vuelves a la sala.</em></h1>
+    <p class="sub">The Power Block · sándwich + bebida o shot.</p>
+    <p class="lede">
+      No es el almuerzo que te deja pesado el resto de la tarde.
+      Es lo justo: un sándwich premium, una bebida que despierta,
+      y vuelves a clase con la cabeza encendida.
+    </p>
+  </section>
+
+  <section class="mecanica">
+    <div class="mecanica-inner">
+      <span class="section-label">El block</span>
+      <h2>Energía limpia, <em>servida rápido.</em></h2>
+
+      <div class="combo-card">
+        <div class="items">
+          <div class="item">
+            <span class="pill">Sándwich</span>
+            <span>Premium del día <em>· caliente, listo al toque</em></span>
+          </div>
+          <div class="item">
+            <span class="pill">Líquido</span>
+            <span>Bebida <em>o</em> shot energético</span>
+          </div>
+        </div>
+        <div class="combo-price">
+          <span class="label">Combo Power</span>
+          <div class="amount">
+            <span class="currency">$</span><span class="ph">X.XXX</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="beneficios">
+    <div class="beneficios-inner">
+      <h3>Por qué <em>aguanta la tarde</em></h3>
+      <div class="ben-grid">
+        <div class="ben">
+          <span class="num">■ 01</span>
+          <h4>Sin pesadez de almuerzo.</h4>
+          <p>Pensado como ventana intermedia: te llena lo justo para volver a la sala sin que te caigan los párpados.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 02</span>
+          <h4>Listo en el tiempo del recreo.</h4>
+          <p>Sales de clase, llegas, te lo entregamos. La operación está armada para que comas en 15 minutos.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 03</span>
+          <h4>Energía que no te corta a las 17:00.</h4>
+          <p>El shot es opcional pero la bebida está pensada para acompañar el resto de la jornada, no para venirse abajo a media tarde.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="horario">
+    <div class="chip">13:00 — 15:30 hrs</div>
+    <h4>Ventana fija. Cinco días a la semana.</h4>
+    <p class="detail">
+      Disponible solo durante el bloque de almuerzo extendido. Pensado para los que tienen clase corrida en la tarde.
+      <span class="ph">[ confirmar días exactos si difiere ]</span>
+    </p>
+  </section>
+
+  <footer class="preview-foot">
+    Preview · Programa de activaciones Vol. 04 · <a href="/previews/activaciones/">Ver el programa completo →</a>
+    <em>Borrador editorial. Precio y composición del sándwich pendientes.</em>
+  </footer>
+
+</body>
+</html>

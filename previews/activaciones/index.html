@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+
+<title>Programa de Activaciones · Vol. 04 — The Daily Grind</title>
+
+<meta property="og:title" content="Programa de Activaciones · Vol. 04 — The Daily Grind">
+<meta property="og:description" content="Cuatro activaciones diseñadas alrededor del día UAI: mañana, lunch, tarde y siempre.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://dailygrind.cl/previews/activaciones/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Programa de Activaciones · Vol. 04">
+<meta name="twitter:description" content="Cuatro activaciones para el día completo.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --sky-deep:#2476c5;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+    --amber:   #f4c069;
+    --ember:   #e85a2d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .crumbs-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(166,217,248,.12);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .crumbs-bar img { height: 32px; width: auto; }
+  .crumbs {
+    font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--sky-lt); opacity: .8;
+  }
+  .crumbs a { transition: color .15s; }
+  .crumbs a:hover { color: var(--sky); }
+
+  /* HERO */
+  .hero {
+    padding: 88px 24px 56px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 18% 24%, rgba(244,192,105,.10), transparent 45%),
+      radial-gradient(circle at 50% 88%, rgba(81,181,242,.14), transparent 50%),
+      radial-gradient(circle at 86% 24%, rgba(232,90,45,.10), transparent 45%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(81,181,242,.32);
+    border-radius: 999px;
+  }
+
+  .hero h1 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(40px, 8vw, 80px);
+    line-height: .98; letter-spacing: -.025em;
+    color: var(--cream);
+    margin: 0 auto 24px;
+    max-width: 920px;
+  }
+  .hero h1 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+  }
+  .hero .sub {
+    font-family: "Syne", sans-serif;
+    font-weight: 400; font-style: italic;
+    font-size: clamp(16px, 2.6vw, 22px);
+    line-height: 1.4; color: var(--sky-lt);
+    max-width: 60ch; margin: 0 auto 28px;
+  }
+  .hero .lede {
+    font-weight: 300; font-size: clamp(14.5px, 1.9vw, 16.5px);
+    line-height: 1.65; color: rgba(249,243,236,.78);
+    max-width: 60ch; margin: 0 auto;
+  }
+
+  /* TIMELINE DEL DÍA */
+  .timeline-section {
+    background: var(--navy-2);
+    padding: 96px 24px;
+  }
+  .timeline-inner { max-width: 1080px; margin: 0 auto; }
+
+  .section-label {
+    display: block; text-align: center;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .32em; text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 22px;
+  }
+
+  .section-h2 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(34px, 5.6vw, 56px);
+    line-height: 1.02; letter-spacing: -.02em;
+    color: var(--cream);
+    text-align: center; margin: 0 auto 18px;
+    max-width: 720px;
+  }
+  .section-h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+  }
+
+  .section-intro {
+    font-size: 15px; font-weight: 300;
+    line-height: 1.65;
+    color: rgba(166,217,248,.78);
+    max-width: 56ch;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  @media (min-width: 720px) {
+    .cards { grid-template-columns: 1fr 1fr; gap: 26px; }
+  }
+  @media (min-width: 1080px) {
+    .cards { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .card {
+    display: flex; flex-direction: column; gap: 14px;
+    padding: 30px 26px 26px;
+    border-radius: 8px;
+    border: 1px solid rgba(166,217,248,.16);
+    background: rgba(81,181,242,.04);
+    transition: border-color .2s, background .2s, transform .2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent, var(--sky));
+  }
+
+  .card:hover {
+    border-color: rgba(166,217,248,.36);
+    background: rgba(81,181,242,.07);
+    transform: translateY(-2px);
+  }
+
+  .card .badge {
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--accent, var(--sky));
+  }
+  .card h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3vw, 26px);
+    line-height: 1.1; letter-spacing: -.005em;
+    color: var(--cream);
+  }
+  .card h3 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--accent, var(--sky));
+  }
+  .card .schedule {
+    font-family: "Syne", sans-serif; font-weight: 400;
+    font-size: 13px;
+    color: rgba(166,217,248,.85);
+    letter-spacing: .03em;
+    padding: 6px 10px;
+    background: rgba(0,0,0,.18);
+    border-radius: 4px;
+    align-self: flex-start;
+  }
+  .card p {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.6; color: rgba(166,217,248,.78);
+  }
+  .card .points {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 6px;
+    margin-top: 4px;
+  }
+  .card .points li {
+    font-size: 13px; font-weight: 300;
+    color: rgba(166,217,248,.7);
+    padding-left: 14px; position: relative;
+    line-height: 1.5;
+  }
+  .card .points li::before {
+    content: "—";
+    position: absolute; left: 0;
+    color: var(--accent, var(--sky));
+  }
+  .card .more {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(166,217,248,.14);
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent, var(--sky));
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .card .more::after {
+    content: "→";
+    font-family: "Syne", sans-serif; font-weight: 400;
+    transition: transform .2s;
+  }
+  .card:hover .more::after { transform: translateX(4px); }
+
+  /* accents */
+  .card.combo    { --accent: var(--amber); }
+  .card.power    { --accent: var(--ember); }
+  .card.blue     { --accent: var(--sky); }
+  .card.belong   { --accent: var(--beige); }
+
+  /* RATIO */
+  .ratio {
+    background: var(--navy);
+    padding: 80px 24px;
+  }
+  .ratio-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .ratio p {
+    font-family: "Syne", sans-serif; font-weight: 400; font-style: italic;
+    font-size: clamp(20px, 3vw, 28px);
+    line-height: 1.45;
+    color: var(--cream);
+    max-width: 50ch; margin: 0 auto;
+  }
+  .ratio p em {
+    font-style: normal; font-weight: 700;
+    color: var(--sky);
+  }
+
+  /* PREVIEW FOOT */
+  .preview-foot {
+    background: var(--navy);
+    border-top: 1px solid rgba(166,217,248,.14);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: rgba(166,217,248,.55);
+    font-size: 11px; letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .preview-foot em {
+    font-style: italic; font-weight: 300;
+    text-transform: none; letter-spacing: .04em;
+    display: block; margin-top: 8px;
+    color: rgba(166,217,248,.42);
+  }
+  .preview-foot a {
+    color: var(--sky-lt);
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .preview-foot a:hover { border-color: var(--sky); }
+
+  @media (max-width: 480px) {
+    .crumbs-bar { padding: 12px 16px; }
+    .crumbs { font-size: 9.5px; letter-spacing: .22em; }
+    .hero { padding: 60px 18px 44px; }
+    .timeline-section { padding: 64px 18px; }
+    .ratio { padding: 64px 18px; }
+    .card { padding: 26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="crumbs-bar">
+    <a href="/"><img src="/LogoTDG.svg" alt="The Daily Grind"></a>
+    <div class="crumbs">
+      <a href="/previews">PREVIEWS</a> &nbsp;·&nbsp; VOL · 04 &nbsp;·&nbsp; PROGRAMA
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">■ Las activaciones · Vol. 04</span>
+    <h1>El programa que <em>sigue tu día.</em></h1>
+    <p class="sub">Cuatro activaciones. Una para cada momento del campus.</p>
+    <p class="lede">
+      Pensadas alrededor del comportamiento real del estudiante UAI:
+      sus horarios, sus recreos, su economía y su necesidad de sentirse parte del lugar.
+      Cada activación tiene su hora, su precio y su razón de existir.
+    </p>
+  </section>
+
+  <section class="timeline-section">
+    <div class="timeline-inner">
+      <span class="section-label">El programa</span>
+      <h2 class="section-h2">Cuatro <em>activaciones masivas.</em></h2>
+      <p class="section-intro">
+        Mañana, lunch, tarde y comunidad. Cada una vive en su ventana y tiene su mecánica propia. Entra a cada una para ver la pieza completa.
+      </p>
+
+      <div class="cards">
+
+        <a class="card combo" href="/previews/combo-estudio/">
+          <span class="badge">■ Bloque mañana</span>
+          <span class="schedule">Antes de la primera clase</span>
+          <h3>Combo <em>Estudio Intensivo</em></h3>
+          <ul class="points">
+            <li>Americano o Espresso + Muffin</li>
+            <li>Precio cerrado, sin pensarlo</li>
+            <li>Tu desayuno por defecto</li>
+          </ul>
+          <span class="more">Ver pieza completa</span>
+        </a>
+
+        <a class="card power" href="/previews/power-block/">
+          <span class="badge">■ 13:00 — 15:30</span>
+          <span class="schedule">Ventana de almuerzo</span>
+          <h3>The <em>Power Block</em></h3>
+          <ul class="points">
+            <li>Sándwich premium + bebida o shot</li>
+            <li>Rapidez sin pesadez</li>
+            <li>Energía limpia para la tarde</li>
+          </ul>
+          <span class="more">Ver pieza completa</span>
+        </a>
+
+        <a class="card blue" href="/previews/blue-hour/">
+          <span class="badge">■ Mar y Jue · 16:00 — 17:00</span>
+          <span class="schedule">Solo dos horas a la semana</span>
+          <h3>The <em>Blue Hour</em></h3>
+          <ul class="points">
+            <li>2 × 1 en Blue Latte o Açaí Bowl</li>
+            <li>Una hora exacta</li>
+            <li>Mejor con compañía</li>
+          </ul>
+          <span class="more">Ver pieza completa</span>
+        </a>
+
+        <a class="card belong" href="/previews/pertenencia/">
+          <span class="badge">■ Todo el día</span>
+          <span class="schedule">Sin app, sin tarjeta</span>
+          <h3>Promo de <em>Pertenencia</em></h3>
+          <ul class="points">
+            <li>15% con termo o mug propio</li>
+            <li>15% con merch oficial Vol. 04</li>
+            <li>El descuento se lleva puesto</li>
+          </ul>
+          <span class="more">Ver pieza completa</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="ratio">
+    <div class="ratio-inner">
+      <p>
+        El programa <em>no es una grilla de promos.</em>
+        Es la forma en que el local se adapta a un día completo de campus, hora por hora.
+      </p>
+    </div>
+  </section>
+
+  <footer class="preview-foot">
+    Preview interno · The Daily Grind · Programa Vol. 04
+    <em>Cuatro piezas independientes. <a href="/previews">Volver a previews →</a></em>
+  </footer>
+
+</body>
+</html>

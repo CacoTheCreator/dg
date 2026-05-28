@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1e56">
+<meta name="robots" content="noindex,nofollow">
+<title>DailyBack · El raspe — previews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --cream-soft: #f3ece0;
+    --beige:   #e3ded9;
+    --dark:    #212529;
+
+    --acai-grande: #4a1e5c;
+    --acai-grande-lt: #6b3a82;
+    --acai-chico: #6f3d8a;
+    --acai-chico-lt: #9c70b5;
+    --pistacho-grande: #5e8c4a;
+    --pistacho-grande-lt: #a8c98f;
+    --pistacho-chico: #7aa166;
+    --pistacho-chico-lt: #b8d2a3;
+    --cafe: #5c3a25;
+    --cafe-lt: #8a5c3f;
+    --otro: #51b5f2;
+    --otro-lt: #a6d9f8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
+
+  main {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 32px 22px 80px;
+  }
+
+  .kicker {
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--navy);
+    opacity: .6;
+    font-weight: 500;
+  }
+
+  .masthead h1 {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(38px, 9vw, 56px);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin: 12px 0 14px;
+  }
+
+  .lede {
+    font-size: 15px;
+    font-weight: 300;
+    max-width: 34ch;
+    color: var(--navy);
+    opacity: .78;
+  }
+
+  .card {
+    margin-top: 36px;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 28px 24px 32px;
+  }
+
+  .vol {
+    font-size: 10px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--sky);
+    font-weight: 500;
+  }
+
+  .card-title {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -.01em;
+    margin: 6px 0 26px;
+  }
+
+  .stamps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+  .stamp {
+    aspect-ratio: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .stamp.filled { background: var(--sky); color: var(--navy); }
+
+  .stamp.empty {
+    border: 1px dashed rgba(166,217,248,.35);
+    color: var(--sky-lt);
+    opacity: .55;
+  }
+
+  .stamp.scratch {
+    background: var(--cream-soft);
+    color: var(--navy);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  .stamp.scratch .stamp-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--accent, var(--navy));
+    z-index: 1;
+  }
+
+  .stamp.scratch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent-lt, var(--sky-lt));
+    opacity: .18;
+    z-index: 1;
+  }
+
+  .stamp.scratch canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .scratch-hint {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--cream);
+    mix-blend-mode: difference;
+    z-index: 3;
+    pointer-events: none;
+    opacity: .85;
+  }
+
+  .reveal {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(166,217,248,.22);
+  }
+
+  .reveal-product {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -.01em;
+    color: var(--cream);
+  }
+
+  .reveal-message {
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--sky-lt);
+    margin-top: 6px;
+  }
+
+  .selector { margin-top: 30px; }
+
+  .selector-label {
+    font-size: 10px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--navy);
+    opacity: .6;
+    margin-bottom: 12px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    letter-spacing: .04em;
+    font-weight: 500;
+    padding: 9px 14px;
+    background: transparent;
+    border: 1px solid rgba(14,30,86,.18);
+    color: var(--navy);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+
+  .chip:hover { border-color: var(--navy); }
+  .chip[aria-pressed="true"] {
+    background: var(--navy);
+    color: var(--cream);
+    border-color: var(--navy);
+  }
+
+  .reset {
+    display: block;
+    margin-top: 14px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--navy);
+    opacity: .55;
+    padding: 0;
+  }
+
+  .reset:hover { opacity: 1; }
+
+  .notes {
+    margin-top: 60px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(14,30,86,.12);
+    font-size: 12px;
+    color: var(--navy);
+    opacity: .7;
+  }
+
+  .notes ul { list-style: none; margin-top: 10px; }
+  .notes li { padding: 4px 0; }
+  .notes li::before { content: "·  "; opacity: .5; }
+
+  body[data-product="acai-grande"]    { --accent: var(--acai-grande);    --accent-lt: var(--acai-grande-lt); }
+  body[data-product="acai-chico"]     { --accent: var(--acai-chico);     --accent-lt: var(--acai-chico-lt); }
+  body[data-product="pistacho-grande"]{ --accent: var(--pistacho-grande);--accent-lt: var(--pistacho-grande-lt); }
+  body[data-product="pistacho-chico"] { --accent: var(--pistacho-chico); --accent-lt: var(--pistacho-chico-lt); }
+  body[data-product="cafe"]           { --accent: var(--cafe);           --accent-lt: var(--cafe-lt); }
+  body[data-product="otro"]           { --accent: var(--otro);           --accent-lt: var(--otro-lt); }
+</style>
+</head>
+<body data-product="acai-grande">
+<main>
+  <header class="masthead">
+    <p class="kicker">DailyBack · previews</p>
+    <h1>El raspe.</h1>
+    <p class="lede">Cada sello esconde lo que te tomaste. Raspa para revelar. Concepto, todavía no en vivo.</p>
+  </header>
+
+  <section class="card">
+    <p class="vol">Vol. 04 · Daily Grind</p>
+    <p class="card-title">Tarjeta DailyBack</p>
+
+    <ol class="stamps">
+      <li class="stamp filled">1</li>
+      <li class="stamp filled">2</li>
+      <li class="stamp filled">3</li>
+      <li class="stamp filled">4</li>
+      <li class="stamp filled">5</li>
+      <li class="stamp filled">6</li>
+      <li class="stamp scratch" data-current="true">
+        <span class="stamp-number">7</span>
+        <canvas id="raspe" aria-label="Zona para raspar"></canvas>
+        <span class="scratch-hint">raspa</span>
+      </li>
+      <li class="stamp empty">8</li>
+      <li class="stamp empty">9</li>
+      <li class="stamp empty">10</li>
+    </ol>
+
+    <div class="reveal" id="reveal" hidden>
+      <p class="reveal-product" id="revealProduct">Açaí grande</p>
+      <p class="reveal-message" id="revealMessage">Sello 7. Tres más y va el café de la casa.</p>
+    </div>
+  </section>
+
+  <section class="selector" aria-label="Producto del último sello">
+    <p class="selector-label">Producto del sello</p>
+    <div class="chips" role="radiogroup">
+      <button class="chip" data-product="acai-grande" aria-pressed="true">Açaí grande</button>
+      <button class="chip" data-product="acai-chico" aria-pressed="false">Açaí chico</button>
+      <button class="chip" data-product="pistacho-grande" aria-pressed="false">Pistacho grande</button>
+      <button class="chip" data-product="pistacho-chico" aria-pressed="false">Pistacho chico</button>
+      <button class="chip" data-product="cafe" aria-pressed="false">Café</button>
+      <button class="chip" data-product="otro" aria-pressed="false">Otro</button>
+    </div>
+    <button class="reset" id="reset">Volver a cubrir</button>
+  </section>
+
+  <section class="notes">
+    <p class="kicker">notas internas</p>
+    <ul>
+      <li>El raspe vive solo en el lado del cliente, no del grinder.</li>
+      <li>El producto lo elige el grinder al sellar; el cliente solo revela.</li>
+      <li>Cada producto trae su textura: pearl açaí, miga pistacho, grano café.</li>
+      <li>La revelación se auto-completa cuando supera el 55% de área limpia.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  var PRODUCTS = {
+    "acai-grande": { label: "Açaí grande", accent: "#4a1e5c", accentLt: "#6b3a82", texture: "pearl", message: "Sello 7. Tres más y va el café de la casa." },
+    "acai-chico": { label: "Açaí chico", accent: "#6f3d8a", accentLt: "#9c70b5", texture: "pearl", message: "Sello 7. Pequeño hoy, café gratis cerca." },
+    "pistacho-grande": { label: "Pistacho grande", accent: "#5e8c4a", accentLt: "#a8c98f", texture: "crumb", message: "Sello 7. El sello de la casa va sumando." },
+    "pistacho-chico": { label: "Pistacho chico", accent: "#7aa166", accentLt: "#b8d2a3", texture: "crumb", message: "Sello 7. El sello de la casa, dosis chica." },
+    "cafe": { label: "Café", accent: "#5c3a25", accentLt: "#8a5c3f", texture: "grain", message: "Sello 7. Tres más y este se va de cortesía." },
+    "otro": { label: "Otro", accent: "#51b5f2", accentLt: "#a6d9f8", texture: "neutral", message: "Sello 7. Tres más y café gratis." }
+  };
+
+  var canvas = document.getElementById("raspe");
+  var ctx = canvas.getContext("2d");
+  var reveal = document.getElementById("reveal");
+  var revealProduct = document.getElementById("revealProduct");
+  var revealMessage = document.getElementById("revealMessage");
+  var chips = document.querySelectorAll(".chip");
+  var resetBtn = document.getElementById("reset");
+
+  var currentProduct = "acai-grande";
+  var isDrawing = false;
+  var revealed = false;
+
+  function sizeCanvas() {
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(64, Math.floor(rect.width * dpr));
+    canvas.height = Math.max(64, Math.floor(rect.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function drawTexture(productKey) {
+    var product = PRODUCTS[productKey];
+    var w = canvas.clientWidth;
+    var h = canvas.clientHeight;
+
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = product.accent;
+    ctx.fillRect(0, 0, w, h);
+
+    var grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, product.accentLt + "55");
+    grad.addColorStop(1, "transparent");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = product.accentLt;
+    var dotCount = product.texture === "pearl" ? 80 :
+                   product.texture === "crumb" ? 130 :
+                   product.texture === "grain" ? 60 : 40;
+    for (var i = 0; i < dotCount; i++) {
+      var x = Math.random() * w;
+      var y = Math.random() * h;
+      var r = product.texture === "pearl" ? 1.6 + Math.random() * 1.2 :
+              product.texture === "crumb" ? 0.5 + Math.random() * 0.9 :
+              product.texture === "grain" ? 0.8 + Math.random() * 1.4 :
+              0.6 + Math.random() * 0.8;
+      ctx.globalAlpha = 0.4 + Math.random() * 0.5;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    var vignette = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.3, w / 2, h / 2, Math.max(w, h) * 0.7);
+    vignette.addColorStop(0, "transparent");
+    vignette.addColorStop(1, "rgba(0,0,0,0.25)");
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  function clearAt(x, y) {
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.arc(x, y, 14, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function pct() {
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    var cleared = 0;
+    for (var i = 3; i < data.length; i += 16) {
+      if (data[i] === 0) cleared++;
+    }
+    return cleared / (data.length / 16);
+  }
+
+  function pointerXY(e) {
+    var rect = canvas.getBoundingClientRect();
+    if (e.touches && e.touches[0]) {
+      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    }
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  function checkReveal() {
+    if (revealed) return;
+    if (pct() > 0.55) {
+      revealed = true;
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      showReveal();
+    }
+  }
+
+  function showReveal() {
+    var p = PRODUCTS[currentProduct];
+    revealProduct.textContent = p.label;
+    revealMessage.textContent = p.message;
+    reveal.hidden = false;
+  }
+
+  function hideReveal() { reveal.hidden = true; }
+
+  function startDraw(e) {
+    e.preventDefault();
+    if (revealed) return;
+    isDrawing = true;
+    var pt = pointerXY(e);
+    clearAt(pt.x, pt.y);
+  }
+
+  function moveDraw(e) {
+    if (!isDrawing || revealed) return;
+    e.preventDefault();
+    var pt = pointerXY(e);
+    clearAt(pt.x, pt.y);
+  }
+
+  function endDraw() {
+    if (!isDrawing) return;
+    isDrawing = false;
+    checkReveal();
+  }
+
+  function applyProduct(key) {
+    currentProduct = key;
+    document.body.setAttribute("data-product", key);
+    chips.forEach(function (c) {
+      c.setAttribute("aria-pressed", c.getAttribute("data-product") === key ? "true" : "false");
+    });
+    resetScratch();
+  }
+
+  function resetScratch() {
+    revealed = false;
+    hideReveal();
+    sizeCanvas();
+    drawTexture(currentProduct);
+  }
+
+  canvas.addEventListener("mousedown", startDraw);
+  canvas.addEventListener("mousemove", moveDraw);
+  window.addEventListener("mouseup", endDraw);
+  canvas.addEventListener("touchstart", startDraw, { passive: false });
+  canvas.addEventListener("touchmove", moveDraw, { passive: false });
+  canvas.addEventListener("touchend", endDraw);
+  canvas.addEventListener("touchcancel", endDraw);
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      applyProduct(chip.getAttribute("data-product"));
+    });
+  });
+
+  resetBtn.addEventListener("click", resetScratch);
+
+  window.addEventListener("resize", function () {
+    var wasRevealed = revealed;
+    sizeCanvas();
+    drawTexture(currentProduct);
+    if (wasRevealed) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    }
+  });
+
+  window.addEventListener("load", function () {
+    sizeCanvas();
+    drawTexture(currentProduct);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+
+<title>Promo de Pertenencia · preview — The Daily Grind</title>
+
+<meta property="og:title" content="Promo de Pertenencia · Daily Grind">
+<meta property="og:description" content="15% con tu termo. 15% con la camisa Vol. 04. Todos los días.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://dailygrind.cl/previews/pertenencia/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Promo de Pertenencia · Daily Grind">
+<meta name="twitter:description" content="Trae tu termo o ven con la merch. 15% siempre.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --beige-3: #c8c2bd;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .crumbs-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(227,222,217,.18);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .crumbs-bar img { height: 32px; width: auto; }
+  .crumbs {
+    font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--sky-lt); opacity: .8;
+  }
+  .crumbs a { transition: color .15s; }
+  .crumbs a:hover { color: var(--cream); }
+
+  /* HERO — calidez, hogar */
+  .hero {
+    padding: 88px 24px 56px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 100%, rgba(227,222,217,.16), transparent 50%),
+      radial-gradient(circle at 10% 30%, rgba(81,181,242,.06), transparent 50%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--beige);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(227,222,217,.4);
+    border-radius: 999px;
+  }
+
+  .hero h1 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(40px, 8vw, 84px);
+    line-height: .98; letter-spacing: -.025em;
+    color: var(--cream);
+    margin: 0 auto 24px;
+    max-width: 940px;
+  }
+  .hero h1 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--beige);
+  }
+  .hero .sub {
+    font-family: "Syne", sans-serif;
+    font-weight: 400; font-style: italic;
+    font-size: clamp(16px, 2.6vw, 22px);
+    line-height: 1.4; color: var(--beige-2);
+    max-width: 56ch; margin: 0 auto 28px;
+  }
+  .hero .lede {
+    font-weight: 300; font-size: clamp(14.5px, 1.9vw, 16.5px);
+    line-height: 1.65; color: rgba(249,243,236,.78);
+    max-width: 58ch; margin: 0 auto;
+  }
+
+  /* MECÁNICA — beige block */
+  .mecanica {
+    background: var(--beige);
+    color: var(--navy);
+    padding: 96px 24px;
+  }
+  .mecanica-inner { max-width: 1040px; margin: 0 auto; }
+
+  .section-label {
+    display: block; text-align: center;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .32em; text-transform: uppercase;
+    color: rgba(14,30,86,.55);
+    margin-bottom: 22px;
+  }
+  .mecanica h2 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.4vw, 52px);
+    line-height: 1.04; letter-spacing: -.02em;
+    color: var(--navy);
+    text-align: center; margin: 0 auto 48px;
+    max-width: 720px;
+  }
+  .mecanica h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+  }
+
+  .rules {
+    display: grid; grid-template-columns: 1fr; gap: 22px;
+  }
+  @media (min-width: 720px) {
+    .rules { grid-template-columns: 1fr 1fr; gap: 28px; }
+  }
+
+  .rule {
+    background: var(--cream);
+    border: 1px solid rgba(14,30,86,.12);
+    border-radius: 10px;
+    padding: 36px 32px;
+    display: flex; flex-direction: column; gap: 16px;
+    box-shadow: 0 6px 28px rgba(14,30,86,.06);
+    position: relative;
+  }
+  .rule .icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -.01em;
+  }
+  .rule .label {
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+    color: rgba(14,30,86,.55);
+  }
+  .rule h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3vw, 28px);
+    line-height: 1.1; letter-spacing: -.005em;
+    color: var(--navy);
+  }
+  .rule p {
+    font-size: 14.5px; font-weight: 300;
+    line-height: 1.6; color: rgba(14,30,86,.7);
+  }
+  .rule .discount {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(14,30,86,.18);
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .rule .discount .num {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 44px; line-height: .9;
+    letter-spacing: -.02em;
+    color: var(--navy);
+  }
+  .rule .discount .pct {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 22px; color: var(--sky);
+  }
+  .rule .discount .frame {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500; font-size: 11px;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(14,30,86,.6);
+  }
+
+  .stack-note {
+    margin-top: 36px;
+    text-align: center;
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    font-size: 14px;
+    color: rgba(14,30,86,.65);
+    max-width: 50ch; margin-left: auto; margin-right: auto;
+  }
+
+  /* BENEFICIOS */
+  .beneficios {
+    background: var(--navy-2);
+    padding: 88px 24px;
+  }
+  .beneficios-inner { max-width: 1040px; margin: 0 auto; }
+  .beneficios h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4.6vw, 42px);
+    line-height: 1.05; letter-spacing: -.015em;
+    text-align: center;
+    color: var(--cream);
+    margin-bottom: 56px;
+    max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  .beneficios h3 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--beige);
+  }
+
+  .ben-grid {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 720px) {
+    .ben-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  }
+
+  .ben {
+    background: rgba(227,222,217,.05);
+    border: 1px solid rgba(227,222,217,.18);
+    border-radius: 6px;
+    padding: 28px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .2s, background .2s;
+  }
+  .ben:hover { border-color: rgba(227,222,217,.4); background: rgba(227,222,217,.08); }
+  .ben .num {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: .26em;
+    color: var(--beige);
+  }
+  .ben h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 19px; line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -.005em;
+  }
+  .ben p {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.6; color: rgba(166,217,248,.78);
+  }
+
+  /* HORARIO simple */
+  .horario {
+    background: var(--navy);
+    padding: 72px 24px 56px;
+    text-align: center;
+    border-top: 1px solid rgba(227,222,217,.14);
+  }
+  .horario .chip {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--beige);
+    color: var(--navy);
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 13px; letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .horario .chip::before {
+    content: "■"; color: var(--navy); font-size: 9px;
+  }
+  .horario h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3.6vw, 30px);
+    color: var(--cream);
+    margin-bottom: 8px;
+    letter-spacing: -.005em;
+  }
+  .horario .detail {
+    font-size: 14px; font-weight: 300;
+    color: rgba(166,217,248,.7);
+    max-width: 50ch; margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* PREVIEW FOOT */
+  .preview-foot {
+    background: var(--navy);
+    border-top: 1px solid rgba(166,217,248,.14);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: rgba(166,217,248,.55);
+    font-size: 11px; letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .preview-foot em {
+    font-style: italic; font-weight: 300;
+    text-transform: none; letter-spacing: .04em;
+    display: block; margin-top: 8px;
+    color: rgba(166,217,248,.42);
+  }
+  .preview-foot a {
+    color: var(--sky-lt);
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .preview-foot a:hover { border-color: var(--beige); }
+
+  .ph {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(227,222,217,.15);
+    border: 1px dashed rgba(227,222,217,.5);
+    border-radius: 3px;
+    color: var(--beige);
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    font-size: .82em;
+  }
+  .mecanica .ph {
+    background: rgba(14,30,86,.06);
+    border-color: rgba(14,30,86,.32);
+    color: var(--navy);
+  }
+
+  @media (max-width: 480px) {
+    .crumbs-bar { padding: 12px 16px; }
+    .crumbs { font-size: 9.5px; letter-spacing: .22em; }
+    .hero { padding: 60px 18px 44px; }
+    .mecanica { padding: 64px 18px; }
+    .beneficios { padding: 64px 18px; }
+    .horario { padding: 56px 18px; }
+    .rule { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="crumbs-bar">
+    <a href="/"><img src="/LogoTDG.svg" alt="The Daily Grind"></a>
+    <div class="crumbs">
+      <a href="/previews/activaciones/">PROGRAMA</a> &nbsp;·&nbsp; VOL · 04 &nbsp;·&nbsp; PERTENENCIA
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">■ Todos los días · sin app · sin tarjeta</span>
+    <h1>El descuento <em>se lleva puesto.</em></h1>
+    <p class="sub">Trae tu termo. O ven con la camisa Vol. 04. 15% siempre.</p>
+    <p class="lede">
+      Es la forma más directa que tenemos de pagarle a los que vuelven.
+      No necesitas registrarte ni descargar nada. Si te pertenece el lugar,
+      ya lo llevas encima.
+    </p>
+  </section>
+
+  <section class="mecanica">
+    <div class="mecanica-inner">
+      <span class="section-label">Las dos reglas</span>
+      <h2>Llega <em>así</em> y se aplica.</h2>
+
+      <div class="rules">
+        <article class="rule">
+          <div class="icon">■</div>
+          <span class="label">Regla 01</span>
+          <h3>Termo o mug propio.</h3>
+          <p>Lo traes lleno o te lo llenamos. Ahorras un vaso desechable, te ahorras un porcentaje, ahorramos basura.</p>
+          <div class="discount">
+            <span class="num">15</span><span class="pct">%</span>
+            <span class="frame">en tu bebida</span>
+          </div>
+        </article>
+
+        <article class="rule">
+          <div class="icon">■</div>
+          <span class="label">Regla 02</span>
+          <h3>Merch oficial Vol. 04.</h3>
+          <p>La camisa T01, la polera T02 o el gorro corduroy. Si la vistes, el descuento aplica. Es la forma de premiar a los que cargan la marca.</p>
+          <div class="discount">
+            <span class="num">15</span><span class="pct">%</span>
+            <span class="frame">en tu cuenta</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="stack-note">
+        Solo uno aplica por orden. Si vienes con termo y camisa, eliges cuál.
+        <span class="ph">[ confirmar si combinable ]</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="beneficios">
+    <div class="beneficios-inner">
+      <h3>Por qué <em>se siente real</em></h3>
+      <div class="ben-grid">
+        <div class="ben">
+          <span class="num">■ 01</span>
+          <h4>Sin tarjeta. Sin app.</h4>
+          <p>No te pedimos descargar nada ni registrarte. El descuento es físico: tu termo o tu camisa son la prueba.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 02</span>
+          <h4>Todos los días.</h4>
+          <p>No es promo del lunes ni del jueves. Es así siempre, mientras estés vistiendo o cargando el código.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 03</span>
+          <h4>Premia al que vuelve.</h4>
+          <p>La camisa la compraste una vez. El termo lo cargas todos los días. Esa repetición es lo que estamos reconociendo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="horario">
+    <div class="chip">Todo el día · todos los días</div>
+    <h4>Mientras el local esté abierto.</h4>
+    <p class="detail">No depende del horario. Depende de que llegues con tu termo o con la merch puesta.</p>
+  </section>
+
+  <footer class="preview-foot">
+    Preview · Programa de activaciones Vol. 04 · <a href="/previews/activaciones/">Ver el programa completo →</a>
+    <em>Borrador editorial. Reglas de stacking pendientes de confirmación.</em>
+  </footer>
+
+</body>
+</html>

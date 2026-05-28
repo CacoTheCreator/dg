@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+
+<title>The Blue Hour · preview — The Daily Grind</title>
+
+<meta property="og:title" content="The Blue Hour · Daily Grind">
+<meta property="og:description" content="Martes y jueves, 16:00 a 17:00. Dos por uno en Blue Lattes o Açaí Bowls.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://dailygrind.cl/previews/blue-hour/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Blue Hour · Daily Grind">
+<meta name="twitter:description" content="Dos por uno. Una hora exacta. Dos días a la semana.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --sky-deep:#2476c5;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .crumbs-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(81,181,242,.18);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .crumbs-bar img { height: 32px; width: auto; }
+  .crumbs {
+    font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--sky-lt); opacity: .8;
+  }
+  .crumbs a { transition: color .15s; }
+  .crumbs a:hover { color: var(--sky); }
+
+  /* HERO — pleno azul */
+  .hero {
+    padding: 96px 24px 64px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(81,181,242,.32), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(36,118,197,.18), transparent 50%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(81,181,242,.5);
+    border-radius: 999px;
+  }
+
+  .hero h1 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(44px, 9vw, 96px);
+    line-height: .96; letter-spacing: -.025em;
+    color: var(--cream);
+    margin: 0 auto 24px;
+    max-width: 940px;
+  }
+  .hero h1 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+  }
+  .hero .sub {
+    font-family: "Syne", sans-serif;
+    font-weight: 400; font-style: italic;
+    font-size: clamp(16px, 2.6vw, 22px);
+    line-height: 1.4; color: var(--sky-lt);
+    max-width: 56ch; margin: 0 auto 28px;
+  }
+  .hero .lede {
+    font-weight: 300; font-size: clamp(14.5px, 1.9vw, 16.5px);
+    line-height: 1.65; color: rgba(249,243,236,.8);
+    max-width: 58ch; margin: 0 auto;
+  }
+
+  .hero .badge-2x1 {
+    margin-top: 36px;
+    display: inline-flex; align-items: baseline; gap: 8px;
+    color: var(--sky);
+  }
+  .hero .badge-2x1 .num {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(64px, 11vw, 120px);
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+  .hero .badge-2x1 .x {
+    font-family: "Syne", sans-serif; font-weight: 400; font-style: italic;
+    font-size: clamp(28px, 4.4vw, 44px);
+    color: var(--sky-lt);
+    margin: 0 4px;
+  }
+
+  /* MECÁNICA — sky block */
+  .mecanica {
+    background: var(--sky-lt);
+    color: var(--navy);
+    padding: 96px 24px;
+  }
+  .mecanica-inner { max-width: 880px; margin: 0 auto; }
+
+  .section-label {
+    display: block; text-align: center;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: .32em; text-transform: uppercase;
+    color: var(--sky-deep);
+    margin-bottom: 22px;
+  }
+  .mecanica h2 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.4vw, 52px);
+    line-height: 1.04; letter-spacing: -.02em;
+    color: var(--navy);
+    text-align: center; margin: 0 auto 44px;
+    max-width: 720px;
+  }
+  .mecanica h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky-deep);
+  }
+
+  .pick-grid {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 720px) {
+    .pick-grid { grid-template-columns: 1fr 1fr; gap: 22px; }
+  }
+  .pick {
+    background: var(--cream);
+    border: 1px solid rgba(14,30,86,.12);
+    border-radius: 8px;
+    padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    box-shadow: 0 6px 28px rgba(14,30,86,.08);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .pick:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(14,30,86,.12);
+  }
+  .pick .pill {
+    align-self: flex-start;
+    font-family: "DM Sans", sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--cream);
+    background: var(--navy);
+    padding: 5px 11px; border-radius: 3px;
+  }
+  .pick h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(24px, 3.4vw, 32px);
+    line-height: 1.05; letter-spacing: -.005em;
+    color: var(--navy);
+  }
+  .pick p {
+    font-size: 14.5px; font-weight: 300;
+    line-height: 1.6;
+    color: rgba(14,30,86,.7);
+  }
+  .pick .deal {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(14,30,86,.18);
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: .04em;
+    color: var(--sky-deep);
+  }
+  .pick .deal em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: rgba(14,30,86,.55);
+    margin-left: 6px;
+  }
+
+  /* BENEFICIOS */
+  .beneficios {
+    background: var(--navy);
+    padding: 88px 24px;
+  }
+  .beneficios-inner { max-width: 1040px; margin: 0 auto; }
+  .beneficios h3 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4.6vw, 42px);
+    line-height: 1.05; letter-spacing: -.015em;
+    text-align: center;
+    color: var(--cream);
+    margin-bottom: 56px;
+    max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  .beneficios h3 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+  }
+
+  .ben-grid {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 720px) {
+    .ben-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  }
+
+  .ben {
+    background: rgba(81,181,242,.05);
+    border: 1px solid rgba(81,181,242,.18);
+    border-radius: 6px;
+    padding: 28px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .2s, background .2s;
+  }
+  .ben:hover { border-color: rgba(81,181,242,.42); background: rgba(81,181,242,.08); }
+  .ben .num {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: .26em;
+    color: var(--sky);
+  }
+  .ben h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 19px; line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -.005em;
+  }
+  .ben p {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.6; color: rgba(166,217,248,.78);
+  }
+
+  /* HORARIO — fuerte */
+  .horario {
+    background: var(--navy-2);
+    padding: 88px 24px 72px;
+    text-align: center;
+    border-top: 1px solid rgba(81,181,242,.2);
+  }
+  .horario .clock {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 22px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .horario .day-chip {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--sky);
+    padding: 12px 20px;
+    border-radius: 4px;
+  }
+  .horario .clock-sep {
+    color: var(--sky-lt); font-size: 22px;
+    font-family: "Syne", sans-serif; font-weight: 400;
+  }
+  .horario .time {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(36px, 6vw, 56px);
+    letter-spacing: -.02em;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .horario .time em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    color: var(--sky);
+    font-size: 70%;
+  }
+  .horario .note {
+    font-size: 14px; font-weight: 300;
+    color: rgba(166,217,248,.7);
+    max-width: 50ch; margin: 22px auto 0;
+    line-height: 1.6;
+  }
+
+  /* PREVIEW FOOT */
+  .preview-foot {
+    background: var(--navy);
+    border-top: 1px solid rgba(166,217,248,.14);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: rgba(166,217,248,.55);
+    font-size: 11px; letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .preview-foot em {
+    font-style: italic; font-weight: 300;
+    text-transform: none; letter-spacing: .04em;
+    display: block; margin-top: 8px;
+    color: rgba(166,217,248,.42);
+  }
+  .preview-foot a {
+    color: var(--sky-lt);
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .preview-foot a:hover { border-color: var(--sky); }
+
+  .ph {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(81,181,242,.15);
+    border: 1px dashed rgba(81,181,242,.5);
+    border-radius: 3px;
+    color: var(--sky);
+    font-family: "DM Sans", sans-serif;
+    font-style: italic; font-weight: 300;
+    font-size: .82em;
+  }
+  .mecanica .ph {
+    background: rgba(14,30,86,.06);
+    border-color: rgba(14,30,86,.32);
+    color: var(--navy);
+  }
+
+  @media (max-width: 480px) {
+    .crumbs-bar { padding: 12px 16px; }
+    .crumbs { font-size: 9.5px; letter-spacing: .22em; }
+    .hero { padding: 64px 18px 48px; }
+    .mecanica { padding: 64px 18px; }
+    .beneficios { padding: 64px 18px; }
+    .horario { padding: 64px 18px 56px; }
+    .pick { padding: 26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="crumbs-bar">
+    <a href="/"><img src="/LogoTDG.svg" alt="The Daily Grind"></a>
+    <div class="crumbs">
+      <a href="/previews/activaciones/">PROGRAMA</a> &nbsp;·&nbsp; VOL · 04 &nbsp;·&nbsp; BLUE HOUR
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">■ Martes y jueves · 16:00 — 17:00</span>
+    <h1>La hora <em>azul.</em></h1>
+    <p class="sub">Dos por uno. Una hora exacta.</p>
+    <p class="lede">
+      Pides uno, te llevas dos. La tarde se enciende cuando todos
+      asumen que la cafetería ya está cerrada. Si te gusta el ritual,
+      ya sabes cuándo bajar.
+    </p>
+    <div class="badge-2x1">
+      <span class="num">2</span>
+      <span class="x">×</span>
+      <span class="num">1</span>
+    </div>
+  </section>
+
+  <section class="mecanica">
+    <div class="mecanica-inner">
+      <span class="section-label">El pedido</span>
+      <h2>Elige <em>uno.</em> Te van dos.</h2>
+
+      <div class="pick-grid">
+        <article class="pick">
+          <span class="pill">Hot</span>
+          <h3>Blue Latte</h3>
+          <p>Nuestro signature azul: leche, espirulina, hielo opcional. Si nunca lo has probado, esta es la entrada.</p>
+          <div class="deal">2 × 1 <em>· solo dentro de la hora azul</em></div>
+        </article>
+
+        <article class="pick">
+          <span class="pill">Bowl</span>
+          <h3>Açaí Bowl</h3>
+          <p>El mismo açaí del local. Generoso, con topping del día. Te llevas dos: uno para ti, uno para quien venga contigo.</p>
+          <div class="deal">2 × 1 <em>· solo dentro de la hora azul</em></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="beneficios">
+    <div class="beneficios-inner">
+      <h3>Por qué <em>funciona el formato</em></h3>
+      <div class="ben-grid">
+        <div class="ben">
+          <span class="num">■ 01</span>
+          <h4>Dos por uno literal.</h4>
+          <p>Sin tarjeta de fidelización, sin app, sin descargar nada. Llegas dentro de la hora, pides uno, te llevas dos.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 02</span>
+          <h4>Solo dos veces a la semana.</h4>
+          <p>Martes y jueves. Si lo dejamos todos los días, deja de ser un ritual y se vuelve un combo cualquiera.</p>
+        </div>
+        <div class="ben">
+          <span class="num">■ 03</span>
+          <h4>Mejor con compañía.</h4>
+          <p>El segundo es para quien venga contigo. Si no, también: dos vasos para ti, nadie va a juzgar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="horario">
+    <div class="clock">
+      <span class="day-chip">Martes</span>
+      <span class="clock-sep">·</span>
+      <span class="day-chip">Jueves</span>
+    </div>
+    <div class="time">16:00 <em>a</em> 17:00</div>
+    <p class="note">
+      Una hora exacta. Si llegas a las 17:01, vuelve la próxima.
+      <span class="ph">[ confirmar si hay semanas con cambio de horario ]</span>
+    </p>
+  </section>
+
+  <footer class="preview-foot">
+    Preview · Programa de activaciones Vol. 04 · <a href="/previews/activaciones/">Ver el programa completo →</a>
+    <em>Borrador editorial. Días y horario configurables.</em>
+  </footer>
+
+</body>
+</html>

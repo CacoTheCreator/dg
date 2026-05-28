@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+
+<title>Colab · Daily Grind × Blue Monkey — preview</title>
+
+<meta property="og:title" content="Daily Grind × Blue Monkey · El açaí más barato de Chile">
+<meta property="og:description" content="Misma cuadra. Dos negocios. Un combo que tiene sentido. Lanzamiento conjunto · Adolfo Ibáñez.">
+<meta property="og:image" content="https://dailygrind.cl/img/og-previews.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Daily Grind × Blue Monkey — Colab Vol. 04">
+<meta property="og:url" content="https://dailygrind.cl/previews/colab-bluemonkey/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Daily Grind">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daily Grind × Blue Monkey · El açaí más barato de Chile">
+<meta name="twitter:description" content="Misma cuadra. Dos negocios. Un combo que tiene sentido.">
+<meta name="twitter:image" content="https://dailygrind.cl/img/og-previews.jpg">
+
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --dark:    #212529;
+    --white:   #FFFFFF;
+    --acai:    #5b1d6f;
+    --jungle:  #1f6f4a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ HEADER / CRUMBS ============ */
+  .crumbs-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(166,217,248,.12);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .crumbs-bar img { height: 32px; width: auto; }
+
+  .crumbs {
+    font-family: "DM Sans", sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--sky-lt);
+    opacity: .8;
+  }
+
+  .crumbs a { transition: color .15s; }
+  .crumbs a:hover { color: var(--sky); }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 88px 24px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(91,29,111,.18), transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(81,181,242,.10), transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero > * { position: relative; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(81,181,242,.32);
+    border-radius: 999px;
+  }
+
+  .hero h1 {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(44px, 9vw, 96px);
+    line-height: .96;
+    letter-spacing: -.025em;
+    color: var(--cream);
+    margin: 0 auto 24px;
+    max-width: 940px;
+  }
+
+  .hero h1 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .hero .sub {
+    font-family: "Syne", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(16px, 2.6vw, 22px);
+    line-height: 1.4;
+    color: var(--sky-lt);
+    max-width: 56ch;
+    margin: 0 auto 28px;
+  }
+
+  .hero .lede {
+    font-weight: 300;
+    font-size: clamp(14.5px, 1.9vw, 16.5px);
+    line-height: 1.65;
+    color: rgba(249,243,236,.78);
+    max-width: 58ch;
+    margin: 0 auto;
+  }
+
+  .hero .scroll-hint {
+    margin-top: 44px;
+    font-size: 10px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: rgba(166,217,248,.55);
+  }
+
+  /* ============ PRECIO ============ */
+  .precio {
+    background: var(--cream);
+    color: var(--navy);
+    padding: 88px 24px 96px;
+    text-align: center;
+    position: relative;
+  }
+
+  .precio .section-label {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 28px;
+    display: block;
+  }
+
+  .precio .amount-wrap {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .precio .currency {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.5vw, 42px);
+    color: var(--sky);
+    margin-top: 12px;
+  }
+
+  .precio .amount {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(96px, 18vw, 200px);
+    line-height: .9;
+    letter-spacing: -.045em;
+    color: var(--navy);
+  }
+
+  .precio .placeholder-mark {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: .04em;
+    color: rgba(14,30,86,.55);
+    margin-top: 6px;
+    margin-bottom: 18px;
+  }
+
+  .precio .tagline {
+    font-family: "Syne", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(18px, 2.6vw, 24px);
+    color: var(--sky);
+    margin-bottom: 32px;
+  }
+
+  .precio .challenge {
+    max-width: 50ch;
+    margin: 0 auto;
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(14,30,86,.7);
+    padding-top: 28px;
+    border-top: 1px solid rgba(14,30,86,.12);
+  }
+
+  .precio .challenge strong {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -.005em;
+  }
+
+  /* ============ COLAB ============ */
+  .colab {
+    background: var(--navy-2);
+    padding: 96px 24px;
+    position: relative;
+  }
+
+  .colab-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .colab-head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .colab-head .section-label {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 24px;
+  }
+
+  .colab-head h2 {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 60px);
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    color: var(--cream);
+    max-width: 720px;
+    margin: 0 auto 22px;
+  }
+
+  .colab-head h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .colab-head p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(166,217,248,.82);
+    max-width: 52ch;
+    margin: 0 auto;
+  }
+
+  .colab-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  @media (min-width: 760px) {
+    .colab-grid {
+      grid-template-columns: 1fr auto 1fr;
+      gap: 30px;
+      align-items: stretch;
+    }
+  }
+
+  .partner {
+    background: rgba(81,181,242,.05);
+    border: 1px solid rgba(81,181,242,.18);
+    border-radius: 8px;
+    padding: 36px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    transition: border-color .2s, background .2s;
+  }
+
+  .partner:hover { border-color: rgba(81,181,242,.42); background: rgba(81,181,242,.08); }
+
+  .partner .badge {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 6px;
+  }
+
+  .partner h3 {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    color: var(--cream);
+  }
+
+  .partner .role {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--sky-lt);
+    line-height: 1.5;
+  }
+
+  .partner .price-tag {
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px solid rgba(166,217,248,.18);
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cream);
+    letter-spacing: -.005em;
+  }
+
+  .partner .price-tag .label {
+    display: block;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: rgba(166,217,248,.55);
+    margin-bottom: 6px;
+  }
+
+  .partner.dg { border-color: rgba(81,181,242,.32); }
+  .partner.dg .badge::before { content: "■ "; color: var(--sky); }
+
+  .partner.bm { }
+  .partner.bm .badge::before { content: "■ "; color: var(--sky-lt); }
+
+  .multiplier {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--sky);
+    letter-spacing: -.02em;
+    padding: 0 4px;
+  }
+
+  .colab-foot {
+    margin-top: 48px;
+    text-align: center;
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(17px, 2.6vw, 22px);
+    line-height: 1.45;
+    color: var(--sky-lt);
+    max-width: 38ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ============ LOGÍSTICA ============ */
+  .logistics {
+    background: var(--navy);
+    padding: 88px 24px 72px;
+  }
+
+  .logistics-inner {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .logistics .section-label {
+    display: block;
+    text-align: center;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 18px;
+  }
+
+  .logistics h2 {
+    text-align: center;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -.015em;
+    color: var(--cream);
+    margin-bottom: 48px;
+  }
+
+  .logistics h2 em {
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+
+  .logi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  @media (min-width: 640px) {
+    .logi-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+
+  .logi {
+    border: 1px solid rgba(166,217,248,.18);
+    border-radius: 6px;
+    padding: 26px 24px;
+  }
+
+  .logi .label {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 12px;
+  }
+
+  .logi .name {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 10px;
+    letter-spacing: -.005em;
+  }
+
+  .logi p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(166,217,248,.78);
+  }
+
+  .logi p + p { margin-top: 6px; }
+
+  /* ============ FOOTER ============ */
+  .preview-foot {
+    background: var(--navy);
+    border-top: 1px solid rgba(166,217,248,.14);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: rgba(166,217,248,.55);
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+
+  .preview-foot em {
+    font-style: italic;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: .04em;
+    display: block;
+    margin-top: 8px;
+    color: rgba(166,217,248,.42);
+  }
+
+  /* placeholders visibles para edición */
+  .ph {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(81,181,242,.15);
+    border: 1px dashed rgba(81,181,242,.5);
+    border-radius: 3px;
+    color: var(--sky);
+    font-family: "DM Sans", sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: .82em;
+    letter-spacing: .04em;
+  }
+
+  .precio .ph {
+    background: rgba(14,30,86,.06);
+    border-color: rgba(14,30,86,.32);
+    color: var(--navy);
+  }
+
+  @media (max-width: 480px) {
+    .crumbs-bar { padding: 12px 16px; }
+    .crumbs { font-size: 9.5px; letter-spacing: .22em; }
+    .hero { padding: 64px 18px 48px; }
+    .precio { padding: 64px 18px 72px; }
+    .colab { padding: 72px 18px; }
+    .logistics { padding: 64px 18px 56px; }
+    .partner { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="crumbs-bar">
+    <a href="/"><img src="/LogoTDG.svg" alt="The Daily Grind"></a>
+    <div class="crumbs">
+      <a href="/previews">PREVIEW</a> &nbsp;·&nbsp; VOL · 04 &nbsp;·&nbsp; COLAB
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <span class="eyebrow">Daily Grind × Blue Monkey</span>
+    <h1>El açaí <em>más barato</em> de Chile.</h1>
+    <p class="sub">A la salida de Adolfo. Junto a Blue Monkey.</p>
+    <p class="lede">
+      Lo armamos así de simple porque tiene que ser así de simple.
+      Bajas, te tomas tu açaí, sigues con tu jugo. Misma cuadra, misma rutina,
+      dos negocios que se conocen.
+    </p>
+    <div class="scroll-hint">↓ El precio</div>
+  </section>
+
+  <!-- ============ PRECIO ============ -->
+  <section class="precio">
+    <span class="section-label">El tomo · Vol. 04</span>
+    <div class="amount-wrap">
+      <span class="currency">$</span>
+      <span class="amount"><span class="ph">X.XXX</span></span>
+    </div>
+    <div class="placeholder-mark">[ precio exacto a confirmar ]</div>
+    <div class="tagline">La grande. Sin asterisco.</div>
+    <p class="challenge">
+      ¿Sabes de uno más barato? <strong>Cuéntanos en redes.</strong>
+      Acá te dejamos la prueba a mano.
+    </p>
+  </section>
+
+  <!-- ============ COLAB ============ -->
+  <section class="colab">
+    <div class="colab-inner">
+      <div class="colab-head">
+        <span class="section-label">El lanzamiento</span>
+        <h2>Mismo día. <em>Misma cuadra.</em></h2>
+        <p>
+          Dos negocios que llevan tiempo viéndose la cara y un cliente
+          que ya hace el mismo camino. Lo único que faltaba era ponerlo por escrito.
+        </p>
+      </div>
+
+      <div class="colab-grid">
+        <article class="partner dg">
+          <div class="badge">Daily Grind</div>
+          <h3>El açaí justo.</h3>
+          <div class="role">El bowl honesto. La porción real. El precio que da risa contar.</div>
+          <div class="price-tag">
+            <span class="label">Açaí · Tomo 04</span>
+            $<span class="ph">X.XXX</span>
+          </div>
+        </article>
+
+        <div class="multiplier">+</div>
+
+        <article class="partner bm">
+          <div class="badge">Blue Monkey</div>
+          <h3>El jugo de siempre.</h3>
+          <div class="role">Fruta de verdad, vaso grande, hecho frente a ti. Lo conoces.</div>
+          <div class="price-tag">
+            <span class="label">Jugo natural</span>
+            <span class="ph">$XXXX referencia</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="colab-foot">Bajas una vez. Resuelves dos cosas.</p>
+    </div>
+  </section>
+
+  <!-- ============ LOGÍSTICA ============ -->
+  <section class="logistics">
+    <div class="logistics-inner">
+      <span class="section-label">Cuándo y dónde</span>
+      <h2>Lanzamiento <em>conjunto</em></h2>
+
+      <div class="logi-grid">
+        <div class="logi">
+          <div class="label">■ Daily Grind</div>
+          <div class="name">El açaí</div>
+          <p><span class="ph">[ dirección Daily Grind · Adolfo ]</span></p>
+          <p><span class="ph">[ horario de atención ]</span></p>
+          <p style="margin-top:12px"><span class="ph">[ @thedailygrind.cl o handle real ]</span></p>
+        </div>
+
+        <div class="logi">
+          <div class="label">■ Blue Monkey</div>
+          <div class="name">El jugo</div>
+          <p><span class="ph">[ dirección Blue Monkey ]</span></p>
+          <p><span class="ph">[ horario de atención ]</span></p>
+          <p style="margin-top:12px"><span class="ph">[ @bluemonkey handle ]</span></p>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:36px;font-size:13.5px;font-weight:300;color:rgba(166,217,248,.7);letter-spacing:.02em;">
+        Día del lanzamiento conjunto: <span class="ph">[ fecha del co-launch ]</span>
+      </p>
+    </div>
+  </section>
+
+  <footer class="preview-foot">
+    Preview interno · The Daily Grind × Blue Monkey
+    <em>Borrador editorial. Datos en placeholder pendientes de confirmación.</em>
+  </footer>
+
+</body>
+</html>
