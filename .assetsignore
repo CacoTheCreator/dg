@@ -14,5 +14,6 @@ wrangler.toml
 src
 .assetsignore
 migrations
+scripts
 SETUP.md
 leadform.html

@@ -535,9 +535,7 @@ async function igPhoto(env, params) {
   const status = await igStatus(env, params._container);
   if (status === "ERROR") throw new Error(`container ERROR`);
   if (status !== "FINISHED") throw new Error(`pending: ${status}`);
-  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
-    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
-  }, env);
+  const pub = await igPublishContainer(env, params);
   return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
 }
 
@@ -556,9 +554,7 @@ async function igReel(env, item, params) {
   const status = await igStatus(env, params._container);
   if (status === "ERROR") throw new Error("container ERROR");
   if (status !== "FINISHED") throw new Error(`pending: ${status}`);
-  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
-    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
-  }, env);
+  const pub = await igPublishContainer(env, params);
   return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
 }
 
@@ -580,9 +576,7 @@ async function igStory(env, params) {
   const status = await igStatus(env, params._container);
   if (status === "ERROR") throw new Error("container ERROR");
   if (status !== "FINISHED") throw new Error(`pending: ${status}`);
-  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
-    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
-  }, env);
+  const pub = await igPublishContainer(env, params);
   return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
 }
 
@@ -613,10 +607,26 @@ async function igCarousel(env, item, params) {
   const s = await igStatus(env, params._container);
   if (s === "ERROR") throw new Error("carousel ERROR");
   if (s !== "FINISHED") throw new Error(`pending: carousel ${s}`);
-  const pub = await metaPost(`/${env.IG_USER_ID}/media_publish`, {
-    creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
-  }, env);
+  const pub = await igPublishContainer(env, params);
   return { media_id: pub.id, permalink: await resolvePermalink(env, pub.id) };
+}
+
+// Publica un container IG. Si Meta lo invalida entre create y publish
+// (code 100 / subcode 33), borra _container para que el próximo retry
+// cree uno fresco en vez de pegar contra el container muerto.
+async function igPublishContainer(env, params) {
+  try {
+    return await metaPost(`/${env.IG_USER_ID}/media_publish`, {
+      creation_id: params._container, access_token: env.PAGE_ACCESS_TOKEN,
+    }, env);
+  } catch (e) {
+    const msg = String(e.message || "");
+    if (/"code":100/.test(msg) && /"error_subcode":33/.test(msg)) {
+      delete params._container;
+      throw new Error(`container invalidated by Meta, will recreate: ${msg}`);
+    }
+    throw e;
+  }
 }
 
 async function igStatus(env, containerId) {
