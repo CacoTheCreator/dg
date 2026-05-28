@@ -262,21 +262,32 @@ async function apiHistoryStats(env, id, refresh) {
 async function fetchPostStats(env, item) {
   const token = env.PAGE_ACCESS_TOKEN;
   if (item.platform === "fb") {
-    const targetId = item.post_id || item.media_id;
-    if (!targetId) return { likes: 0, comments: 0, shares: 0, raw: { note: "no id" } };
-    const data = await metaGet(`/${targetId}`, {
-      fields: "message,created_time,permalink_url,shares,reactions.summary(total_count).limit(0),comments.summary(total_count).limit(0)",
-      access_token: token,
-    }, env);
-    // Insights endpoint extra (reach, impressions)
+    // Probar primero post_id (formato pageid_postid), luego media_id (foto), luego ambos
+    const candidates = [item.post_id, item.media_id].filter(Boolean);
+    let data = null, lastErr = null, usedId = null;
+    for (const cand of candidates) {
+      try {
+        data = await metaGet(`/${cand}`, {
+          fields: "message,created_time,permalink_url,shares,reactions.summary(total_count).limit(0),comments.summary(total_count).limit(0)",
+          access_token: token,
+        }, env);
+        usedId = cand; break;
+      } catch (e) { lastErr = e; }
+    }
+    if (!data) {
+      return {
+        likes: 0, comments: 0, shares: 0, saves: 0, reach: 0, views: 0, total_interactions: 0,
+        raw: { error: String(lastErr?.message || "fetch failed"), tried: candidates },
+      };
+    }
     let insights = {};
     try {
-      const ins = await metaGet(`/${targetId}/insights`, {
+      const ins = await metaGet(`/${usedId}/insights`, {
         metric: "post_impressions_unique,post_clicks",
         access_token: token,
       }, env);
       for (const m of ins.data || []) insights[m.name] = m.values?.[0]?.value;
-    } catch (_) { /* sin scope o no aplica */ }
+    } catch (_) { /* photo posts a veces no soportan insights */ }
     return {
       likes: data.reactions?.summary?.total_count || 0,
       comments: data.comments?.summary?.total_count || 0,
@@ -285,14 +296,19 @@ async function fetchPostStats(env, item) {
       views: insights.post_clicks || 0,
       saves: 0,
       total_interactions: (data.reactions?.summary?.total_count || 0) + (data.comments?.summary?.total_count || 0) + (data.shares?.count || 0),
-      raw: { ...data, insights },
+      raw: { ...data, insights, used_id: usedId },
     };
   }
   if (item.platform === "ig") {
     const mediaId = item.media_id;
     if (!mediaId) return { likes: 0, comments: 0, raw: { note: "no media_id" } };
     const fields = "id,caption,media_type,media_product_type,like_count,comments_count,permalink,timestamp,thumbnail_url";
-    const data = await metaGet(`/${mediaId}`, { fields, access_token: token }, env);
+    let data;
+    try {
+      data = await metaGet(`/${mediaId}`, { fields, access_token: token }, env);
+    } catch (e) {
+      return { likes: 0, comments: 0, shares: 0, saves: 0, reach: 0, views: 0, total_interactions: 0, raw: { error: String(e.message) } };
+    }
     let insights = {};
     try {
       const metricList = item.kind === "reel"
@@ -386,7 +402,7 @@ async function handleMedia(request, env) {
 
 async function apiWhoami(env) {
   const r = await metaGet(`/${env.PAGE_ID}`, {
-    fields: "name,id,fan_count,instagram_business_account{id,username,name,followers_count}",
+    fields: "name,id,followers_count,fan_count,instagram_business_account{id,username,name,followers_count,follows_count,media_count,profile_picture_url}",
     access_token: env.PAGE_ACCESS_TOKEN,
   }, env);
   return json(r);
@@ -399,6 +415,13 @@ async function apiWhoami(env) {
 async function processQueue(env) {
   const nowIso = new Date().toISOString();
   const dueLimit = 10;
+  // Recuperar items stuck en 'publishing' por más de 5 min (cron crashed mid-process).
+  // Safe porque cron es singleton — no hay otro tick procesando simultáneamente.
+  const staleIso = new Date(Date.now() - 5 * 60_000).toISOString();
+  await env.DB.prepare(
+    "UPDATE queue SET status='retrying' WHERE status='publishing' AND scheduled_at < ?"
+  ).bind(staleIso).run();
+
   const { results } = await env.DB.prepare(
     "SELECT id, platform, kind, params, scheduled_at, status, attempts FROM queue WHERE status IN ('pending','retrying') AND scheduled_at <= ? ORDER BY scheduled_at ASC LIMIT ?"
   ).bind(nowIso, dueLimit).all();
