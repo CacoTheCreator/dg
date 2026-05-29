@@ -1177,7 +1177,7 @@
       <div id="successMsg" class="success">
         <div class="success-ring"></div>
         <h2>Ya estás adentro.</h2>
-        <p>Pronto vas a saber para qué.</p>
+        <p>Te llevamos a tu tarjeta DailyBack.</p>
       </div>
     </div>
   </div>
@@ -1237,11 +1237,18 @@
     const err  = document.getElementById('formError');
     const suc  = document.getElementById('successMsg');
 
+    const DAILYBACK_SIGNUP_URL = '/dailyback/api/public/signup';
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       err.style.display = 'none';
       btn.classList.add('loading');
       btn.disabled = true;
+
+      const nombre   = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
 
       const dia  = document.getElementById('cumple-dia').value;
       const mes  = document.getElementById('cumple-mes').value;
@@ -1251,29 +1258,54 @@
       let ig = document.getElementById('instagram').value.trim();
       if (ig && !ig.startsWith('@')) ig = '@' + ig;
 
-      const payload = {
-        nombre:           document.getElementById('nombre').value.trim(),
-        apellido:         document.getElementById('apellido').value.trim(),
-        email:            document.getElementById('email').value.trim(),
-        telefono:         document.getElementById('telefono').value.trim(),
+      // Apps Script payload (legacy audit trail, fire-and-forget)
+      const sheetsPayload = {
+        nombre, apellido, email, telefono,
         fecha_cumpleanos: cumple,
-        instagram:        ig,
-        origen:           'landing-vol4',
+        instagram: ig,
+        origen: 'landing-vol4',
       };
 
+      // DailyBack payload (authoritative loyalty store)
+      const dailybackPayload = {
+        full_name: [nombre, apellido].filter(Boolean).join(' '),
+        email,
+        phone: telefono || undefined,
+        birthday: cumple || undefined,
+        instagram_handle: ig || undefined,
+        marketing_opt_in: true,
+        source: 'landing-vol4',
+      };
+
+      // Fire-and-forget Apps Script (no await — keeps the legacy sheet warm)
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sheetsPayload),
+      }).catch(() => { /* legacy sink, ignore */ });
+
+      // Authoritative DailyBack signup
       try {
-        const res = await fetch(SCRIPT_URL, {
+        const res = await fetch(DAILYBACK_SIGNUP_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(dailybackPayload),
         });
-        if (!res.ok) throw new Error();
+        const json = await res.json().catch(() => null);
+        if (!res.ok || !json || !json.ok || !json.redirect) {
+          throw new Error((json && json.error) || 'signup_failed');
+        }
         form.style.display = 'none';
         document.querySelector('.form-sub').style.display = 'none';
         document.querySelector('.divider-line').style.display = 'none';
         document.querySelector('.privacy').style.display = 'none';
         suc.style.display = 'block';
-      } catch {
+        // Soft redirect to the personal DailyBack card after a beat
+        setTimeout(() => { window.location.href = json.redirect; }, 1400);
+      } catch (ex) {
+        err.textContent = (ex && ex.message && ex.message !== 'signup_failed')
+          ? ex.message
+          : 'Hubo un error al enviar. Intenta de nuevo en unos segundos.';
         err.style.display = 'block';
         btn.classList.remove('loading');
         btn.disabled = false;
