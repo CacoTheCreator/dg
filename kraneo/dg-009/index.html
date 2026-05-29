@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DG-009 · Kraneo · Banco Falabella · The Daily Grind</title>
+
+<script>
+  (function () {
+    try {
+      if (sessionStorage.getItem("tdg.kraneo.unlocked") !== "1") {
+        var next = encodeURIComponent(location.pathname + location.search);
+        location.replace("/kraneo/?return=" + next);
+      }
+    } catch (_) {
+      location.replace("/kraneo/");
+    }
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:    #0e1e56;
+    --navy-2:  #0b1845;
+    --sky:     #51b5f2;
+    --sky-lt:  #a6d9f8;
+    --sky-bg:  #e9f4fd;
+    --cream:   #f9f3ec;
+    --beige:   #e3ded9;
+    --beige-2: #d9d4cf;
+    --mid:     #6C757D;
+    --bf-green: #167F3D;
+    --display: "Syne", ui-sans-serif, system-ui, sans-serif;
+    --body:    "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 64px 80px;
+    background: var(--cream);
+  }
+
+  .head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--navy);
+  }
+  .head__brand {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.32em;
+    color: var(--navy);
+  }
+  .head__brand small {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--mid);
+  }
+  .head__meta {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px 16px;
+    text-align: right;
+    font-size: 11px;
+  }
+  .head__meta dt {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--mid);
+  }
+  .head__meta dd { font-weight: 500; color: var(--navy); }
+  .head__meta dd strong {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .head__meta dd em {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+    margin-top: 1px;
+  }
+
+  .title {
+    margin-top: 36px;
+    margin-bottom: 28px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    color: var(--navy);
+  }
+
+  .partyblock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 48px;
+    padding: 24px 28px;
+    background: rgba(81, 181, 242, 0.06);
+    border: 1px solid rgba(14, 30, 86, 0.08);
+  }
+  .partyblock__cell .label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .partyblock__cell strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .partyblock__cell span {
+    color: var(--mid);
+    font-size: 12px;
+  }
+
+  .intro {
+    margin: 28px 0 36px;
+    padding-left: 16px;
+    border-left: 3px solid var(--sky);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--navy);
+    max-width: 680px;
+  }
+
+  .update-strip {
+    margin: 0 0 28px;
+    padding: 14px 18px;
+    background: rgba(81, 181, 242, 0.10);
+    border-left: 3px solid var(--sky);
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--navy);
+  }
+  .update-strip strong { font-weight: 500; color: var(--sky); letter-spacing: 0.04em; }
+
+  .spec-note {
+    margin: 28px 0;
+    padding: 12px 16px;
+    background: rgba(14, 30, 86, 0.04);
+    border: 1px dashed rgba(14, 30, 86, 0.22);
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--mid);
+    font-style: italic;
+  }
+  .spec-note strong {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+
+  .section { margin-top: 40px; }
+  .section__head {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .section__num {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.12em;
+  }
+  .section__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--navy);
+  }
+  .section__body { padding-left: 48px; }
+  .section__lead {
+    margin-bottom: 18px;
+    font-size: 12.5px;
+    color: var(--navy);
+  }
+
+  .reco {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+    padding: 24px 26px;
+    background: var(--sky-bg);
+    border-left: 3px solid var(--sky);
+  }
+  .reco__eyebrow {
+    grid-column: 1 / -1;
+    display: inline-block;
+    background: var(--sky);
+    color: var(--navy);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    width: max-content;
+    margin-bottom: 4px;
+  }
+  .reco__left p {
+    font-size: 12.5px;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .reco__bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .reco__bullets li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .reco__bullets li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--sky);
+  }
+  .reco__right { align-self: start; }
+  .reco__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.08);
+    font-size: 12px;
+  }
+  .reco__row:last-child { border-bottom: none; }
+  .reco__row dt {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--mid);
+    font-size: 10px;
+  }
+  .reco__row dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .reco__row--calc dt { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--navy); font-weight: 300; }
+  .reco__row--calc dd { font-family: var(--body); font-weight: 500; font-size: 13px; }
+  .reco__row--discount dt { color: var(--sky); font-weight: 500; }
+  .reco__row--discount dd { color: var(--sky); }
+  .reco__row--total {
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--navy);
+  }
+  .reco__row--total dt {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .reco__row--total dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--navy);
+  }
+  .reco__pesos {
+    margin-top: 8px;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--mid);
+    text-align: right;
+  }
+  .reco__variant {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed rgba(14, 30, 86, 0.22);
+  }
+  .reco__variant:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .reco__variant-label {
+    display: inline-block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.6);
+    border-left: 2px solid var(--sky);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .table thead th {
+    text-align: left;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.18);
+  }
+  .table thead th:last-child,
+  .table tbody td:last-child { text-align: right; }
+  .table tbody td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(14, 30, 86, 0.08);
+    vertical-align: top;
+  }
+  .table tbody tr:last-child td { border-bottom: none; }
+  .table tbody td.name {
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .table tbody td.name small {
+    display: block;
+    margin-top: 2px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--mid);
+    font-size: 11px;
+  }
+  .table tbody td.total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .table tbody td.total small {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--mid);
+    font-size: 11px;
+  }
+
+  .branding-solo {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    padding: 24px 26px;
+    background: var(--sky-bg);
+    border-left: 3px solid var(--sky);
+  }
+  .branding-solo__eyebrow {
+    display: inline-block;
+    background: var(--sky);
+    color: var(--navy);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    width: max-content;
+    margin-bottom: 10px;
+  }
+  .branding-solo__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .branding-solo__desc {
+    font-size: 12.5px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+  .branding-solo__specs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+  .branding-solo__specs li {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 12px;
+    color: var(--navy);
+  }
+  .branding-solo__specs li span:first-child {
+    color: var(--mid);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .branding-solo__price {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding-top: 14px;
+    border-top: 1px solid rgba(14, 30, 86, 0.14);
+  }
+  .branding-solo__price dt {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .branding-solo__price dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--navy);
+  }
+  .branding-solo__price dd small {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--body);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mid);
+    font-size: 11px;
+  }
+
+  .plano {
+    background: var(--cream);
+    border: 1px solid rgba(14, 30, 86, 0.18);
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+  .plano__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed rgba(14, 30, 86, 0.22);
+  }
+  .plano__tag {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .plano__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .plano__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .plano__foot {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(14, 30, 86, 0.22);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .plano__foot em {
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  .service__note {
+    margin-top: 14px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+
+  .otras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .otras__card {
+    padding: 20px;
+    border: 1px solid rgba(14, 30, 86, 0.12);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .otras__title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .otras__cat {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+  .otras__desc {
+    font-size: 12px;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .otras__price {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding-top: 10px;
+    border-top: 1px solid rgba(14, 30, 86, 0.14);
+  }
+  .otras__price dt {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .otras__price dd {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  .conditions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 32px;
+    margin-top: 8px;
+  }
+  .conditions li {
+    list-style: none;
+    position: relative;
+    padding-left: 18px;
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+  .conditions li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--sky);
+  }
+  .conditions li strong { font-weight: 500; }
+
+  .foot {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--navy);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: end;
+  }
+  .foot__cta {
+    font-size: 12.5px;
+    color: var(--navy);
+    max-width: 360px;
+  }
+  .foot__sig { text-align: right; }
+  .foot__sig strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .foot__sig span {
+    display: block;
+    font-size: 11px;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .foot__sig em {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11.5px;
+    color: var(--navy);
+  }
+
+  @page { size: Letter; margin: 0; }
+  @media print {
+    html, body { background: var(--cream); }
+    .page { padding: 36px 48px 56px; max-width: none; }
+    .reco, .branding-solo { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .update-strip, .spec-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { break-inside: avoid; }
+    .reco { break-inside: avoid; }
+    .branding-solo, .otras__card { break-inside: avoid; }
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px 48px; }
+    .partyblock,
+    .reco,
+    .branding-solo,
+    .otras,
+    .conditions {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .branding-solo__specs li {
+      grid-template-columns: 80px 1fr;
+    }
+  }
+
+  .back-bar {
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(14, 30, 86, 0.18);
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sky);
+    text-decoration: none;
+    font-variant-emoji: text;
+    transition: color .15s, transform .15s;
+  }
+  .back-link:hover { color: var(--navy); transform: translateX(-2px); }
+  @media print { .back-bar { display: none; } }
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <nav class="back-bar" aria-label="Volver al portal Kraneo">
+    <a href="/kraneo/" class="back-link">←&#xFE0E; Volver al portal</a>
+  </nav>
+
+  <header class="head">
+    <div class="head__brand">
+      THE DAILY GRIND
+      <small>ザ・デイリー・グラインド</small>
+    </div>
+    <dl class="head__meta">
+      <dt>Cotización</dt><dd><strong>N°DG-009</strong><em>reemplaza DG-008</em></dd>
+      <dt>Emisión</dt><dd>29 · 05 · 2026</dd>
+      <dt>Vigencia</dt><dd>30 días</dd>
+    </dl>
+  </header>
+
+  <h1 class="title">Café Daily Grind 6oz + sopaipillas mini · gira universitaria Banco Falabella</h1>
+
+  <section class="partyblock">
+    <div class="partyblock__cell">
+      <span class="label">Para</span>
+      <strong>Kraneo</strong>
+      <span>productora</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">De</span>
+      <strong>The Daily Grind</strong>
+      <span>pulpabrava@gmail.com</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">Activación</span>
+      <strong>Banco Falabella · gira universitaria</strong>
+      <span>5 universidades · 200 personas por sede</span>
+    </div>
+    <div class="partyblock__cell">
+      <span class="label">Concepto</span>
+      <strong>Café + sopaipillas con salsas</strong>
+      <span>Santiago de Chile</span>
+    </div>
+  </section>
+
+  <p class="update-strip">
+    <strong>Pivote del concepto —</strong> A pedido de Banco Falabella, la gira se convierte en una pausa chilena clásica: café Daily Grind (Rito, de la casa) + sopaipillas mini con barra de salsas. El vaso 6oz cartón blanco con adhesivo Banco Falabella aprobado para DG-008 se conserva idéntico para el café.
+  </p>
+
+  <p class="intro">
+    Paquete de gira universitaria Banco Falabella: <strong>5 sedes × 200 personas = 1.000 estudiantes atendidos</strong>. Volumen total operativo: <strong>1.000 cafés 6oz y 1.000 sopaipillas mini con salsas</strong>, una ración por estudiante. Kraneo accede a <strong>The Family −30%</strong> sobre el producto base y <strong>Social Grind Club −30%</strong> sobre el servicio operativo.
+  </p>
+
+  <p class="spec-note">
+    <strong>Spec en revisión con Kraneo —</strong> Tipo de café (americano / cortado / capuchino), perfil de las salsas (dulces, saladas, mix) y ritmo del combo se afinan al confirmar con Banco Falabella. Los valores cotizados asumen <em>café americano + sopaipilla mini con barra de salsas mixta</em>; cualquier ajuste se acomoda dentro del marco de esta propuesta.
+  </p>
+
+  <!-- 01 RECOMENDADO -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">01</span>
+      <h2 class="section__title">Combo Daily Grind · café 6oz + sopaipilla con salsas</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Paquete cerrado: <strong>1.000 cafés + 1.000 sopaipillas mini</strong>, una ración por estudiante en cada una de las 5 sedes. Precio plano por unidad, combinación libre por sede.
+      </p>
+
+      <div class="reco">
+        <span class="reco__eyebrow">Dos modalidades recomendadas</span>
+
+        <div class="reco__left">
+          <p>
+            Pausa chilena clásica. El estudiante se acerca, recibe su café americano en vaso 6oz y elige sopaipilla con la salsa que prefiere desde la barra. Operación coordinada por The Daily Grind en cada universidad.
+          </p>
+          <ul class="reco__bullets">
+            <li>Café Daily Grind (Rito de la casa) en vaso 6oz · 180 ml</li>
+            <li>Sopaipilla mini fresca con barra de salsas variadas</li>
+            <li>Vaso 6oz cartón blanco con adhesivo Banco Falabella (sección 03)</li>
+            <li>Removedor de madera, servilleta y tacita compatible para la salsa</li>
+            <li>Precio plano, sin importar la mezcla por sede</li>
+            <li>Operación coordinada con Kraneo para las 5 fechas</li>
+          </ul>
+        </div>
+
+        <div class="reco__right">
+
+          <dl class="reco__variant">
+            <span class="reco__variant-label">Opción A · 1 anfitrión por sede</span>
+            <div class="reco__row">
+              <dt>Café 6oz</dt>
+              <dd>1.000 × 0,043 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal café</dt>
+              <dd>43,00 UF</dd>
+            </div>
+            <div class="reco__row">
+              <dt>Sopaipilla mini</dt>
+              <dd>1.000 × 0,019 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal sopaipillas</dt>
+              <dd>19,00 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal producto</dt>
+              <dd>62,00 UF</dd>
+            </div>
+            <div class="reco__row reco__row--discount">
+              <dt>The Family −30% producto</dt>
+              <dd>−18,60 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>5 entregas + 1 anfitrión c/u (lista)</dt>
+              <dd>16,50 UF</dd>
+            </div>
+            <div class="reco__row reco__row--discount">
+              <dt>Social Grind Club −30% servicio</dt>
+              <dd>−4,95 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal neto</dt>
+              <dd>54,95 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>IVA 19%</dt>
+              <dd>10,44 UF</dd>
+            </div>
+            <div class="reco__row reco__row--total">
+              <dt>Total con IVA</dt>
+              <dd>65,39 UF</dd>
+            </div>
+            <p class="reco__pesos">Referencial en pesos (UF $42.000) ≈ $2.746.380</p>
+          </dl>
+
+          <dl class="reco__variant">
+            <span class="reco__variant-label">Opción B · 2 anfitriones por sede</span>
+            <div class="reco__row">
+              <dt>Café 6oz</dt>
+              <dd>1.000 × 0,043 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal café</dt>
+              <dd>43,00 UF</dd>
+            </div>
+            <div class="reco__row">
+              <dt>Sopaipilla mini</dt>
+              <dd>1.000 × 0,019 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal sopaipillas</dt>
+              <dd>19,00 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal producto</dt>
+              <dd>62,00 UF</dd>
+            </div>
+            <div class="reco__row reco__row--discount">
+              <dt>The Family −30% producto</dt>
+              <dd>−18,60 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>5 entregas + 2 anfitriones c/u (lista)</dt>
+              <dd>26,00 UF</dd>
+            </div>
+            <div class="reco__row reco__row--discount">
+              <dt>Social Grind Club −30% servicio</dt>
+              <dd>−7,80 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>Subtotal neto</dt>
+              <dd>61,60 UF</dd>
+            </div>
+            <div class="reco__row reco__row--calc">
+              <dt>IVA 19%</dt>
+              <dd>11,70 UF</dd>
+            </div>
+            <div class="reco__row reco__row--total">
+              <dt>Total con IVA</dt>
+              <dd>73,30 UF</dd>
+            </div>
+            <p class="reco__pesos">Referencial en pesos (UF $42.000) ≈ $3.078.600</p>
+          </dl>
+
+        </div>
+      </div>
+
+      <p class="service__note" style="margin-top:18px;">
+        <strong>Diferencia operativa —</strong> Opción A: un anfitrión Daily Grind coordina café y barra de sopaipillas en cada sede. Opción B: dos anfitriones por sede, uno por estación. Kraneo y Banco Falabella eligen modalidad uniforme para las 5 universidades o ajustan por sede según el flujo esperado.
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 ALTERNATIVAS -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">02</span>
+      <h2 class="section__title">Alternativas de combo</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Variantes si Banco Falabella prefiere acentuar el lado dulce o subir el formato del café. Totales calculados sobre el mismo volumen base (1.000 + 1.000), modalidad de servicio Opción A (1 anfitrión por sede). Family 30% sobre producto base y Club 30% sobre servicio aplican igual.
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Combo</th>
+            <th>Café · sopaipilla</th>
+            <th>Total con IVA · 1.000 + 1.000 con Family + Club</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Combo dulce<small>café americano + sopaipilla mini con manjar artesanal Daily Grind</small></td>
+            <td>0,043 · 0,021 UF</td>
+            <td class="total">67,06 UF<small>≈ $2.816.520</small></td>
+          </tr>
+          <tr>
+            <td class="name">Combo cortado<small>café cortado (con leche caliente) + sopaipilla mini con salsas</small></td>
+            <td>0,051 · 0,019 UF</td>
+            <td class="total">72,05 UF<small>≈ $3.026.100</small></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="service__note">
+        Para modalidad Opción B (2 anfitriones por sede) sumar 7,91 UF al total con IVA de cualquier combo alternativo, equivalente a $332.220 referenciales.
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 BRANDING -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">03</span>
+      <h2 class="section__title">Branding del vaso · Banco Falabella</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Vaso de cartón blanco 6oz aprobado por Kraneo, con adhesivo Banco Falabella aplicado por The Daily Grind. Spec idéntica a la aprobada para DG-008, reutilizable 1:1 para café.
+      </p>
+
+      <div class="branding-solo">
+
+        <div class="branding-solo__copy">
+          <span class="branding-solo__eyebrow">Branding incluido</span>
+          <h3 class="branding-solo__title">Vaso 6oz cartón blanco + adhesivo Banco Falabella</h3>
+          <p class="branding-solo__desc">
+            The Daily Grind sourcea los 1.000 vasos de cartón blanco premium en formato 6oz (180 ml), diseña, produce y aplica el adhesivo Banco Falabella en cada unidad. Línea cerrada de branding, sin gestión extra para Kraneo.
+          </p>
+          <ul class="branding-solo__specs">
+            <li><span>Vaso</span><span>cartón blanco 6oz · interior PE food grade</span></li>
+            <li><span>Adhesivo</span><span>vinilo troquelado Ø 50 mm · adhesivo permanente</span></li>
+            <li><span>Color</span><span>full color CMYK + blanco · arte final aprueba BF</span></li>
+            <li><span>Aplicación</span><span>en operación, una unidad por café servido</span></li>
+            <li><span>Lead time</span><span>5 — 7 días hábiles desde aprobación arte</span></li>
+          </ul>
+          <dl class="branding-solo__price">
+            <dt>Adicional · 1.000 cafés</dt>
+            <dd>5,00 UF<small>≈ $210.000 neto · 0,005 UF c/u</small></dd>
+          </dl>
+        </div>
+
+        <figure class="plano" aria-label="Plano técnico del vaso y adhesivo">
+          <figcaption class="plano__head">
+            <span class="plano__title">Plano · 01</span>
+            <span class="plano__tag">esc. ref.</span>
+          </figcaption>
+
+          <svg class="plano__svg" viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="planoTitle planoDesc">
+            <title id="planoTitle">Plano técnico vaso 6oz con adhesivo Banco Falabella</title>
+            <desc id="planoDesc">Vista frontal del vaso de cartón blanco 6oz con adhesivo circular Banco Falabella, con dimensiones referenciales.</desc>
+
+            <defs>
+              <style>
+                .ln    { stroke: #0e1e56; stroke-width: 1.2; fill: none; stroke-linejoin: miter; stroke-linecap: square; }
+                .ln-w  { stroke: #0e1e56; stroke-width: 1.6; fill: none; }
+                .dim   { stroke: #51b5f2; stroke-width: 0.8; fill: none; }
+                .tick  { stroke: #51b5f2; stroke-width: 0.8; }
+                .lbl   { font-family: "DM Sans", system-ui, sans-serif; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; fill: #6C757D; font-weight: 500; }
+                .lbl-n { font-family: "Syne", system-ui, sans-serif; font-weight: 700; fill: #0e1e56; }
+                .cup-fill { fill: #ffffff; }
+                .badge { fill: #167F3D; }
+                .badge-text-1 { font-family: "DM Sans", system-ui, sans-serif; font-weight: 700; fill: #ffffff; font-size: 9px; letter-spacing: 0.22em; }
+                .badge-text-2 { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; font-style: italic; fill: #ffffff; font-size: 11px; letter-spacing: 0.02em; }
+                .badge-rule { stroke: #ffffff; stroke-width: 0.6; opacity: 0.55; }
+                .axis  { stroke: #0e1e56; stroke-width: 0.5; stroke-dasharray: 2 3; opacity: 0.35; }
+              </style>
+            </defs>
+
+            <line class="axis" x1="40" y1="270" x2="320" y2="270"/>
+
+            <path class="cup-fill ln-w"
+                  d="M 140 88 L 220 88 L 208 268 L 152 268 Z" />
+
+            <path class="ln" d="M 137 84 L 223 84 L 220 88 L 140 88 Z" />
+            <line class="ln" x1="137" y1="84" x2="223" y2="84"/>
+
+            <ellipse cx="180" cy="170" rx="32" ry="34" fill="none" stroke="#0e1e56" stroke-width="0.4" stroke-dasharray="2 3" opacity="0.3"/>
+
+            <g transform="translate(180 170)">
+              <circle r="30" class="badge"/>
+              <text text-anchor="middle" y="-3" class="badge-text-1">BANCO</text>
+              <line class="badge-rule" x1="-16" y1="2" x2="16" y2="2"/>
+              <text text-anchor="middle" y="15" class="badge-text-2">falabella</text>
+            </g>
+
+            <line class="dim" x1="140" y1="60" x2="220" y2="60"/>
+            <line class="tick" x1="140" y1="55" x2="140" y2="65"/>
+            <line class="tick" x1="220" y1="55" x2="220" y2="65"/>
+            <line class="dim" x1="140" y1="60" x2="140" y2="80"/>
+            <line class="dim" x1="220" y1="60" x2="220" y2="80"/>
+            <text x="180" y="52" text-anchor="middle" class="lbl">75 mm · Ø superior</text>
+
+            <line class="dim" x1="250" y1="84" x2="250" y2="268"/>
+            <line class="tick" x1="245" y1="84" x2="255" y2="84"/>
+            <line class="tick" x1="245" y1="268" x2="255" y2="268"/>
+            <line class="dim" x1="223" y1="84" x2="250" y2="84"/>
+            <line class="dim" x1="208" y1="268" x2="250" y2="268"/>
+            <text x="258" y="172" class="lbl">92 mm</text>
+            <text x="258" y="186" class="lbl" style="fill:#0e1e56; font-weight:700;">6 oz · 180 ml</text>
+
+            <line class="dim" x1="152" y1="290" x2="208" y2="290"/>
+            <line class="tick" x1="152" y1="285" x2="152" y2="295"/>
+            <line class="tick" x1="208" y1="285" x2="208" y2="295"/>
+            <line class="dim" x1="152" y1="268" x2="152" y2="290"/>
+            <line class="dim" x1="208" y1="268" x2="208" y2="290"/>
+            <text x="180" y="304" text-anchor="middle" class="lbl">55 mm · Ø inferior</text>
+
+            <line class="dim" x1="115" y1="170" x2="148" y2="170"/>
+            <line class="tick" x1="148" y1="166" x2="148" y2="174"/>
+            <circle cx="115" cy="170" r="1.6" fill="#51b5f2"/>
+            <text x="35" y="160" class="lbl">adhesivo</text>
+            <text x="35" y="173" class="lbl" style="fill:#0e1e56; font-weight:700;">Ø 50 mm</text>
+            <text x="35" y="186" class="lbl">troquelado</text>
+
+            <line class="dim" x1="220" y1="230" x2="290" y2="230"/>
+            <circle cx="220" cy="230" r="1.6" fill="#51b5f2"/>
+            <text x="294" y="227" class="lbl">cartón blanco</text>
+            <text x="294" y="240" class="lbl">interior PE</text>
+
+          </svg>
+
+          <div class="plano__foot">
+            <em>Plano referencial. Arte final aprueba Banco Falabella.</em>
+            <span>DG · 2026</span>
+          </div>
+        </figure>
+
+      </div>
+
+      <p class="service__note">
+        El vaso 6oz cartón blanco se mantiene idéntico al aprobado en DG-008. El adhesivo Banco Falabella se aplica unidad por unidad en operación, antes de servir cada café en la sede.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 SERVICIO OPERATIVO -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">04</span>
+      <h2 class="section__title">Servicio operativo</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Tarifas por sede × 5 universidades. Para este formato las dos modalidades recomendadas son <strong>entrega + 1 anfitrión</strong> (un coordinador atiende ambos puntos por sede) o <strong>entrega + 2 anfitriones</strong> (uno por estación, café y sopaipillas). Las dos están detalladas en la sección 01.
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Modalidad por sede</th>
+            <th>Lista × 5 sedes</th>
+            <th>Social Grind Club −30%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Entrega básica<small>Transporte + setup + briefing al equipo Kraneo. Kraneo asume servicio en sede.</small></td>
+            <td>7,00 UF</td>
+            <td class="total">4,90 UF</td>
+          </tr>
+          <tr>
+            <td class="name">Entrega + 1 anfitrión<small>1 anfitrión Daily Grind sirviendo hasta 3 h por sede.</small></td>
+            <td>16,50 UF</td>
+            <td class="total">11,55 UF</td>
+          </tr>
+          <tr>
+            <td class="name">Entrega + 2 anfitriones<small>1 anfitrión café + 1 anfitrión sopaipillas y salsas, hasta 3 h por sede.</small></td>
+            <td>26,00 UF</td>
+            <td class="total">18,20 UF</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="service__note">
+        El Social Grind Club aplica 30% sobre el servicio operativo. The Family suma 30% sobre el producto base (café + sopaipilla). Ambos descuentos quedan fijados como lista cuenta Kraneo para próximas activaciones.
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 OTRAS LÍNEAS -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">05</span>
+      <h2 class="section__title">Otras líneas Daily Grind</h2>
+    </div>
+    <div class="section__body">
+      <p class="section__lead">
+        Otras modalidades de catering corporativo Daily Grind para próximas activaciones con Kraneo.
+      </p>
+
+      <div class="otras">
+
+        <div class="otras__card">
+          <h3 class="otras__title">Coffee Cart</h3>
+          <p class="otras__cat">Café especialidad en sitio</p>
+          <p class="otras__desc">
+            Carrito Daily Grind con barista en sitio. Café de especialidad de origen único para reuniones, eventos AM y desayunos corporativos.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>10 UF por turno</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Brunch Daily Grind</h3>
+          <p class="otras__cat">Combo evento mañana</p>
+          <p class="otras__desc">
+            Café de especialidad + sopaipilla con salsas o pastelería artesanal por persona. Pensado para activaciones AM y desayunos ejecutivos.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>0,22 UF por persona</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Mini helado 6oz</h3>
+          <p class="otras__cat">Triple Daily Grind frío</p>
+          <p class="otras__desc">
+            Açaí, pistacho y mix preparado en mini 6oz para activaciones de temporada cálida. Spec completa disponible en DG-008.
+          </p>
+          <dl class="otras__price">
+            <dt>Desde</dt>
+            <dd>0,072 UF por mini</dd>
+          </dl>
+        </div>
+
+        <div class="otras__card">
+          <h3 class="otras__title">Pop-up Daily Grind</h3>
+          <p class="otras__cat">Estación branded full</p>
+          <p class="otras__desc">
+            Estación completa con identidad Daily Grind y equipo dedicado. Para activaciones de jornada completa.
+          </p>
+          <dl class="otras__price">
+            <dt>Cotización</dt>
+            <dd>a medida</dd>
+          </dl>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 CONDICIONES -->
+  <section class="section">
+    <div class="section__head">
+      <span class="section__num">06</span>
+      <h2 class="section__title">Condiciones</h2>
+    </div>
+    <div class="section__body">
+      <ul class="conditions">
+        <li>Las 5 fechas y sedes se coordinan con Kraneo al confirmar la gira.</li>
+        <li>Vigencia de la cotización: 30 días desde la emisión.</li>
+        <li>Confirmación de combo final (tipo de café, perfil de salsas) hasta 7 días hábiles antes de la primera sede.</li>
+        <li>Valores cotizados en UF. UF referencial al 16 de mayo de 2026: $42.000.</li>
+        <li>Forma de pago: 50% al confirmar la gira, 50% contra entrega de la última sede. Factura electrónica a Kraneo.</li>
+        <li>Aviso mínimo: 5 días hábiles antes de cada activación. Arte final del adhesivo Banco Falabella aprobado 7 días hábiles antes de la primera sede.</li>
+        <li><strong>The Family −30%</strong> sobre el producto base · <strong>Social Grind Club −30%</strong> sobre el servicio operativo. Ambos descuentos quedan fijados como lista cuenta Kraneo para próximas activaciones.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="foot__cta">
+      Para cerrar la gira o conversar próximas activaciones, me escriben directo.
+    </p>
+    <div class="foot__sig">
+      <strong>Juan Latorre</strong>
+      <span>The Daily Grind</span>
+      <em>pulpabrava@gmail.com</em>
+      <em>dailygrind.cl</em>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
