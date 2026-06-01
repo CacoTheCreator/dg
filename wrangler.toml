@@ -1,6 +1,7 @@
 name = "dg"
 main = "src/worker.js"
 compatibility_date = "2025-05-01"
+account_id = "9d84c31c5105d9dfaf43d3c66a2cccac"
 
 [assets]
 directory = "."
