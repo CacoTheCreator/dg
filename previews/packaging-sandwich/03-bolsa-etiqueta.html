@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Packaging · Bolsa kraft + etiqueta — The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --white:#fff;
+    --kraft:#c8a878; --kraft-2:#b8946a;
+    --lab-w:88mm; --lab-h:118mm; --bleed:3mm;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  @page{ size:94mm 124mm; margin:0; }
+  html,body{ background:var(--navy); font-family:"DM Sans",sans-serif; -webkit-font-smoothing:antialiased; color:var(--navy); }
+
+  .ui{ position:sticky; top:0; z-index:50; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+       padding:14px 18px; background:var(--navy-2); color:var(--cream); font-family:"DM Sans"; font-weight:500; font-size:13px; }
+  .ui b{ font-family:"Syne"; font-weight:700; } .ui .sp{ flex:1; } .ui .hint{ font-weight:300; opacity:.7; font-size:12px; }
+  .ui button{ font:inherit; cursor:pointer; border:1px solid rgba(249,243,236,.35); background:transparent; color:var(--cream); padding:6px 12px; border-radius:4px; }
+  .ui button.on{ background:var(--sky); color:var(--navy); border-color:var(--sky); font-weight:700; }
+
+  .stage{ padding:34px 20px 60px; display:flex; gap:40px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
+
+  /* --- bolsa simulada (solo preview) --- */
+  .bag-wrap{ text-align:center; }
+  .bag{ width:150mm; max-width:88vw; aspect-ratio:3/4; position:relative; border-radius:2px 2px 4px 4px;
+       background:
+         repeating-linear-gradient(90deg, rgba(0,0,0,.025) 0 1px, transparent 1px 7px),
+         linear-gradient(160deg, var(--kraft) 0%, var(--kraft-2) 100%);
+       box-shadow:0 18px 60px rgba(11,24,69,.45); overflow:hidden; }
+  .bag::before{ content:""; position:absolute; top:0; left:0; right:0; height:11%;
+       background:repeating-linear-gradient(180deg, rgba(0,0,0,.06) 0 2px, transparent 2px 5px); border-bottom:1px dashed rgba(0,0,0,.18); }
+  .bag .fold-l,.bag .fold-r{ position:absolute; top:0; bottom:0; width:13%; background:rgba(0,0,0,.05); }
+  .bag .fold-l{ left:0; } .bag .fold-r{ right:0; }
+  .bag .label-on{ position:absolute; top:24%; left:50%; transform:translateX(-50%); width:62%; box-shadow:0 6px 22px rgba(0,0,0,.28); }
+  .bag .label-on .label{ box-shadow:none; }
+  .bag-cap{ color:var(--cream); font-family:"DM Sans"; font-weight:300; font-size:12px; letter-spacing:.04em; margin-top:14px; opacity:.8; }
+
+  /* --- la etiqueta print-ready --- */
+  .label{
+    width:calc(var(--lab-w) + var(--bleed)*2); height:calc(var(--lab-h) + var(--bleed)*2);
+    background:var(--cream); padding:var(--bleed); position:relative; overflow:hidden;
+    box-shadow:0 12px 50px rgba(11,24,69,.5);
+  }
+  .bag .label{ width:100%; height:auto; aspect-ratio:88/118; }
+  .label .inner{ position:absolute; inset:var(--bleed); border:.3mm solid var(--navy); padding:6mm 6mm 5mm; display:flex; flex-direction:column; }
+  /* cabezal navy */
+  .lhead{ background:var(--navy); margin:-6mm -6mm 4mm; padding:4mm 6mm 3.4mm; position:relative; }
+  .lhead::after{ content:""; position:absolute; left:0; right:0; bottom:-1.1mm; height:1.1mm; background:var(--sky); }
+  .lhead .wm{ font-family:"Syne"; font-weight:700; font-size:13pt; line-height:1; color:var(--cream); }
+  .lhead .wm .dot{ display:inline-block; width:1.7mm; height:1.7mm; background:var(--sky); border-radius:50%; vertical-align:middle; margin:0 .3mm 0 .6mm; transform:translateY(-.5mm); }
+  .lhead .row{ display:flex; justify-content:space-between; align-items:baseline; margin-top:1.6mm; }
+  .lhead .jp{ font-family:"DM Sans"; font-weight:300; font-size:5.4pt; letter-spacing:.36em; color:var(--sky-lt); }
+  .lhead .vol{ font-family:"Syne"; font-weight:700; font-size:5.4pt; letter-spacing:.18em; color:var(--sky); }
+
+  .lname{ font-family:"Syne"; font-weight:700; font-size:19pt; line-height:1; color:var(--navy); margin-bottom:1.4mm; }
+  .ldesc{ font-family:"DM Sans"; font-weight:300; font-size:7.4pt; line-height:1.4; color:var(--navy); }
+  .ldesc em{ font-style:italic; color:var(--sky); }
+
+  .attrs{ margin-top:4mm; display:flex; flex-wrap:wrap; gap:1.6mm; }
+  .attrs .chip{ font-family:"DM Sans"; font-weight:500; font-size:5.4pt; letter-spacing:.06em; color:var(--navy);
+       border:.3mm solid var(--navy); border-radius:6mm; padding:1.2mm 2.6mm; }
+  .attrs .chip.sky{ background:var(--sky); border-color:var(--sky); }
+
+  .nut{ margin-top:auto; padding-top:3.4mm; border-top:.3mm solid var(--navy); }
+  .nut h4{ font-family:"DM Sans"; font-weight:500; font-size:5pt; letter-spacing:.28em; text-transform:uppercase; color:var(--sky); margin-bottom:1.8mm; }
+  .nut .por{ font-family:"DM Sans"; font-weight:500; font-size:5.2pt; color:var(--navy); margin-bottom:1.4mm; }
+  .nut table{ width:100%; border-collapse:collapse; }
+  .nut td{ font-family:"DM Sans"; font-weight:300; font-size:6pt; color:var(--navy); padding:.5mm 0; border-bottom:.18mm solid rgba(14,30,86,.16); }
+  .nut td.v{ text-align:right; font-family:"Syne"; font-weight:700; }
+  .nut .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0 6mm; }
+  .lfoot{ margin-top:3mm; display:flex; justify-content:space-between; align-items:center;
+       font-family:"DM Sans"; font-weight:500; font-size:4.8pt; letter-spacing:.14em; text-transform:uppercase; color:rgba(14,30,86,.6); }
+  .lfoot .pill{ font-family:"Syne"; font-weight:700; background:var(--sky); color:var(--navy); padding:.8mm 2.2mm; border-radius:1mm; letter-spacing:.1em; }
+  .disc{ font-family:"DM Sans"; font-weight:300; font-style:italic; font-size:4.4pt; line-height:1.3; color:rgba(14,30,86,.6); margin-top:1.6mm; }
+
+  /* sello ALTO EN */
+  .seal{ display:none; position:absolute; top:6mm; right:7mm; width:19mm; height:19mm; z-index:6;
+       background:var(--navy); color:var(--cream); clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);
+       align-items:center; justify-content:center; text-align:center; box-shadow:0 0 0 .6mm var(--cream); }
+  .seal span{ font-family:"Syne"; font-weight:700; font-size:5.4pt; line-height:1.12; text-transform:uppercase; }
+  body.alto .seal{ display:flex; }
+  body.alto .nut tr.sodio td{ color:var(--navy); font-weight:700; }
+
+  @media print{ .ui,.bag-wrap{ display:none; } .stage{ padding:0; } .label{ box-shadow:none; } }
+</style>
+</head>
+<body class="v-pesto">
+  <div class="ui">
+    <b>Bolsa kraft + etiqueta · sándwich masa madre</b>
+    <span class="hint">Etiqueta 88 × 118 mm + 3 mm sangrado · adhesiva sobre bolsa kraft estándar</span>
+    <span class="sp"></span>
+    <span class="hint">Variante:</span>
+    <button id="bPesto" class="on" onclick="setVar('pesto')">Masa Madre · Pesto</button>
+    <button id="bAliado" onclick="setVar('aliado')">Aliado</button>
+    <span class="hint">·</span>
+    <button id="bAlto" onclick="toggleAlto()">Sello ALTO EN: off</button>
+    <button onclick="window.print()">Imprimir etiqueta</button>
+  </div>
+
+  <style>.mockup{display:block}@media print{.mockup{display:none!important}}</style>
+  <figure class="mockup" style="margin:0;padding:30px 20px 4px;text-align:center;">
+    <img src="img/bolsa.jpg" alt="Mockup bolsa kraft con etiqueta masa madre" style="max-width:440px;width:100%;border-radius:12px;box-shadow:0 18px 60px rgba(11,24,69,.45);display:block;margin:0 auto;">
+    <figcaption style="color:#a6d9f8;font-family:'DM Sans',sans-serif;font-weight:300;font-size:12.5px;letter-spacing:.04em;margin-top:12px;">Mockup de referencia visual · ojo: la foto trae datos nutricionales inventados por la IA; los reales (sodio 1.350 mg) están en el arte de abajo ↓</figcaption>
+  </figure>
+
+  <div class="stage">
+    <!-- preview: etiqueta sobre bolsa -->
+    <div class="bag-wrap">
+      <div class="bag">
+        <div class="fold-l"></div><div class="fold-r"></div>
+        <div class="label-on" id="labelBag"></div>
+      </div>
+      <div class="bag-cap">Mockup de aplicación · bolsa kraft estándar</div>
+    </div>
+
+    <!-- etiqueta print-ready (la que se imprime) -->
+    <div class="bag-wrap">
+      <div class="label" id="labelPrint">
+        <div class="seal"><span>ALTO EN<br>SODIO</span></div>
+        <div class="inner">
+          <div class="lhead">
+            <div class="wm">The Daily Grind<span class="dot"></span></div>
+            <div class="row"><span class="jp">ザ・デイリー・グラインド</span><span class="vol">VOL. 04 · CAFÉ</span></div>
+          </div>
+          <div class="lname" id="lname">Masa madre</div>
+          <div class="ldesc" id="ldesc">Pan de masa madre del día, <em>pesto de albahaca y aceite de oliva</em>, jamón de pierna y queso gauda.</div>
+          <div class="attrs">
+            <span class="chip sky">Fuente de proteína</span>
+            <span class="chip">~24 g proteína</span>
+            <span class="chip">Pan de masa madre</span>
+          </div>
+          <div class="nut">
+            <h4>Información nutricional</h4>
+            <div class="por" id="por">Porción: 1 unidad · ~220 g</div>
+            <div class="grid2">
+              <table>
+                <tr><td>Energía</td><td class="v" id="n-kcal">560 kcal</td></tr>
+                <tr><td>Proteínas</td><td class="v">24 g</td></tr>
+                <tr><td>Grasas totales</td><td class="v" id="n-grasa">25 g</td></tr>
+                <tr><td>· saturadas</td><td class="v">8 g</td></tr>
+              </table>
+              <table>
+                <tr><td>Carbohidratos</td><td class="v" id="n-carb">57 g</td></tr>
+                <tr><td>· azúcares</td><td class="v" id="n-azuc">3 g</td></tr>
+                <tr><td>Fibra</td><td class="v">4 g</td></tr>
+                <tr class="sodio"><td>Sodio</td><td class="v" id="n-sodio">1.350 mg</td></tr>
+              </table>
+            </div>
+            <div class="disc">Información nutricional aproximada. Valores referenciales sujetos a verificación.</div>
+          </div>
+          <div class="lfoot">
+            <span>Lote · <span id="lote">DDMMAA</span> · Cons. preferente: el día de compra</span>
+            <span class="pill">FRESCO HOY</span>
+          </div>
+        </div>
+      </div>
+      <div class="bag-cap">Etiqueta print-ready · 88 × 118 mm</div>
+    </div>
+  </div>
+
+<script>
+  var DATA={
+    pesto:{ name:"Masa madre", desc:'Pan de masa madre del día, <em>pesto de albahaca y aceite de oliva</em>, jamón de pierna y queso gauda.',
+      kcal:"560 kcal",grasa:"25 g",carb:"57 g",azuc:"3 g",sodio:"1.350 mg",por:"Porción: 1 unidad · ~220 g",
+      chips:['Fuente de proteína','~24 g proteína','Pan de masa madre','Pesto de albahaca'] },
+    aliado:{ name:"Aliado", desc:'Pan de masa madre del día, jamón de pierna, queso gauda, <em>tomate fresco y orégano</em>.',
+      kcal:"470 kcal",grasa:"16 g",carb:"56 g",azuc:"4 g",sodio:"1.250 mg",por:"Porción: 1 unidad · ~231 g",
+      chips:['Fuente de proteína','~24 g proteína','Pan de masa madre'] }
+  };
+  function setVar(v){
+    var d=DATA[v];
+    document.getElementById('lname').textContent=d.name;
+    document.getElementById('ldesc').innerHTML=d.desc;
+    document.getElementById('n-kcal').textContent=d.kcal;
+    document.getElementById('n-grasa').textContent=d.grasa;
+    document.getElementById('n-carb').textContent=d.carb;
+    document.getElementById('n-azuc').textContent=d.azuc;
+    document.getElementById('n-sodio').textContent=d.sodio;
+    document.getElementById('por').textContent=d.por;
+    var box=document.querySelector('#labelPrint .attrs');
+    box.innerHTML=d.chips.map(function(c,i){return '<span class="chip'+(i===0?' sky':'')+'">'+c+'</span>';}).join('');
+    document.getElementById('bPesto').classList.toggle('on',v==='pesto');
+    document.getElementById('bAliado').classList.toggle('on',v==='aliado');
+    syncBag();
+  }
+  function syncBag(){ document.getElementById('labelBag').innerHTML=document.getElementById('labelPrint').outerHTML; }
+  function toggleAlto(){
+    var on=document.body.classList.toggle('alto');
+    var b=document.getElementById('bAlto'); b.textContent='Sello ALTO EN: '+(on?'on':'off'); b.classList.toggle('on',on);
+    syncBag();
+  }
+  syncBag();
+</script>
+</body>
+</html>

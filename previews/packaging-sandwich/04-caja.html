@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Packaging · Caja sándwich — The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --white:#fff;
+    --bleed:3mm;
+    /* caja tipo "wedge / clamshell" sándwich: tapa 130x70, frente 130x45, lateral 70x45 */
+    --tapa-w:130mm; --tapa-d:70mm; --alto:45mm;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  @page{ size:A3 landscape; margin:10mm; }
+  html,body{ background:var(--navy); font-family:"DM Sans",sans-serif; -webkit-font-smoothing:antialiased; color:var(--navy); }
+
+  .ui{ position:sticky; top:0; z-index:50; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+       padding:14px 18px; background:var(--navy-2); color:var(--cream); font-family:"DM Sans"; font-weight:500; font-size:13px; }
+  .ui b{ font-family:"Syne"; font-weight:700; } .ui .sp{ flex:1; } .ui .hint{ font-weight:300; opacity:.7; font-size:12px; }
+  .ui button{ font:inherit; cursor:pointer; border:1px solid rgba(249,243,236,.35); background:transparent; color:var(--cream); padding:6px 12px; border-radius:4px; }
+  .ui button.on{ background:var(--sky); color:var(--navy); border-color:var(--sky); font-weight:700; }
+
+  .note{ background:var(--sky-lt); color:var(--navy); padding:10px 18px; font-family:"DM Sans"; font-weight:300; font-size:12.5px; line-height:1.5; }
+  .note b{ font-family:"Syne"; font-weight:700; }
+
+  .stage{ padding:34px 20px 70px; display:flex; justify-content:center; }
+
+  /* ---- dieline desplegado ---- */
+  .dieline{ background:var(--cream); padding:18mm; box-shadow:0 14px 60px rgba(11,24,69,.5); position:relative; }
+  .grid{
+    display:grid; gap:0;
+    grid-template-columns: var(--tapa-w);
+    grid-template-rows: auto;
+    justify-items:stretch;
+  }
+  .face{ position:relative; background:var(--cream); }
+  /* líneas de plegado entre caras */
+  .fold-line{ position:relative; }
+  .fold-line::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:0;
+       border-bottom:.35mm dashed rgba(14,30,86,.5); }
+  .flabel{ position:absolute; top:1.5mm; left:2mm; font-family:"DM Sans"; font-weight:500; font-size:4.6pt;
+       letter-spacing:.26em; text-transform:uppercase; color:rgba(14,30,86,.45); z-index:3; }
+
+  /* TAPA — cara principal -------------------------------------------------- */
+  .tapa{ width:var(--tapa-w); height:var(--tapa-d); border:.3mm solid var(--navy);
+       display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; }
+  .tapa .rail{ position:absolute; top:0; left:0; right:0; height:7mm; background:var(--navy); }
+  .tapa .rail::after{ content:""; position:absolute; bottom:-1mm; left:0; right:0; height:1mm; background:var(--sky); }
+  .tapa .rail .l{ position:absolute; left:5mm; top:50%; transform:translateY(-50%); font-family:"DM Sans"; font-weight:300; font-size:5pt; letter-spacing:.34em; color:var(--sky-lt); }
+  .tapa .rail .r{ position:absolute; right:5mm; top:50%; transform:translateY(-50%); font-family:"Syne"; font-weight:700; font-size:5pt; letter-spacing:.18em; color:var(--sky); }
+  .tapa .wm{ font-family:"Syne"; font-weight:700; font-size:19pt; line-height:1; color:var(--navy); margin-top:6mm; }
+  .tapa .wm .dot{ display:inline-block; width:2.4mm; height:2.4mm; background:var(--sky); border-radius:50%; vertical-align:middle; margin:0 .4mm 0 .8mm; transform:translateY(-.7mm); }
+  .tapa .jp{ font-family:"DM Sans"; font-weight:300; font-size:7pt; letter-spacing:.46em; color:var(--sky); margin-top:2mm; }
+  .tapa .hr{ width:40mm; height:.3mm; background:var(--navy); opacity:.5; margin:4mm 0; }
+  .tapa .vname{ font-family:"Syne"; font-weight:700; font-size:24pt; line-height:1; color:var(--navy); }
+  .tapa .vname em{ font-family:"DM Sans"; font-style:italic; font-weight:300; font-size:11pt; color:var(--sky); display:block; margin-top:2mm; }
+  .tapa .tg{ margin-top:5mm; font-family:"Syne"; font-weight:400; font-size:7pt; color:var(--navy); }
+  .tapa .tg em{ font-family:"DM Sans"; font-style:italic; font-weight:300; color:var(--sky); }
+
+  /* FRENTE — atributos ----------------------------------------------------- */
+  .frente{ width:var(--tapa-w); height:var(--alto); border:.3mm solid var(--navy); border-top:none;
+       display:flex; align-items:center; justify-content:space-between; padding:0 8mm; }
+  .frente .wm{ font-family:"Syne"; font-weight:700; font-size:9pt; color:var(--navy); }
+  .frente .wm .dot{ display:inline-block; width:1.3mm; height:1.3mm; background:var(--sky); border-radius:50%; margin:0 .2mm 0 .5mm; transform:translateY(-.3mm); }
+  .frente .chips{ display:flex; gap:2mm; }
+  .frente .chip{ font-family:"DM Sans"; font-weight:500; font-size:5.4pt; letter-spacing:.05em; color:var(--navy); border:.3mm solid var(--navy); border-radius:6mm; padding:1.2mm 3mm; }
+  .frente .chip.sky{ background:var(--sky); border-color:var(--sky); }
+
+  /* LATERAL — nutrición ---------------------------------------------------- */
+  .lados{ display:flex; }
+  .lateral{ width:var(--tapa-d); height:var(--alto); border:.3mm solid var(--navy); border-top:none; padding:3mm 4mm; }
+  .lateral + .lateral{ border-left:none; }
+  .lateral h4{ font-family:"DM Sans"; font-weight:500; font-size:4.4pt; letter-spacing:.24em; text-transform:uppercase; color:var(--sky); margin-bottom:1.4mm; }
+  .lateral .por{ font-family:"DM Sans"; font-weight:500; font-size:4.4pt; color:var(--navy); margin-bottom:1mm; }
+  .lateral table{ width:100%; border-collapse:collapse; }
+  .lateral td{ font-family:"DM Sans"; font-weight:300; font-size:5pt; color:var(--navy); padding:.3mm 0; border-bottom:.16mm solid rgba(14,30,86,.16); }
+  .lateral td.v{ text-align:right; font-family:"Syne"; font-weight:700; }
+  .lateral.right{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .lateral.right .jp{ font-family:"DM Sans"; font-weight:300; font-size:6pt; letter-spacing:.4em; color:var(--sky); }
+  .lateral.right .vol{ font-family:"Syne"; font-weight:700; font-size:7pt; letter-spacing:.16em; color:var(--navy); margin-top:2mm; }
+  .lateral.right .lote{ font-family:"DM Sans"; font-weight:500; font-size:4.4pt; letter-spacing:.14em; text-transform:uppercase; color:rgba(14,30,86,.6); margin-top:3mm; }
+
+  /* solapas de pegado */
+  .glue{ background:repeating-linear-gradient(45deg, rgba(14,30,86,.08) 0 2mm, transparent 2mm 4mm); border:.3mm dashed rgba(14,30,86,.4); }
+
+  /* sello ALTO EN sobre la tapa */
+  .seal{ display:none; position:absolute; top:11mm; right:9mm; width:22mm; height:22mm; z-index:6;
+       background:var(--navy); color:var(--cream); clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);
+       align-items:center; justify-content:center; text-align:center; box-shadow:0 0 0 .7mm var(--cream); }
+  .seal span{ font-family:"Syne"; font-weight:700; font-size:6pt; line-height:1.12; text-transform:uppercase; }
+  body.alto .seal{ display:flex; }
+  body.alto .lateral tr.sodio td{ color:var(--navy); font-weight:700; }
+
+  .disc{ position:absolute; bottom:6mm; left:18mm; right:18mm; text-align:center; font-family:"DM Sans"; font-weight:300; font-style:italic; font-size:5pt; color:rgba(14,30,86,.6); }
+
+  @media print{ .ui,.note{ display:none; } .stage{ padding:0; } .dieline{ box-shadow:none; padding:6mm; } }
+</style>
+</head>
+<body class="v-pesto">
+  <div class="ui">
+    <b>Caja sándwich · masa madre</b>
+    <span class="hint">Dieline simplificado · tapa 130 × 70 · alto 45 mm</span>
+    <span class="sp"></span>
+    <span class="hint">Variante:</span>
+    <button id="bPesto" class="on" onclick="setVar('pesto')">Masa Madre · Pesto</button>
+    <button id="bAliado" onclick="setVar('aliado')">Aliado</button>
+    <span class="hint">·</span>
+    <button id="bAlto" onclick="toggleAlto()">Sello ALTO EN: off</button>
+    <button onclick="window.print()">Imprimir A3</button>
+  </div>
+
+  <div class="note">
+    <b>Nota de producción:</b> este es el <b>arte de las caras impresas</b> + un dieline orientativo (líneas punteadas = plegado, rayado = solapa de pegado).
+    Para producción real, el arte debe montarse sobre la <b>plantilla troquelada exacta del convertidor</b> (cada imprenta tiene su troquel). Pídele a tu proveedor su dieline en vector y trasladamos estas caras 1:1.
+  </div>
+
+  <style>.mockup{display:block}@media print{.mockup{display:none!important}}</style>
+  <figure class="mockup" style="margin:0;padding:30px 20px 4px;text-align:center;">
+    <img src="img/caja.jpg" alt="Mockup caja sándwich masa madre" style="max-width:780px;width:100%;border-radius:12px;box-shadow:0 18px 60px rgba(11,24,69,.45);display:block;margin:0 auto;">
+    <figcaption style="color:#a6d9f8;font-family:'DM Sans',sans-serif;font-weight:300;font-size:12.5px;letter-spacing:.04em;margin-top:12px;">Mockup de referencia visual · ojo: la foto trae datos nutricionales inventados por la IA; los reales (sodio 1.350 mg) están en el arte de abajo ↓</figcaption>
+  </figure>
+
+  <div class="stage">
+    <div class="dieline">
+      <div class="seal"><span>ALTO EN<br>SODIO</span></div>
+      <div class="grid">
+
+        <!-- TAPA -->
+        <div class="face fold-line">
+          <span class="flabel">Tapa superior</span>
+          <div class="tapa">
+            <div class="rail"><span class="l">ザ・デイリー・グラインド</span><span class="r">VOL. 04 · CAFÉ</span></div>
+            <div class="wm">The Daily Grind<span class="dot"></span></div>
+            <div class="jp">ザ・デイリー</div>
+            <div class="hr"></div>
+            <div class="vname" id="vname">Masa madre<em>pesto, jamón y queso</em></div>
+            <div class="tg">Mismo ritual. <em>Otro nivel.</em></div>
+          </div>
+        </div>
+
+        <!-- FRENTE -->
+        <div class="face fold-line">
+          <span class="flabel">Frente</span>
+          <div class="frente">
+            <div class="wm">The Daily Grind<span class="dot"></span></div>
+            <div class="chips" id="chips">
+              <span class="chip sky">Fuente de proteína</span>
+              <span class="chip">~24 g proteína</span>
+              <span class="chip">Pan de masa madre</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LATERALES -->
+        <div class="lados">
+          <div class="lateral">
+            <span class="flabel">Lateral · nutrición</span>
+            <h4>Información nutricional</h4>
+            <div class="por" id="por">Porción: 1 unidad · ~220 g</div>
+            <table>
+              <tr><td>Energía</td><td class="v" id="n-kcal">560 kcal</td></tr>
+              <tr><td>Proteínas</td><td class="v">24 g</td></tr>
+              <tr><td>Grasas totales</td><td class="v" id="n-grasa">25 g</td></tr>
+              <tr><td>· saturadas</td><td class="v">8 g</td></tr>
+              <tr><td>Carbohidratos</td><td class="v" id="n-carb">57 g</td></tr>
+              <tr><td>· azúcares</td><td class="v" id="n-azuc">3 g</td></tr>
+              <tr><td>Fibra</td><td class="v">4 g</td></tr>
+              <tr class="sodio"><td>Sodio</td><td class="v" id="n-sodio">1.350 mg</td></tr>
+            </table>
+          </div>
+          <div class="lateral right">
+            <span class="flabel">Lateral · marca</span>
+            <div class="jp">ザ・デイリー</div>
+            <div class="vol">Vol. 04 · Café</div>
+            <div class="lote">Lote · <span id="lote">DDMMAA</span><br>Fresco hoy</div>
+          </div>
+          <div class="glue" style="width:14mm; height:var(--alto);"></div>
+        </div>
+
+      </div>
+      <div class="disc">Información nutricional aproximada. Valores referenciales sujetos a verificación. · The Daily Grind · Vol. 04 Café</div>
+    </div>
+  </div>
+
+<script>
+  var DATA={
+    pesto:{ vname:'Masa madre<em>pesto, jamón y queso</em>',
+      kcal:"560 kcal",grasa:"25 g",carb:"57 g",azuc:"3 g",sodio:"1.350 mg",por:"Porción: 1 unidad · ~220 g",
+      chips:['Fuente de proteína','~24 g proteína','Pan de masa madre','Pesto de albahaca'] },
+    aliado:{ vname:'Aliado<em>jamón, queso, tomate y orégano</em>',
+      kcal:"470 kcal",grasa:"16 g",carb:"56 g",azuc:"4 g",sodio:"1.250 mg",por:"Porción: 1 unidad · ~231 g",
+      chips:['Fuente de proteína','~24 g proteína','Pan de masa madre'] }
+  };
+  function setVar(v){
+    var d=DATA[v];
+    document.getElementById('vname').innerHTML=d.vname;
+    document.getElementById('n-kcal').textContent=d.kcal;
+    document.getElementById('n-grasa').textContent=d.grasa;
+    document.getElementById('n-carb').textContent=d.carb;
+    document.getElementById('n-azuc').textContent=d.azuc;
+    document.getElementById('n-sodio').textContent=d.sodio;
+    document.getElementById('por').textContent=d.por;
+    document.getElementById('chips').innerHTML=d.chips.map(function(c,i){return '<span class="chip'+(i===0?' sky':'')+'">'+c+'</span>';}).join('');
+    document.getElementById('bPesto').classList.toggle('on',v==='pesto');
+    document.getElementById('bAliado').classList.toggle('on',v==='aliado');
+  }
+  function toggleAlto(){
+    var on=document.body.classList.toggle('alto');
+    var b=document.getElementById('bAlto'); b.textContent='Sello ALTO EN: '+(on?'on':'off'); b.classList.toggle('on',on);
+  }
+</script>
+</body>
+</html>

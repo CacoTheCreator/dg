@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Packaging · Faja sándwich masa madre — The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --beige-2:#d9d4cf; --dark:#212529; --white:#fff;
+    --bleed:3mm;
+    /* faja desplegada: tira larga que da la vuelta al sándwich */
+    --band-w:280mm; --band-h:72mm;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  @page{ size:286mm 78mm; margin:0; }
+  html,body{ background:var(--navy); font-family:"DM Sans",sans-serif; -webkit-font-smoothing:antialiased; color:var(--navy); }
+
+  /* ---- pantalla: controles ---- */
+  .ui{ position:sticky; top:0; z-index:50; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+       padding:14px 18px; background:var(--navy-2); color:var(--cream);
+       font-family:"DM Sans",sans-serif; font-weight:500; font-size:13px; letter-spacing:.02em; }
+  .ui b{ font-family:"Syne",sans-serif; font-weight:700; letter-spacing:.02em; }
+  .ui .sp{ flex:1; }
+  .ui button{ font:inherit; cursor:pointer; border:1px solid rgba(249,243,236,.35); background:transparent;
+       color:var(--cream); padding:6px 12px; border-radius:4px; letter-spacing:.04em; }
+  .ui button.on{ background:var(--sky); color:var(--navy); border-color:var(--sky); font-weight:700; }
+  .ui .hint{ font-weight:300; opacity:.7; font-size:12px; }
+
+  .stage{ padding:34px 20px 60px; display:flex; justify-content:center; }
+
+  /* ---- la faja ---- */
+  .band{
+    width:calc(var(--band-w) + var(--bleed)*2);
+    height:calc(var(--band-h) + var(--bleed)*2);
+    background:var(--cream);
+    padding:var(--bleed);
+    position:relative;
+    box-shadow:0 12px 60px rgba(11,24,69,.5);
+    overflow:hidden;
+  }
+  /* riel navy superior con línea sky (firma de marca) */
+  .rail{ position:absolute; top:var(--bleed); left:var(--bleed); right:var(--bleed); height:7mm; background:var(--navy); z-index:1; }
+  .rail::after{ content:""; position:absolute; bottom:-1mm; left:0; right:0; height:1mm; background:var(--sky); }
+  .rail .tick{ position:absolute; top:50%; transform:translateY(-50%); color:var(--sky-lt);
+       font-family:"DM Sans"; font-weight:300; font-size:5pt; letter-spacing:.32em; text-transform:uppercase; }
+  .rail .tick.l{ left:6mm; } .rail .tick.r{ right:6mm; color:var(--sky); font-family:"Syne"; font-weight:700; }
+  .rail .tick.r .num{ color:var(--sky-lt); }
+
+  .safe{ position:absolute; inset:var(--bleed); top:calc(var(--bleed) + 7mm);
+       display:grid; grid-template-columns: 78mm 1fr 70mm; }
+
+  /* divisiones de la tira: cuando se enrolla, el centro queda al frente */
+  .panel{ padding:5mm 6mm; position:relative; }
+  .panel + .panel{ border-left:.3mm dashed rgba(14,30,86,.3); }
+  .fold{ position:absolute; top:2mm; font-family:"DM Sans"; font-weight:500; font-size:4pt;
+       letter-spacing:.3em; text-transform:uppercase; color:rgba(14,30,86,.4); }
+  .fold.r{ right:2mm; }
+
+  /* PANEL IZQ — nutrición */
+  .nut h4{ font-family:"DM Sans"; font-weight:500; font-size:5pt; letter-spacing:.3em; text-transform:uppercase; color:var(--sky); margin-bottom:2mm; }
+  .nut table{ width:100%; border-collapse:collapse; }
+  .nut td{ font-family:"DM Sans"; font-weight:300; font-size:6.4pt; color:var(--navy); padding:.7mm 0; border-bottom:.2mm solid rgba(14,30,86,.18); }
+  .nut td.v{ text-align:right; font-family:"Syne"; font-weight:700; }
+  .nut tr.head td{ font-weight:500; font-size:5pt; letter-spacing:.16em; text-transform:uppercase; color:rgba(14,30,86,.55); border-bottom:.3mm solid var(--navy); }
+  .nut tr.alto td{ color:var(--navy); font-weight:500; }
+  .nut .disc{ margin-top:2mm; font-family:"DM Sans"; font-weight:300; font-style:italic; font-size:4.6pt; line-height:1.35; color:rgba(14,30,86,.6); }
+  .nut .por{ margin-top:1.5mm; font-family:"DM Sans"; font-weight:500; font-size:4.8pt; letter-spacing:.04em; color:var(--navy); }
+
+  /* PANEL CENTRO — la cara que se ve */
+  .face{ text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .wordmark{ font-family:"Syne"; font-weight:700; font-size:13pt; line-height:1; letter-spacing:-.01em; color:var(--navy); }
+  .wordmark .dot{ display:inline-block; width:1.7mm; height:1.7mm; background:var(--sky); border-radius:50%; vertical-align:middle; margin:0 .3mm 0 .6mm; transform:translateY(-.5mm); }
+  .jp{ margin-top:1.6mm; font-family:"DM Sans"; font-weight:300; font-size:6pt; letter-spacing:.42em; color:var(--sky); }
+  .rule{ width:34mm; height:.3mm; background:var(--navy); margin:3mm 0; opacity:.5; }
+  .variant{ font-family:"Syne"; font-weight:700; font-size:18pt; line-height:1.02; color:var(--navy); }
+  .variant em{ font-family:"DM Sans"; font-style:italic; font-weight:300; color:var(--sky); }
+  .fill{ margin-top:2.4mm; font-family:"DM Sans"; font-weight:300; font-size:7pt; letter-spacing:.02em; color:var(--navy); max-width:54mm; line-height:1.4; }
+  .tagline{ margin-top:4mm; font-family:"Syne"; font-weight:400; font-size:6.4pt; letter-spacing:.04em; color:var(--navy); }
+  .tagline em{ font-family:"DM Sans"; font-style:italic; font-weight:300; color:var(--sky); }
+
+  /* PANEL DER — atributos + lote */
+  .attrs h4{ font-family:"DM Sans"; font-weight:500; font-size:5pt; letter-spacing:.3em; text-transform:uppercase; color:var(--sky); margin-bottom:2.4mm; }
+  .attrs ul{ list-style:none; }
+  .attrs li{ font-family:"DM Sans"; font-weight:300; font-size:6.4pt; line-height:1.5; color:var(--navy); display:flex; gap:1.8mm; align-items:flex-start; margin-bottom:1.4mm; }
+  .attrs li .m{ color:var(--sky); font-weight:500; }
+  .attrs li b{ font-family:"Syne"; font-weight:700; }
+  .lot{ position:absolute; bottom:4mm; left:6mm; right:6mm; display:flex; justify-content:space-between; align-items:center;
+       font-family:"DM Sans"; font-weight:500; font-size:4.6pt; letter-spacing:.16em; text-transform:uppercase; color:rgba(14,30,86,.6); }
+  .lot .pill{ font-family:"Syne"; font-weight:700; background:var(--sky); color:var(--navy); padding:.8mm 2mm; border-radius:1mm; letter-spacing:.12em; }
+
+  /* SELLO ALTO EN (toggle) */
+  .seal{ position:absolute; right:5mm; bottom:13mm; width:17mm; height:17mm; display:none; z-index:5;
+       background:var(--navy); color:var(--cream); clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);
+       align-items:center; justify-content:center; text-align:center; }
+  .seal span{ font-family:"Syne"; font-weight:700; font-size:5pt; line-height:1.15; letter-spacing:.04em; text-transform:uppercase; }
+  body.alto .seal{ display:flex; }
+  body.alto .nut tr.sodio td{ color:var(--navy); font-weight:700; }
+
+  @media screen and (max-width:980px){ .stage{ overflow-x:auto; justify-content:flex-start; } }
+  @media print{
+    .ui{ display:none; }
+    .stage{ padding:0; }
+    .band{ box-shadow:none; }
+  }
+</style>
+</head>
+<body class="v-pesto">
+  <div class="ui">
+    <b>Faja · sándwich masa madre</b>
+    <span class="hint">280 × 72 mm + 3 mm sangrado · se enrolla, el centro queda al frente</span>
+    <span class="sp"></span>
+    <span class="hint">Variante:</span>
+    <button id="bPesto" class="on" onclick="setVar('pesto')">Masa Madre · Pesto</button>
+    <button id="bAliado" onclick="setVar('aliado')">Aliado</button>
+    <span class="hint">·</span>
+    <button id="bAlto" onclick="toggleAlto()">Sello ALTO EN: off</button>
+    <button onclick="window.print()">Imprimir</button>
+  </div>
+
+  <style>.mockup{display:block}@media print{.mockup{display:none!important}}</style>
+  <figure class="mockup" style="margin:0;padding:30px 20px 4px;text-align:center;">
+    <img src="img/faja.jpg" alt="Mockup faja sándwich masa madre" style="max-width:660px;width:100%;border-radius:12px;box-shadow:0 18px 60px rgba(11,24,69,.45);display:block;margin:0 auto;">
+    <figcaption style="color:#a6d9f8;font-family:'DM Sans',sans-serif;font-weight:300;font-size:12.5px;letter-spacing:.04em;margin-top:12px;">Mockup de referencia visual · el arte print-ready y los datos definitivos están abajo ↓</figcaption>
+  </figure>
+
+  <div class="stage">
+    <div class="band">
+      <div class="rail">
+        <div class="tick l">ザ・デイリー・グラインド</div>
+        <div class="tick r">VOL. <span class="num">04</span> · CAFÉ</div>
+      </div>
+      <div class="safe">
+
+        <!-- IZQ: nutrición -->
+        <div class="panel nut">
+          <span class="fold">pliegue ▰</span>
+          <h4>Información nutricional</h4>
+          <div class="por" id="porcion">Porción: 1 unidad · ~220 g</div>
+          <table>
+            <tr class="head"><td>Por unidad</td><td class="v">Cant.</td></tr>
+            <tr><td>Energía</td><td class="v" id="n-kcal">560 kcal</td></tr>
+            <tr><td>Proteínas</td><td class="v">24 g</td></tr>
+            <tr><td>Grasas totales</td><td class="v" id="n-grasa">25 g</td></tr>
+            <tr><td>· saturadas</td><td class="v">8 g</td></tr>
+            <tr><td>Carbohidratos</td><td class="v" id="n-carb">57 g</td></tr>
+            <tr><td>· azúcares</td><td class="v" id="n-azuc">3 g</td></tr>
+            <tr><td>Fibra</td><td class="v">4 g</td></tr>
+            <tr class="sodio"><td>Sodio</td><td class="v" id="n-sodio">1.350 mg</td></tr>
+          </table>
+          <div class="disc">Información nutricional aproximada. Valores referenciales sujetos a verificación.</div>
+        </div>
+
+        <!-- CENTRO: cara visible -->
+        <div class="panel face">
+          <div class="wordmark">The Daily Grind<span class="dot"></span></div>
+          <div class="jp">ザ・デイリー</div>
+          <div class="rule"></div>
+          <div class="variant" id="vName">Masa madre<br><em>pesto, jamón y queso</em></div>
+          <div class="fill" id="vFill">Pan de masa madre del día, pesto de albahaca y aceite de oliva, jamón de pierna y queso gauda.</div>
+          <div class="tagline">Mismo ritual. <em>Otro nivel.</em></div>
+        </div>
+
+        <!-- DER: atributos -->
+        <div class="panel attrs">
+          <span class="fold r">pliegue ▰</span>
+          <h4>Lo que llevás</h4>
+          <ul>
+            <li><span class="m">■</span><span>Elaborado con <b>pan de masa madre</b> del día</span></li>
+            <li><span class="m">■</span><span><b>Fuente de proteína</b> — aporta ~<b>24 g</b> por unidad</span></li>
+            <li class="only-pesto"><span class="m">■</span><span>Pesto de <b>albahaca</b> y aceite de oliva</span></li>
+            <li class="only-aliado" style="display:none"><span class="m">■</span><span>Tomate fresco y <b>orégano</b></span></li>
+            <li><span class="m">→</span><span>Hecho hoy. Comételo hoy.</span></li>
+          </ul>
+          <div class="lot">
+            <span>Lote · <span id="lote">DDMMAA</span></span>
+            <span class="pill">FRESCO HOY</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- sello opcional -->
+      <div class="seal"><span>ALTO EN<br>SODIO</span></div>
+    </div>
+  </div>
+
+<script>
+  var DATA = {
+    pesto:{ name:"Masa madre<br><em>pesto, jamón y queso</em>",
+            fill:"Pan de masa madre del día, pesto de albahaca y aceite de oliva, jamón de pierna y queso gauda.",
+            kcal:"560 kcal", grasa:"25 g", carb:"57 g", azuc:"3 g", sodio:"1.350 mg", por:"Porción: 1 unidad · ~220 g" },
+    aliado:{ name:"Aliado<br><em>jamón, queso, tomate y orégano</em>",
+            fill:"Pan de masa madre del día, jamón de pierna, queso gauda, tomate fresco y orégano.",
+            kcal:"470 kcal", grasa:"16 g", carb:"56 g", azuc:"4 g", sodio:"1.250 mg", por:"Porción: 1 unidad · ~231 g" }
+  };
+  function setVar(v){
+    var d=DATA[v];
+    document.getElementById('vName').innerHTML=d.name;
+    document.getElementById('vFill').textContent=d.fill;
+    document.getElementById('n-kcal').textContent=d.kcal;
+    document.getElementById('n-grasa').textContent=d.grasa;
+    document.getElementById('n-carb').textContent=d.carb;
+    document.getElementById('n-azuc').textContent=d.azuc;
+    document.getElementById('n-sodio').textContent=d.sodio;
+    document.getElementById('porcion').textContent=d.por;
+    document.querySelector('.only-pesto').style.display = v==='pesto'?'flex':'none';
+    document.querySelector('.only-aliado').style.display = v==='aliado'?'flex':'none';
+    document.getElementById('bPesto').classList.toggle('on',v==='pesto');
+    document.getElementById('bAliado').classList.toggle('on',v==='aliado');
+  }
+  function toggleAlto(){
+    var on=document.body.classList.toggle('alto');
+    document.getElementById('bAlto').textContent='Sello ALTO EN: '+(on?'on':'off');
+    document.getElementById('bAlto').classList.toggle('on',on);
+  }
+</script>
+</body>
+</html>

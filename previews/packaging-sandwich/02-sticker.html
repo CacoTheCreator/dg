@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1e56">
+<title>Packaging · Sticker sello sándwich — The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --white:#fff;
+    --d:50mm; --bleed:3mm;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  @page{ size:A4; margin:10mm; }
+  html,body{ background:var(--navy); font-family:"DM Sans",sans-serif; -webkit-font-smoothing:antialiased; color:var(--navy); }
+
+  .ui{ position:sticky; top:0; z-index:50; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+       padding:14px 18px; background:var(--navy-2); color:var(--cream); font-family:"DM Sans"; font-weight:500; font-size:13px; }
+  .ui b{ font-family:"Syne"; font-weight:700; } .ui .sp{ flex:1; } .ui .hint{ font-weight:300; opacity:.7; font-size:12px; }
+  .ui button{ font:inherit; cursor:pointer; border:1px solid rgba(249,243,236,.35); background:transparent; color:var(--cream); padding:6px 12px; border-radius:4px; }
+  .ui button.on{ background:var(--sky); color:var(--navy); border-color:var(--sky); font-weight:700; }
+
+  .stage{ padding:40px 20px 80px; }
+  .preview{ display:flex; gap:46px; justify-content:center; flex-wrap:wrap; margin-bottom:54px; }
+  .pv-cap{ text-align:center; color:var(--cream); font-family:"DM Sans"; font-weight:300; font-size:12px; letter-spacing:.06em; margin-top:14px; opacity:.82; }
+
+  /* ===== el sticker ===== */
+  .sticker{
+    --ink:var(--navy); --bg:var(--cream); --acc:var(--sky);
+    width:var(--d); height:var(--d); border-radius:50%;
+    background:var(--bg); color:var(--ink); position:relative; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    box-shadow:0 10px 38px rgba(11,24,69,.45);
+  }
+  .sticker.navy{ --ink:var(--cream); --bg:var(--navy); --acc:var(--sky); }
+  .sticker.big{ --d:80mm; }
+
+  /* anillo exterior + filo sky (firma) */
+  .sticker .ring{ position:absolute; inset:1.5mm; border-radius:50%; border:.7mm solid var(--ink); }
+  .sticker .hair{ position:absolute; inset:2.7mm; border-radius:50%; border:.3mm solid var(--acc); }
+
+  /* texto superior e inferior — caps tracked, editorial (no badge vintage) */
+  .sticker .top,.sticker .bot{ position:absolute; left:0; right:0; font-family:"DM Sans"; font-weight:500;
+       letter-spacing:.32em; text-transform:uppercase; font-size:4.6pt; color:var(--ink); }
+  .sticker.big .top,.sticker.big .bot{ font-size:6.6pt; letter-spacing:.36em; }
+  .sticker .top{ top:5.4mm; } .sticker .bot{ bottom:5.4mm; color:var(--acc); }
+  .sticker.big .top{ top:9mm; } .sticker.big .bot{ bottom:9mm; }
+  /* pequeños puntos sky que flanquean el texto inferior */
+  .sticker .bot::before,.sticker .bot::after{ content:"·"; margin:0 1.6mm; color:var(--acc); }
+
+  .sticker .wm{ font-family:"Syne"; font-weight:700; font-size:8pt; line-height:.98; color:var(--ink); }
+  .sticker.big .wm{ font-size:12.5pt; }
+  .sticker .wm .dot{ display:inline-block; width:1.1mm; height:1.1mm; background:var(--acc); border-radius:50%; vertical-align:middle; margin:0 .2mm 0 .5mm; transform:translateY(-.4mm); }
+  .sticker.big .wm .dot{ width:1.8mm; height:1.8mm; }
+  .sticker .jp{ font-family:"DM Sans"; font-weight:300; font-size:4.2pt; letter-spacing:.42em; color:var(--acc); margin-top:1mm; }
+  .sticker.big .jp{ font-size:6.4pt; }
+  .sticker .hr{ width:11mm; height:.3mm; background:var(--ink); opacity:.45; margin:2.2mm 0; }
+  .sticker.big .hr{ width:20mm; margin:3.6mm 0; }
+  .sticker .var{ font-family:"Syne"; font-weight:700; font-size:8.4pt; letter-spacing:.01em; color:var(--ink); line-height:1; }
+  .sticker.big .var{ font-size:14pt; }
+  .sticker .sub{ font-family:"DM Sans"; font-weight:300; font-style:italic; font-size:4.4pt; color:var(--ink); margin-top:1.2mm; opacity:.85; }
+  .sticker.big .sub{ font-size:7pt; margin-top:2mm; }
+
+  /* sello ALTO EN mini */
+  .sticker .seal{ display:none; position:absolute; bottom:8.5mm; left:50%; transform:translateX(-50%);
+       width:6.4mm; height:6.4mm; background:var(--ink); color:var(--bg);
+       clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);
+       align-items:center; justify-content:center; }
+  .sticker .seal span{ font-family:"Syne"; font-weight:700; font-size:2.2pt; line-height:1.02; }
+  .sticker.big .seal{ width:10mm; height:10mm; bottom:14mm; } .sticker.big .seal span{ font-size:3.4pt; }
+  body.alto .sticker .seal{ display:flex; }
+  body.alto .sticker .bot{ visibility:hidden; }   /* el sello ocupa el lugar del texto inferior */
+
+  /* ===== hoja de troquel A4 ===== */
+  .sheet{ background:#ececec; padding:10mm; border-radius:3px; max-width:210mm; margin:0 auto; }
+  .sheet-h{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8mm; }
+  .sheet-h b{ font-family:"Syne"; font-weight:700; font-size:11pt; color:var(--navy); }
+  .sheet-h span{ font-family:"DM Sans"; font-weight:300; font-size:8pt; letter-spacing:.16em; text-transform:uppercase; color:var(--navy); }
+  .rows{ display:grid; grid-template-columns:repeat(3,1fr); gap:8mm 7mm; justify-items:center; }
+  .cell{ position:relative; padding:3mm; }
+  .cell .cut{ position:absolute; inset:0; border-radius:50%; border:.25mm dashed rgba(14,30,86,.5); pointer-events:none; }
+  /* marcas de registro en las esquinas de cada celda */
+  .cell .reg{ position:absolute; width:2.4mm; height:2.4mm; pointer-events:none; }
+  .cell .reg::before,.cell .reg::after{ content:""; position:absolute; background:rgba(14,30,86,.55); }
+  .cell .reg::before{ top:50%; left:0; right:0; height:.25mm; transform:translateY(-50%); }
+  .cell .reg::after{ left:50%; top:0; bottom:0; width:.25mm; transform:translateX(-50%); }
+  .cell .reg.tl{ top:-1mm; left:-1mm; } .cell .reg.tr{ top:-1mm; right:-1mm; }
+  .cell .reg.bl{ bottom:-1mm; left:-1mm; } .cell .reg.br{ bottom:-1mm; right:-1mm; }
+
+  @media print{
+    .ui,.preview{ display:none; }
+    .stage{ padding:0; }
+    .sheet{ background:#fff; box-shadow:none; max-width:none; padding:0; }
+    .cell .cut{ border-color:rgba(14,30,86,.6); }
+  }
+</style>
+</head>
+<body>
+  <div class="ui">
+    <b>Sticker / sello · sándwich masa madre</b>
+    <span class="hint">⌀ 50 mm + 3 mm sangrado · hoja A4 troquelable de 9</span>
+    <span class="sp"></span>
+    <span class="hint">Acabado:</span>
+    <button id="bCream" class="on" onclick="setFinish('cream')">Cream</button>
+    <button id="bNavy" onclick="setFinish('navy')">Navy (kraft)</button>
+    <span class="hint">·</span>
+    <button id="bAlto" onclick="toggleAlto()">Sello ALTO EN: off</button>
+    <button onclick="window.print()">Imprimir hoja</button>
+  </div>
+
+  <style>.mockup{display:block}@media print{.mockup{display:none!important}}</style>
+  <figure class="mockup" style="margin:0;padding:30px 20px 4px;text-align:center;">
+    <img src="img/sticker.jpg" alt="Mockup sticker sándwich masa madre" style="max-width:660px;width:100%;border-radius:12px;box-shadow:0 18px 60px rgba(11,24,69,.45);display:block;margin:0 auto;">
+    <figcaption style="color:#a6d9f8;font-family:'DM Sans',sans-serif;font-weight:300;font-size:12.5px;letter-spacing:.04em;margin-top:12px;">Mockup de referencia visual · el arte print-ready y la hoja de troquel están abajo ↓</figcaption>
+  </figure>
+
+  <div class="stage">
+    <div class="preview" id="preview"></div>
+    <div class="sheet">
+      <div class="sheet-h"><b>Sello sándwich ⌀ 50 mm</b><span>The Daily Grind · Vol. 04 · 9 por hoja</span></div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </div>
+
+<script>
+  var FINISH='cream';
+  var V=[
+    {v:"Masa madre", s:"pesto · jamón · queso"},
+    {v:"Aliado", s:"jamón · queso · tomate · orégano"}
+  ];
+  function stickerHTML(d, big){
+    return '<div class="sticker '+FINISH+(big?' big':'')+'">'
+      +'<div class="ring"></div><div class="hair"></div>'
+      +'<div class="top">The Daily Grind · Café</div>'
+      +'<div class="wm">The Daily Grind<span class="dot"></span></div>'
+      +'<div class="jp">ザ・デイリー</div>'
+      +'<div class="hr"></div>'
+      +'<div class="var">'+d.v+'</div>'
+      +'<div class="sub">'+d.s+'</div>'
+      +'<div class="bot">Vol. 04 · Fresco hoy</div>'
+      +'<div class="seal"><span>ALTO<br>SODIO</span></div>'
+      +'</div>';
+  }
+  function render(){
+    // previews grandes: ambas variantes
+    var pv=document.getElementById('preview'); pv.innerHTML='';
+    V.forEach(function(d){
+      var w=document.createElement('div');
+      w.innerHTML=stickerHTML(d,true)+'<div class="pv-cap">'+d.v+'</div>';
+      pv.appendChild(w);
+    });
+    // hoja: 9 celdas alternando variante
+    var rows=document.getElementById('rows'); rows.innerHTML='';
+    for(var i=0;i<9;i++){
+      var d=V[i%2];
+      var c=document.createElement('div'); c.className='cell';
+      c.innerHTML=stickerHTML(d,false)
+        +'<div class="cut"></div>'
+        +'<span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>';
+      rows.appendChild(c);
+    }
+  }
+  function setFinish(f){
+    FINISH=f;
+    document.getElementById('bCream').classList.toggle('on',f==='cream');
+    document.getElementById('bNavy').classList.toggle('on',f==='navy');
+    render();
+  }
+  function toggleAlto(){
+    var on=document.body.classList.toggle('alto');
+    var b=document.getElementById('bAlto'); b.textContent='Sello ALTO EN: '+(on?'on':'off'); b.classList.toggle('on',on);
+  }
+  render();
+</script>
+</body>
+</html>

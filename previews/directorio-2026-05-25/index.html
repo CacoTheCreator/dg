@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Directorio · 25 may 2026 · brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --beige-2:#d9d4cf;
+    --dark:#212529; --mid:#6C757D; --amber:#c08a3e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:underline;text-underline-offset:3px;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .shell{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+
+  /* HEADER */
+  .topbar{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:24px;border-bottom:1px solid var(--navy);margin-bottom:32px;}
+  .topbar .label{font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);}
+  .topbar .ja{font-family:"DM Sans";font-weight:300;font-style:italic;font-size:13px;color:var(--mid);}
+
+  /* HERO */
+  .hero{padding:8px 0 36px;}
+  .hero .kicker{font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--sky);margin-bottom:12px;}
+  .hero h1{font-family:"Syne";font-weight:700;font-size:44px;line-height:1.02;letter-spacing:-.02em;color:var(--navy);}
+  .hero h1 em{font-family:"DM Sans";font-style:italic;font-weight:300;font-size:32px;color:var(--mid);letter-spacing:0;}
+  .hero p.lead{margin-top:14px;font-size:16px;color:var(--navy);max-width:700px;}
+  .hero .meta{margin-top:18px;display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--mid);letter-spacing:.04em;}
+  .hero .meta span strong{color:var(--navy);font-weight:500;}
+
+  /* PIN GATE */
+  .gate{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:48px 0;}
+  .gate__eyebrow{font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--mid);}
+  .gate__hint{font-size:14px;font-style:italic;color:var(--mid);}
+  .gate__form{display:flex;gap:10px;align-items:center;width:100%;max-width:380px;}
+  .gate__input{flex:1;background:transparent;border:1px solid var(--navy);border-radius:6px;padding:14px 18px;font-family:"Syne";font-weight:700;font-size:22px;letter-spacing:.32em;color:var(--navy);outline:none;}
+  .gate__input:focus{border-color:var(--sky);}
+  .gate__submit{background:var(--navy);color:var(--cream);padding:14px 22px;border-radius:6px;font-family:"DM Sans";font-weight:500;font-size:14px;letter-spacing:.16em;text-transform:uppercase;}
+  .gate__submit:hover{background:var(--navy-2);}
+  .gate__error{font-size:13px;color:#b32d2d;min-height:18px;font-style:italic;}
+
+  /* PORTAL */
+  .portal{display:none;}
+  .portal.is-open{display:block;}
+
+  /* TOC sticky */
+  .toc{position:sticky;top:0;z-index:10;background:var(--navy);color:var(--cream);margin:0 -20px 28px;padding:14px 20px;}
+  .toc__label{font-family:"DM Sans";font-weight:500;font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--sky-lt);margin-bottom:6px;}
+  .toc__list{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;}
+  .toc__list a{color:var(--cream);text-decoration:none;border-bottom:1px solid transparent;}
+  .toc__list a:hover{border-bottom:1px solid var(--sky);}
+
+  /* SECTIONS */
+  section.block{margin-bottom:54px;scroll-margin-top:80px;}
+  section.block > h2{font-family:"Syne";font-weight:700;font-size:26px;color:var(--navy);margin-bottom:6px;letter-spacing:-.01em;}
+  section.block > h2 .num{color:var(--sky);margin-right:14px;font-weight:700;}
+  section.block > h2 em{font-family:"DM Sans";font-style:italic;font-weight:300;font-size:18px;color:var(--mid);letter-spacing:0;}
+  section.block .sub{font-size:14px;color:var(--mid);margin-bottom:22px;font-style:italic;}
+  section.block p{margin-bottom:12px;font-size:15px;color:var(--navy);}
+  section.block ul{margin:10px 0 18px 22px;}
+  section.block li{margin-bottom:6px;font-size:14.5px;color:var(--navy);}
+  section.block strong{font-weight:500;color:var(--navy);}
+
+  /* TABLAS */
+  table.data{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:14px;}
+  table.data th{text-align:left;padding:10px 12px;background:var(--beige);font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);border-bottom:1px solid var(--navy);}
+  table.data td{padding:10px 12px;border-bottom:1px solid var(--beige);color:var(--navy);vertical-align:top;}
+  table.data tr:last-child td{border-bottom:none;}
+  table.data td.num{font-family:"Syne";font-weight:700;color:var(--navy);}
+  table.data td.muted{color:var(--mid);font-style:italic;}
+
+  /* CARDS DECISIÓN */
+  .decision{border:1px solid var(--amber);border-left:4px solid var(--amber);border-radius:6px;padding:18px 22px;margin:14px 0;background:#fbf3e6;}
+  .decision__label{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;}
+  .decision__title{font-family:"Syne";font-weight:700;font-size:18px;color:var(--navy);margin-bottom:8px;line-height:1.2;}
+  .decision__body{font-size:14.5px;color:var(--navy);}
+  .decision__body p{margin-bottom:10px;}
+  .decision__opts{margin-top:10px;}
+  .decision__opt{display:block;padding:8px 0;border-top:1px dashed rgba(192,138,62,.4);font-size:14px;}
+  .decision__opt:first-child{border-top:none;}
+  .decision__opt strong{color:var(--navy);font-weight:500;}
+
+  /* VARIANTES SIDE BY SIDE */
+  .variants{display:grid;grid-template-columns:1fr;gap:16px;margin-top:14px;}
+  @media(min-width:760px){.variants{grid-template-columns:1fr 1fr;}}
+  .variant{border:1px solid var(--navy);border-radius:8px;padding:18px 20px;background:var(--cream);}
+  .variant.recommended{border:2px solid var(--sky);}
+  .variant__badge{display:inline-block;background:var(--sky);color:var(--navy);padding:3px 10px;font-family:"DM Sans";font-weight:500;font-size:10px;letter-spacing:.2em;text-transform:uppercase;border-radius:3px;margin-bottom:10px;}
+  .variant__head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .variant__name{font-family:"Syne";font-weight:700;font-size:18px;color:var(--navy);}
+  .variant__meta{font-size:11.5px;color:var(--mid);font-style:italic;}
+  .variant__subject{font-family:"DM Sans";font-weight:500;font-size:12.5px;color:var(--mid);margin-bottom:10px;}
+  .variant__subject code{color:var(--navy);background:var(--beige);padding:2px 6px;border-radius:3px;font-family:inherit;font-size:13px;}
+  .variant__body{background:var(--navy);color:var(--cream);padding:14px 16px;border-radius:6px;font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word;font-family:"DM Sans";font-weight:300;}
+
+  /* QUEUE STATUS */
+  .queue{border:1px solid var(--navy);border-radius:8px;overflow:hidden;}
+  .queue table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .queue th{text-align:left;padding:10px 12px;background:var(--navy);color:var(--cream);font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;}
+  .queue td{padding:10px 12px;border-bottom:1px solid var(--beige);color:var(--navy);}
+  .queue tr:last-child td{border-bottom:none;}
+  .queue .pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;}
+  .queue .pill.pending{background:var(--sky-lt);color:var(--navy);}
+  .queue .pill.published{background:var(--beige);color:var(--mid);}
+
+  /* FOOTER */
+  .foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--beige);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--mid);}
+  .foot em{font-style:italic;}
+  .foot a{color:var(--mid);}
+
+  /* MOBILE */
+  @media(max-width:720px){
+    .hero h1{font-size:32px;}
+    .hero h1 em{font-size:22px;}
+    section.block > h2{font-size:20px;}
+    .toc{margin:0 -20px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="topbar">
+    <span class="label">Daily Grind · Brief de directorio</span>
+    <span class="ja">第四巻 · 取締役会</span>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Reunión · lunes 25 may 2026</div>
+    <h1>Estado y decisiones<br/><em>primera campaña a los fundadores del loyalty</em></h1>
+    <p class="lead">Brief de 5 minutos para que el directorio entienda dónde estamos con el programa Eldiez, qué se propone hacer con los 28 fundadores antes del tease público del 29 may, y qué decisiones requieren autorización para ejecutar entre lunes y miércoles.</p>
+    <div class="meta">
+      <span><strong>Preparado por</strong> área de trabajo</span>
+      <span><strong>Para</strong> directorio Daily Grind</span>
+      <span><strong>Fecha</strong> 24 may 2026 · 18:00 hrs</span>
+      <span><strong>Lectura</strong> 5 min</span>
+    </div>
+  </section>
+
+  <!-- GATE -->
+  <section id="gate" class="gate" aria-label="Acceso con código">
+    <span class="gate__eyebrow">Código de acceso · 4 dígitos</span>
+    <span class="gate__hint">El equipo te lo comparte directo.</span>
+    <form class="gate__form" id="pinForm" novalidate>
+      <input class="gate__input" id="pinInput" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="4" minlength="4" placeholder="• • • •" aria-label="Código de 4 dígitos" required>
+      <button type="submit" class="gate__submit">Abrir →&#xFE0E;</button>
+    </form>
+    <span class="gate__error" id="pinError" role="status" aria-live="polite"></span>
+  </section>
+
+  <!-- PORTAL -->
+  <section id="portal" class="portal">
+
+    <!-- TOC -->
+    <div class="toc">
+      <div class="toc__label">Brief · contenido</div>
+      <div class="toc__list">
+        <a href="#resumen">1 · Resumen ejecutivo</a>
+        <a href="#estado">2 · Estado del loyalty</a>
+        <a href="#campana">3 · Campaña propuesta</a>
+        <a href="#decisiones">4 · Decisiones del directorio</a>
+        <a href="#feed">5 · Lo que está en cola</a>
+        <a href="#proximo">6 · Lo que viene</a>
+      </div>
+    </div>
+
+    <!-- 1 RESUMEN -->
+    <section class="block" id="resumen">
+      <h2><span class="num">1</span>Resumen ejecutivo</h2>
+      <p>El programa loyalty Eldiez tiene <strong>28 fundadores</strong> inscritos hasta la fecha. El 75% de ellos se sumó en el evento de lanzamiento Pistacho del martes 19 may en UAI. Entre el 20 y el 24 may no hubo actividad porque la cafetería estuvo cerrada por feriado largo y calendario universitario.</p>
+      <p>El tease público del programa se anuncia en redes el <strong>viernes 29 may</strong>. Esto deja una ventana de <strong>4 días</strong> entre la reapertura (lunes 25) y el tease público para reconocer al grupo fundador <em>antes</em> de que el programa sea de dominio público.</p>
+      <p>La propuesta concreta es enviar un email único a los 28, sumando un stamp de cortesía a cada tarjeta. Costo CLP cero. Reconocimiento alto. Sin romper el modelo de negocio (nadie llega a la meta de 10 con este gesto).</p>
+      <p>El directorio define hoy: variante final del copy, dominio del remitente y autorización para ejecutar entre lunes noche y martes mañana.</p>
+    </section>
+
+    <!-- 2 ESTADO -->
+    <section class="block" id="estado">
+      <h2><span class="num">2</span>Estado del loyalty <em>· dailyback</em></h2>
+      <p class="sub">Auditoría read-only ejecutada el 24 may. Cero modificaciones realizadas.</p>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:8px 0 8px;">Volumen</h3>
+      <table class="data">
+        <tr><th>Métrica</th><th>Valor</th></tr>
+        <tr><td>Miembros inscritos</td><td class="num">28</td></tr>
+        <tr><td>Memberships activas</td><td class="num">28</td></tr>
+        <tr><td>Transacciones totales</td><td class="num">21</td></tr>
+        <tr><td>Locations activas</td><td>UAI · Nice To Meat Providencia</td></tr>
+        <tr><td>Programa</td><td>El Diez · stamp card 10 · recompensa "El décimo café va de la casa"</td></tr>
+      </table>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:18px 0 8px;">Canales de contacto disponibles</h3>
+      <table class="data">
+        <tr><th>Canal</th><th>Cobertura</th><th>Útil para</th></tr>
+        <tr><td>Email</td><td class="num">28/28 · 100%</td><td>Canal primario</td></tr>
+        <tr><td>Marketing opt-in</td><td class="num">28/28 · 100%</td><td>Legal · todos consintieron</td></tr>
+        <tr><td>Teléfono</td><td class="num">21/28 · 75%</td><td>WhatsApp futuro</td></tr>
+        <tr><td>Instagram handle</td><td class="num">18/28 · 64%</td><td>Mention orgánico</td></tr>
+        <tr><td>Cumpleaños</td><td class="num">19/28 · 68%</td><td>Birthday perk futuro</td></tr>
+        <tr><td>Apple Wallet</td><td class="num">0/28</td><td>Push notification · no disponible aún</td></tr>
+        <tr><td>Google Wallet</td><td class="num">1/28</td><td>Push notification · adopción mínima</td></tr>
+      </table>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:18px 0 8px;">Progreso del stamp card</h3>
+      <table class="data">
+        <tr><th>Stamps</th><th>Personas</th><th>Lectura</th></tr>
+        <tr><td>0</td><td class="num">10</td><td class="muted">Nunca recibieron un stamp · grupo dormido</td></tr>
+        <tr><td>1</td><td class="num">15</td><td class="muted">Recibieron solo el del evento del 19 may</td></tr>
+        <tr><td>2</td><td class="num">3</td><td class="muted">Recibieron dos stamps</td></tr>
+        <tr><td>3 o más</td><td class="num">0</td><td class="muted">Nadie volvió a sumar después del 19 may</td></tr>
+      </table>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:18px 0 8px;">Lectura</h3>
+      <p>No hay churn. Hay ventana cerrada. El comportamiento es coherente con: feriado largo (jueves 21 may Glorias Navales), puente del fin de semana, UAI fuera de horario universitario. La cafetería abre normalmente el lunes 25 may.</p>
+    </section>
+
+    <!-- 3 CAMPAÑA -->
+    <section class="block" id="campana">
+      <h2><span class="num">3</span>Campaña propuesta <em>· primer touch a los 28</em></h2>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:8px 0 8px;">Mecánica</h3>
+      <ul>
+        <li>Email único a los 28 fundadores · enviado dom 25 may noche o lun 25 may temprano.</li>
+        <li>+1 stamp de cortesía cargado a cada tarjeta vía UPDATE atómico en Supabase.</li>
+        <li>Cero costo CLP. Nadie llega a la meta de 10 con el gesto. Modelo intacto.</li>
+        <li>Personalización mínima por primer nombre · sin segmentación (28 personas no la justifican).</li>
+      </ul>
+
+      <h3 style="font-family:Syne;font-weight:700;font-size:16px;color:var(--navy);margin:18px 0 8px;">Variantes finales · una a elegir</h3>
+      <p>Las dos variantes evitan autorreferencia y mencionan el programa por lo que hace, no por su nombre.</p>
+
+      <div class="variants">
+
+        <div class="variant recommended">
+          <span class="variant__badge">Recomendada</span>
+          <div class="variant__head">
+            <span class="variant__name">Variante C · cálida</span>
+            <span class="variant__meta">72 palabras · 22 seg lectura</span>
+          </div>
+          <div class="variant__subject"><code>Volvemos el lunes · ya tienes un café en la tarjeta</code></div>
+          <div class="variant__body">Hola, [primer_nombre].
+
+El lunes 25 abrimos en UAI.
+
+Llegaste antes de que esto fuera público. Eso vale.
+Vas a encontrar un café ya cargado en tu tarjeta
+cuando la abras. Es tuyo. Cuando pidas el siguiente,
+ese cuenta.
+
+Te esperamos donde siempre.
+
+— Daily Grind
+dailygrind.cl · UAI</div>
+        </div>
+
+        <div class="variant">
+          <div class="variant__head">
+            <span class="variant__name">Variante D · austera</span>
+            <span class="variant__meta">49 palabras · 14 seg lectura</span>
+          </div>
+          <div class="variant__subject"><code>Volvemos el lunes</code></div>
+          <div class="variant__body">Hola, [primer_nombre].
+
+El lunes abrimos en UAI.
+
+Cuando vuelvas vas a tener un café ya cargado en tu
+tarjeta. Te lo dejamos antes para que el primero del
+lunes ya cuente como segundo.
+
+Donde siempre.
+
+— Daily Grind</div>
+        </div>
+
+      </div>
+
+      <p style="margin-top:18px;font-size:14px;color:var(--mid);font-style:italic;">Recomendación del equipo: <strong style="color:var(--navy);font-weight:500;font-style:normal;">Variante C</strong>. La frase "llegaste antes de que esto fuera público. Eso vale" es el único reconocimiento del email — sin ella, el mensaje se vuelve un anuncio operativo. La D queda como base para touches posteriores cuando el vínculo ya esté abierto.</p>
+    </section>
+
+    <!-- 4 DECISIONES -->
+    <section class="block" id="decisiones">
+      <h2><span class="num">4</span>Decisiones del directorio</h2>
+      <p class="sub">Cuatro decisiones operativas. Cada una bloquea el envío si no se resuelve.</p>
+
+      <div class="decision">
+        <div class="decision__label">Decisión 1 · Variante del copy</div>
+        <div class="decision__title">¿C o D?</div>
+        <div class="decision__body">
+          <p>Recomendación: <strong>C</strong>. La D sirve como base para campañas posteriores. Si el directorio prefiere D, el equipo la afina con el ajuste solicitado.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision__label">Decisión 2 · UPDATE +1 stamp en producción</div>
+        <div class="decision__title">¿Autorización para escribir en Supabase?</div>
+        <div class="decision__body">
+          <p>Operación atómica con BEGIN/COMMIT. Sube stamps_count en +1 a las 28 memberships, registra 28 transacciones <code>manual_adjust</code> con audit trail completo y idempotency_key único para evitar doble-ejecución.</p>
+          <p><strong>Reversible:</strong> sí. Si pasa algo, una segunda transacción puede hacer -1 a los mismos 28.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision__label">Decisión 3 · Dominio del remitente</div>
+        <div class="decision__title">¿dailygrind.cl está verificado en Resend?</div>
+        <div class="decision__body">
+          <p>El stack ya usa Resend para emails de bienvenida. La env var <code>EMAIL_FROM</code> está hoy en <code>DailyBack &lt;onboarding@resend.dev&gt;</code> (dominio dev de Resend).</p>
+          <p>Si <code>dailygrind.cl</code> está verificado, se cambia a <code>Daily Grind &lt;hola@dailygrind.cl&gt;</code>. Si no, hay dos caminos:</p>
+          <div class="decision__opts">
+            <span class="decision__opt"><strong>A.</strong> Aceptar el envío desde <code>onboarding@resend.dev</code> · 5 min · mayor riesgo de spam para 28 emails (manejable, no crítico).</span>
+            <span class="decision__opt"><strong>B.</strong> Verificar el dominio en Resend antes del envío · 1-2 hrs · 3 DNS records en Cloudflare (DKIM, SPF, return-path). Mejor entrega ahora y para siempre.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision__label">Decisión 4 · Reply-to monitoreado</div>
+        <div class="decision__title">¿Quién atiende <code>hola@dailygrind.cl</code>?</div>
+        <div class="decision__body">
+          <p>El reply-to del email cae en esa casilla. Si nadie la monitorea, los fundadores que respondan se topan con silencio y rompen el tono cálido del mensaje. Antes del envío, alguien del equipo debe quedar asignado a chequear esa bandeja por 5-7 días.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 FEED EN COLA -->
+    <section class="block" id="feed">
+      <h2><span class="num">5</span>Lo que está en cola <em>· feed Instagram</em></h2>
+      <p class="sub">6 posts ya programados en el publisher (D1 + cron cada minuto). Cero acción requerida del directorio.</p>
+
+      <div class="queue">
+        <table>
+          <tr><th>Fecha CL</th><th>Pieza</th><th>Tipo</th><th>Estado</th></tr>
+          <tr><td>mar 26 may · 12:00</td><td>08 La Consola Vol. 4 tease</td><td>IG Feed</td><td><span class="pill pending">pending</span></td></tr>
+          <tr><td>vie 29 may · 12:00</td><td>09 Eldiez tease loyalty</td><td>IG Feed</td><td><span class="pill pending">pending</span></td></tr>
+          <tr><td>dom 31 may · 12:00</td><td>10 El café no se apura</td><td>IG Feed · evergreen</td><td><span class="pill pending">pending</span></td></tr>
+          <tr><td>mar 02 jun · 12:00</td><td>11 Volumen sobre velocidad</td><td>IG Feed · evergreen</td><td><span class="pill pending">pending</span></td></tr>
+          <tr><td>jue 04 jun · 12:00</td><td>12 Tradición sin nostalgia</td><td>IG Feed · evergreen</td><td><span class="pill pending">pending</span></td></tr>
+          <tr><td>sáb 06 jun · 12:00</td><td>13 Apurarse es elección</td><td>IG Feed · evergreen</td><td><span class="pill pending">pending</span></td></tr>
+        </table>
+      </div>
+
+      <p>Después del 06 jun el feed queda abierto para el arco <strong>apertura NTM × TDG Providencia</strong> + <strong>lanzamiento real Camisa Vol. 4</strong>. Generación de piezas dedicadas cuando se confirme fecha exacta.</p>
+    </section>
+
+    <!-- 6 PRÓXIMO -->
+    <section class="block" id="proximo">
+      <h2><span class="num">6</span>Lo que viene</h2>
+      <ul>
+        <li><strong>Lun 25 may</strong> · Reapertura UAI. Reu de directorio. Si se aprueba la campaña, se ejecuta esta misma tarde-noche.</li>
+        <li><strong>Mar 26 may</strong> · Post 08 La Consola Vol. 4 tease al feed (ya en cola).</li>
+        <li><strong>Mié 27 may</strong> · Sugerencia del equipo: post 10 Receta Pistacho al feed mientras el sabor está fresco en memoria.</li>
+        <li><strong>Vie 29 may</strong> · Tease público de Eldiez al feed (ya en cola). Los 28 fundadores ya conocen el programa hace semanas.</li>
+        <li><strong>Sáb 30 may</strong> · Sugerencia: post 07 Manos barista UAI.</li>
+        <li><strong>Inicio jun</strong> · Apertura NTM × TDG Providencia + drop real de la Camisa Vol. 4.</li>
+      </ul>
+
+      <p style="margin-top:18px;">Recursos vivos para el directorio:</p>
+      <ul>
+        <li><a href="/previews/lineamientos-tdg/">/previews/lineamientos-tdg/</a> · 10 contenidos tipo para stories + posts · PIN 1010</li>
+        <li><a href="/publisher/">/publisher/</a> · panel interno de publicación (acceso restringido al equipo operativo)</li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <span>Daily Grind · Brief de directorio · 25 may 2026</span>
+      <em>acceso restringido · no indexable · documento de trabajo</em>
+    </footer>
+
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    var PINS = ["1010"];
+    var STORAGE_KEY = "tdg.directorio.unlocked";
+
+    var gate = document.getElementById("gate");
+    var portal = document.getElementById("portal");
+    var form = document.getElementById("pinForm");
+    var input = document.getElementById("pinInput");
+    var error = document.getElementById("pinError");
+
+    function reveal() {
+      gate.style.display = "none";
+      portal.classList.add("is-open");
+    }
+
+    function tryUnlock(value) {
+      if (PINS.indexOf(value) !== -1) {
+        try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
+        reveal();
+        return true;
+      }
+      return false;
+    }
+
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === "1") {
+        reveal();
+      }
+    } catch (_) {}
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = (input.value || "").trim();
+      if (!tryUnlock(value)) {
+        error.textContent = "Código incorrecto. Probemos de nuevo.";
+        input.value = "";
+        input.focus();
+      } else {
+        error.textContent = "";
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

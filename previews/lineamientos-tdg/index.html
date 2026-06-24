@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>TDG · Lineamientos comunicación · Vol. 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56;
+    --navy-2:#0b1845;
+    --sky:#51b5f2;
+    --sky-lt:#a6d9f8;
+    --cream:#f9f3ec;
+    --beige:#e3ded9;
+    --beige-2:#d9d4cf;
+    --dark:#212529;
+    --mid:#6C757D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif;font-weight:300;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  .shell{max-width:1100px;margin:0 auto;padding:24px 20px 80px;}
+
+  /* HEADER */
+  .topbar{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:24px;border-bottom:1px solid var(--navy);margin-bottom:32px;}
+  .topbar .label{font-family:"DM Sans";font-weight:500;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);}
+  .topbar .ja{font-family:"DM Sans";font-weight:300;font-style:italic;font-size:14px;color:var(--mid);}
+
+  /* HERO */
+  .hero{padding:8px 0 36px;}
+  .hero .kicker{font-family:"DM Sans";font-weight:500;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--sky);margin-bottom:14px;}
+  .hero h1{font-family:"Syne";font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-.02em;color:var(--navy);}
+  .hero h1 em{font-family:"DM Sans";font-style:italic;font-weight:300;font-size:36px;color:var(--mid);letter-spacing:0;}
+  .hero p.lead{margin-top:14px;font-size:16px;color:var(--mid);max-width:680px;}
+
+  /* PIN GATE */
+  .gate{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:48px 0;}
+  .gate__eyebrow{font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--mid);}
+  .gate__hint{font-size:14px;font-style:italic;color:var(--mid);}
+  .gate__form{display:flex;gap:10px;align-items:center;width:100%;max-width:380px;}
+  .gate__input{flex:1;background:transparent;border:1px solid var(--navy);border-radius:6px;padding:14px 18px;font-family:"Syne";font-weight:700;font-size:22px;letter-spacing:.32em;color:var(--navy);outline:none;}
+  .gate__input:focus{border-color:var(--sky);}
+  .gate__submit{background:var(--navy);color:var(--cream);padding:14px 22px;border-radius:6px;font-family:"DM Sans";font-weight:500;font-size:14px;letter-spacing:.16em;text-transform:uppercase;}
+  .gate__submit:hover{background:var(--navy-2);}
+  .gate__error{font-size:13px;color:#b32d2d;min-height:18px;font-style:italic;}
+
+  /* PORTAL (hidden until unlocked) */
+  .portal{display:none;}
+  .portal.is-open{display:block;}
+
+  /* STICKY ANTICHECKLIST */
+  .checklist{position:sticky;top:0;z-index:10;background:var(--navy);color:var(--cream);margin:0 -20px 28px;padding:16px 20px;border-radius:0;}
+  .checklist .label{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--sky-lt);margin-bottom:8px;}
+  .checklist__list{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;font-weight:300;color:var(--cream);}
+  .checklist__list span{position:relative;padding-left:14px;}
+  .checklist__list span::before{content:"·";position:absolute;left:0;top:0;color:var(--sky);}
+
+  /* SECTIONS */
+  section.block{margin-bottom:56px;}
+  section.block > h2{font-family:"Syne";font-weight:700;font-size:28px;color:var(--navy);margin-bottom:6px;letter-spacing:-.01em;}
+  section.block > h2 em{font-family:"DM Sans";font-style:italic;font-weight:300;font-size:20px;color:var(--mid);letter-spacing:0;}
+  section.block .sub{font-size:14px;color:var(--mid);margin-bottom:22px;font-style:italic;}
+
+  /* CARDS LINEAMIENTOS */
+  .cards{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:720px){.cards{grid-template-columns:1fr 1fr;}}
+  .card{border:1px solid var(--navy);border-radius:8px;background:var(--cream);overflow:hidden;}
+  .card__head{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 18px;text-align:left;border:none;background:transparent;}
+  .card__head:hover{background:rgba(81,181,242,.08);}
+  .card__num{font-family:"Syne";font-weight:700;font-size:22px;color:var(--sky);margin-right:14px;min-width:42px;}
+  .card__title{flex:1;}
+  .card__title .kind{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mid);}
+  .card__title .name{font-family:"Syne";font-weight:700;font-size:18px;color:var(--navy);line-height:1.2;margin-top:2px;}
+  .card__chevron{color:var(--navy);font-size:14px;transition:transform .2s;}
+  .card.is-open .card__chevron{transform:rotate(180deg);}
+  .card__body{display:none;padding:0 18px 18px;border-top:1px solid var(--beige);}
+  .card.is-open .card__body{display:block;}
+  .card__body dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:14px;font-size:14px;}
+  .card__body dt{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mid);}
+  .card__body dd{color:var(--navy);}
+  .card__body .code{display:block;background:var(--navy);color:var(--cream);padding:14px 16px;border-radius:6px;font-family:"DM Sans";font-weight:300;font-size:13px;line-height:1.55;margin-top:10px;white-space:pre-wrap;word-break:break-word;}
+  .card__body .example{margin-top:10px;background:var(--beige);padding:14px 16px;border-radius:6px;font-style:italic;font-size:14px;color:var(--navy);}
+  .card__body .visual{margin-top:14px;font-size:13px;color:var(--mid);}
+  .card__body .visual strong{color:var(--navy);font-weight:500;font-style:normal;}
+
+  /* CAPTIONS BLOCK */
+  .captions{display:flex;flex-direction:column;gap:18px;}
+  .caption{border:1px solid var(--navy);border-radius:8px;padding:18px 20px;background:var(--cream);}
+  .caption__head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+  .caption__when{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mid);}
+  .caption__name{font-family:"Syne";font-weight:700;font-size:18px;color:var(--navy);}
+  .caption__name em{font-family:"DM Sans";font-weight:300;font-style:italic;font-size:14px;color:var(--mid);}
+  .caption__body{background:var(--navy);color:var(--cream);padding:16px 18px;border-radius:6px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word;font-family:"DM Sans";font-weight:300;}
+  .caption__foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap;}
+  .caption__notes{font-size:12.5px;color:var(--mid);font-style:italic;flex:1;min-width:200px;}
+  .caption__copy{background:var(--sky);color:var(--navy);padding:8px 16px;border-radius:6px;font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:background .15s;}
+  .caption__copy:hover{background:var(--sky-lt);}
+  .caption__copy.is-copied{background:var(--navy);color:var(--sky);}
+
+  /* TEMPLATES */
+  .templates{display:grid;grid-template-columns:1fr;gap:20px;}
+  @media(min-width:720px){.templates{grid-template-columns:1fr 1fr;}}
+  .tpl{border:1px solid var(--navy);border-radius:8px;overflow:hidden;background:var(--cream);}
+  .tpl__media{background:var(--navy);padding:16px;display:flex;align-items:center;justify-content:center;}
+  .tpl__media img{max-width:100%;height:auto;display:block;border-radius:4px;}
+  .tpl__media.is-vertical img{max-height:540px;width:auto;}
+  .tpl__meta{padding:16px 18px;}
+  .tpl__num{font-family:"DM Sans";font-weight:500;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mid);}
+  .tpl__name{font-family:"Syne";font-weight:700;font-size:18px;color:var(--navy);margin:2px 0 6px;}
+  .tpl__desc{font-size:13px;color:var(--mid);margin-bottom:12px;}
+  .tpl__actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .tpl__btn{display:inline-block;background:var(--navy);color:var(--cream);padding:8px 14px;border-radius:6px;font-family:"DM Sans";font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase;}
+  .tpl__btn:hover{background:var(--navy-2);}
+  .tpl__btn.alt{background:transparent;color:var(--navy);border:1px solid var(--navy);}
+  .tpl__btn.alt:hover{background:var(--navy);color:var(--cream);}
+
+  /* FOOTER */
+  .foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--beige);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--mid);}
+  .foot em{font-style:italic;}
+
+  /* MOBILE */
+  @media(max-width:720px){
+    .hero h1{font-size:34px;}
+    .hero h1 em{font-size:24px;}
+    section.block > h2{font-size:22px;}
+    .checklist{margin:0 -20px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="topbar">
+    <span class="label">Daily Grind · Vol. 4 · Lineamientos</span>
+    <span class="ja">第四巻 · 通信</span>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Comunicación · referencia interna</div>
+    <h1>Lineamientos<br/><em>stories + posts</em></h1>
+    <p class="lead">Sistema base de 10 contenidos tipo, captions de la semana y templates visuales para que el equipo opere el feed e historias sin reescribir voz cada vez. Documento vivo · uso interno.</p>
+  </section>
+
+  <!-- GATE -->
+  <section id="gate" class="gate" aria-label="Acceso con código">
+    <span class="gate__eyebrow">Código de acceso · 4 dígitos</span>
+    <span class="gate__hint">Si no lo tienes, pídelo directo.</span>
+    <form class="gate__form" id="pinForm" novalidate>
+      <input class="gate__input" id="pinInput" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="4" minlength="4" placeholder="• • • •" aria-label="Código de 4 dígitos" required>
+      <button type="submit" class="gate__submit">Abrir →&#xFE0E;</button>
+    </form>
+    <span class="gate__error" id="pinError" role="status" aria-live="polite"></span>
+  </section>
+
+  <!-- PORTAL -->
+  <section id="portal" class="portal">
+
+    <!-- STICKY ANTI-CHECKLIST -->
+    <div class="checklist">
+      <div class="label">Anti-checklist antes de publicar</div>
+      <div class="checklist__list">
+        <span>nada de "no solo / sino también"</span>
+        <span>nada de "no es X, es Y"</span>
+        <span>sin voseo argentino</span>
+        <span>sin emojis decorativos</span>
+        <span>pistacho es el sello, nunca el accesible</span>
+        <span>Eldiez todo junto</span>
+        <span>Daily Grind, nunca Daily Green</span>
+        <span>japonés acento real, no decoración</span>
+      </div>
+    </div>
+
+    <!-- 10 LINEAMIENTOS -->
+    <section class="block" id="lineamientos">
+      <h2>10 contenidos tipo <em>· 6 stories + 4 posts</em></h2>
+      <p class="sub">Cada card lleva función, slots, ejemplo concreto y dirección visual. Toca para abrir.</p>
+
+      <div class="cards">
+
+        <!-- 01 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">01</span>
+            <span class="card__title">
+              <span class="kind">Story · operativa</span>
+              <span class="name">Abierto ahora</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Confirmar que la cafetería está operativa hoy. Visual constante para el cliente regular.</dd>
+              <dt>Frecuencia</dt><dd>Diaria, en la primera hora de apertura.</dd>
+              <dt>Slots</dt><dd>[ubicación] · [horario_cierre] · [detalle_opcional]</dd>
+            </dl>
+            <span class="code">Abierto · [ubicación]
+Hasta [horario_cierre]</span>
+            <div class="example">Ejemplo · "Abierto · UAI / Hasta las 19:00 hrs"</div>
+            <div class="visual"><strong>Visual.</strong> Fondo cream o foto del espacio con overlay navy translúcido. Syne 700 hero, DM Sans 300 line. Sticker ubicación nativo IG. Sin contador, sin urgencia falsa.</div>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">02</span>
+            <span class="card__title">
+              <span class="kind">Story · evento</span>
+              <span class="name">Countdown</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Anticipar drop, sabor, evento o apertura. La pieza vive en el sticker nativo IG, no en el copy.</dd>
+              <dt>Frecuencia</dt><dd>Cadencia T-7 / T-3 / T-24h antes del evento (tres stories, no una).</dd>
+              <dt>Slots</dt><dd>[evento] · [fecha] · [hora] · [subline_opcional]</dd>
+            </dl>
+            <span class="code">[evento]
+[fecha] · [hora]</span>
+            <div class="example">Ejemplo T-7 · "Apertura NTM × TDG Providencia / mar 09 jun · 12:00 hrs"</div>
+            <div class="visual"><strong>Visual.</strong> Fondo navy invertido. Sticker IG countdown configurado con hora exacta, tercio inferior. Syne 700 hero. Acento sky en la palabra clave (Apertura, Drop, Show).</div>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">03</span>
+            <span class="card__title">
+              <span class="kind">Story · comunidad</span>
+              <span class="name">Visto aquí · UGC repost</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Tomar story donde un cliente nos arrobó, repostear con micro-curatoría. Construye comunidad.</dd>
+              <dt>Frecuencia</dt><dd>Cuando llega UGC bueno. Calidad sobre cantidad. Máximo 1 por día.</dd>
+              <dt>Slots</dt><dd>[@usuario] · [contexto_breve_opcional]</dd>
+            </dl>
+            <span class="code">Visto aquí · @[usuario]</span>
+            <div class="example">Ejemplo · "Visto aquí · @soyalexa.cl"</div>
+            <div class="visual"><strong>Visual.</strong> Story original sin alterar. Overlay tipográfico esquina inferior izquierda en cream con texto navy. Mention sticker nativo arriba a la derecha (Meta lo notifica al cliente).</div>
+          </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">04</span>
+            <span class="card__title">
+              <span class="kind">Story · producto</span>
+              <span class="name">Sabor del día</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Empujar un producto puntual. Foto, nombre, precio. Sin floritura.</dd>
+              <dt>Frecuencia</dt><dd>2-3 por semana. Roteo: pistacho, açaí, café especial, estacional.</dd>
+              <dt>Slots</dt><dd>[producto] · [precio_clp] · [detalle_técnico] · [ja_acento_opcional]</dd>
+            </dl>
+            <span class="code">[producto]
+$ [precio_clp]
+[detalle_técnico] · [ja_acento]</span>
+            <div class="example">Ejemplo · "Soft serve pistacho / $ 4.900 / Recién batido a la vista · ピスタチオ"</div>
+            <div class="visual"><strong>Visual.</strong> Foto real del producto (no flat lay falso). Sticker producto nativo IG si está habilitado. Syne 700 nombre, DM Sans 500 precio, DM Sans 300 italic detalle. Si es pistacho, acento pistacho #7fa64a en el precio.</div>
+          </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">05</span>
+            <span class="card__title">
+              <span class="kind">Story · comunidad</span>
+              <span class="name">¿Tú decides? · poll</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Engagement directo + investigación pasiva. Pregunta binaria sobre algo que importa al negocio.</dd>
+              <dt>Frecuencia</dt><dd>1 por semana. Mover día y hora.</dd>
+              <dt>Slots</dt><dd>[pregunta] · [opción_a] · [opción_b]</dd>
+            </dl>
+            <span class="code">[pregunta]</span>
+            <div class="example">Ejemplo · "¿Música del local los martes? / A — Beats lentos / B — Disco antiguo"</div>
+            <div class="visual"><strong>Visual.</strong> Fondo cream. Syne 700 pregunta. Sticker poll IG con dos opciones. La pregunta es la pieza, sin copy extra.</div>
+          </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">06</span>
+            <span class="card__title">
+              <span class="kind">Story · loyalty</span>
+              <span class="name">Tu stamp · Eldiez</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Celebrar un canje real del programa de loyalty Eldiez (stamp 9+1). Gratifica al cliente, hace marca del programa.</dd>
+              <dt>Frecuencia</dt><dd>Por canje real. Pedir foto al cliente o capturar discreto.</dd>
+              <dt>Slots</dt><dd>[stamps_actual] · [@cliente_opcional] · [mensaje_opcional]</dd>
+            </dl>
+            <span class="code">Stamp [stamps_actual] · @[cliente]
+Eldiez · cada café cuenta</span>
+            <div class="example">Ejemplo · "Stamp 10 · @camila_artr / Eldiez · cada café cuenta · 十"</div>
+            <div class="visual"><strong>Visual.</strong> Foto tarjeta wallet o stamp físico. 10 círculos miniatura abajo, activos en sky, inactivos en outline navy. Syne 700 número, DM Sans 500 caption. Si es stamp 10, acento sky y mención gratis tu próximo café.</div>
+          </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">07</span>
+            <span class="card__title">
+              <span class="kind">Post · oficio</span>
+              <span class="name">Manos · crédito colaborador</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Humanizar la operación. Cada vez que alguien hace algo bien (barista, artista, productor, fotógrafa), tiene pieza.</dd>
+              <dt>Frecuencia</dt><dd>2 por mes. Roteo entre baristas, colaboradores externos y staff invisible.</dd>
+              <dt>Slots</dt><dd>[nombre] · [oficio] · [frase_persona_opcional] · [handle_opcional]</dd>
+            </dl>
+            <span class="code">[oficio] · [nombre]
+[frase_persona]
+— [handle]</span>
+            <div class="example">Ejemplo · "Barista · Camila R. / Cada extracción es una decisión. La hacemos con tiempo. / — @camila.brews"</div>
+            <div class="visual"><strong>Visual.</strong> Foto cerrada de las manos en acción (no retrato frontal). Detalle del oficio. Cream con grano fotográfico real. Syne 700 oficio, DM Sans 500 nombre, DM Sans 300 italic frase. Logo TDG cream-sobre-navy esquina inferior derecha.</div>
+          </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">08</span>
+            <span class="card__title">
+              <span class="kind">Post · comunidad</span>
+              <span class="name">Visto en TDG · UGC al feed</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Curar UGC al feed permanente. Distinto a la story repost: este pasa la curatoría editorial y queda en grilla.</dd>
+              <dt>Frecuencia</dt><dd>1-2 por mes. Solo si la foto tiene calidad para grilla.</dd>
+              <dt>Slots</dt><dd>[@cliente] · [contexto]</dd>
+            </dl>
+            <span class="code">Visto en TDG · @[cliente]
+[contexto]</span>
+            <div class="example">Ejemplo · "Visto en TDG · @soyalexa.cl / Tarde de viernes · pistacho y libro"</div>
+            <div class="visual"><strong>Visual.</strong> Foto del cliente en alta resolución. Pedir permiso explícito por DM antes. Crop 1:1. Borde cream 40px arriba y abajo con "Visto en TDG" arriba y "@cliente" abajo. Color real, cero filtros agresivos.</div>
+          </div>
+        </article>
+
+        <!-- 09 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">09</span>
+            <span class="card__title">
+              <span class="kind">Post · evento</span>
+              <span class="name">Save the date</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Anuncio formal de evento, drop o apertura. Editorial, no urgente. Activa el countdown story 02 después.</dd>
+              <dt>Frecuencia</dt><dd>Por evento. 7-10 días antes.</dd>
+              <dt>Slots</dt><dd>[evento] · [fecha_larga] · [hora] · [ubicación] · [detalle_extra]</dd>
+            </dl>
+            <span class="code">Save the date · [evento]
+[fecha_larga] · [hora]
+[ubicación]
+
+[detalle_extra]</span>
+            <div class="example">Ejemplo · "Save the date · Apertura NTM × TDG Providencia / Martes 09 de junio de 2026 · 12:00 a 14:00 hrs / Av. Providencia · esquina exacta llega por DM / Camisa Vol. 4 disponible el mismo día."</div>
+            <div class="visual"><strong>Visual.</strong> Fondo navy invertido. Syne 700 hero del evento, DM Sans 500 fecha+hora, DM Sans 300 dirección. Acento sky en "Save" o en la fecha. Sin imagen del lugar (el lugar es teaser). Solo tipografía editorial.</div>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="card">
+          <button class="card__head" type="button">
+            <span class="card__num">10</span>
+            <span class="card__title">
+              <span class="kind">Post · oficio</span>
+              <span class="name">Receta del día</span>
+            </span>
+            <span class="card__chevron">▾</span>
+          </button>
+          <div class="card__body">
+            <dl>
+              <dt>Función</dt><dd>Mostrar técnica detrás de un producto. Educa al cliente, diferencia del competidor. Posiciona oficio.</dd>
+              <dt>Frecuencia</dt><dd>1-2 por mes.</dd>
+              <dt>Slots</dt><dd>[producto] · [ingrediente_clave] · [técnica_breve] · [ja_acento_opcional]</dd>
+            </dl>
+            <span class="code">Receta · [producto]
+Ingrediente · [ingrediente_clave]
+Técnica · [técnica_breve]
+[ja_acento]</span>
+            <div class="example">Ejemplo · "Receta · Soft serve pistacho / Ingrediente · pasta de pistacho de Bronte importada / Técnica · base láctea fría, batido en máquina a la vista / ピスタチオ ソフトクリーム"</div>
+            <div class="visual"><strong>Visual.</strong> Foto cenital del proceso o ingrediente puro (no plato final). 3 líneas izquierda alineadas, mucho aire arriba. Cream con sombra muy sutil. Si es pistacho, una nota mínima en pistacho #7fa64a.</div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CAPTIONS SEMANA -->
+    <section class="block" id="captions">
+      <h2>Captions de la semana <em>· 25-30 may</em></h2>
+      <p class="sub">Listas para copiar. El botón pone el texto en tu portapapeles directo.</p>
+
+      <div class="captions">
+
+        <article class="caption">
+          <header class="caption__head">
+            <span class="caption__when">Lun 25 may · 08:30 · Story</span>
+            <span class="caption__name">01 Abierto ahora <em>· UAI</em></span>
+          </header>
+          <div class="caption__body" data-caption>Abierto · UAI
+Hasta las 19:00 hrs</div>
+          <div class="caption__foot">
+            <span class="caption__notes">Subir desde la app. Foto del primer café del día o mesón limpio. Sticker ubicación nativo.</span>
+            <button class="caption__copy" type="button" data-copy>Copiar</button>
+          </div>
+        </article>
+
+        <article class="caption">
+          <header class="caption__head">
+            <span class="caption__when">Lun 25 may · 11:30 · Story</span>
+            <span class="caption__name">05 Poll <em>· música lunes</em></span>
+          </header>
+          <div class="caption__body" data-caption>¿Música del local los lunes?
+A — Beats lentos
+B — Disco antiguo</div>
+          <div class="caption__foot">
+            <span class="caption__notes">Sticker poll IG con las dos opciones literales. Cerrar a las 24 hrs y compartir resultado al día siguiente.</span>
+            <button class="caption__copy" type="button" data-copy>Copiar</button>
+          </div>
+        </article>
+
+        <article class="caption">
+          <header class="caption__head">
+            <span class="caption__when">Mié 27 may · 13:00 · Post feed</span>
+            <span class="caption__name">10 Receta <em>· pistacho</em></span>
+          </header>
+          <div class="caption__body" data-caption>Receta · Soft serve pistacho
+Ingrediente · pasta de pistacho de Bronte importada
+Técnica · base láctea fría, batido en máquina a la vista
+ピスタチオ ソフトクリーム
+
+El sello de la casa. Por algo es el sabor que más volvemos a defender.
+
+@dailygrind.cl · UAI</div>
+          <div class="caption__foot">
+            <span class="caption__notes">Asset: foto cenital de pasta o máquina batiendo. Si no hay nueva, still del lanzamiento del 14-19 may.</span>
+            <button class="caption__copy" type="button" data-copy>Copiar</button>
+          </div>
+        </article>
+
+        <article class="caption">
+          <header class="caption__head">
+            <span class="caption__when">Jue 28 may · 13:00 · Story</span>
+            <span class="caption__name">04 Sabor del día <em>· açaí</em></span>
+          </header>
+          <div class="caption__body" data-caption>Açaí bowl
+$ 5.900
+Base açaí · plátano · granola · miel
+アサイーボウル</div>
+          <div class="caption__foot">
+            <span class="caption__notes">Foto del bowl real montado, no flat lay. Complementa la pieza del miércoles: pistacho un día, açaí al siguiente.</span>
+            <button class="caption__copy" type="button" data-copy>Copiar</button>
+          </div>
+        </article>
+
+        <article class="caption">
+          <header class="caption__head">
+            <span class="caption__when">Vie 30 may · 18:00 · Post feed</span>
+            <span class="caption__name">07 Manos <em>· barista UAI</em></span>
+          </header>
+          <div class="caption__body" data-caption>Barista · [primer nombre + inicial]
+Cada extracción es una decisión. Esa decisión la toma esta persona.
+— @[handle_opcional]
+
+Lo que toma el cliente lleva su firma.
+
+@dailygrind.cl · Vol. 4 Café</div>
+          <div class="caption__foot">
+            <span class="caption__notes">Confirmar con el barista nombre y handle antes de publicar. Foto cerrada de manos en acción, no retrato frontal.</span>
+            <button class="caption__copy" type="button" data-copy>Copiar</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- TEMPLATES VISUALES -->
+    <section class="block" id="templates">
+      <h2>Templates visuales <em>· listos para usar</em></h2>
+      <p class="sub">Renders 2× para Instagram. Descargar el PNG y subir directo, o pedir variante con copy específico.</p>
+
+      <div class="templates">
+
+        <article class="tpl">
+          <div class="tpl__media">
+            <img src="template-09-save-the-date.png" alt="Template 09 Save the date · post 1080×1080" loading="lazy">
+          </div>
+          <div class="tpl__meta">
+            <span class="tpl__num">Template · post 1080×1080</span>
+            <h3 class="tpl__name">09 Save the date</h3>
+            <p class="tpl__desc">Anuncio formal de evento. Versión actual: Apertura NTM × TDG Providencia · 09 jun.</p>
+            <div class="tpl__actions">
+              <a class="tpl__btn" href="template-09-save-the-date.png" download>Descargar PNG</a>
+              <a class="tpl__btn alt" href="template-09-save-the-date.png" target="_blank">Ver tamaño real</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="tpl">
+          <div class="tpl__media is-vertical">
+            <img src="template-02-countdown-story.png" alt="Template 02 Countdown story · 1080×1920" loading="lazy">
+          </div>
+          <div class="tpl__meta">
+            <span class="tpl__num">Template · story 1080×1920</span>
+            <h3 class="tpl__name">02 Countdown</h3>
+            <p class="tpl__desc">Base de countdown story. Tiene zona marcada para pegar el sticker countdown nativo de IG.</p>
+            <div class="tpl__actions">
+              <a class="tpl__btn" href="template-02-countdown-story.png" download>Descargar PNG</a>
+              <a class="tpl__btn alt" href="template-02-countdown-story.png" target="_blank">Ver tamaño real</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Daily Grind · Vol. 4 · Lineamientos comunicación</span>
+      <em>acceso restringido · no indexable</em>
+    </footer>
+
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    "use strict";
+
+    var PINS = ["1010"];
+    var STORAGE_KEY = "tdg.lineamientos.unlocked";
+
+    var gate = document.getElementById("gate");
+    var portal = document.getElementById("portal");
+    var form = document.getElementById("pinForm");
+    var input = document.getElementById("pinInput");
+    var error = document.getElementById("pinError");
+
+    function reveal() {
+      gate.style.display = "none";
+      portal.classList.add("is-open");
+    }
+
+    function tryUnlock(value) {
+      if (PINS.indexOf(value) !== -1) {
+        try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
+        reveal();
+        return true;
+      }
+      return false;
+    }
+
+    // Auto-reveal if already unlocked in this session
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === "1") {
+        reveal();
+      }
+    } catch (_) {}
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = (input.value || "").trim();
+      if (!tryUnlock(value)) {
+        error.textContent = "Código incorrecto. Probemos de nuevo.";
+        input.value = "";
+        input.focus();
+      } else {
+        error.textContent = "";
+      }
+    });
+
+    // Accordion behavior for cards
+    document.querySelectorAll(".card__head").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest(".card");
+        card.classList.toggle("is-open");
+      });
+    });
+
+    // Copy-to-clipboard
+    document.querySelectorAll("[data-copy]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var article = btn.closest(".caption");
+        var body = article && article.querySelector("[data-caption]");
+        if (!body) return;
+        var text = body.textContent;
+        var done = function () {
+          var original = btn.textContent;
+          btn.textContent = "Copiado ✓";
+          btn.classList.add("is-copied");
+          setTimeout(function () {
+            btn.textContent = original;
+            btn.classList.remove("is-copied");
+          }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            fallbackCopy(text); done();
+          });
+        } else {
+          fallbackCopy(text); done();
+        }
+      });
+    });
+
+    function fallbackCopy(text) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+  })();
+</script>
+
+</body>
+</html>
