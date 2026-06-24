@@ -17,6 +17,9 @@ package-lock.json
 og-templates/mobile-shots/
 og-templates/mobile-shots-kraneo/
 
+# Tooling local de render (no se sirve — ya excluido en .assetsignore)
+scripts/
+
 # Defensa: backups operacionales NUNCA viven dentro del repo
 # (destino canónico: ~/dailygrind-backups, fuera del repo)
 dailygrind-backups/
