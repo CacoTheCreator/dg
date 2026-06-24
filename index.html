@@ -124,7 +124,7 @@
 
     /* anchor offset under sticky nav */
     html { scroll-padding-top: 72px; }
-    #volumes, #mundos, #form { scroll-margin-top: 72px; }
+    #volumes, #mundos, #eventos, #form { scroll-margin-top: 72px; }
 
     /* ─────────────────────────────────────
        HERO
@@ -458,6 +458,200 @@
       font-variant-emoji: text;
     }
     .mundo-card:hover .mundo-go { color: var(--sky-lt); }
+
+    /* ─────────────────────────────────────
+       EVENTOS · CADA SEMANA
+    ───────────────────────────────────── */
+    .eventos {
+      background-color: var(--navy);
+      padding: 96px 24px;
+      text-align: center;
+    }
+    .eventos .section-label { color: var(--sky); }
+    .eventos-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.04;
+      margin-bottom: 14px;
+    }
+    .eventos-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      max-width: 470px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+    .eventos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .evento-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      border-radius: 14px;
+      padding: 40px 34px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .evento-card--lunes { background-color: var(--cream); }
+    .evento-card--miercoles { background-color: var(--sky-lt); }
+    .evento-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 46px rgba(0,0,0,0.30);
+    }
+    .evento-dia {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.55;
+      margin-bottom: 14px;
+    }
+    .evento-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.06;
+      margin-bottom: 4px;
+    }
+    .evento-host {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--mid);
+      margin-bottom: 18px;
+    }
+    .evento-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .evento-cta {
+      margin-top: auto;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background-color: var(--navy);
+      border: none;
+      border-radius: 8px;
+      padding: 13px 26px;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background-color 0.2s, transform 0.15s;
+      font-variant-emoji: text;
+    }
+    .evento-cta:hover { background-color: var(--navy-2); transform: translateY(-1px); }
+    .eventos-foot {
+      font-size: 12px;
+      color: var(--sky-lt);
+      opacity: 0.85;
+      margin-top: 38px;
+    }
+
+    /* ── Modal de inscripción ── */
+    .signup-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .signup-modal.open { display: flex; }
+    .signup-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(11,24,69,0.62);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .signup-dialog {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 42px 36px 36px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.38);
+      animation: signup-in 0.25s ease;
+    }
+    @keyframes signup-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    .signup-x {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--mid);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .signup-x:hover { color: var(--navy); }
+    .signup-kicker {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 10px;
+    }
+    .signup-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .signup-sub {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+    .field .opt { color: var(--beige-2); font-weight: 400; }
+    .evento-error {
+      display: none;
+      color: #c0392b;
+      font-size: 13px;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .signup-success { display: none; text-align: center; padding: 8px 0; }
+    .signup-card-link {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--sky);
+      text-decoration: none;
+      font-variant-emoji: text;
+    }
+    .signup-card-link:hover { color: var(--navy); }
 
     /* ─────────────────────────────────────
        COMIC
@@ -1147,6 +1341,10 @@
 
       .mundos { padding: 64px 20px; }
       .mundo-card { padding: 32px 26px; }
+      .eventos { padding: 64px 20px; }
+      .eventos-grid { grid-template-columns: 1fr; gap: 14px; }
+      .evento-card { padding: 32px 26px; }
+      .signup-dialog { padding: 36px 24px 28px; }
       .product { padding: 64px 20px; }
       .ambiente { padding: 64px 20px; }
       .ambiente-grid { grid-template-columns: 1fr; }
@@ -1173,6 +1371,7 @@
     <nav class="nav-links" id="navLinks">
       <a href="#volumes" class="nav-link">La historia</a>
       <a href="#mundos" class="nav-link">Mundos</a>
+      <a href="#eventos" class="nav-link">Cada semana</a>
       <a href="#form" class="nav-cta">Únete</a>
     </nav>
   </header>
@@ -1239,6 +1438,68 @@
       </a>
     </div>
   </section>
+
+  <!-- ── EVENTOS · CADA SEMANA ── -->
+  <section class="eventos" id="eventos">
+    <span class="section-label reveal">Cada semana, en la casa</span>
+    <h2 class="eventos-title reveal">No dejes de ser parte de…</h2>
+    <p class="eventos-sub reveal">El café abre sus mesas. Te sientas, aprendes algo nuevo y te llevas más que un café.</p>
+    <div class="eventos-grid">
+      <div class="evento-card evento-card--lunes reveal reveal-delay-1">
+        <span class="evento-dia">Lunes</span>
+        <h3 class="evento-name">Vibecoding</h3>
+        <p class="evento-host">Sesión abierta de código</p>
+        <p class="evento-desc">Traes tu notebook y una idea a medio cocinar. Construimos en vivo, sin pose, entre cafés. Para los que crean y quieren acelerar.</p>
+        <button class="evento-cta" data-track="evento-vibecoding" data-titulo="Lunes de Vibecoding">Inscríbete →&#xFE0E;</button>
+      </div>
+      <div class="evento-card evento-card--miercoles reveal reveal-delay-2">
+        <span class="evento-dia">Miércoles</span>
+        <h3 class="evento-name">Especialidad</h3>
+        <p class="evento-host">con Guille</p>
+        <p class="evento-desc">Café de especialidad como pocas veces lo vas a tomar. Taller en vivo sobre el grano y la extracción. Cada semana, una historia distinta en la taza.</p>
+        <button class="evento-cta" data-track="evento-especialidad" data-titulo="Miércoles de Especialidad">Inscríbete →&#xFE0E;</button>
+      </div>
+    </div>
+    <p class="eventos-foot reveal">Cupos limitados · sede UAI. Te avisamos la próxima fecha apenas reserves.</p>
+  </section>
+
+  <!-- ── MODAL DE INSCRIPCIÓN (eventos) ── -->
+  <div class="signup-modal" id="signupModal" aria-hidden="true">
+    <div class="signup-backdrop" data-close></div>
+    <div class="signup-dialog" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+      <button class="signup-x" type="button" data-close aria-label="Cerrar">&times;</button>
+      <div class="signup-body">
+        <span class="signup-kicker" id="signupKicker">Inscripción</span>
+        <h3 class="signup-title" id="signupTitle">Reserva tu cupo</h3>
+        <p class="signup-sub">Déjanos tus datos y te guardamos el lugar. De paso queda lista tu tarjeta de la casa.</p>
+        <form id="eventForm" novalidate>
+          <div class="field">
+            <label for="ev-nombre">Nombre y apellido</label>
+            <input type="text" id="ev-nombre" placeholder="Tu nombre" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="ev-email">Email</label>
+            <input type="email" id="ev-email" placeholder="tucorreo@email.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="ev-telefono">WhatsApp <span class="opt">(opcional)</span></label>
+            <input type="tel" id="ev-telefono" placeholder="+56 9 0000 0000" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn" id="evBtn">
+            <span class="btn-text">Reservar mi cupo</span>
+            <span class="spinner"></span>
+          </button>
+          <p class="evento-error" id="evError"></p>
+        </form>
+      </div>
+      <div class="signup-success" id="evSuccess">
+        <div class="success-ring">■</div>
+        <h2>¡Te esperamos!</h2>
+        <p id="evSuccessMsg">Quedaste en la lista. Te escribimos con la próxima fecha.</p>
+        <a class="signup-card-link" id="evCardLink" href="#">Ver mi tarjeta de la casa →&#xFE0E;</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ── COMIC ── -->
   <section class="comic">
@@ -1533,6 +1794,100 @@
         btn.disabled = false;
       }
     });
+
+    // ── Modal de inscripción a eventos ──
+    // Escribe al mismo signup autoritativo de DailyBack que el form principal,
+    // con un `source` distinto por track, para que cada inscrito caiga como
+    // miembro en la base de fidelización (Eldiez), tenga o no tarjeta todavía.
+    (function () {
+      const modal = document.getElementById('signupModal');
+      if (!modal) return;
+      const form = document.getElementById('eventForm');
+      const body = modal.querySelector('.signup-body');
+      const titleEl = document.getElementById('signupTitle');
+      const kickerEl = document.getElementById('signupKicker');
+      const btn = document.getElementById('evBtn');
+      const errEl = document.getElementById('evError');
+      const successEl = document.getElementById('evSuccess');
+      const cardLink = document.getElementById('evCardLink');
+      const nombreEl = document.getElementById('ev-nombre');
+      const emailEl = document.getElementById('ev-email');
+      const telEl = document.getElementById('ev-telefono');
+      const SIGNUP_URL = '/dailyback/api/public/signup';
+      let currentSource = 'evento';
+
+      function openModal(track, titulo) {
+        currentSource = track || 'evento';
+        titleEl.textContent = titulo || 'Reserva tu cupo';
+        kickerEl.textContent = 'Inscripción';
+        body.style.display = '';
+        successEl.style.display = 'none';
+        errEl.style.display = 'none';
+        form.reset();
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => nombreEl.focus(), 60);
+      }
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.evento-cta').forEach((b) => {
+        b.addEventListener('click', () => openModal(b.dataset.track, b.dataset.titulo));
+      });
+      modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeModal));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errEl.style.display = 'none';
+        const full_name = nombreEl.value.trim();
+        const email = emailEl.value.trim();
+        const phone = telEl.value.trim();
+        if (!full_name) { errEl.textContent = 'Falta tu nombre.'; errEl.style.display = 'block'; return; }
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) { errEl.textContent = 'Revisa tu email.'; errEl.style.display = 'block'; return; }
+
+        btn.classList.add('loading');
+        btn.disabled = true;
+        try {
+          const res = await fetch(SIGNUP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              full_name,
+              email,
+              phone: phone || undefined,
+              marketing_opt_in: true,
+              source: currentSource,
+            }),
+          });
+          const json = await res.json().catch(() => null);
+          if (!res.ok || !json || !json.ok) {
+            throw new Error((json && json.error) || 'No pudimos guardar tu cupo. Intenta de nuevo.');
+          }
+          body.style.display = 'none';
+          successEl.style.display = 'block';
+          if (json.redirect) {
+            cardLink.href = json.redirect;
+            cardLink.style.display = '';
+          } else {
+            cardLink.style.display = 'none';
+          }
+        } catch (ex) {
+          errEl.textContent = (ex && ex.message) ? ex.message : 'Hubo un error. Intenta de nuevo en unos segundos.';
+          errEl.style.display = 'block';
+          btn.classList.remove('loading');
+          btn.disabled = false;
+        }
+      });
+    })();
 
     // ── Carousel ambiente ──
     (function () {
