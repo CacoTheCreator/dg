@@ -1,0 +1,34 @@
+name: Deploy dailygrind.cl
+
+# Despliega el Worker `dg` (sitio público + publisher) a Cloudflare al integrar a main.
+#
+# Requisitos:
+#   - Secret de repo CLOUDFLARE_API_TOKEN: token de Cloudflare con permisos de
+#     Workers Scripts (Edit), Workers Routes (Edit), D1 (Edit) y R2 Storage (Edit),
+#     acotado a la cuenta juan@realestodo.com (9d84c31c…).
+#   - El account_id y todos los bindings (D1, R2, routes, cron) viven en wrangler.toml.
+#   - Los secrets del Worker (PAGE_ACCESS_TOKEN, APP_SECRET, PUBLISHER_PIN, etc.)
+#     persisten entre deploys; este flujo NO los toca ni los necesita.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-dg
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy con Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "3"
+          command: deploy
