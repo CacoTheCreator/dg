@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DG-010 · Daily Grind para ART STGO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1e56; --navy-2:#0b1845; --sky:#51b5f2; --sky-lt:#a6d9f8;
+    --cream:#f9f3ec; --beige:#e3ded9; --beige-2:#d9d4cf; --mid:#6C757D;
+    --display:"Syne",ui-sans-serif,system-ui,sans-serif;
+    --body:"DM Sans",ui-sans-serif,system-ui,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#cfcac4;font-family:var(--body);font-weight:300;color:var(--navy);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+
+  @page{ size:1280px 720px; margin:0; }
+
+  .slide{
+    position:relative; width:1280px; height:720px; overflow:hidden;
+    background:var(--cream); page-break-after:always; break-after:page;
+    display:flex; flex-direction:column;
+  }
+  .slide:last-child{ page-break-after:auto; break-after:auto; }
+
+  /* ——— shared bits ——— */
+  .pad{ padding:64px 84px; }
+  .logo{ height:46px; width:auto; display:block; }
+  .s1 .logo, .s7 .logo{ height:72px; }
+  .logo--w{ filter:brightness(0) invert(1); }
+  .logo--n{ filter:brightness(0) saturate(100%) invert(9%) sepia(60%) saturate(2600%) hue-rotate(222deg) brightness(92%) contrast(101%); }
+
+  .eyebrow{ font-size:12px; font-weight:500; letter-spacing:.34em; text-transform:uppercase; color:var(--mid); }
+  .marker{ color:var(--sky); }
+  .rule{ height:1px; background:rgba(14,30,86,.16); border:0; }
+  .rule--w{ background:rgba(255,255,255,.2); }
+
+  .label{ font-family:var(--body); font-size:13px; font-weight:500; letter-spacing:.26em; text-transform:uppercase; color:var(--sky); }
+  .label b{ color:var(--mid); font-weight:500; }
+
+  h1.title{ font-family:var(--display); font-weight:800; letter-spacing:-.018em; line-height:1.04; }
+  h2.title{ font-family:var(--display); font-weight:700; letter-spacing:-.012em; line-height:1.1; color:var(--navy); }
+
+  .body{ font-weight:300; line-height:1.62; color:#26305c; }
+
+  .foot{
+    position:absolute; left:84px; right:84px; bottom:40px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--mid);
+  }
+  .foot--w{ color:rgba(255,255,255,.6); }
+
+  .chips{ display:flex; gap:0; margin-top:auto; }
+  .chip{ flex:1; padding:22px 26px 22px 0; border-top:1px solid rgba(14,30,86,.16); }
+  .chip + .chip{ padding-left:30px; border-left:1px solid rgba(14,30,86,.10); }
+  .chip .k{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .chip .v{ margin-top:8px; font-family:var(--display); font-weight:700; font-size:19px; color:var(--navy); line-height:1.16; }
+  .chip--w{ border-top-color:rgba(255,255,255,.22); }
+  .chip--w + .chip--w{ border-left-color:rgba(255,255,255,.14); }
+  .chip--w .v{ color:#fff; }
+
+  /* ——— S1 portada ——— */
+  .s1{ background:var(--navy); color:#fff; }
+  .s1 .top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .s1 .top .right{ text-align:right; }
+  .s1 .top .right .k{ font-size:13px; letter-spacing:.3em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .s1 .top .right .s{ margin-top:5px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.55); }
+  .s1 .mid{ margin-top:auto; }
+  .s1 .eyebrow{ color:var(--sky-lt); }
+  .s1 h1.title{ margin-top:20px; font-size:78px; color:#fff; max-width:14.5ch; }
+  .s1 .sub{ margin-top:26px; font-size:21px; font-weight:300; line-height:1.5; color:rgba(255,255,255,.82); max-width:50ch; }
+  .s1 .accent{ width:84px; height:5px; background:var(--sky); margin-top:34px; }
+
+  /* ——— content slide scaffold ——— */
+  .head{ display:flex; justify-content:space-between; align-items:center; }
+  .grid2{ display:grid; grid-template-columns:1.15fr .85fr; gap:64px; margin-top:44px; flex:1; }
+  .lead h2.title{ font-size:46px; max-width:16ch; }
+  .lead .body{ margin-top:26px; font-size:18.5px; max-width:42ch; }
+  .aside{ display:flex; flex-direction:column; justify-content:flex-end; }
+  .stack .row{ padding:18px 0; border-top:1px solid rgba(14,30,86,.14); }
+  .stack .row:last-child{ border-bottom:1px solid rgba(14,30,86,.14); }
+  .stack .row .k{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .stack .row .v{ margin-top:6px; font-size:16px; color:var(--navy); font-weight:400; }
+
+  .bignum{ position:absolute; right:54px; top:120px; font-family:var(--display); font-weight:800; font-size:300px; line-height:.8; color:rgba(81,181,242,.10); letter-spacing:-.03em; pointer-events:none; }
+
+  /* ——— S3 helado emphasis ——— */
+  .s3 .lead .body strong{ color:var(--navy); font-weight:500; }
+  .flavchips{ display:flex; gap:0; margin-top:38px; }
+
+  /* ——— S5 escena ——— */
+  .s5{ background:var(--navy); color:#fff; padding:0; }
+  .s5 .grid3{ position:absolute; inset:0; display:grid; grid-template-columns:repeat(3,1fr); }
+  .s5 .ph{ position:relative; overflow:hidden; background:var(--navy-2); }
+  .s5 .ph img{ width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.06) brightness(1.04); display:block; }
+  .s5 .ph::after{ content:""; position:absolute; inset:0; background:var(--navy); mix-blend-mode:multiply; opacity:.62; }
+  .s5 .ph::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(81,181,242,.10),rgba(11,24,69,.55)); z-index:1; }
+  .s5 .ph + .ph{ border-left:2px solid var(--navy); }
+  .s5 .ov{ position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; justify-content:space-between; padding:64px 84px; }
+  .s5 .ov .label{ color:var(--sky-lt); }
+  .s5 .ov h2.title{ color:#fff; font-size:44px; max-width:18ch; text-shadow:0 2px 30px rgba(0,0,0,.5); }
+  .s5 .ov .cap{ font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.78); }
+
+  /* ——— Sv · vitrina / el punto ——— */
+  .sv{ background:#fff; }
+  .sv .vbody{ display:grid; grid-template-columns:.95fr 1.05fr; gap:36px; align-items:center; flex:1; margin-top:14px; }
+  .sv .vtext h2.title{ font-size:40px; max-width:15ch; }
+  .sv .vtext .body{ margin-top:18px; font-size:16px; max-width:42ch; color:#26305c; }
+  .sv .spec{ margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:18px 30px; max-width:42ch; }
+  .sv .spec .s .k{ font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .sv .spec .s .v{ margin-top:5px; font-size:14px; color:var(--navy); font-weight:400; line-height:1.32; }
+  .sv .vimg{ display:flex; align-items:center; justify-content:center; }
+  .sv .vimg img{ width:100%; height:auto; max-height:540px; object-fit:contain; display:block; }
+
+  /* ——— offer (s3) ——— */
+  .offer{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:auto; }
+  .offer .ocol{ padding:26px 30px 6px 0; border-top:1px solid rgba(14,30,86,.16); }
+  .offer .ocol + .ocol{ padding-left:34px; border-left:1px solid rgba(14,30,86,.10); }
+  .offer .ocol .k{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .offer .ocol .list{ margin-top:13px; font-size:16px; line-height:1.55; color:#26305c; }
+  .offer .ocol .list b{ font-family:var(--display); font-weight:700; color:var(--navy); }
+
+  /* ——— full-bleed image slides (renders GAM) ——— */
+  .simg{ background:var(--navy); padding:0; }
+  .simg .ph{ position:absolute; inset:0; }
+  .simg .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .simg .ph::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,24,69,.70) 0%, rgba(11,24,69,0) 32%, rgba(11,24,69,0) 50%, rgba(11,24,69,.80) 100%); }
+  .simg .ov{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:space-between; padding:58px 84px; }
+  .simg .logo{ filter:brightness(0) invert(1) drop-shadow(0 1px 10px rgba(0,0,0,.7)); }
+  .simg .ov .label{ color:#fff; text-shadow:0 1px 14px rgba(0,0,0,.9); }
+  .simg .ov .label b{ color:rgba(255,255,255,.8); }
+  .simg .ov h2.title{ color:#fff; font-size:44px; max-width:20ch; text-shadow:0 2px 30px rgba(0,0,0,.55); }
+  .simg .ov .cap{ font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.82); margin-top:14px; }
+
+  /* ——— plan distribución ——— */
+  .plan .body-grid{ display:grid; grid-template-columns:1fr 1.02fr; gap:38px; flex:1; align-items:center; margin-top:6px; }
+  .plan h2.title{ font-size:34px; line-height:1.08; max-width:15ch; }
+  .plan .lead{ margin-top:14px; font-size:15px; line-height:1.58; color:#26305c; max-width:42ch; }
+  .plan .legend{ margin-top:20px; }
+  .plan .legend .row{ display:flex; gap:13px; align-items:flex-start; padding:10px 0; border-top:1px solid rgba(14,30,86,.14); }
+  .plan .legend .row:last-child{ border-bottom:1px solid rgba(14,30,86,.14); }
+  .plan .legend .n{ flex:none; width:24px; height:24px; border-radius:50%; background:var(--navy); color:#fff; font-family:var(--display); font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .plan .legend .n.sky{ background:var(--sky); color:var(--navy); }
+  .plan .legend .t .k{ font-size:14px; font-weight:500; color:var(--navy); }
+  .plan .legend .t .s{ font-size:12px; color:var(--mid); margin-top:1px; }
+  .plan .notes{ margin-top:16px; display:flex; flex-direction:column; gap:5px; }
+  .plan .notes div{ font-size:11.5px; color:var(--mid); }
+  .plan .notes b{ color:var(--navy); font-weight:500; }
+  .plan .svgwrap{ display:flex; align-items:center; justify-content:center; }
+  .plan svg{ width:100%; height:auto; display:block; }
+
+  /* ——— S7 cierre ——— */
+  .s7{ background:var(--navy); color:#fff; }
+  .s7 .mid{ margin-top:auto; }
+  .s7 h1.title{ font-size:66px; color:#fff; max-width:15ch; }
+  .s7 .accent{ width:84px; height:5px; background:var(--sky); margin:30px 0 38px; }
+  .s7 .contact{ display:flex; gap:46px; flex-wrap:wrap; }
+  .s7 .contact .c .k{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--sky); font-weight:500; }
+  .s7 .contact .c .v{ margin-top:7px; font-size:19px; color:#fff; font-family:var(--display); font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- S1 · PORTADA -->
+<section class="slide s1 pad">
+  <div class="top">
+    <img class="logo logo--w" src="../../LogoTDG.svg" alt="The Daily Grind">
+    <div class="right">
+      <div class="k">ART STGO 2026</div>
+      <div class="s">Espacio gastronómico</div>
+    </div>
+  </div>
+  <div class="mid">
+    <div class="eyebrow">Daily Grind <span class="marker">■</span> Punto de helado de autor</div>
+    <h1 class="title">Helado de autor para una feria de arte.</h1>
+    <p class="sub">Una casa con mundo propio para el espacio gastronómico de ART STGO.</p>
+    <div class="accent"></div>
+  </div>
+  <div class="foot foot--w">
+    <span>DG-010 · Propuesta de espacio</span>
+    <span>dailygrind.cl</span>
+  </div>
+</section>
+
+<!-- S2 · LA CASA -->
+<section class="slide pad">
+  <div class="head">
+    <div class="label">01 <b>— La casa</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div class="grid2">
+    <div class="lead">
+      <h2 class="title">Una cafetería que convierte la rutina en escenario para el arte.</h2>
+      <p class="body">Daily Grind nació de dos artistas y crece en volúmenes: un álbum, una colección de poleras, una cafetería abierta. Detrás de cada cosa que servimos hay una marca con voz propia que la gente reconoce y sigue.</p>
+    </div>
+    <div class="aside">
+      <div class="stack">
+        <div class="row"><div class="k">Raíz</div><div class="v">Arte y música, desde el primer día.</div></div>
+        <div class="row"><div class="k">Formato</div><div class="v">Una marca que se despliega por volúmenes.</div></div>
+        <div class="row"><div class="k">Hoy</div><div class="v">Cafetería abierta con público propio.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+  </div>
+</section>
+
+<!-- S3 · EL HELADO -->
+<section class="slide s3 pad">
+  <div class="bignum">02</div>
+  <div class="head">
+    <div class="label">02 <b>— El helado</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div class="grid2" style="grid-template-columns:1fr; gap:0;">
+    <div class="lead" style="display:flex;flex-direction:column;">
+      <h2 class="title" style="font-size:50px;max-width:18ch;">Nueve sabores de la casa, en dos formatos.</h2>
+      <p class="body" style="font-size:18px;max-width:62ch;">Todo el helado es <strong>nuestro</strong>, con recetas propias. En vitrina exhibimos siete sabores en cubeta; de la máquina soft salen otros dos, servidos al momento en vasito.</p>
+      <div class="offer">
+        <div class="ocol">
+          <div class="k">En vitrina · 7 sabores</div>
+          <div class="list"><b>Daily Grind</b>, el celeste insignia de la casa.<br><b>ART STGO</b>, el sabor exclusivo de la feria.<br>Y cinco sabores más de la casa.</div>
+        </div>
+        <div class="ocol">
+          <div class="k">En máquina soft · 2 sabores</div>
+          <div class="list"><b>Açaí</b> y <b>pistacho</b>, nuestro sello.<br>Servidos al momento, en vasito al paso.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+  </div>
+</section>
+
+<!-- Sv · EL PUNTO / LA VITRINA -->
+<section class="slide sv pad">
+  <div class="head">
+    <div class="label">03 <b>— El punto</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div class="vbody">
+    <div class="vtext">
+      <h2 class="title">Una vitrina con la marca ya puesta.</h2>
+      <p class="body">Nuestro punto de venta es una barquillera de procedencia europea, vestida con la identidad Daily Grind en el frente y los costados. Llega lista, se mueve sobre ruedas y deja el helado a la vista de toda la feria.</p>
+      <div class="spec">
+        <div class="s"><div class="k">Dimensiones</div><div class="v">130 × 130 × 62 cm</div></div>
+        <div class="s"><div class="k">Capacidad</div><div class="v">7 sabores · depósitos de 5 L</div></div>
+        <div class="s"><div class="k">Energía</div><div class="v">230V / 50 Hz · 400 W</div></div>
+        <div class="s"><div class="k">Compresor</div><div class="v">EMBRACO · origen europeo</div></div>
+        <div class="s"><div class="k">Certificación</div><div class="v">SEC (Chile)</div></div>
+        <div class="s"><div class="k">Exhibición</div><div class="v">Vidrio semicurvo, luz interior, ruedas</div></div>
+      </div>
+    </div>
+    <div class="vimg"><img src="vitrina.png" alt="Vitrina Daily Grind"></div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+  </div>
+</section>
+
+<!-- S · EL PUNTO EN EL GAM (render hero) -->
+<section class="slide simg">
+  <div class="ph"><img src="render-hero.png" alt="Punto Daily Grind en el pod del GAM"></div>
+  <div class="ov">
+    <div class="head">
+      <div class="label">04 <b>— El punto en el GAM</b></div>
+      <img class="logo logo--w" src="../../LogoTDG.svg" alt="">
+    </div>
+    <div>
+      <h2 class="title">Así se ve en el espacio.</h2>
+      <div class="cap">Pod circular del GAM <span class="marker">■</span> barquillera, máquinas soft y barritas</div>
+    </div>
+  </div>
+</section>
+
+<!-- S · LA DISTRIBUCIÓN (plan) -->
+<section class="slide plan pad">
+  <div class="head">
+    <div class="label">05 <b>— La distribución</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div class="body-grid">
+    <div>
+      <h2 class="title">El pod es angosto. Lo jugamos a favor.</h2>
+      <p class="lead">Ocupamos el <b style="color:#0e1e56">frontis</b> del pod, la cara que da al público. El anillo interior deja solo <b style="color:#0e1e56">65 cm</b> para el equipo, así que adentro va solo el equipo. La cara de atrás de la columna queda libre para otra marca.</p>
+      <div class="legend">
+        <div class="row"><div class="n">1</div><div class="t"><div class="k">Máquina soft · Açaí</div><div class="s">Por dentro del anillo, al frente.</div></div></div>
+        <div class="row"><div class="n">2</div><div class="t"><div class="k">Máquina soft · Pistacho</div><div class="s">Por dentro, junto a la otra.</div></div></div>
+        <div class="row"><div class="n sky">3</div><div class="t"><div class="k">Barquillera · 7 sabores</div><div class="s">Apoyada sobre el mesón del frente.</div></div></div>
+      </div>
+      <div class="notes">
+        <div>Anillo interior <b>65 cm</b>: solo equipo de pie, despejado.</div>
+        <div>Usamos el frontis; la cara trasera queda libre para otra marca.</div>
+        <div>Barra del frente: mesones de <b>~120 cm</b>.</div>
+      </div>
+    </div>
+    <div class="svgwrap">
+      <svg viewBox="0 0 640 600" role="img" aria-label="Planta del pod: frontis Daily Grind, cara trasera disponible">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#51b5f2"/>
+          </marker>
+        </defs>
+        <circle cx="318" cy="300" r="178" fill="#e3ded9" stroke="#d9d4cf" stroke-width="1.5"/>
+        <path d="M 140 300 A 178 178 0 0 1 496 300 Z" fill="#0e1e56" fill-opacity="0.05"/>
+        <circle cx="318" cy="300" r="148" fill="#f3ead9"/>
+        <circle cx="318" cy="300" r="148" fill="none" stroke="#c9a36b" stroke-width="2" stroke-opacity="0.6"/>
+        <circle cx="318" cy="300" r="118" fill="#eaf4fc"/>
+        <circle cx="318" cy="300" r="118" fill="none" stroke="#a6d9f8" stroke-width="1.5"/>
+        <line x1="140" y1="300" x2="496" y2="300" stroke="#b9b3ab" stroke-width="1" stroke-dasharray="4 5"/>
+        <circle cx="318" cy="300" r="40" fill="#fff" stroke="#d9d4cf" stroke-width="1.5"/>
+        <text x="318" y="296" font-family="DM Sans" font-size="10" fill="#6C757D" text-anchor="middle">columna</text>
+        <text x="318" y="150" font-family="DM Sans" font-size="11.5" fill="#6C757D" text-anchor="middle" letter-spacing="2">CARA TRASERA</text>
+        <text x="318" y="168" font-family="DM Sans" font-size="10.5" fill="#9a948c" text-anchor="middle">disponible para otra marca</text>
+        <g stroke="#0e1e56" stroke-width="1">
+          <line x1="358" y1="300" x2="436" y2="300"/>
+          <line x1="358" y1="294" x2="358" y2="306"/>
+          <line x1="436" y1="294" x2="436" y2="306"/>
+        </g>
+        <rect x="367" y="307" width="60" height="22" rx="4" fill="#fff" stroke="#d9d4cf" stroke-width="1"/>
+        <text x="397" y="322" font-family="Syne" font-weight="700" font-size="12.5" fill="#0e1e56" text-anchor="middle">65 cm</text>
+        <text x="318" y="392" font-family="DM Sans" font-size="11" fill="#0e1e56" text-anchor="middle" letter-spacing="1.5">EQUIPO</text>
+        <rect x="212" y="342" width="56" height="24" rx="6" fill="#0e1e56"/>
+        <circle cx="240" cy="354" r="12" fill="#fff" stroke="#0e1e56" stroke-width="1.5"/>
+        <text x="240" y="358" font-family="Syne" font-weight="700" font-size="13" fill="#0e1e56" text-anchor="middle">1</text>
+        <rect x="368" y="342" width="56" height="24" rx="6" fill="#0e1e56"/>
+        <circle cx="396" cy="354" r="12" fill="#fff" stroke="#0e1e56" stroke-width="1.5"/>
+        <text x="396" y="358" font-family="Syne" font-weight="700" font-size="13" fill="#0e1e56" text-anchor="middle">2</text>
+        <rect x="273" y="416" width="90" height="30" rx="6" fill="#51b5f2"/>
+        <circle cx="318" cy="431" r="13" fill="#0e1e56"/>
+        <text x="318" y="436" font-family="Syne" font-weight="700" font-size="14" fill="#fff" text-anchor="middle">3</text>
+        <g stroke="#51b5f2" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round" fill="none">
+          <line x1="232" y1="566" x2="262" y2="502" marker-end="url(#arr)"/>
+          <line x1="318" y1="582" x2="318" y2="510" marker-end="url(#arr)"/>
+          <line x1="404" y1="566" x2="374" y2="502" marker-end="url(#arr)"/>
+        </g>
+        <text x="318" y="596" font-family="DM Sans" font-size="11.5" fill="#6C757D" text-anchor="middle" letter-spacing="2">PÚBLICO (FRENTE)</text>
+      </svg>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+    <span>GAM · pod circular</span>
+  </div>
+</section>
+
+<!-- S · EL PUNTO EN VIVO (render detalle) -->
+<section class="slide simg">
+  <div class="ph"><img src="render-detalle.png" alt="Atención en el punto Daily Grind del GAM"></div>
+  <div class="ov">
+    <div class="head">
+      <div class="label">06 <b>— El punto en vivo</b></div>
+      <img class="logo logo--w" src="../../LogoTDG.svg" alt="">
+    </div>
+    <div>
+      <h2 class="title">Servido al momento, en su mejor cara.</h2>
+      <div class="cap">Soft en vasito <span class="marker">■</span> barritas de proteína <span class="marker">■</span> barquillera de 7 sabores</div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 · LA COLA -->
+<section class="slide pad">
+  <div class="head">
+    <div class="label">07 <b>— La cola</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div class="grid2">
+    <div class="lead">
+      <h2 class="title">Pensado para que la fila nunca se detenga.</h2>
+      <p class="body">En una feria, el tiempo de espera es lo que más pesa. Servimos en vasito y no en cono, porque el cono frena la entrega. Llevamos hasta tres máquinas soft a la vez y un equipo enfocado en que la cola siga avanzando.</p>
+    </div>
+    <div class="aside">
+      <div class="stack">
+        <div class="row"><div class="k">Vasito, no cono</div><div class="v">El cono frena la entrega; el vasito la acelera.</div></div>
+        <div class="row"><div class="k">Hasta 3 máquinas soft</div><div class="v">Sumamos máquinas si el flujo lo pide.</div></div>
+        <div class="row"><div class="k">Equipo enfocado</div><div class="v">Atención que mantiene la fila en movimiento.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+  </div>
+</section>
+
+<!-- S5 · LA ESCENA -->
+<section class="slide s5">
+  <div class="grid3">
+    <div class="ph"><img src="../../img/verano-1.jpeg" alt=""></div>
+    <div class="ph"><img src="../../img/verano-3.jpeg" alt=""></div>
+    <div class="ph"><img src="../../img/verano-14.jpeg" alt=""></div>
+  </div>
+  <div class="ov">
+    <div class="head">
+      <div class="label">08 <b>— La escena</b></div>
+      <img class="logo logo--w" src="../../LogoTDG.svg" alt="">
+    </div>
+    <div>
+      <h2 class="title">Donde ponemos un punto, se arma una escena.</h2>
+      <div class="cap" style="margin-top:18px;">Comunidad <span class="marker">■</span> música <span class="marker">■</span> momentos que la gente comparte</div>
+    </div>
+  </div>
+</section>
+
+<!-- S6 · EDICIÓN ART STGO -->
+<section class="slide s3 pad">
+  <div class="bignum" style="color:rgba(81,181,242,.12);">★</div>
+  <div class="head">
+    <div class="label">09 <b>— Edición ART STGO</b></div>
+    <img class="logo logo--n" src="../../LogoTDG.svg" alt="">
+  </div>
+  <div style="margin-top:40px;flex:1;display:flex;flex-direction:column;">
+    <h2 class="title" style="font-size:50px;max-width:18ch;">Creamos un helado exclusivo: sabor ART STGO.</h2>
+    <p class="body" style="font-size:19px;max-width:54ch;margin-top:24px;">Un sabor de la casa creado para la feria, que definimos junto a ustedes. Un helado que no se encuentra en ningún otro lado, pensado para que la gente quiera probarlo y contarlo.</p>
+    <div class="chips" style="margin-top:auto;">
+      <div class="chip"><div class="k">Exclusivo</div><div class="v">Solo existe<br>en ART STGO.</div></div>
+      <div class="chip"><div class="k">De la casa</div><div class="v">Receta creada<br>para la feria.</div></div>
+      <div class="chip"><div class="k">Gancho</div><div class="v">Un sabor que<br>la gente comparte.</div></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Daily Grind para ART STGO</span>
+  </div>
+</section>
+
+<!-- S7 · CIERRE -->
+<section class="slide s7 pad">
+  <div class="head">
+    <img class="logo logo--w" src="../../LogoTDG.svg" alt="The Daily Grind">
+    <div class="label" style="color:rgba(255,255,255,.5);">DG-010</div>
+  </div>
+  <div class="mid">
+    <div class="eyebrow" style="color:var(--sky-lt);">Daily Grind <span class="marker">■</span> ART STGO 2026</div>
+    <h1 class="title">Pongamos la casa dentro de la feria.</h1>
+    <div class="accent"></div>
+    <div class="contact">
+      <div class="c"><div class="k">Web</div><div class="v">dailygrind.cl</div></div>
+      <div class="c"><div class="k">Instagram</div><div class="v">@dailygrind.cl</div></div>
+      <div class="c"><div class="k">Correo</div><div class="v">pulpabrava@gmail.com</div></div>
+    </div>
+  </div>
+  <div class="foot foot--w">
+    <span>Propuesta de espacio gastronómico</span>
+    <span>Gracias.</span>
+  </div>
+</section>
+
+</body>
+</html>
