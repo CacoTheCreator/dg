@@ -25,6 +25,12 @@ export default {
       return Response.redirect(target.toString(), 301);
     }
 
+    // Previews gate (PIN simple, sin correo)
+    if (url.pathname === "/previews" || url.pathname.startsWith("/previews/")) {
+      const gated = await handlePreviewsGate(request, env, url);
+      if (gated) return gated;
+    }
+
     // Publisher API
     if (url.pathname.startsWith("/publisher/api/")) {
       return handleApi(request, env, ctx);
@@ -140,6 +146,122 @@ async function getSession(request, env) {
     "SELECT token, created_at, expires_at, label FROM sessions WHERE token = ? AND expires_at > ?"
   ).bind(token, new Date().toISOString()).first();
   return row || null;
+}
+
+// ============================================================================
+// Previews gate — PIN compartido, cookie firmada stateless (sin DB)
+// ============================================================================
+
+const PREVIEWS_COOKIE = "dg-previews-session";
+
+function bufToHex(buf) {
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function htmlEscape(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+// Token = HMAC-SHA256(PREVIEWS_PIN, "dg-previews-v1"). No adivinable sin el PIN;
+// rotar el PIN invalida cookies viejas automáticamente.
+async function previewsToken(env) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw", enc.encode(env.PREVIEWS_PIN || ""), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode("dg-previews-v1"));
+  return bufToHex(sig);
+}
+
+// Solo rutas internas dentro de /previews; nunca el propio __gate.
+function safeNext(raw) {
+  if (!raw) return "/previews/";
+  try {
+    const dec = decodeURIComponent(String(raw));
+    if (dec.startsWith("/previews/__gate")) return "/previews/";
+    if (dec.startsWith("/previews") && !dec.startsWith("//")) return dec;
+  } catch (_) { /* noop */ }
+  return "/previews/";
+}
+
+async function handlePreviewsGate(request, env, url) {
+  // Sin PIN configurado: no gatear (fail-open evita lockout accidental).
+  if (!env.PREVIEWS_PIN) return null;
+
+  const expected = await previewsToken(env);
+  const ttlDays = parseInt(env.SESSION_TTL_DAYS || "30", 10);
+
+  // Submit del formulario de PIN.
+  if (request.method === "POST" && url.pathname === "/previews/__gate") {
+    const form = await request.formData().catch(() => null);
+    const pin = form ? String(form.get("pin") || "") : "";
+    const next = safeNext(form ? form.get("next") : "/previews/");
+    if (pin && pin === env.PREVIEWS_PIN) {
+      return new Response(null, {
+        status: 303,
+        headers: {
+          "Location": next,
+          "Set-Cookie": `${PREVIEWS_COOKIE}=${expected}; Path=/previews; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttlDays * 86400}`,
+        },
+      });
+    }
+    return previewsLoginPage(next, true);
+  }
+
+  // Resto: verificar cookie.
+  const cookie = request.headers.get("Cookie") || "";
+  const m = cookie.match(new RegExp(`${PREVIEWS_COOKIE}=([a-f0-9]+)`));
+  if (m && m[1] === expected) return null; // autenticado → seguir a ASSETS
+
+  // No autenticado → mostrar login.
+  return previewsLoginPage(safeNext(url.pathname + url.search), false);
+}
+
+function previewsLoginPage(next, error) {
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Avances · The Daily Grind</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;500&family=Syne:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:#0e1e56;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .gate{width:100%;max-width:360px;text-align:center}
+    .gate img{height:52px;width:auto;margin-bottom:32px}
+    .gate h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px}
+    .gate p{font-size:14px;font-weight:300;color:#a6d9f8;margin-bottom:26px;line-height:1.6}
+    .gate input[type=password]{width:100%;border:1.5px solid rgba(255,255,255,.18);background:#0b1845;color:#fff;border-radius:10px;padding:14px 16px;font-size:18px;font-family:'DM Sans',sans-serif;text-align:center;letter-spacing:.3em;outline:none;margin-bottom:14px}
+    .gate input[type=password]:focus{border-color:#51b5f2}
+    .gate button{width:100%;border:none;border-radius:10px;padding:14px;background:#51b5f2;color:#0e1e56;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
+    .gate button:hover{background:#a6d9f8}
+    .err{color:#ff8a9b;font-size:13px;margin-bottom:14px;min-height:18px}
+  </style>
+</head>
+<body>
+  <form class="gate" method="POST" action="/previews/__gate">
+    <img src="/LogoTDG.svg" alt="The Daily Grind">
+    <h1>Avances de la casa</h1>
+    <p>Esto todavía está en el horno. Ingresa el PIN para ver lo que viene.</p>
+    <div class="err">${error ? "PIN incorrecto. Intenta de nuevo." : ""}</div>
+    <input type="password" name="pin" inputmode="numeric" autocomplete="off" placeholder="••••" autofocus>
+    <input type="hidden" name="next" value="${htmlEscape(next)}">
+    <button type="submit">Entrar</button>
+  </form>
+</body>
+</html>`;
+  return new Response(html, {
+    status: error ? 401 : 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "X-Robots-Tag": "noindex, nofollow",
+      "Cache-Control": "no-store",
+    },
+  });
 }
 
 // ============================================================================

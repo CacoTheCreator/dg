@@ -8,6 +8,9 @@ directory = "."
 binding = "ASSETS"
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
+# El Worker corre antes de servir assets para poder gatear /previews con PIN.
+# El gate solo actúa en /previews/*; el resto cae a env.ASSETS.fetch igual que antes.
+run_worker_first = true
 
 # Las rutas /laconsola/* siguen siendo manejadas por el Worker
 # dailygrind-laconsola (más específicas, ganan por match más-específico).
