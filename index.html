@@ -52,19 +52,79 @@
     ───────────────────────────────────── */
     .header {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      padding: 18px 24px;
+      padding: 13px 24px;
       background-color: var(--navy);
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
-    .header img {
-      height: 48px;
-      width: auto;
+    .nav-logo-link { display: flex; align-items: center; flex-shrink: 0; }
+    .nav-logo { height: 40px; width: auto; display: block; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
     }
+
+    .nav-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--sky); }
+
+    .nav-cta {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+      background-color: var(--sky);
+      padding: 9px 20px;
+      border-radius: 7px;
+      text-decoration: none;
+      transition: background-color 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background-color: var(--sky-lt); transform: translateY(-1px); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      margin: 0 auto;
+      background-color: var(--white);
+      border-radius: 2px;
+      transition: transform 0.28s ease, opacity 0.2s ease;
+    }
+    .header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+    .header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* anchor offset under sticky nav */
+    html { scroll-padding-top: 72px; }
+    #volumes, #mundos, #form { scroll-margin-top: 72px; }
 
     /* ─────────────────────────────────────
        HERO
@@ -317,6 +377,87 @@
       opacity: 1;
       transform: translate(3px, -3px);
     }
+
+    /* ─────────────────────────────────────
+       MUNDOS VIVOS
+    ───────────────────────────────────── */
+    .mundos {
+      background-color: var(--cream);
+      padding: 96px 24px;
+      text-align: center;
+    }
+    .mundos-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.05;
+    }
+    .mundos-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      max-width: 420px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+    .mundos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .mundo-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      background-color: var(--navy);
+      border-radius: 14px;
+      padding: 40px 34px;
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .mundo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 40px rgba(14,30,86,0.22);
+    }
+    .mundo-kicker {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 16px;
+    }
+    .mundo-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 14px;
+    }
+    .mundo-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+    .mundo-go {
+      margin-top: auto;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--sky);
+      letter-spacing: 0.02em;
+      font-variant-emoji: text;
+    }
+    .mundo-card:hover .mundo-go { color: var(--sky-lt); }
 
     /* ─────────────────────────────────────
        COMIC
@@ -934,6 +1075,38 @@
        RESPONSIVE
     ───────────────────────────────────── */
     @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 6px 0 10px;
+        background-color: var(--navy-2);
+        border-top: 1px solid rgba(81,181,242,0.16);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.32s ease;
+      }
+      .header.nav-open .nav-links { max-height: 360px; }
+      .nav-link {
+        padding: 14px 24px;
+        font-size: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .nav-cta {
+        margin: 12px 24px 4px;
+        text-align: center;
+        padding: 13px 20px;
+        font-size: 14px;
+      }
+
+      .mundos-grid { grid-template-columns: 1fr; gap: 14px; }
+
       .product-inner {
         grid-template-columns: 1fr;
         gap: 56px 0;
@@ -972,6 +1145,8 @@
       }
       .comic-coming { padding: 0 20px; }
 
+      .mundos { padding: 64px 20px; }
+      .mundo-card { padding: 32px 26px; }
       .product { padding: 64px 20px; }
       .ambiente { padding: 64px 20px; }
       .ambiente-grid { grid-template-columns: 1fr; }
@@ -989,9 +1164,17 @@
     <div id="loader-track"></div>
   </div>
 
-  <!-- ── HEADER ── -->
+  <!-- ── HEADER / NAV ── -->
   <header class="header">
-    <img src="LogoTDG.svg" alt="The Daily Grind">
+    <a href="/" class="nav-logo-link"><img src="LogoTDG.svg" alt="The Daily Grind" class="nav-logo"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#volumes" class="nav-link">La historia</a>
+      <a href="#mundos" class="nav-link">Mundos</a>
+      <a href="#form" class="nav-cta">Únete</a>
+    </nav>
   </header>
 
   <!-- ── HERO ── -->
@@ -1014,7 +1197,7 @@
   </section>
 
   <!-- ── VOLUMES ── -->
-  <section class="volumes">
+  <section class="volumes" id="volumes">
     <span class="section-label reveal">La historia</span>
     <h2 class="volumes-title reveal">Una historia que se despliega en volúmenes.</h2>
     <div class="volumes-grid">
@@ -1032,6 +1215,27 @@
         <p class="volume-num">Vol. 4</p>
         <p class="volume-name">La cafetería</p>
         <p class="volume-desc">Arte y gastronomía en un espacio que existe porque debe existir. Y la camisa que lo sella.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── MUNDOS VIVOS ── -->
+  <section class="mundos" id="mundos">
+    <span class="section-label dark reveal">Dentro del Vol. 4</span>
+    <h2 class="mundos-title reveal">Mundos para hacer buena la espera.</h2>
+    <p class="mundos-sub reveal">El café es el lugar. Adentro siempre pasa algo.</p>
+    <div class="mundos-grid">
+      <a href="/laconsola/" class="mundo-card reveal reveal-delay-1">
+        <span class="mundo-kicker">La Consola</span>
+        <h3 class="mundo-name">Juega mientras esperas tu café.</h3>
+        <p class="mundo-desc">La pequeña arcade de la casa. Snake, latte art y más, con el grano de protagonista. Pensada para esos minutos entre que pides y te llaman.</p>
+        <span class="mundo-go">Entrar a La Consola ↗&#xFE0E;</span>
+      </a>
+      <a href="#form" class="mundo-card reveal reveal-delay-2">
+        <span class="mundo-kicker">Eldiez · DailyBack</span>
+        <h3 class="mundo-name">Cada café cuenta.</h3>
+        <p class="mundo-desc">El programa de la casa. Juntas sellos hasta llegar al diez y el café de la casa va por nosotros. Tu tarjeta vive en el teléfono, sin plástico que se pierda.</p>
+        <span class="mundo-go">Sacar mi tarjeta ↗&#xFE0E;</span>
       </a>
     </div>
   </section>
@@ -1208,6 +1412,24 @@
       loader.classList.add('hidden');
       loader.addEventListener('transitionend', () => loader.remove(), { once: true });
     });
+
+    // ── Nav: mobile toggle ──
+    (function () {
+      const header = document.querySelector('.header');
+      const toggle = document.getElementById('navToggle');
+      const links  = document.getElementById('navLinks');
+      if (!header || !toggle || !links) return;
+      toggle.addEventListener('click', () => {
+        const open = header.classList.toggle('nav-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      });
+      links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        header.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Abrir menú');
+      }));
+    })();
 
     // ── Hero video fade-in ──
     const heroVideo = document.querySelector('.hero-video');
