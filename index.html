@@ -378,6 +378,47 @@
       transform: translate(3px, -3px);
     }
 
+    .volume-img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      background-color: var(--cream);
+    }
+
+    /* ─────────────────────────────────────
+       SCENE BAND (ilustración de escena)
+    ───────────────────────────────────── */
+    .scene-band {
+      position: relative;
+      background-color: var(--cream);
+      overflow: hidden;
+    }
+    .scene-band img {
+      display: block;
+      width: 100%;
+      max-height: 540px;
+      object-fit: cover;
+      object-position: right center;
+    }
+    .scene-copy {
+      position: absolute;
+      top: 50%;
+      left: clamp(24px, 7vw, 104px);
+      transform: translateY(-50%);
+      max-width: 340px;
+    }
+    .scene-copy .section-label { color: var(--sky); }
+    .scene-copy h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.05;
+    }
+
     /* ─────────────────────────────────────
        MUNDOS VIVOS
     ───────────────────────────────────── */
@@ -1323,6 +1364,10 @@
       .volumes-grid { grid-template-columns: 1fr; }
       .volume-item { text-align: left; padding: 28px 20px; }
       .volume-item.volume-link::after { top: 20px; right: 20px; font-size: 16px; }
+      .volume-img { aspect-ratio: 16 / 10; }
+      .scene-band img { max-height: 300px; object-position: 70% center; }
+      .scene-copy { position: static; transform: none; max-width: none; padding: 28px 20px 34px; background-color: var(--cream); }
+      .scene-copy h2 { font-size: 26px; }
 
       .comic { padding: 64px 0 56px; }
       .comic-head { padding: 0 20px; }
@@ -1401,16 +1446,19 @@
     <h2 class="volumes-title reveal">Una historia que se despliega en volúmenes.</h2>
     <div class="volumes-grid">
       <div class="volume-item reveal reveal-delay-1">
+        <img class="volume-img" src="img/ilustraciones/vol1-musica.jpg" alt="Ilustración de un vinilo y un micrófono" loading="lazy">
         <p class="volume-num">Vol. 1</p>
         <p class="volume-name">Música</p>
         <p class="volume-desc">Un álbum que instaló el nombre y el espíritu antes de que hubiera un espacio físico.</p>
       </div>
       <div class="volume-item reveal reveal-delay-2">
+        <img class="volume-img" src="img/ilustraciones/vol23-moda.jpg" alt="Ilustración de una polera doblada con un gorro" loading="lazy">
         <p class="volume-num">Vol. 2 &amp; 3</p>
         <p class="volume-name">Moda</p>
         <p class="volume-desc">Poleras con estética cuidada. La marca dejó de ser solo sonido y se volvió algo que se usa.</p>
       </div>
       <a href="/menu" class="volume-item volume-link active reveal reveal-delay-3">
+        <img class="volume-img" src="img/ilustraciones/vol4-cafe.jpg" alt="Ilustración de una taza de café y una camisa doblada" loading="lazy">
         <p class="volume-num">Vol. 4</p>
         <p class="volume-name">La cafetería</p>
         <p class="volume-desc">Arte y gastronomía en un espacio que existe porque debe existir. Y la camisa que lo sella.</p>
@@ -1436,6 +1484,15 @@
         <p class="mundo-desc">El programa de la casa. Juntas sellos hasta llegar al diez y el café de la casa va por nosotros. Tu tarjeta vive en el teléfono, sin plástico que se pierda.</p>
         <span class="mundo-go">Sacar mi tarjeta ↗&#xFE0E;</span>
       </a>
+    </div>
+  </section>
+
+  <!-- ── SCENE BAND ── -->
+  <section class="scene-band">
+    <img src="img/ilustraciones/cafe-universidad.jpg" alt="Ilustración de la cafetería con estudiantes" loading="lazy">
+    <div class="scene-copy reveal">
+      <span class="section-label">El lugar</span>
+      <h2>El desayuno, vuelto escenario.</h2>
     </div>
   </section>
 
