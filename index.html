@@ -403,12 +403,36 @@
       object-fit: cover;
       object-position: right center;
     }
+    /* Puente de color: arriba funde con el crema de Mundos, abajo con el navy de Eventos */
+    .scene-band::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      right: 0;
+      height: 130px;
+      background: linear-gradient(to bottom, var(--cream) 0%, rgba(249,243,236,0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .scene-band::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 170px;
+      background: linear-gradient(to top, var(--navy) 0%, rgba(14,30,86,0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
     .scene-copy {
       position: absolute;
       top: 50%;
       left: clamp(24px, 7vw, 104px);
       transform: translateY(-50%);
       max-width: 340px;
+      z-index: 2;
     }
     .scene-copy .section-label { color: var(--sky); }
     .scene-copy h2 {
