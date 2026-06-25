@@ -130,50 +130,39 @@
        HERO
     ───────────────────────────────────── */
     .hero {
-      background-color: var(--navy);
-      color: var(--white);
-      padding: 96px 24px 112px;
       position: relative;
+      background-color: var(--cream);
       overflow: hidden;
-      min-height: 600px;
+      min-height: 560px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    .hero-video {
+    .hero-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: right center;
       z-index: 0;
-      opacity: 0;
-      transition: opacity 1.2s ease;
     }
 
-    .hero-video.playing { opacity: 1; }
-
-    .hero-overlay {
+    /* Velo crema a la izquierda para que el texto siempre respire sobre la ilustración */
+    .hero::before {
+      content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(11,24,69,0.82) 0%,
-        rgba(11,24,69,0.68) 50%,
-        rgba(11,24,69,0.88) 100%
-      );
       z-index: 1;
+      background: linear-gradient(to right, var(--cream) 0%, rgba(249,243,236,0.86) 32%, rgba(249,243,236,0) 62%);
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+      max-width: 460px;
+      margin-left: clamp(24px, 7vw, 104px);
+      text-align: left;
     }
 
     .hero-label {
@@ -183,16 +172,18 @@
       font-weight: 500;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--sky);
-      margin-bottom: 20px;
+      color: var(--navy);
+      opacity: 0.55;
+      margin-bottom: 18px;
     }
 
     .hero h1 {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(42px, 7vw, 76px);
+      font-size: clamp(40px, 6.5vw, 70px);
       font-weight: 700;
-      line-height: 1.03;
-      margin-bottom: 22px;
+      color: var(--navy);
+      line-height: 1.02;
+      margin-bottom: 20px;
     }
 
     .hero h1 em {
@@ -203,64 +194,79 @@
     .hero-desc {
       font-size: 17px;
       font-weight: 300;
-      color: var(--sky-lt);
-      max-width: 400px;
-      margin: 0 auto 40px;
-      line-height: 1.7;
+      color: var(--dark);
+      max-width: 380px;
+      margin-bottom: 34px;
+      line-height: 1.65;
     }
 
     .hero-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background-color: var(--sky);
-      color: var(--navy);
+      background-color: var(--navy);
+      color: var(--white);
       font-family: 'Syne', sans-serif;
       font-size: 15px;
       font-weight: 700;
-      padding: 15px 36px;
+      padding: 15px 34px;
       border-radius: 8px;
       text-decoration: none;
-      margin-bottom: 56px;
       transition: background-color 0.2s, transform 0.15s;
       letter-spacing: 0.01em;
       font-variant-emoji: text;
     }
 
     .hero-cta:hover {
-      background-color: var(--sky-lt);
+      background-color: var(--navy-2);
       transform: translateY(-2px);
     }
 
-    .perks {
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
+    /* ─────────────────────────────────────
+       CAMISA VOL.04 (drop low-key, al final)
+    ───────────────────────────────────── */
+    .camisa {
+      background-color: var(--navy-2);
+      padding: 72px 24px;
+      text-align: center;
     }
-
-    .perk {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
+    .camisa-kicker {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
       font-weight: 500;
-      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      opacity: 0.7;
+      margin-bottom: 14px;
     }
-
-    .perk-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background-color: var(--sky);
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
+    .camisa-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3vw, 30px);
       font-weight: 700;
-      flex-shrink: 0;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 12px;
     }
+    .camisa-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      opacity: 0.85;
+      max-width: 430px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+    .camisa-link {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--sky);
+      text-decoration: none;
+      font-variant-emoji: text;
+    }
+    .camisa-link:hover { color: var(--sky-lt); }
 
     /* ─────────────────────────────────────
        SHARED LABELS & UTILITIES
@@ -1383,15 +1389,17 @@
     }
 
     @media (max-width: 480px) {
-      .hero { padding: 72px 20px 88px; min-height: 520px; }
+      .hero { min-height: 440px; }
+      .hero::before { background: linear-gradient(to right, var(--cream) 0%, rgba(249,243,236,0.92) 55%, rgba(249,243,236,0.3) 100%); }
+      .hero-content { margin-left: 20px; margin-right: 20px; max-width: none; }
+      .hero h1 { font-size: 38px; }
+      .hero-desc { font-size: 15px; max-width: none; }
+      .camisa { padding: 56px 20px; }
       .volumes { padding: 64px 20px; }
       .volumes-grid { grid-template-columns: 1fr; }
       .volume-item { text-align: left; padding: 28px 20px; }
       .volume-item.volume-link::after { top: 20px; right: 20px; font-size: 16px; }
       .volume-img { aspect-ratio: 16 / 10; }
-      .scene-band img { max-height: 300px; object-position: 70% center; }
-      .scene-copy { position: static; transform: none; max-width: none; padding: 28px 20px 34px; background-color: var(--cream); }
-      .scene-copy h2 { font-size: 26px; }
 
       .comic { padding: 64px 0 56px; }
       .comic-head { padding: 0 20px; }
@@ -1447,20 +1455,12 @@
 
   <!-- ── HERO ── -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto">
-      <source src="img/hero-video.mp4" type="video/mp4">
-    </video>
-    <div class="hero-overlay"></div>
+    <img class="hero-img" src="img/ilustraciones/cafe-universidad.jpg" alt="La cafetería con gente entre clases" fetchpriority="high">
     <div class="hero-content">
-      <span class="hero-label">Vol. 4 — Ya está aquí</span>
+      <span class="hero-label">Vol. 4 — La cafetería, abierta</span>
       <h1>Mismo ritual.<br><em>Otro nivel.</em></h1>
-      <p class="hero-desc">El café abrió. La camisa viene.<br>Registrate para ser de los primeros.</p>
-      <a href="#form" class="hero-cta">Quiero estar adentro →&#xFE0E;</a>
-      <div class="perks">
-        <div class="perk"><div class="perk-icon"></div><span>La camisa Vol. 4</span></div>
-        <div class="perk"><div class="perk-icon"></div><span>Early access al drop</span></div>
-        <div class="perk"><div class="perk-icon"></div><span>Tu lugar en la lista</span></div>
-      </div>
+      <p class="hero-desc">El café abrió. Llegas, te sientas y la mañana se vuelve otra cosa.</p>
+      <a href="#form" class="hero-cta">Saca tu tarjeta de la casa →&#xFE0E;</a>
     </div>
   </section>
 
@@ -1508,15 +1508,6 @@
         <p class="mundo-desc">El programa de la casa. Juntas sellos hasta llegar al diez y el café de la casa va por nosotros. Tu tarjeta vive en el teléfono, sin plástico que se pierda.</p>
         <span class="mundo-go">Sacar mi tarjeta ↗&#xFE0E;</span>
       </a>
-    </div>
-  </section>
-
-  <!-- ── SCENE BAND ── -->
-  <section class="scene-band">
-    <img src="img/ilustraciones/cafe-universidad.jpg" alt="Ilustración de la cafetería con estudiantes" loading="lazy">
-    <div class="scene-copy reveal">
-      <span class="section-label">El lugar</span>
-      <h2>El desayuno, vuelto escenario.</h2>
     </div>
   </section>
 
@@ -1638,9 +1629,9 @@
 
   <!-- ── FORM ── -->
   <div class="form-section" id="form">
-    <span class="section-label dark">El drop</span>
-    <h2 class="form-section-title">Registrate una sola vez.</h2>
-    <p class="form-section-sub">Cuando salga la camisa, sos el primero en saber.</p>
+    <span class="section-label dark">La casa</span>
+    <h2 class="form-section-title">Hazte de la casa.</h2>
+    <p class="form-section-sub">Tu tarjeta vive en el teléfono. Cada café cuenta y el de la casa va llegando.</p>
 
     <div class="form-card">
       <h3 class="form-title">Tus datos</h3>
@@ -1736,6 +1727,14 @@
     </div>
   </section>
 
+  <!-- ── CAMISA VOL.04 (drop · en camino, low-key) ── -->
+  <section class="camisa">
+    <span class="camisa-kicker">El drop · Vol.04</span>
+    <h2 class="camisa-title">La camisa, sin apuro.</h2>
+    <p class="camisa-desc">La estamos terminando con calma — hasta las etiquetas, que las queremos ricas. Cuando salga, los de la casa son los primeros en saber.</p>
+    <a href="#form" class="camisa-link">Avísame cuando salga →&#xFE0E;</a>
+  </section>
+
   <!-- ── FOOTER ── -->
   <footer class="footer">
     <img src="LogoTDG.svg" alt="The Daily Grind" class="footer-logo">
@@ -1770,10 +1769,6 @@
         toggle.setAttribute('aria-label', 'Abrir menú');
       }));
     })();
-
-    // ── Hero video fade-in ──
-    const heroVideo = document.querySelector('.hero-video');
-    heroVideo.addEventListener('canplay', () => heroVideo.classList.add('playing'), { once: true });
 
     // ── Días ──
     const diaSelect = document.getElementById('cumple-dia');
