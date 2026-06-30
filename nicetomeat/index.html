@@ -59,8 +59,20 @@
   .hero__title .cross{color:var(--pistacho);font-weight:700}
   .hero__lead{margin-top:24px;font-weight:300;font-size:clamp(16px,2.4vw,19px);line-height:1.6;color:var(--sky-lt);max-width:640px}
   .hero__lead strong{font-weight:500;color:var(--cream)}
+  .hero__strip{margin-top:30px;border-radius:12px;overflow:hidden;position:relative;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+  .hero__strip img{display:block;width:100%;height:auto}
+  .hero__strip .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 18px 12px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cream);background:linear-gradient(0deg,rgba(11,24,69,.85),rgba(11,24,69,0));margin:0}
 
-  section.block{margin-bottom:56px}
+  section.block{margin-bottom:56px;position:relative}
+  .kanji-mark{position:absolute;top:-26px;right:-6px;font-family:var(--display);font-weight:800;font-size:clamp(90px,16vw,168px);line-height:1;color:rgba(81,181,242,.07);pointer-events:none;z-index:0;user-select:none}
+  section.block > *:not(.kanji-mark){position:relative;z-index:1}
+
+  /* cierre */
+  .cta{margin-top:60px;border:1px solid rgba(196,216,112,.3);border-radius:14px;padding:44px 36px;text-align:center;background:linear-gradient(180deg,rgba(196,216,112,.06),rgba(81,181,242,.04))}
+  .cta h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,5.4vw,46px);line-height:1.02;letter-spacing:-.01em;margin-bottom:14px}
+  .cta h2 .cross{color:var(--pistacho)}
+  .cta p{font-weight:300;font-size:16px;line-height:1.6;color:var(--sky-lt);max-width:520px;margin:0 auto 8px}
+  .cta .jp{display:block;margin-top:18px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(196,216,112,.7)}
   .kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--pistacho);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px}
   .kicker .num{color:var(--sky);font-family:var(--display);font-weight:700}
   h2.h{font-family:var(--display);font-weight:700;font-size:clamp(24px,4.4vw,36px);line-height:1.08;letter-spacing:-.01em;margin-bottom:20px}
@@ -119,6 +131,26 @@
   .sw__hex{display:block;font-size:10px;letter-spacing:.12em;color:#6C757D;margin-top:6px;text-transform:uppercase}
   .sw.signature .sw__c{box-shadow:inset 0 0 0 1px rgba(14,30,86,.08), 0 0 0 3px var(--pistacho) inset}
   .sw.signature .sw__name::after{content:" ■";color:var(--pistacho);font-size:11px;vertical-align:middle}
+  .swatches.mini{grid-template-columns:repeat(2,1fr)}
+  @media(min-width:680px){.swatches.mini{grid-template-columns:repeat(4,1fr)}}
+  .swatches.mini .sw__c{height:94px}
+  .swatches.mini .sw__b{padding:10px 12px 13px}
+  .swatches.mini .sw__name{font-size:15px}
+  .swatches.mini .sw__code{font-size:11px;margin-bottom:2px}
+  .swatches.mini .sw__hex{margin-top:4px}
+
+  /* el acuerdo */
+  .deal{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+  @media(min-width:680px){.deal{grid-template-columns:repeat(3,1fr)}}
+  .deal__item{border:1px solid rgba(196,216,112,.28);border-radius:12px;padding:26px 22px;background:linear-gradient(180deg,rgba(196,216,112,.07),rgba(196,216,112,0) 72%)}
+  .deal__fig{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vw,50px);line-height:1;color:var(--pistacho)}
+  .deal__lab{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);font-weight:500;margin:12px 0 8px}
+  .deal__txt{font-size:14px;font-weight:300;line-height:1.5;color:rgba(249,243,236,.85)}
+
+  /* proof timeline (track record) */
+  .proof{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
+  @media(min-width:680px){.proof{grid-template-columns:1fr 1fr}}
+  .proof .card .when{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--pistacho);font-weight:500;margin-bottom:6px}
 
   /* pasos */
   .steps{counter-reset:s;list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:16px}
@@ -159,48 +191,102 @@
       <p class="hero__eyebrow">Propuesta de colaboración · Vol. 4 Café</p>
       <h1 class="hero__title">Nice To Meat <span class="cross">✕</span> The Daily Grind</h1>
       <p class="hero__lead">The Daily Grind sale del campus y llega a Santiago. Buscamos una <strong>tercera casa</strong> en Providencia, y queremos que sea la de ustedes: una casa de fuego que en la mañana se abre al café y al arte. Una marca, otra marca, un mismo techo.</p>
+      <div class="hero__strip">
+        <img src="/nicetomeat/assets/hero-trio.jpg" alt="Afiches del universo Daily Grind con kanji 開 朝 旬">
+        <p class="cap">Abrir · Mañana · En su punto — 開 朝 旬</p>
+      </div>
     </section>
 
     <section class="block">
+      <span class="kanji-mark" aria-hidden="true">家</span>
       <div class="kicker"><span class="num">01</span> Qué es esto</div>
-      <h2 class="h">Dos casas, una mañana <em>compartida</em></h2>
-      <p class="body">The Daily Grind es una cafetería que convierte el desayuno en escenario para el arte. Nació de dos artistas y se despliega en volúmenes: música, prendas, y ahora el <strong>Vol. 4</strong>, la cafetería. Su primera casa fue Maitencillo en verano; la segunda, la UAI. La tercera es el salto a Santiago urbano.</p>
-      <p class="body">Nice To Meat ya tiene un público, un espacio con carácter y una reputación construida con la comida. La idea es simple: en la mañana, ese espacio se transforma en una casa de café y arte, <strong>sin perder su identidad</strong>. Ustedes reciben; nosotros traemos la propuesta del Vol. 4. Las dos marcas en plano de igual peso.</p>
+      <h2 class="h">Lo dulce que le falta a la <em>mesa salada</em></h2>
+      <p class="body">Nice To Meat lo tiene resuelto por el lado salado: las smash son lo que son. Lo que proponemos es sumar el <strong>lado dulce</strong> de la mano de The Daily Grind — helado, soft serve y postres que cierran la experiencia y le dan una razón más para volver.</p>
+      <p class="body">The Daily Grind es café, helado y arte. Se despliega en volúmenes y ya viene operando: nació en la costa, creció en la universidad, y ahora da el salto a Santiago urbano. Providencia, dentro de Nice To Meat, es la <strong>tercera casa</strong>. Ustedes reciben; nosotros traemos la oferta dulce y el flujo.</p>
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">02</span> El intercambio</div>
-      <h2 class="h">Qué pone cada uno sobre la mesa</h2>
-      <div class="swap">
-        <div class="card ntm">
-          <h3>Nice To Meat</h3>
-          <div class="who">La casa que recibe</div>
+      <span class="kanji-mark" aria-hidden="true">試</span>
+      <div class="kicker"><span class="num">02</span> Ya lo probamos</div>
+      <h2 class="h">Esto no es humo: <em>ya operamos</em></h2>
+      <p class="body">Antes de Providencia hubo dos casas reales. No partimos de cero — partimos de datos.</p>
+      <div class="proof">
+        <div class="card">
+          <span class="when">Verano 2025 – 2026 · costa</span>
+          <h3>Primera casa · Maitencillo</h3>
+          <div class="who">Piloto físico estacional</div>
           <ul>
-            <li>Un espacio físico con carácter en Providencia</li>
-            <li>Foot-traffic y ubicación urbana consolidada</li>
-            <li>Una audiencia gastronómica ya fidelizada</li>
-            <li>Crédito y respaldo al cruce arte + comida</li>
+            <li>Público veraneante y alta rotación</li>
+            <li>Validó el modelo de helado + café + arte</li>
+            <li>Primeros números reales de la operación</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>The Daily Grind</h3>
-          <div class="who">Lo que llega en la mañana</div>
+        <div class="card ntm">
+          <span class="when">Marzo 2026 · campus</span>
+          <h3>Segunda casa · UAI</h3>
+          <div class="who">Operación diaria</div>
           <ul>
-            <li>La propuesta de café y desayuno de autor del Vol. 4</li>
-            <li>Una comunidad creativa joven y activa</li>
-            <li>Producción de contenido y activación en redes</li>
-            <li>Drops de marca (la Camisa) y experiencias de arte</li>
+            <li>Frecuencia de visita alta, público cautivo</li>
+            <li>Programa de fidelización andando</li>
+            <li>Captura de base de datos y comunidad</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <span class="kanji-mark" aria-hidden="true">約</span>
+      <div class="kicker"><span class="num">03</span> El acuerdo</div>
+      <h2 class="h">Simple, y pensado para que <em>los dos ganen</em></h2>
+      <p class="body">Nada raro, nada amarrado. Daily Grind opera la oferta dulce dentro de Nice To Meat y el trato se sostiene solo si genera flujo para ambos.</p>
+      <div class="deal">
+        <div class="deal__item">
+          <div class="deal__fig">20%</div>
+          <div class="deal__lab">Para Nice To Meat</div>
+          <div class="deal__txt">De las ventas de Daily Grind, por el uso del espacio. Ustedes ponen la casa; nosotros la activamos.</div>
+        </div>
+        <div class="deal__item">
+          <div class="deal__fig">3 meses</div>
+          <div class="deal__lab">Y evaluamos</div>
+          <div class="deal__txt">Una primera ventana para ver cómo se comporta. A los tres meses nos sentamos a mirar los números y seguir.</div>
+        </div>
+        <div class="deal__item">
+          <div class="deal__fig">Flujo</div>
+          <div class="deal__lab">El objetivo real</div>
+          <div class="deal__txt">Más gente entrando, más razones para volver. Que el dulce traiga gente al salado y al revés.</div>
         </div>
       </div>
       <div class="together">
-        <div class="who">Lo que se cocina juntos</div>
-        <p>Una casa que de día respira café, arte y los que crean, y que de noche sigue siendo <strong>Nice To Meat</strong>. Mismo techo, dos públicos que se cruzan y se suman. La señal para Santiago es clara: el Vol. 4 está abierto a la ciudad.</p>
+        <div class="who">La idea de fondo</div>
+        <p>Que esto sea el comienzo de una <strong>relación larga</strong>, no una activación suelta. Si funciona como creemos, seguimos creciendo juntos después de los primeros tres meses.</p>
       </div>
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">03</span> La activación en redes</div>
+      <span class="kanji-mark" aria-hidden="true">甘</span>
+      <div class="kicker"><span class="num">04</span> La oferta dulce</div>
+      <h2 class="h">Una carta dulce que <em>acompaña las smash</em></h2>
+      <p class="body">Entramos con el <strong>soft serve de pistacho</strong> — el sello de la casa — y los <strong>helados de la carta Pantone</strong>: doce sabores tratados como una colección de color. Después suman los <strong>postres</strong>, para cerrar con todo. Cada sabor es un color de autor; la carta es también una paleta.</p>
+      <div class="swatches mini">
+        <div class="sw signature" style="--c:#c4d870"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">El sello</span><span class="sw__code">DG · 8W7</span><span class="sw__name">Pistacho</span><span class="sw__hex">#C4D870</span></div></div>
+        <div class="sw" style="--c:#5d3b8e"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 02</span><span class="sw__name">Açaí</span><span class="sw__hex">#5D3B8E</span></div></div>
+        <div class="sw" style="--c:#7a5234"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 03</span><span class="sw__name">Café de la casa</span><span class="sw__hex">#7A5234</span></div></div>
+        <div class="sw" style="--c:#f0e6c8"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 04</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#e89bb0"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 05</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#f2b35c"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 06</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#a8d5b5"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 07</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#d4456b"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 08</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#c98a5a"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 09</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#efe9df"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 10</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#b56cc9"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 11</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+        <div class="sw" style="--c:#3f7d6e"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 12</span><span class="sw__name">—</span><span class="sw__hex">de la carta</span></div></div>
+      </div>
+      <p class="note">La carta completa son <strong>12 sabores</strong>. Aquí van nombrados los de cabecera; el resto se rotula con la lista final de la casa.</p>
+    </section>
+
+    <section class="block">
+      <span class="kanji-mark" aria-hidden="true">発</span>
+      <div class="kicker"><span class="num">05</span> La activación en redes</div>
       <h2 class="h">Una grilla para anunciar la <em>tercera casa</em></h2>
       <p class="body">Preparamos una grilla de feed completa para el lanzamiento, con las dos marcas en plano de igual peso. Funciona pieza por pieza y también como un mosaico que se arma en el perfil. Todo en el universo visual del Vol. 4: ilustración editorial, café, la casa, la comunidad.</p>
       <div class="grilla-wrap">
@@ -225,22 +311,8 @@
           <p>Anuncio de apertura, convocatoria a la comunidad y a la audiencia de NTM. La tercera casa abre para Santiago.</p>
         </div>
       </div>
-    </section>
 
-    <section class="block">
-      <div class="kicker"><span class="num">04</span> El lado artista</div>
-      <h2 class="h">Los sabores son nuestra <em>paleta</em></h2>
-      <p class="body">En Daily Grind cada sabor es un color de autor. Tratamos la carta como una paleta: el <strong>pistacho es el sello de la casa</strong>, y alrededor se ordena el resto. Comida y arte hablan el mismo idioma — y eso es justo lo que se cruza bien con Nice To Meat.</p>
-      <div class="swatches">
-        <div class="sw signature" style="--c:#c4d870"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor · el sello</span><span class="sw__code">DG · 8W7</span><span class="sw__name">Pistacho</span><span class="sw__hex">#C4D870</span></div></div>
-        <div class="sw" style="--c:#5d3b8e"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 02</span><span class="sw__name">Açaí</span><span class="sw__hex">#5D3B8E</span></div></div>
-        <div class="sw" style="--c:#7a5234"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 03</span><span class="sw__name">Café de la casa</span><span class="sw__hex">#7A5234</span></div></div>
-        <div class="sw" style="--c:#f9f3ec"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 00</span><span class="sw__name">Crema mañana</span><span class="sw__hex">#F9F3EC</span></div></div>
-        <div class="sw" style="--c:#51b5f2"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 51</span><span class="sw__name">Azul eléctrico</span><span class="sw__hex">#51B5F2</span></div></div>
-        <div class="sw" style="--c:#0e1e56"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 14</span><span class="sw__name">Medianoche</span><span class="sw__hex">#0E1E56</span></div></div>
-      </div>
-
-      <p class="body" style="margin-top:34px">Y para encender la calle, una línea de afiches más fuerte: gráfica de alto contraste, energía de poster, y un kanji grande que marca el gesto. El mismo universo, subido de volumen.</p>
+      <p class="body" style="margin-top:34px">Y para encender la calle, una <strong>línea de afiches</strong> más fuerte: gráfica de alto contraste, energía de poster, y un kanji grande que marca el gesto. El mismo universo, subido de volumen.</p>
       <div class="posters">
         <img src="/nicetomeat/assets/posters/p1.jpg" alt="Afiche agresivo: fachada con kanji 開, abrir" loading="lazy">
         <img src="/nicetomeat/assets/posters/p2.jpg" alt="Afiche agresivo: café con kanji 朝, mañana" loading="lazy">
@@ -249,7 +321,8 @@
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">05</span> Las piezas</div>
+      <span class="kanji-mark" aria-hidden="true">列</span>
+      <div class="kicker"><span class="num">06</span> Las piezas</div>
       <h2 class="h">Cómo se ve el feed</h2>
       <p class="body">Nueve piezas, seis ilustraciones y tres tipográficas, pensadas para leerse solas y juntas. Esto es una primera ronda: el contenido, las fechas y los textos finales los afinamos con ustedes.</p>
       <div class="feed">
@@ -266,15 +339,22 @@
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">06</span> Próximos pasos</div>
+      <span class="kanji-mark" aria-hidden="true">次</span>
+      <div class="kicker"><span class="num">07</span> Próximos pasos</div>
       <h2 class="h">Cómo seguimos</h2>
       <ol class="steps">
         <li>Nos juntamos a <strong>conversar la colaboración</strong> y ver el espacio en la mañana.</li>
         <li>Definimos juntos <strong>fechas, horarios y layout</strong> de la operación matinal.</li>
-        <li>Acordamos el <strong>marco del acuerdo</strong> y cómo se comunican las dos marcas.</li>
+        <li>Cerramos el <strong>acuerdo</strong> (20% + ventana de 3 meses) y cómo se comunican las dos marcas.</li>
         <li>Coproducimos el contenido y <strong>encendemos la activación</strong> de lanzamiento.</li>
       </ol>
       <p class="note">Esta propuesta es un punto de partida para conversar. Las fechas de apertura, los horarios y los términos del acuerdo los definimos en conjunto — nada está cerrado todavía.</p>
+    </section>
+
+    <section class="cta">
+      <h2>Abramos la puerta <span class="cross">✕</span> juntos</h2>
+      <p>Si les hace sentido, nos juntamos esta semana y le damos forma. La mañana de Providencia los está esperando.</p>
+      <span class="jp">開 · 朝 · 旬</span>
     </section>
 
     <footer class="foot">
