@@ -102,6 +102,24 @@
   .feed{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
   .feed img{width:100%;height:auto;display:block;border-radius:4px}
 
+  /* posters agresivos */
+  .posters{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
+  @media(min-width:680px){.posters{grid-template-columns:repeat(3,1fr)}}
+  .posters img{width:100%;height:auto;display:block;border-radius:8px;border:1px solid rgba(166,217,248,.16)}
+
+  /* carta de color / sabores Pantone */
+  .swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+  @media(min-width:680px){.swatches{grid-template-columns:repeat(3,1fr)}}
+  .sw{border-radius:10px;overflow:hidden;background:var(--cream);box-shadow:0 10px 34px rgba(0,0,0,.28)}
+  .sw__c{display:block;height:150px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(14,30,86,.08)}
+  .sw__b{padding:13px 15px 16px;color:var(--navy)}
+  .sw__brand{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#6C757D;font-weight:500;margin-bottom:7px}
+  .sw__code{display:block;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.06em;color:var(--sky);margin-bottom:3px}
+  .sw__name{display:block;font-family:var(--display);font-weight:800;font-size:20px;line-height:1}
+  .sw__hex{display:block;font-size:10px;letter-spacing:.12em;color:#6C757D;margin-top:6px;text-transform:uppercase}
+  .sw.signature .sw__c{box-shadow:inset 0 0 0 1px rgba(14,30,86,.08), 0 0 0 3px var(--pistacho) inset}
+  .sw.signature .sw__name::after{content:" ■";color:var(--pistacho);font-size:11px;vertical-align:middle}
+
   /* pasos */
   .steps{counter-reset:s;list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:16px}
   .steps li{position:relative;padding-left:46px;font-size:15.5px;font-weight:300;line-height:1.5;color:rgba(249,243,236,.88);min-height:32px;display:flex;align-items:center}
@@ -210,7 +228,28 @@
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">04</span> Las piezas</div>
+      <div class="kicker"><span class="num">04</span> El lado artista</div>
+      <h2 class="h">Los sabores son nuestra <em>paleta</em></h2>
+      <p class="body">En Daily Grind cada sabor es un color de autor. Tratamos la carta como una paleta: el <strong>pistacho es el sello de la casa</strong>, y alrededor se ordena el resto. Comida y arte hablan el mismo idioma — y eso es justo lo que se cruza bien con Nice To Meat.</p>
+      <div class="swatches">
+        <div class="sw signature" style="--c:#c4d870"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor · el sello</span><span class="sw__code">DG · 8W7</span><span class="sw__name">Pistacho</span><span class="sw__hex">#C4D870</span></div></div>
+        <div class="sw" style="--c:#5d3b8e"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 02</span><span class="sw__name">Açaí</span><span class="sw__hex">#5D3B8E</span></div></div>
+        <div class="sw" style="--c:#7a5234"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Sabor</span><span class="sw__code">DG · 03</span><span class="sw__name">Café de la casa</span><span class="sw__hex">#7A5234</span></div></div>
+        <div class="sw" style="--c:#f9f3ec"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 00</span><span class="sw__name">Crema mañana</span><span class="sw__hex">#F9F3EC</span></div></div>
+        <div class="sw" style="--c:#51b5f2"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 51</span><span class="sw__name">Azul eléctrico</span><span class="sw__hex">#51B5F2</span></div></div>
+        <div class="sw" style="--c:#0e1e56"><span class="sw__c"></span><div class="sw__b"><span class="sw__brand">Color de la casa</span><span class="sw__code">DG · 14</span><span class="sw__name">Medianoche</span><span class="sw__hex">#0E1E56</span></div></div>
+      </div>
+
+      <p class="body" style="margin-top:34px">Y para encender la calle, una línea de afiches más fuerte: gráfica de alto contraste, energía de poster, y un kanji grande que marca el gesto. El mismo universo, subido de volumen.</p>
+      <div class="posters">
+        <img src="/nicetomeat/assets/posters/p1.jpg" alt="Afiche agresivo: fachada con kanji 開, abrir" loading="lazy">
+        <img src="/nicetomeat/assets/posters/p2.jpg" alt="Afiche agresivo: café con kanji 朝, mañana" loading="lazy">
+        <img src="/nicetomeat/assets/posters/p3.jpg" alt="Afiche agresivo: soft serve de pistacho con kanji 旬" loading="lazy">
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="kicker"><span class="num">05</span> Las piezas</div>
       <h2 class="h">Cómo se ve el feed</h2>
       <p class="body">Nueve piezas, seis ilustraciones y tres tipográficas, pensadas para leerse solas y juntas. Esto es una primera ronda: el contenido, las fechas y los textos finales los afinamos con ustedes.</p>
       <div class="feed">
@@ -227,7 +266,7 @@
     </section>
 
     <section class="block">
-      <div class="kicker"><span class="num">05</span> Próximos pasos</div>
+      <div class="kicker"><span class="num">06</span> Próximos pasos</div>
       <h2 class="h">Cómo seguimos</h2>
       <ol class="steps">
         <li>Nos juntamos a <strong>conversar la colaboración</strong> y ver el espacio en la mañana.</li>
