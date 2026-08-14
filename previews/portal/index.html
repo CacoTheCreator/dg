@@ -166,11 +166,12 @@
       color: var(--sky);
     }
     .hero p.bajada {
-      max-width: 460px;
+      max-width: 500px;
       margin: 22px auto 0;
       font-size: 15px;
       line-height: 1.65;
       color: rgba(249, 243, 236, 0.78);
+      text-wrap: balance;
       animation: sube 0.6s 0.16s ease both;
     }
     .start {
@@ -282,7 +283,8 @@
     canvas.paseo {
       display: block;
       width: 100%;
-      height: 92px;
+      height: 140px;
+      touch-action: manipulation;
     }
     .paseo-strip .pie {
       display: flex;
@@ -451,6 +453,7 @@
         ></canvas>
         <div class="pie">
           <span class="label label--casa">The Daily Grind · el arte en tu rutina</span>
+          <span class="label label--casa" id="runner-score">Salta con espacio · とぶ</span>
           <button id="cambia-personaje" type="button"></button>
         </div>
       </div>
@@ -520,9 +523,247 @@
         c.addEventListener("mouseenter", function () { marca(i); });
       });
 
-      // El personaje de la casa: paseo + signo ♂ celeste / ♀ morado
+      // El runner de la casa: el personaje pasea hasta que aprietas espacio
+      // y la franja se convierte en el juego de saltar tazas y granos.
       var paseo = document.getElementById("paseo");
-      if (paseo && window.Caco) window.Caco.pasea(paseo);
+      var marcador = document.getElementById("runner-score");
+      var HINT = "Salta con espacio · とぶ";
+
+      function initRunner(canvas) {
+        var OUT = "#0e1e56";
+        var CREAM = "#f9f3ec";
+        var SKY = "#51b5f2";
+        var GRANO = "#6f4e37";
+        var ctx = canvas.getContext("2d");
+        var W = 0, H = 0;
+
+        function fit() {
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          canvas.width = Math.max(1, rect.width * dpr);
+          canvas.height = Math.max(1, rect.height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          W = rect.width;
+          H = rect.height;
+        }
+        fit();
+        window.addEventListener("resize", fit);
+
+        var reduce = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        var mejor = 0;
+        try { mejor = parseInt(localStorage.getItem("portal.runner.best") || "0", 10) || 0; } catch (_) {}
+
+        var st = {
+          modo: "ambiente",   // ambiente | corre | choque
+          x: 60, dir: 1, t: 0, hasta: 0,
+          y: 0, vy: 0,        // salto (y <= 0 en el aire)
+          vel: 0, dist: 0,
+          obs: [], prox: 0,
+          chispas: [],
+        };
+
+        // Obstáculos en el idioma flat de la casa
+        function dTaza(c) {
+          c.beginPath();
+          c.moveTo(-8, 0); c.lineTo(-11, -24); c.lineTo(11, -24); c.lineTo(8, 0);
+          c.closePath();
+          c.fillStyle = CREAM; c.fill();
+          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.rect(-13, -30, 26, 6);
+          c.fillStyle = SKY; c.fill(); c.stroke();
+        }
+        function dGrano(c) {
+          c.beginPath();
+          c.ellipse(0, -9, 12, 9, 0, 0, Math.PI * 2);
+          c.fillStyle = GRANO; c.fill();
+          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.moveTo(-8, -13); c.quadraticCurveTo(2, -9, -6, -3);
+          c.stroke();
+        }
+        var TIPOS = [
+          { w: 26, h: 30, dib: function (c) { dTaza(c); } },
+          { w: 24, h: 18, dib: function (c) { dGrano(c); } },
+          { w: 58, h: 30, dib: function (c) { c.save(); c.translate(-15, 0); dTaza(c); c.restore(); c.save(); c.translate(15, 0); dTaza(c); c.restore(); } },
+        ];
+
+        function pinta() {
+          if (!marcador) return;
+          var m = Math.floor(st.dist / 10);
+          if (st.modo === "corre") {
+            marcador.textContent = String(m).padStart(4, "0") + " m";
+          } else if (st.modo === "choque") {
+            marcador.textContent =
+              String(m).padStart(4, "0") + " m · mejor " +
+              String(mejor).padStart(4, "0") + " · espacio para otra";
+          } else {
+            marcador.textContent = HINT;
+          }
+        }
+
+        function empieza() {
+          st.modo = "corre";
+          st.y = 0; st.vy = 0;
+          st.vel = 190; st.dist = 0;
+          st.obs = [];
+          st.prox = 380;
+          st.dir = 1;
+          pinta();
+        }
+
+        function salta() {
+          if (st.y === 0) st.vy = -330;
+        }
+
+        function chispea(x, y) {
+          for (var i = 0; i < 12; i++) {
+            st.chispas.push({
+              x: x + (Math.random() - 0.5) * 24,
+              y: y - 20,
+              vx: (Math.random() - 0.5) * 160,
+              vy: -(80 + Math.random() * 120),
+              r: 2.5 + Math.random() * 2,
+            });
+          }
+        }
+
+        function accion() {
+          if (st.modo === "corre") salta();
+          else empieza();
+        }
+        canvas.style.cursor = "pointer";
+        canvas.addEventListener("pointerdown", accion);
+        document.addEventListener("keydown", function (e) {
+          if (e.code !== "Space") return;
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") return;
+          e.preventDefault();
+          accion();
+        });
+
+        var esc, suelo;
+        function charBox() {
+          return {
+            x0: st.x - 12 * esc, x1: st.x + 12 * esc,
+            y0: suelo + st.y - 96 * esc, y1: suelo + st.y,
+          };
+        }
+
+        var last = 0;
+        function loop(ts) {
+          if (!last) last = ts;
+          var dt = Math.min((ts - last) / 1000, 0.05);
+          last = ts;
+          st.t += dt;
+
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          if (Math.abs(canvas.width - rect.width * dpr) > 2) fit();
+
+          suelo = H - 14;
+          esc = Math.min(H / 210, 0.66);
+
+          if (st.modo === "ambiente" && !reduce) {
+            st.x += st.dir * 34 * dt;
+            if (st.x > W - 46) st.dir = -1;
+            if (st.x < 46) st.dir = 1;
+          } else if (st.modo === "corre") {
+            st.vel = Math.min(st.vel + 9 * dt, 430);
+            st.dist += st.vel * dt;
+            st.x += (Math.max(46, W * 0.18) - st.x) * Math.min(1, dt * 4);
+
+            // salto
+            if (st.y < 0 || st.vy < 0) {
+              st.vy += 1050 * dt;
+              st.y += st.vy * dt;
+              if (st.y >= 0) { st.y = 0; st.vy = 0; }
+            }
+
+            // obstáculos
+            st.prox -= st.vel * dt;
+            for (var i = st.obs.length - 1; i >= 0; i--) {
+              st.obs[i].x -= st.vel * dt;
+              if (st.obs[i].x < -70) st.obs.splice(i, 1);
+            }
+            if (st.prox <= 0) {
+              var tipo = TIPOS[Math.floor(Math.random() * TIPOS.length)];
+              st.obs.push({ x: W + 40, tipo: tipo });
+              st.prox = 240 + Math.random() * 320 + st.vel * 0.35;
+            }
+
+            // colisión
+            var cb = charBox();
+            for (var j = 0; j < st.obs.length; j++) {
+              var o = st.obs[j];
+              var m = 4; // margen amable
+              if (
+                cb.x1 - m > o.x - o.tipo.w / 2 &&
+                cb.x0 + m < o.x + o.tipo.w / 2 &&
+                cb.y1 > suelo - o.tipo.h + m
+              ) {
+                st.modo = "choque";
+                var mts = Math.floor(st.dist / 10);
+                if (mts > mejor) {
+                  mejor = mts;
+                  try { localStorage.setItem("portal.runner.best", String(mejor)); } catch (_) {}
+                }
+                chispea(st.x, suelo);
+                break;
+              }
+            }
+            pinta();
+          }
+
+          // ---- dibujo ----
+          ctx.clearRect(0, 0, W, H);
+          ctx.strokeStyle = "rgba(14,30,86,0.25)";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(8, suelo + 1);
+          ctx.lineTo(W - 8, suelo + 1);
+          ctx.stroke();
+
+          for (var k = 0; k < st.obs.length; k++) {
+            var ob = st.obs[k];
+            ctx.save();
+            ctx.translate(ob.x, suelo);
+            ob.tipo.dib(ctx);
+            ctx.restore();
+          }
+
+          for (var p = st.chispas.length - 1; p >= 0; p--) {
+            var ch = st.chispas[p];
+            ch.vy += 260 * dt;
+            ch.x += ch.vx * dt;
+            ch.y += ch.vy * dt;
+            if (ch.y > suelo + 10) { st.chispas.splice(p, 1); continue; }
+            ctx.beginPath();
+            ctx.ellipse(ch.x, ch.y, ch.r, ch.r * 0.78, 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = GRANO;
+            ctx.fill();
+          }
+
+          var pose = "walk";
+          if (st.modo === "ambiente") pose = reduce ? "idle" : "walk";
+          else if (st.modo === "corre") pose = st.y < 0 ? "jump" : "walk";
+          else if (st.modo === "choque") pose = "idle";
+
+          ctx.save();
+          ctx.translate(st.x, suelo + st.y);
+          ctx.scale(st.dir * esc, esc);
+          window.Caco.dibujar(ctx, pose, st.modo === "corre" ? st.t * 2.1 : st.t);
+          ctx.restore();
+
+          window.requestAnimationFrame(loop);
+        }
+        window.requestAnimationFrame(loop);
+        pinta();
+      }
+
+      if (paseo && window.Caco) initRunner(paseo);
+      else if (marcador) marcador.style.display = "none";
 
       var btnP = document.getElementById("cambia-personaje");
       function pintaBtn() {
