@@ -283,7 +283,7 @@
     canvas.paseo {
       display: block;
       width: 100%;
-      height: 140px;
+      height: 170px;
       touch-action: manipulation;
     }
     .paseo-strip .pie {
@@ -453,7 +453,7 @@
         ></canvas>
         <div class="pie">
           <span class="label label--casa">The Daily Grind · el arte en tu rutina</span>
-          <span class="label label--casa" id="runner-score">Salta con espacio · とぶ</span>
+          <span class="label label--casa" id="runner-score">Salta con espacio · doble para la vuelta · とぶ</span>
           <button id="cambia-personaje" type="button"></button>
         </div>
       </div>
@@ -527,7 +527,7 @@
       // y la franja se convierte en el juego de saltar tazas y granos.
       var paseo = document.getElementById("paseo");
       var marcador = document.getElementById("runner-score");
-      var HINT = "Salta con espacio · とぶ";
+      var HINT = "Salta con espacio · doble para la vuelta · とぶ";
 
       function initRunner(canvas) {
         var OUT = "#0e1e56";
@@ -559,6 +559,7 @@
           modo: "ambiente",   // ambiente | corre | choque
           x: 60, dir: 1, t: 0, hasta: 0,
           y: 0, vy: 0,        // salto (y <= 0 en el aire)
+          saltos: 0, giro: -1, // doble salto + vueltita (giro 0..1, -1 apagado)
           vel: 0, dist: 0,
           obs: [], prox: 0,
           chispas: [],
@@ -607,6 +608,7 @@
         function empieza() {
           st.modo = "corre";
           st.y = 0; st.vy = 0;
+          st.saltos = 0; st.giro = -1;
           st.vel = 190; st.dist = 0;
           st.obs = [];
           st.prox = 380;
@@ -615,7 +617,14 @@
         }
 
         function salta() {
-          if (st.y === 0) st.vy = -330;
+          if (st.y === 0) {
+            st.vy = -330;
+            st.saltos = 1;
+          } else if (st.saltos === 1) {
+            st.vy = -290;
+            st.saltos = 2;
+            st.giro = 0;
+          }
         }
 
         function chispea(x, y) {
@@ -663,7 +672,7 @@
           if (Math.abs(canvas.width - rect.width * dpr) > 2) fit();
 
           suelo = H - 14;
-          esc = Math.min(H / 210, 0.66);
+          esc = Math.min(H / 270, 0.62);
 
           if (st.modo === "ambiente" && !reduce) {
             st.x += st.dir * 34 * dt;
@@ -678,7 +687,11 @@
             if (st.y < 0 || st.vy < 0) {
               st.vy += 1050 * dt;
               st.y += st.vy * dt;
-              if (st.y >= 0) { st.y = 0; st.vy = 0; }
+              if (st.y >= 0) { st.y = 0; st.vy = 0; st.saltos = 0; st.giro = -1; }
+            }
+            if (st.giro >= 0) {
+              st.giro += dt / 0.55;
+              if (st.giro >= 1) st.giro = -1;
             }
 
             // obstáculos
@@ -753,6 +766,12 @@
           ctx.save();
           ctx.translate(st.x, suelo + st.y);
           ctx.scale(st.dir * esc, esc);
+          if (st.giro > 0) {
+            // la vueltita: giro completo alrededor del centro del cuerpo
+            ctx.translate(0, -50);
+            ctx.rotate(st.giro * Math.PI * 2);
+            ctx.translate(0, 50);
+          }
           window.Caco.dibujar(ctx, pose, st.modo === "corre" ? st.t * 2.1 : st.t);
           ctx.restore();
 
