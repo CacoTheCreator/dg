@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Ukiyo Diario · Sistema The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700;800&family=Shippori+Mincho:wght@400;500&family=DotGothic16&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f9f3ec;
+    --navy: #0e1e56;
+    --navy-2: #0b1845;
+    --navy-3: #081234;
+    --sky: #51b5f2;
+    --sky-lt: #a6d9f8;
+    --pistacho: #c4d870;
+    --pistacho-2: #7fa64a;
+    --shu: #cf3f2f;
+    --beige: #e3ded9;
+    --beige-2: #d9d4cf;
+    --grano: #6f4e37;
+    --dark: #212529;
+    --mid: #6c757d;
+    --white: #ffffff;
+    --el: #51b5f2;
+    --ella: #8a4fd8;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-jp: 'Shippori Mincho', serif;
+    --font-jp-game: 'DotGothic16', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    position: relative;
+  }
+  /* grano de papel */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  img { max-width: 100%; display: block; }
+  section { padding: 84px 6vw; }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  .kicker {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--sky);
+  }
+  .kicker::before { content: "\25A0\FE0E  "; font-size: 9px; vertical-align: 2px; }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 4.6vw, 46px);
+    line-height: 1.08;
+    margin: 10px 0 14px;
+  }
+  h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+  .lead { max-width: 620px; font-size: 17px; }
+  .jp { font-family: var(--font-jp); }
+  .selloJP {
+    font-family: var(--font-jp);
+    font-size: 14px;
+    color: var(--navy);
+    opacity: 0.75;
+  }
+
+  /* ---------- portada ---------- */
+  .portada {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 6vw;
+  }
+  .portada .wrap { width: 100%; position: relative; }
+  .portada-kicker { font-size: 14px; }
+  .portada h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(58px, 11vw, 148px);
+    line-height: 0.98;
+    margin: 18px 0 22px;
+  }
+  .portada h1 em {
+    font-style: italic;
+    font-family: var(--font-body);
+    font-weight: 300;
+    color: var(--sky);
+  }
+  .portada .sub { max-width: 560px; font-size: 18px; }
+  .portada .sub strong { font-weight: 500; }
+  .tategaki {
+    position: absolute;
+    top: 48px;
+    right: 4vw;
+    writing-mode: vertical-rl;
+    font-family: var(--font-jp);
+    font-size: clamp(17px, 2.4vw, 26px);
+    color: var(--navy);
+    opacity: 0.85;
+    line-height: 1;
+  }
+  .tategaki span { color: var(--sky); }
+  /* hanko */
+  .hanko {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: var(--shu);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-jp);
+    font-size: 42px;
+    transform: rotate(-6deg);
+    box-shadow: inset 0 0 0 4px var(--shu), inset 0 0 0 6px var(--cream);
+    user-select: none;
+  }
+  .portada .hanko {
+    position: absolute;
+    bottom: -8px;
+    right: 8vw;
+    animation: hankoPress 0.55s cubic-bezier(0.2, 1.6, 0.4, 1) 0.6s backwards;
+  }
+  @keyframes hankoPress {
+    from { transform: rotate(-6deg) scale(2.6); opacity: 0; }
+    to { transform: rotate(-6deg) scale(1); opacity: 1; }
+  }
+  .luz {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 55%, rgba(81,181,242,0.10) 55.2%, rgba(81,181,242,0.03) 78%, transparent 78.2%);
+  }
+  .marcas { margin-top: 46px; font-size: 20px; display: flex; gap: 22px; align-items: center; }
+  .marcas .vivo {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--sky);
+    animation: pulso 2.2s ease-out infinite;
+  }
+  @keyframes pulso {
+    0% { box-shadow: 0 0 0 0 rgba(81,181,242,0.5); }
+    100% { box-shadow: 0 0 0 14px rgba(81,181,242,0); }
+  }
+
+  /* ---------- principio ---------- */
+  .principio {
+    background: var(--navy);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .principio .selloJP { color: var(--sky-lt); opacity: 1; position: absolute; top: 34px; right: 6vw; }
+  .principio blockquote {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 66px);
+    line-height: 1.1;
+    max-width: 760px;
+  }
+  .principio blockquote em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+  .principio .firma { margin-top: 26px; font-size: 14px; color: var(--sky-lt); }
+
+  /* ---------- materiales ---------- */
+  .materiales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 34px;
+  }
+  .material {
+    border: 1.5px solid var(--navy);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px;
+    position: relative;
+  }
+  .material .swatch { position: absolute; inset: 0; z-index: 0; }
+  .material .info { position: relative; z-index: 1; }
+  .material h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; }
+  .material p { font-size: 14px; max-width: 240px; }
+  .material .hex { font-family: var(--font-mono); font-size: 12px; margin-top: 6px; }
+  .m-papel .swatch { background: var(--cream); }
+  .m-tinta .swatch { background: var(--navy); }
+  .m-tinta .info { color: var(--cream); }
+  .m-cielo .swatch { background: var(--sky); }
+  .m-cielo .info { color: var(--navy); }
+  .m-sello .swatch { background: linear-gradient(160deg, var(--pistacho) 0 62%, var(--shu) 62% 100%); }
+  .m-sello .info { color: var(--navy); }
+  .m-sello .info .abajo { color: var(--cream); }
+
+  /* ---------- paleta ---------- */
+  .paleta-bloque { margin-top: 36px; }
+  .paleta-bloque h4 { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin-bottom: 12px; }
+  .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .chip {
+    border: 1px solid var(--beige-2);
+    background: var(--white);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    padding: 0;
+  }
+  .chip .color { height: 64px; }
+  .chip .datos { padding: 9px 11px; }
+  .chip .nombre { font-weight: 500; font-size: 13px; color: var(--navy); }
+  .chip .hex { font-family: var(--font-mono); font-size: 12px; color: var(--mid); }
+  .chip:active .color { opacity: 0.85; }
+  .nota-paleta { margin-top: 18px; font-size: 14px; color: var(--mid); max-width: 640px; }
+
+  /* ---------- tipografia ---------- */
+  .tipo-linea {
+    border-top: 1px solid var(--beige-2);
+    padding: 26px 0;
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .tipo-linea:last-of-type { border-bottom: 1px solid var(--beige-2); }
+  .tipo-rol { font-size: 13px; color: var(--mid); }
+  .tipo-rol code { font-family: var(--font-mono); font-size: 12px; color: var(--navy); display: block; }
+  .sp-display { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.1; }
+  .sp-display em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+  .sp-body { font-size: 17px; max-width: 560px; }
+  .sp-jp { font-family: var(--font-jp); font-size: 24px; }
+  .sp-jp small { display: block; font-family: var(--font-body); font-size: 13px; color: var(--mid); margin-top: 6px; }
+  .sp-game { font-family: var(--font-jp-game); font-size: 22px; background: var(--navy-3); color: var(--sky-lt); display: inline-block; padding: 10px 16px; }
+  .sp-mono { font-family: var(--font-mono); font-size: 15px; }
+  @media (max-width: 600px) { .tipo-linea { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* ---------- japones ---------- */
+  .jp-regla {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 3.4vw, 32px);
+    margin: 8px 0 26px;
+  }
+  .jp-regla .jp { color: var(--sky); font-weight: 400; }
+  table.vocab { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.vocab th {
+    text-align: left;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 12px 10px 0;
+    border-bottom: 1.5px solid var(--navy);
+  }
+  table.vocab td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--beige-2); vertical-align: top; }
+  table.vocab td.j { font-family: var(--font-jp); font-size: 16px; white-space: nowrap; }
+  .vocab-scroll { overflow-x: auto; }
+
+  /* ---------- registros ---------- */
+  .registros { background: var(--navy-2); color: var(--cream); }
+  .registros .kicker { color: var(--sky); }
+  .registros h2 em { color: var(--sky); }
+  .reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  @media (max-width: 760px) { .reg-grid { grid-template-columns: 1fr; } }
+  .registro { background: var(--navy-3); border: 1px solid rgba(166,217,248,0.14); }
+  .registro .visual { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+  .registro .visual img { width: 100%; height: 100%; object-fit: cover; }
+  .registro .visual.contain { background: #0a1c3f; }
+  .registro .visual.contain img { object-fit: contain; }
+  .registro .datos { padding: 16px 18px 20px; }
+  .registro h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; }
+  .registro h3 span { font-family: var(--font-jp); font-weight: 400; font-size: 15px; color: var(--sky-lt); margin-left: 8px; }
+  .registro p { font-size: 14px; color: var(--sky-lt); margin-top: 6px; }
+  /* mini consola viva */
+  .consola-viva { position: relative; background: var(--navy-3); }
+  .consola-viva canvas { width: 100%; height: 100%; display: block; }
+  .consola-viva::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+  .consola-viva .hud {
+    position: absolute; top: 10px; left: 12px;
+    font-family: var(--font-jp-game);
+    font-size: 14px;
+    color: var(--sky-lt);
+    z-index: 2;
+  }
+
+  /* ---------- sellos ---------- */
+  .sellos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 34px; align-items: stretch; }
+  .sello-card { border: 1.5px solid var(--navy); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 210px; }
+  .sello-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+  .sello-card p { font-size: 13.5px; }
+  .marcadores-demo { font-size: 34px; line-height: 1; display: flex; gap: 20px; align-items: center; }
+  .hanko-zona { display: flex; align-items: center; gap: 16px; }
+  .hanko-btn { background: none; border: none; cursor: pointer; padding: 0; }
+  .hanko-btn .hanko.press { animation: hankoPress 0.55s cubic-bezier(0.2, 1.6, 0.4, 1); }
+  .hanko-hint { font-size: 12px; color: var(--mid); }
+  .sello-gira { width: 96px; height: 96px; animation: gira 14s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .pulso-demo { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .pulso-demo .vivo { width: 7px; height: 7px; border-radius: 50%; background: var(--sky); animation: pulso 2.2s ease-out infinite; }
+
+  /* ---------- personajes ---------- */
+  .personajes { background: var(--cream); }
+  .paseo { border: 1.5px solid var(--navy); background: var(--cream); margin-top: 30px; position: relative; }
+  .paseo canvas { width: 100%; height: 150px; display: block; }
+  .quien { display: flex; gap: 10px; margin-top: 16px; }
+  .quien button {
+    font-family: var(--font-body); font-weight: 500; font-size: 15px;
+    border: 1.5px solid var(--navy);
+    background: var(--white);
+    color: var(--navy);
+    padding: 9px 18px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(14,30,86,0.22);
+  }
+  .quien button.activo { background: var(--navy); color: var(--cream); }
+  .quien .signo-el { color: var(--el); font-size: 18px; }
+  .quien .signo-ella { color: var(--ella); font-size: 18px; }
+  .quien button.activo .signo-el { color: var(--sky-lt); }
+  .quien button.activo .signo-ella { color: #c9a8f2; }
+
+  /* ---------- esquinas ---------- */
+  .esquinas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 34px; }
+  @media (max-width: 700px) { .esquinas-grid { grid-template-columns: 1fr; } }
+  .lengua { padding: 26px; }
+  .lengua h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+  .lengua p { font-size: 13.5px; margin-bottom: 20px; }
+  .lengua-editorial { background: var(--white); border-radius: 16px; box-shadow: 0 22px 54px rgba(9,15,40,0.12); }
+  .lengua-consola { background: var(--white); border: 1.5px solid var(--navy); box-shadow: 6px 6px 0 rgba(14,30,86,0.22); }
+  .btn-fila { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { font-family: var(--font-display); font-weight: 700; font-size: 14px; padding: 11px 20px; cursor: pointer; border: none; }
+  .lengua-editorial .btn { border-radius: 8px; }
+  .lengua-consola .btn { border-radius: 0; box-shadow: 3px 3px 0 rgba(14,30,86,0.22); }
+  .btn-pistacho { background: var(--pistacho); color: var(--navy); }
+  .btn-sky { background: var(--sky); color: var(--navy); }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+  .btn-navy { background: var(--navy); color: var(--cream); }
+
+  /* ---------- print ---------- */
+  .print-grid { display: grid; grid-template-columns: 300px 1fr; gap: 34px; margin-top: 34px; align-items: start; }
+  @media (max-width: 700px) { .print-grid { grid-template-columns: 1fr; } }
+  .print-grid figure { border: 1px solid var(--beige-2); }
+  .print-grid figcaption { font-size: 12.5px; color: var(--mid); padding: 8px 10px; }
+  .print-lista { font-size: 15px; }
+  .print-lista li { margin-bottom: 8px; list-style: none; }
+  .print-lista li::before { content: "\2192\FE0E  "; color: var(--sky); }
+
+  /* ---------- variables ---------- */
+  .vars { background: var(--navy-3); color: var(--sky-lt); }
+  .vars .kicker { color: var(--sky); }
+  .vars h2 { color: var(--cream); }
+  .vars pre {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: rgba(8,18,52,0.6);
+    border: 1px solid rgba(166,217,248,0.18);
+    padding: 24px;
+    overflow-x: auto;
+    margin-top: 28px;
+  }
+  .vars .copiar {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: none;
+    color: var(--sky);
+    border: 1px solid var(--sky);
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  /* ---------- colofon ---------- */
+  footer {
+    background: var(--navy);
+    color: var(--sky-lt);
+    padding: 54px 6vw;
+    font-size: 14px;
+  }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+  footer .jp { color: var(--cream); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- portada -->
+<header class="portada">
+  <div class="luz"></div>
+  <div class="wrap">
+    <div class="kicker portada-kicker">Sistema de diseño · The Daily Grind · Vol. 4</div>
+    <h1>Ukiyo<br><em>Diario</em></h1>
+    <p class="sub">El ukiyo-e retrató la vida urbana de todos los días y la elevó a estampa. <strong>Eso hace The Daily Grind con el desayuno.</strong> Cada pieza de la marca es una estampa del ritual diario: papel, tinta, cielo y sello.</p>
+    <div class="marcas" aria-hidden="true">
+      <span>&#x25A0;&#xFE0E;</span><span>&#x2192;&#xFE0E;</span><span>&#x2197;&#xFE0E;</span><span>&middot;</span>
+      <span class="vivo"></span>
+    </div>
+    <div class="tategaki" lang="ja">日常の<span>浮世絵</span></div>
+    <div class="hanko" lang="ja" aria-label="Sello hanko">印</div>
+  </div>
+</header>
+
+<!-- principio -->
+<section class="principio">
+  <div class="wrap">
+    <span class="selloJP" lang="ja">環境はメッセージ</span>
+    <div class="kicker">El principio</div>
+    <blockquote>El ambiente <em>es</em> el mensaje.</blockquote>
+    <p class="firma">Japón aporta el oficio y el silencio · el arte urbano aporta la energía y la calle · el café aporta el motivo</p>
+  </div>
+</section>
+
+<!-- materiales -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Capítulo 1</div>
+    <h2>Los cuatro <em>materiales</em></h2>
+    <p class="lead">Todo lo que hace la marca se construye con cuatro materiales. Son la metáfora que ordena la paleta y las decisiones.</p>
+    <div class="materiales-grid">
+      <div class="material m-papel">
+        <div class="swatch"></div>
+        <div class="info">
+          <h3>El papel</h3>
+          <p>La base. Todo vive sobre papel crema con grano sutil.</p>
+          <div class="hex">--cream #f9f3ec</div>
+        </div>
+      </div>
+      <div class="material m-tinta">
+        <div class="swatch"></div>
+        <div class="info">
+          <h3>La tinta</h3>
+          <p>El trazo. Reemplaza al negro en todo el sistema.</p>
+          <div class="hex">--navy #0e1e56</div>
+        </div>
+      </div>
+      <div class="material m-cielo">
+        <div class="swatch"></div>
+        <div class="info">
+          <h3>El cielo</h3>
+          <p>La firma cromática, reconocible a una cuadra.</p>
+          <div class="hex">--sky #51b5f2</div>
+        </div>
+      </div>
+      <div class="material m-sello">
+        <div class="swatch"></div>
+        <div class="info">
+          <h3>El sello</h3>
+          <p>El pistacho de la casa y el bermellón del hanko.</p>
+          <div class="hex">--pistacho #c4d870 · --shu #cf3f2f</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- paleta -->
+<section style="padding-top: 0;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 2</div>
+    <h2>Paleta</h2>
+    <p class="lead">Un pistacho, un fondo profundo, un rojo. La dispersión que creció por archivo queda retirada: estos valores son los únicos.</p>
+
+    <div class="paleta-bloque">
+      <h4>Principales</h4>
+      <div class="chips" id="chips-main"></div>
+    </div>
+    <div class="paleta-bloque">
+      <h4>Soporte</h4>
+      <div class="chips" id="chips-sup"></div>
+    </div>
+    <div class="paleta-bloque">
+      <h4>Capa juego</h4>
+      <div class="chips" id="chips-game"></div>
+    </div>
+    <p class="nota-paleta">Toca un color para copiar su hex. El bermellón es tinta de timbre: sellos y alertas, jamás decoración. El morado vive solo dentro del juego.</p>
+  </div>
+</section>
+
+<!-- tipografia -->
+<section style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 3</div>
+    <h2>Tipografía</h2>
+    <p class="lead">Cinco voces, cada una con su oficio. Sin letter-spacing: el tamaño hace el trabajo.</p>
+    <div style="margin-top: 34px;">
+      <div class="tipo-linea">
+        <div class="tipo-rol">Display · Syne 700<code>--font-display</code></div>
+        <div class="sp-display">Mismo ritual. <em>Otro nivel.</em></div>
+      </div>
+      <div class="tipo-linea">
+        <div class="tipo-rol">Cuerpo · DM Sans 300/500<code>--font-body</code></div>
+        <div class="sp-body">El café aquí no se apura. Tampoco te apura. La itálica es un bisturí: <em>una</em> palabra por titular, máximo.</div>
+      </div>
+      <div class="tipo-linea">
+        <div class="tipo-rol">Sello japonés · Shippori Mincho<code>--font-jp</code></div>
+        <div class="sp-jp" lang="ja">急がば回れ<small>isogaba maware — si apuras, rodea. El japonés editorial siempre en mincho, aunque la pieza sea sans.</small></div>
+      </div>
+      <div class="tipo-linea">
+        <div class="tipo-rol">Consola japonesa · DotGothic16<code>--font-jp-game</code></div>
+        <div><span class="sp-game" lang="ja">とぶ · スタート · 完璧</span></div>
+      </div>
+      <div class="tipo-linea">
+        <div class="tipo-rol">Máquina · DM Mono<code>--font-mono</code></div>
+        <div class="sp-mono">vol.04 · turno 07:30 → 16:00 · tueste medio · MMXXVI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- japones -->
+<section style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 4</div>
+    <h2>El japonés</h2>
+    <p class="jp-regla">El español titula. <span class="jp" lang="ja">日本語</span> firma.</p>
+    <p class="lead" style="margin-bottom: 26px;">Traducciones verdaderas, refranes verdaderos, nunca decoración. Cada japonés nuevo entra al vocabulario con lectura y significado; si nadie del equipo puede explicar qué dice, no se publica.</p>
+    <div class="vocab-scroll">
+      <table class="vocab">
+        <tr><th>Japonés</th><th>Lectura</th><th>Significado</th><th>Dónde vive</th></tr>
+        <tr><td class="j" lang="ja">ザ・デイリー・グラインド</td><td>za deirī guraindo</td><td>The Daily Grind</td><td>Firma katakana en tarjetas y palomas</td></tr>
+        <tr><td class="j" lang="ja">環境はメッセージ</td><td>kankyō wa messēji</td><td>El ambiente es el mensaje</td><td>Manifiesto</td></tr>
+        <tr><td class="j" lang="ja">第四巻</td><td>dai yon kan</td><td>Volumen 4</td><td>Marcador de volumen en todo el catálogo</td></tr>
+        <tr><td class="j" lang="ja">服も、コーヒーのように熟成する</td><td>—</td><td>La ropa, como el café, madura</td><td>Hang tag y packaging Vol. 4</td></tr>
+        <tr><td class="j" lang="ja">御朱印帳 · 印</td><td>goshuinchō · in</td><td>Libreta de sellos · sello</td><td>El Rally</td></tr>
+        <tr><td class="j" lang="ja">朝 · 旬 · 開</td><td>asa · shun · kai</td><td>Mañana · temporada · abrir</td><td>Estampas urbanas</td></tr>
+        <tr><td class="j" lang="ja">完璧</td><td>kanpeki</td><td>Perfecto</td><td>Golpe perfecto en El Ritual</td></tr>
+        <tr><td class="j" lang="ja">とぶ</td><td>tobu</td><td>Saltar</td><td>Runner del portal</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- registros -->
+<section class="registros">
+  <div class="wrap">
+    <div class="kicker">Capítulo 5</div>
+    <h2>Un mundo, <em>cuatro registros</em></h2>
+    <p class="lead">Comparten paleta, tipografía y japonés; cambia la energía. La plantilla única mata el sistema — la variedad con la misma tinta lo sostiene.</p>
+    <div class="reg-grid">
+      <div class="registro">
+        <div class="visual"><img src="img/cafe-universidad.jpg" alt="Ilustración editorial de la cafetería: línea navy sobre papel crema, luz diagonal"></div>
+        <div class="datos">
+          <h3>La estampa serena <span lang="ja">紙</span></h3>
+          <p>Línea navy fina sobre cream, planos celestes, espacio generoso, luz diagonal. Para el sitio, el menú y todo lo que respire calma.</p>
+        </div>
+      </div>
+      <div class="registro">
+        <div class="visual"><img src="img/estampa-urbana.jpg" alt="Afiche urbano japonés: kanji asa gigante en pistacho sobre navy con brochazos"></div>
+        <div class="datos">
+          <h3>La estampa urbana <span lang="ja">街</span></h3>
+          <p>Kanji gigante, grano de serigrafía, brochazos, energía de afiche callejero. Para drops, eventos, colaboraciones y murales.</p>
+        </div>
+      </div>
+      <div class="registro">
+        <div class="visual contain"><img src="img/tarjeta-manifiesto.jpg" alt="Tarjeta tipográfica del manifiesto: Syne gigante en cream sobre navy"></div>
+        <div class="datos">
+          <h3>La tarjeta tipográfica <span lang="ja">言葉</span></h3>
+          <p>La palabra es la imagen: Syne gigante, acento sky itálico, sello japonés arriba a la derecha. Para el feed y las palomas.</p>
+        </div>
+      </div>
+      <div class="registro">
+        <div class="visual consola-viva">
+          <span class="hud" lang="ja">ラ・コンソラ</span>
+          <canvas id="consola-canvas"></canvas>
+        </div>
+        <div class="datos">
+          <h3>La consola <span lang="ja">遊</span></h3>
+          <p>Pantalla profunda con scanlines, cartuchos, personajes en canvas, katakana de interfaz. Para el portal, La Consola y El Rally.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- sellos -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Capítulo 6</div>
+    <h2>Marcadores y <em>sellos</em></h2>
+    <p class="lead">Cero emojis editoriales. Los marcadores separan y dirigen; los sellos firman y celebran.</p>
+    <div class="sellos-grid">
+      <div class="sello-card">
+        <h3>Los marcadores</h3>
+        <div class="marcadores-demo" aria-hidden="true">
+          <span>&#x25A0;&#xFE0E;</span><span>&#x2192;&#xFE0E;</span><span>&#x2197;&#xFE0E;</span><span>&middot;</span>
+        </div>
+        <p><strong>■</strong> marca de la casa y timbre de lealtad · <strong>→</strong> dirige dentro del mundo · <strong>↗</strong> abre hacia afuera · <strong>·</strong> separa.</p>
+      </div>
+      <div class="sello-card">
+        <h3>El hanko</h3>
+        <div class="hanko-zona">
+          <button class="hanko-btn" id="hanko-btn" aria-label="Timbrar el hanko">
+            <span class="hanko" id="hanko" lang="ja">印</span>
+          </button>
+          <span class="hanko-hint">Tócalo: se timbra.<br>Bermellón --shu, solo para logros y alertas.</span>
+        </div>
+        <p>Nació en El Rally y firma los momentos: rally completado, décimo timbre, 完璧.</p>
+      </div>
+      <div class="sello-card">
+        <h3>El sello giratorio</h3>
+        <svg class="sello-gira" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="circ" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs>
+          <text style="font-family: 'DM Sans'; font-weight: 500; font-size: 10.5px; fill: #0e1e56;">
+            <textPath href="#circ">LA CONSOLA · ARCADE DE LA CASA · </textPath>
+          </text>
+          <circle cx="50" cy="50" r="4" fill="#51b5f2"/>
+        </svg>
+        <p>Texto circular en giro lento, guiño heredado del ícono Irrumpe.</p>
+      </div>
+      <div class="sello-card">
+        <h3>El pulso vivo</h3>
+        <div class="pulso-demo"><span class="vivo"></span> La casa está abierta</div>
+        <p>Punto sky con anillo expandiéndose: señala lo que está en línea, el turno activo, la casa encendida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- personajes -->
+<section class="personajes" style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 7</div>
+    <h2>Los personajes</h2>
+    <p class="lead">Dos personajes de canvas habitan la capa juego. Por ahora sin nombres públicos: se identifican por signo, <span style="color: var(--el); font-weight: 500;">♂ celeste</span> y <span style="color: var(--ella); font-weight: 500;">♀ morado</span>. El contorno navy y el vestuario de marca son la misma línea de la estampa serena.</p>
+    <div class="paseo"><canvas id="paseo-canvas"></canvas></div>
+    <div class="quien">
+      <button id="btn-el" class="activo"><span class="signo-el">♂</span> celeste</button>
+      <button id="btn-ella"><span class="signo-ella">♀</span> morado</button>
+    </div>
+  </div>
+</section>
+
+<!-- esquinas -->
+<section style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 8</div>
+    <h2>Dos lenguajes de <em>esquina</em></h2>
+    <p class="lead">Cuatro personalidades de borde se reducen a dos, con intención.</p>
+    <div class="esquinas-grid">
+      <div class="lengua lengua-editorial">
+        <h3>Editorial</h3>
+        <p>Sitio, menú, promos: radios suaves 8–16px, sombra ambiental grande y difusa.</p>
+        <div class="btn-fila">
+          <button class="btn btn-navy">Reservar mesa</button>
+          <button class="btn btn-sky">Ver la carta</button>
+          <button class="btn btn-ghost">Conocer más &#x2192;&#xFE0E;</button>
+        </div>
+      </div>
+      <div class="lengua lengua-consola">
+        <h3>Consola</h3>
+        <p>Portal, La Consola, tarjeta de la casa: esquinas rectas, sombra dura desplazada en tinta.</p>
+        <div class="btn-fila">
+          <button class="btn btn-pistacho">Entrar con Google</button>
+          <button class="btn btn-navy">Press start</button>
+          <button class="btn btn-ghost">Ranking &#x2197;&#xFE0E;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- print -->
+<section style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="kicker">Capítulo 9</div>
+    <h2>Print — las palomas y su familia</h2>
+    <div class="print-grid">
+      <figure>
+        <img src="img/paloma-marca.jpg" alt="Paloma de marca: flood celeste, logo script blanco, cono soft-serve, franja navy">
+        <figcaption>Paloma de marca · flood de cielo, logo blanco, franja navy de remate</figcaption>
+      </figure>
+      <div class="print-lista">
+        <p style="margin-bottom: 18px;">Cada pieza impresa nace como HTML sobre el CSS compartido de su familia, se renderiza a PDF y guarda su proof al lado. El print habla el mismo idioma que la pantalla.</p>
+        <ul>
+          <li>Palomas cara A/B — marca, ritual, promo</li>
+          <li>Cabezal y puerta de refrigerador</li>
+          <li>Adhesivos: cilindro y barquillera</li>
+          <li>Hang tags y packaging Vol. 4 <span class="jp" lang="ja">服も、コーヒーのように熟成する</span></li>
+          <li>Flyers de evento en estampa urbana</li>
+          <li>Gráficas ART STGO y backdrop PVC</li>
+          <li>Crédito apparel en colofón: Diseño · Martín Undurraga · Stodak</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- variables -->
+<section class="vars">
+  <div class="wrap">
+    <div class="kicker">Capítulo 10</div>
+    <h2>Hoja de variables</h2>
+    <pre id="css-vars">:root {
+  /* materiales */
+  --cream: #f9f3ec;      /* papel */
+  --navy: #0e1e56;       /* tinta */
+  --navy-2: #0b1845;     /* tinta refuerzo */
+  --navy-3: #081234;     /* fondo profundo (único) */
+  --sky: #51b5f2;        /* cielo */
+  --sky-lt: #a6d9f8;     /* cielo polvo */
+  --pistacho: #c4d870;   /* firma de la casa (único) */
+  --pistacho-2: #7fa64a; /* pistacho hoja */
+  --shu: #cf3f2f;        /* bermellón hanko + alertas */
+
+  /* soporte */
+  --beige: #e3ded9;
+  --beige-2: #d9d4cf;
+  --grano: #6f4e37;
+  --dark: #212529;       /* solo texto largo editorial */
+  --mid: #6c757d;        /* solo sobre fondos claros */
+  --white: #ffffff;
+
+  /* capa juego */
+  --el: #51b5f2;         /* ♂ */
+  --ella: #8a4fd8;       /* ♀ */
+
+  /* tipografía */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-jp: 'Shippori Mincho', serif;
+  --font-jp-game: 'DotGothic16', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}</pre>
+    <button class="copiar" id="copiar-vars">copiar :root</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Sistema Ukiyo Diario v1.0 · The Daily Grind Vol. 4 · Santiago, Chile · MMXXVI</div>
+    <div><span class="jp" lang="ja">日常の浮世絵</span> · El ambiente es el mensaje &#x25A0;&#xFE0E;</div>
+  </div>
+</footer>
+
+<script src="../../laconsola/assets/caco.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* paleta interactiva */
+  var GRUPOS = {
+    "chips-main": [
+      ["Tinta", "--navy", "#0e1e56"],
+      ["Tinta refuerzo", "--navy-2", "#0b1845"],
+      ["Fondo profundo", "--navy-3", "#081234"],
+      ["Cielo", "--sky", "#51b5f2"],
+      ["Cielo polvo", "--sky-lt", "#a6d9f8"],
+      ["Papel", "--cream", "#f9f3ec"],
+      ["Pistacho", "--pistacho", "#c4d870"],
+      ["Pistacho hoja", "--pistacho-2", "#7fa64a"],
+      ["Bermellón", "--shu", "#cf3f2f"]
+    ],
+    "chips-sup": [
+      ["Beige", "--beige", "#e3ded9"],
+      ["Beige 2", "--beige-2", "#d9d4cf"],
+      ["Grano", "--grano", "#6f4e37"],
+      ["Oscuro utilitario", "--dark", "#212529"],
+      ["Gris medio", "--mid", "#6c757d"],
+      ["Blanco", "--white", "#ffffff"]
+    ],
+    "chips-game": [
+      ["Él ♂", "--el", "#51b5f2"],
+      ["Ella ♀", "--ella", "#8a4fd8"]
+    ]
+  };
+  Object.keys(GRUPOS).forEach(function (id) {
+    var cont = document.getElementById(id);
+    GRUPOS[id].forEach(function (c) {
+      var b = document.createElement("button");
+      b.className = "chip";
+      b.innerHTML = '<div class="color" style="background:' + c[2] + '"></div>' +
+        '<div class="datos"><div class="nombre">' + c[0] + '</div><div class="hex">' + c[1] + " · " + c[2] + "</div></div>";
+      b.addEventListener("click", function () {
+        if (navigator.clipboard) navigator.clipboard.writeText(c[2]);
+        var n = b.querySelector(".nombre"), orig = c[0];
+        n.textContent = "copiado " + c[2];
+        setTimeout(function () { n.textContent = orig; }, 900);
+      });
+      cont.appendChild(b);
+    });
+  });
+
+  /* hanko interactivo */
+  var hk = document.getElementById("hanko");
+  document.getElementById("hanko-btn").addEventListener("click", function () {
+    hk.classList.remove("press");
+    void hk.offsetWidth;
+    hk.classList.add("press");
+  });
+
+  /* copiar variables */
+  document.getElementById("copiar-vars").addEventListener("click", function () {
+    if (navigator.clipboard) navigator.clipboard.writeText(document.getElementById("css-vars").textContent);
+    var b = this; b.textContent = "copiado";
+    setTimeout(function () { b.textContent = "copiar :root"; }, 900);
+  });
+
+  /* paseo de personajes (caco.js) */
+  var quienActual = "caco";
+  function montaPaseo() {
+    if (!window.Caco) return;
+    var cv = document.getElementById("paseo-canvas");
+    if (window.Caco.pasea) {
+      window.Caco.setQuien && window.Caco.setQuien(quienActual);
+      window.Caco.pasea(cv);
+    }
+  }
+  var btnEl = document.getElementById("btn-el"), btnElla = document.getElementById("btn-ella");
+  function cambia(q) {
+    quienActual = q;
+    if (window.Caco && window.Caco.setQuien) window.Caco.setQuien(q);
+    btnEl.classList.toggle("activo", q === "caco");
+    btnElla.classList.toggle("activo", q === "connie");
+  }
+  btnEl.addEventListener("click", function () { cambia("caco"); });
+  btnElla.addEventListener("click", function () { cambia("connie"); });
+  montaPaseo();
+
+  /* mini consola: personaje corriendo con scanlines */
+  var cc = document.getElementById("consola-canvas");
+  if (cc && window.Caco) {
+    var cctx = cc.getContext("2d");
+    var t0 = null, runX = -40;
+    function frame(ts) {
+      if (!cc.isConnected) return;
+      var r = cc.parentElement.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (cc.width !== Math.round(r.width * dpr)) {
+        cc.width = Math.round(r.width * dpr);
+        cc.height = Math.round(r.height * dpr);
+      }
+      if (t0 === null) t0 = ts;
+      var t = (ts - t0) / 1000;
+      var W = cc.width / dpr, H = cc.height / dpr;
+      cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cctx.fillStyle = "#081234";
+      cctx.fillRect(0, 0, W, H);
+      /* franja de papel */
+      cctx.fillStyle = "#f9f3ec";
+      cctx.fillRect(0, H - 46, W, 46);
+      cctx.fillStyle = "#0e1e56";
+      cctx.fillRect(0, H - 46, W, 2);
+      /* luna pistacho */
+      cctx.beginPath();
+      cctx.arc(W * 0.8, H * 0.28, 16, 0, Math.PI * 2);
+      cctx.fillStyle = "#c4d870";
+      cctx.fill();
+      runX += 1.6;
+      if (runX > W + 60) runX = -60;
+      cctx.save();
+      cctx.translate(runX, H - 44);
+      var esc = 0.78;
+      cctx.scale(esc, esc);
+      try { window.Caco.dibujar(cctx, "walk", t * 2, "caco"); } catch (e) {}
+      cctx.restore();
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>
