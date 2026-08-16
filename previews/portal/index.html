@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>The Daily Grind · Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --navy: #0e1e56;
+      --navy-2: #0b1845;
+      --sky: #51b5f2;
+      --sky-lt: #a6d9f8;
+      --cream: #f9f3ec;
+      --beige: #e3ded9;
+      --pistacho: #c4d870;
+      --morado: #8a4fd8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* La pantalla encendida: brillo suave arriba + barrido de líneas casi invisible */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(120% 60% at 50% -10%, rgba(81, 181, 242, 0.16), transparent 60%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(249, 243, 236, 0.025) 0 1px,
+          transparent 1px 4px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+    main, header, footer { position: relative; z-index: 1; }
+
+    .label {
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .label--dim { color: rgba(249, 243, 236, 0.55); }
+
+    /* ── HUD superior ─────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    .hud-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .hud-logo img { height: 26px; display: block; }
+    .hud-vol { color: rgba(249, 243, 236, 0.55); }
+    .hud-right { position: relative; display: flex; align-items: center; gap: 14px; }
+
+    .btn-menu {
+      background: none;
+      border: 1px solid rgba(249, 243, 236, 0.35);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .btn-menu:hover, .btn-menu[aria-expanded="true"] {
+      border-color: var(--pistacho);
+      color: var(--pistacho);
+    }
+
+    /* ── Menú desplegable ─────────────────────────── */
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 250px;
+      background: var(--navy-2);
+      border: 1px solid rgba(249, 243, 236, 0.2);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      display: none;
+      z-index: 30;
+    }
+    .menu-panel.abierto { display: block; animation: cae 0.18s ease both; }
+    @keyframes cae {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .menu-panel a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 18px;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(249, 243, 236, 0.08);
+      transition: background 0.12s ease;
+    }
+    .menu-panel a:last-child { border-bottom: none; }
+    .menu-panel a:hover { background: rgba(81, 181, 242, 0.1); }
+    .menu-panel .google {
+      background: var(--pistacho);
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .menu-panel .google:hover { background: #d2e388; }
+    .menu-panel .google small {
+      display: block;
+      font-weight: 300;
+      font-size: 11px;
+      margin-top: 2px;
+      color: rgba(14, 30, 86, 0.75);
+    }
+
+    /* ── Hero ─────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 64px 20px 40px;
+      position: relative;
+    }
+    .hero .tategaki {
+      position: absolute;
+      top: 12px;
+      right: 22px;
+      writing-mode: vertical-rl;
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      color: rgba(166, 217, 248, 0.55);
+      line-height: 1;
+      animation: sube 0.6s 0.24s ease both;
+    }
+    @media (max-width: 700px) { .hero .tategaki { display: none; } }
+    .hero .kicker {
+      color: var(--sky);
+      margin-bottom: 18px;
+      animation: sube 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: clamp(38px, 8vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      animation: sube 0.6s 0.08s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+    .hero p.bajada {
+      max-width: 500px;
+      margin: 22px auto 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(249, 243, 236, 0.78);
+      text-wrap: balance;
+      animation: sube 0.6s 0.16s ease both;
+    }
+    .start {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 34px;
+      padding: 15px 34px;
+      background: var(--pistacho);
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      transition: transform 0.12s ease, background 0.12s ease;
+      animation: sube 0.6s 0.24s ease both;
+    }
+    .start:hover { background: #d2e388; transform: translateY(-2px); }
+    .start .cursor { animation: parpadea 1.1s steps(1) infinite; }
+    @keyframes parpadea { 50% { opacity: 0; } }
+    @keyframes sube {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hint-teclas {
+      margin-top: 26px;
+      color: rgba(249, 243, 236, 0.4);
+      animation: sube 0.6s 0.32s ease both;
+    }
+    .hint-teclas kbd {
+      font-family: inherit;
+      border: 1px solid rgba(249, 243, 236, 0.3);
+      padding: 2px 6px;
+      margin: 0 1px;
+      font-size: 9px;
+    }
+
+    /* ── Cartuchos ────────────────────────────────── */
+    .cartuchos {
+      width: min(980px, calc(100% - 40px));
+      margin: 26px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      list-style: none;
+    }
+    .cartucho { grid-column: span 1; }
+    .cartucho--grande { grid-column: span 2; }
+    .cartucho a {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+      padding: 26px 26px 22px;
+      border: 1px solid rgba(249, 243, 236, 0.18);
+      color: var(--cream);
+      text-decoration: none;
+      background: rgba(11, 24, 69, 0.55);
+      transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    }
+    .cartucho .fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .cartucho h2 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+    .cartucho h2::before {
+      content: "► ";
+      color: var(--pistacho);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .cartucho p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(249, 243, 236, 0.72);
+      max-width: 560px;
+      flex: 1;
+    }
+    .cartucho .accion { color: var(--sky); }
+    .cartucho.sel a, .cartucho a:hover {
+      border-color: var(--pistacho);
+      background: rgba(11, 24, 69, 0.9);
+      transform: translateY(-3px);
+    }
+    .cartucho.sel h2::before, .cartucho a:hover h2::before { opacity: 1; }
+    .cartucho--pronto a { cursor: default; }
+    .cartucho--pronto .accion { color: rgba(249, 243, 236, 0.45); }
+    .jp {
+      color: rgba(249, 243, 236, 0.5);
+      font-family: "DotGothic16", "DM Sans", sans-serif;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    /* ── Paseo del personaje ──────────────────────── */
+    .paseo-strip {
+      margin-top: 72px;
+      background: var(--cream);
+      color: var(--navy);
+      padding: 10px 20px 4px;
+      position: relative;
+    }
+    .paseo-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .paseo-strip .marco { position: relative; }
+    .paseo-strip .marco {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+    canvas.paseo {
+      display: block;
+      width: 100%;
+      height: 170px;
+      touch-action: manipulation;
+    }
+    .paseo-strip .pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 0 8px;
+    }
+    #cambia-personaje {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: rgba(14, 30, 86, 0.55);
+      padding: 4px 0;
+    }
+    .paseo-strip .label--casa { color: rgba(14, 30, 86, 0.55); }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px;
+      border-top: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    footer a { color: rgba(249, 243, 236, 0.55); text-decoration: none; }
+    footer a:hover { color: var(--sky); }
+
+    @media (max-width: 480px) {
+      .cartuchos { grid-template-columns: 1fr; }
+      .cartucho--grande { grid-column: span 1; }
+      .hero { padding-top: 46px; }
+      .hint-teclas { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="hud-logo" href="/">
+      <img src="/LogoTDG.svg" alt="The Daily Grind" />
+      <span class="label hud-vol">Vol. 4 · MMXXVI</span>
+    </a>
+    <div class="hud-right">
+      <button
+        class="btn-menu"
+        id="abre-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-panel"
+      >
+        Menú ■
+      </button>
+      <nav class="menu-panel" id="menu-panel" aria-label="Menú de la casa">
+        <a class="google" href="/dailyback/auth/google">
+          <span>
+            Entrar con Google
+            <small>Tu tarjeta queda conectada al tiro</small>
+          </span>
+          <span>→</span>
+        </a>
+        <a href="/laconsola/"><span>La Consola</span><span class="jp">ラ・コンソラ</span></a>
+        <a href="/laconsola/rally/"><span>El Rally</span><span class="jp">ラリー</span></a>
+        <a href="/menu"><span>El menú</span><span class="jp">メニュー</span></a>
+        <a href="/promos"><span>Promos</span><span>→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="label kicker">La consola de la casa</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">ザ・デイリー・グラインド</span>
+      <h1>Press <em>start</em><br />para entrar</h1>
+      <p class="bajada">
+        Bienvenido al portal de The Daily Grind. Juega, suma granos en tu
+        tarjeta y pide tu café cuando quieras. La casa completa es un juego.
+      </p>
+      <a class="start" href="/laconsola/">
+        Jugar ahora <span class="cursor">▮</span>
+      </a>
+      <p class="label hint-teclas">
+        Muévete con <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> y entra con <kbd>Enter</kbd>
+      </p>
+    </section>
+
+    <ul class="cartuchos" id="cartuchos">
+      <li class="cartucho cartucho--grande">
+        <a href="/laconsola/">
+          <div class="fila">
+            <h2>La Consola</h2>
+            <span class="label jp">K01–K12 · ラ・コンソラ</span>
+          </div>
+          <p>
+            Snake, Granos, Tostado, Salto de Grano y la Sala 2. Cada partida
+            deja granos en tu tarjeta y el Rally de la temporada avanza con
+            toda la casa.
+          </p>
+          <span class="label accion">Jugar →</span>
+        </a>
+      </li>
+      <li class="cartucho">
+        <a href="/dailyback/auth/google">
+          <div class="fila">
+            <h2>Tu tarjeta</h2>
+            <span class="label jp">DailyBack</span>
+          </div>
+          <p>
+            Entra con tu Google y tu tarjeta queda conectada: tus granos, tus
+            sellos y tu tueste de la temporada, todo en un solo lugar.
+          </p>
+          <span class="label accion">Entrar con Google →</span>
+        </a>
+      </li>
+      <li class="cartucho">
+        <a href="/menu">
+          <div class="fila">
+            <h2>El menú</h2>
+            <span class="label jp">メニュー</span>
+          </div>
+          <p>
+            La carta de la casa: café de especialidad, dulce y helado. Para
+            pedir en barra o mirar antes de llegar.
+          </p>
+          <span class="label accion">Ver la carta →</span>
+        </a>
+      </li>
+      <li class="cartucho cartucho--pronto">
+        <a href="#" tabindex="-1" aria-disabled="true">
+          <div class="fila">
+            <h2>La casa nueva</h2>
+            <span class="label jp">Providencia</span>
+          </div>
+          <p>
+            Nos estamos instalando en Av. Los Leones. Café, dulce y heladería
+            de la casa, en pleno barrio.
+          </p>
+          <span class="label accion">Muy pronto ■</span>
+        </a>
+      </li>
+      <li class="cartucho cartucho--pronto">
+        <a href="#" tabindex="-1" aria-disabled="true">
+          <div class="fila">
+            <h2>Café Akyn</h2>
+            <span class="label jp">Invitado de la casa</span>
+          </div>
+          <p>
+            Café de especialidad de Ñuñoa que llega a compartir barra con
+            nosotros. Se está preparando algo rico.
+          </p>
+          <span class="label accion">Muy pronto ■</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="paseo-strip">
+      <div class="marco">
+        <canvas
+          class="paseo"
+          id="paseo"
+          aria-label="El personaje de la casa paseando por el portal. Tócalo y salta."
+        ></canvas>
+        <div class="pie">
+          <span class="label label--casa">The Daily Grind · el arte en tu rutina</span>
+          <span class="label label--casa" id="runner-score">Salta con espacio · doble para la vuelta · とぶ</span>
+          <button id="cambia-personaje" type="button"></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="label label--dim">Portal · borrador de la casa nueva</span>
+    <a class="label" href="/">Sitio actual →</a>
+  </footer>
+
+  <script src="/laconsola/assets/caco.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      // Menú desplegable
+      var btnMenu = document.getElementById("abre-menu");
+      var panel = document.getElementById("menu-panel");
+      btnMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var abierto = panel.classList.toggle("abierto");
+        btnMenu.setAttribute("aria-expanded", abierto ? "true" : "false");
+      });
+      document.addEventListener("click", function (e) {
+        if (!panel.contains(e.target) && e.target !== btnMenu) {
+          panel.classList.remove("abierto");
+          btnMenu.setAttribute("aria-expanded", "false");
+        }
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          panel.classList.remove("abierto");
+          btnMenu.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Navegación con flechas entre cartuchos, como en la consola
+      var cartuchos = Array.prototype.slice.call(
+        document.querySelectorAll("#cartuchos .cartucho")
+      );
+      var sel = -1;
+      function marca(i) {
+        cartuchos.forEach(function (c, j) {
+          c.classList.toggle("sel", j === i);
+        });
+        sel = i;
+        if (i >= 0) {
+          cartuchos[i].scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+        var paso = 0;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") paso = 1;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") paso = -1;
+        else if (e.key === "Enter" && sel >= 0) {
+          var link = cartuchos[sel].querySelector("a");
+          if (link && link.getAttribute("aria-disabled") !== "true") link.click();
+          return;
+        } else return;
+        e.preventDefault();
+        var n = cartuchos.length;
+        marca(((sel + paso) % n + n) % n);
+      });
+      cartuchos.forEach(function (c, i) {
+        c.addEventListener("mouseenter", function () { marca(i); });
+      });
+
+      // El runner de la casa: el personaje pasea hasta que aprietas espacio
+      // y la franja se convierte en el juego de saltar tazas y granos.
+      var paseo = document.getElementById("paseo");
+      var marcador = document.getElementById("runner-score");
+      var HINT = "Salta con espacio · doble para la vuelta · とぶ";
+
+      function initRunner(canvas) {
+        var OUT = "#0e1e56";
+        var CREAM = "#f9f3ec";
+        var SKY = "#51b5f2";
+        var GRANO = "#6f4e37";
+        var ctx = canvas.getContext("2d");
+        var W = 0, H = 0;
+
+        function fit() {
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          canvas.width = Math.max(1, rect.width * dpr);
+          canvas.height = Math.max(1, rect.height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          W = rect.width;
+          H = rect.height;
+        }
+        fit();
+        window.addEventListener("resize", fit);
+
+        var reduce = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        var mejor = 0;
+        try { mejor = parseInt(localStorage.getItem("portal.runner.best") || "0", 10) || 0; } catch (_) {}
+
+        var st = {
+          modo: "ambiente",   // ambiente | corre | choque
+          x: 60, dir: 1, t: 0, hasta: 0,
+          y: 0, vy: 0,        // salto (y <= 0 en el aire)
+          saltos: 0, giro: -1, // doble salto + vueltita (giro 0..1, -1 apagado)
+          vel: 0, dist: 0,
+          obs: [], prox: 0,
+          chispas: [],
+        };
+
+        // Obstáculos en el idioma flat de la casa
+        function dTaza(c) {
+          c.beginPath();
+          c.moveTo(-8, 0); c.lineTo(-11, -24); c.lineTo(11, -24); c.lineTo(8, 0);
+          c.closePath();
+          c.fillStyle = CREAM; c.fill();
+          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.rect(-13, -30, 26, 6);
+          c.fillStyle = SKY; c.fill(); c.stroke();
+        }
+        function dGrano(c) {
+          c.beginPath();
+          c.ellipse(0, -9, 12, 9, 0, 0, Math.PI * 2);
+          c.fillStyle = GRANO; c.fill();
+          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.moveTo(-8, -13); c.quadraticCurveTo(2, -9, -6, -3);
+          c.stroke();
+        }
+        var TIPOS = [
+          { w: 26, h: 30, dib: function (c) { dTaza(c); } },
+          { w: 24, h: 18, dib: function (c) { dGrano(c); } },
+          { w: 58, h: 30, dib: function (c) { c.save(); c.translate(-15, 0); dTaza(c); c.restore(); c.save(); c.translate(15, 0); dTaza(c); c.restore(); } },
+        ];
+
+        function pinta() {
+          if (!marcador) return;
+          var m = Math.floor(st.dist / 10);
+          if (st.modo === "corre") {
+            marcador.textContent = String(m).padStart(4, "0") + " m";
+          } else if (st.modo === "choque") {
+            marcador.textContent =
+              String(m).padStart(4, "0") + " m · mejor " +
+              String(mejor).padStart(4, "0") + " · espacio para otra";
+          } else {
+            marcador.textContent = HINT;
+          }
+        }
+
+        function empieza() {
+          st.modo = "corre";
+          st.y = 0; st.vy = 0;
+          st.saltos = 0; st.giro = -1;
+          st.vel = 190; st.dist = 0;
+          st.obs = [];
+          st.prox = 380;
+          st.dir = 1;
+          pinta();
+        }
+
+        function salta() {
+          if (st.y === 0) {
+            st.vy = -330;
+            st.saltos = 1;
+          } else if (st.saltos === 1) {
+            st.vy = -290;
+            st.saltos = 2;
+            st.giro = 0;
+          }
+        }
+
+        function chispea(x, y) {
+          for (var i = 0; i < 12; i++) {
+            st.chispas.push({
+              x: x + (Math.random() - 0.5) * 24,
+              y: y - 20,
+              vx: (Math.random() - 0.5) * 160,
+              vy: -(80 + Math.random() * 120),
+              r: 2.5 + Math.random() * 2,
+            });
+          }
+        }
+
+        function accion() {
+          if (st.modo === "corre") salta();
+          else empieza();
+        }
+        canvas.style.cursor = "pointer";
+        canvas.addEventListener("pointerdown", accion);
+        document.addEventListener("keydown", function (e) {
+          if (e.code !== "Space") return;
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") return;
+          e.preventDefault();
+          accion();
+        });
+
+        var esc, suelo;
+        function charBox() {
+          return {
+            x0: st.x - 12 * esc, x1: st.x + 12 * esc,
+            y0: suelo + st.y - 96 * esc, y1: suelo + st.y,
+          };
+        }
+
+        var last = 0;
+        function loop(ts) {
+          if (!last) last = ts;
+          var dt = Math.min((ts - last) / 1000, 0.05);
+          last = ts;
+          st.t += dt;
+
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          if (Math.abs(canvas.width - rect.width * dpr) > 2) fit();
+
+          suelo = H - 14;
+          esc = Math.min(H / 270, 0.62);
+
+          if (st.modo === "ambiente" && !reduce) {
+            st.x += st.dir * 34 * dt;
+            if (st.x > W - 46) st.dir = -1;
+            if (st.x < 46) st.dir = 1;
+          } else if (st.modo === "corre") {
+            st.vel = Math.min(st.vel + 9 * dt, 430);
+            st.dist += st.vel * dt;
+            st.x += (Math.max(46, W * 0.18) - st.x) * Math.min(1, dt * 4);
+
+            // salto
+            if (st.y < 0 || st.vy < 0) {
+              st.vy += 1050 * dt;
+              st.y += st.vy * dt;
+              if (st.y >= 0) { st.y = 0; st.vy = 0; st.saltos = 0; st.giro = -1; }
+            }
+            if (st.giro >= 0) {
+              st.giro += dt / 0.55;
+              if (st.giro >= 1) st.giro = -1;
+            }
+
+            // obstáculos
+            st.prox -= st.vel * dt;
+            for (var i = st.obs.length - 1; i >= 0; i--) {
+              st.obs[i].x -= st.vel * dt;
+              if (st.obs[i].x < -70) st.obs.splice(i, 1);
+            }
+            if (st.prox <= 0) {
+              var tipo = TIPOS[Math.floor(Math.random() * TIPOS.length)];
+              st.obs.push({ x: W + 40, tipo: tipo });
+              st.prox = 240 + Math.random() * 320 + st.vel * 0.35;
+            }
+
+            // colisión
+            var cb = charBox();
+            for (var j = 0; j < st.obs.length; j++) {
+              var o = st.obs[j];
+              var m = 4; // margen amable
+              if (
+                cb.x1 - m > o.x - o.tipo.w / 2 &&
+                cb.x0 + m < o.x + o.tipo.w / 2 &&
+                cb.y1 > suelo - o.tipo.h + m
+              ) {
+                st.modo = "choque";
+                var mts = Math.floor(st.dist / 10);
+                if (mts > mejor) {
+                  mejor = mts;
+                  try { localStorage.setItem("portal.runner.best", String(mejor)); } catch (_) {}
+                }
+                chispea(st.x, suelo);
+                break;
+              }
+            }
+            pinta();
+          }
+
+          // ---- dibujo ----
+          ctx.clearRect(0, 0, W, H);
+          ctx.strokeStyle = "rgba(14,30,86,0.25)";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(8, suelo + 1);
+          ctx.lineTo(W - 8, suelo + 1);
+          ctx.stroke();
+
+          for (var k = 0; k < st.obs.length; k++) {
+            var ob = st.obs[k];
+            ctx.save();
+            ctx.translate(ob.x, suelo);
+            ob.tipo.dib(ctx);
+            ctx.restore();
+          }
+
+          for (var p = st.chispas.length - 1; p >= 0; p--) {
+            var ch = st.chispas[p];
+            ch.vy += 260 * dt;
+            ch.x += ch.vx * dt;
+            ch.y += ch.vy * dt;
+            if (ch.y > suelo + 10) { st.chispas.splice(p, 1); continue; }
+            ctx.beginPath();
+            ctx.ellipse(ch.x, ch.y, ch.r, ch.r * 0.78, 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = GRANO;
+            ctx.fill();
+          }
+
+          var pose = "walk";
+          if (st.modo === "ambiente") pose = reduce ? "idle" : "walk";
+          else if (st.modo === "corre") pose = st.y < 0 ? "jump" : "walk";
+          else if (st.modo === "choque") pose = "idle";
+
+          ctx.save();
+          ctx.translate(st.x, suelo + st.y);
+          ctx.scale(st.dir * esc, esc);
+          if (st.giro > 0) {
+            // la vueltita: giro completo alrededor del centro del cuerpo
+            ctx.translate(0, -50);
+            ctx.rotate(st.giro * Math.PI * 2);
+            ctx.translate(0, 50);
+          }
+          window.Caco.dibujar(ctx, pose, st.modo === "corre" ? st.t * 2.1 : st.t);
+          ctx.restore();
+
+          window.requestAnimationFrame(loop);
+        }
+        window.requestAnimationFrame(loop);
+        pinta();
+      }
+
+      if (paseo && window.Caco) initRunner(paseo);
+      else if (marcador) marcador.style.display = "none";
+
+      var btnP = document.getElementById("cambia-personaje");
+      function pintaBtn() {
+        var q = window.Caco.quien();
+        var signo =
+          q === "connie"
+            ? '<span style="color: #8a4fd8; font-size: 13px">♀</span>'
+            : '<span style="color: #51b5f2; font-size: 13px">♂</span>';
+        btnP.innerHTML = "Te acompaña " + signo + " · cambiar ⇄";
+      }
+      if (btnP && window.Caco) {
+        pintaBtn();
+        btnP.addEventListener("click", function () {
+          window.Caco.setQuien(window.Caco.quien() === "connie" ? "caco" : "connie");
+          pintaBtn();
+        });
+      } else if (btnP) {
+        btnP.style.display = "none";
+      }
+    })();
+  </script>
+</body>
+</html>
