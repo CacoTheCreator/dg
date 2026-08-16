@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>La casa que nos recibe — The Daily Grind</title>
+  <meta name="description" content="Nice To Meat es la tercera casa de The Daily Grind: una casa de fuego y carne en Av. Los Leones que en la mañana abre la puerta al café y al arte." />
+  <meta property="og:title" content="La casa que nos recibe — The Daily Grind" />
+  <meta property="og:description" content="Nice To Meat pone el espacio y el fuego; nosotros armamos la mañana. Providencia, Casa III." />
+  <meta property="og:image" content="https://dailygrind.cl/img/socios/tile-1-fachada-ntm.jpg" />
+  <meta property="og:url" content="https://dailygrind.cl/nicetomeat" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --sky: #51b5f2;
+      --sky-lt: #a6d9f8; --pistacho: #c4d870; --pistacho-2: #7fa64a; --shu: #cf3f2f;
+      --beige: #e3ded9; --beige-2: #d9d4cf; --grano: #6f4e37; --dark: #212529; --mid: #6c757d;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --font-jp: 'Shippori Mincho', serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--cream); color: var(--dark);
+      font-family: var(--font-body); font-weight: 300; line-height: 1.65;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--navy); }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 22px; border-bottom: 1px solid var(--beige-2);
+    }
+    header .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--navy); }
+    header .logo img { height: 42px; }
+    .label { font-weight: 500; text-transform: uppercase; font-size: 11px; color: var(--mid); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+    .hero { position: relative; padding: 76px 0 40px; }
+    .kicker { font-weight: 500; font-size: 13px; color: var(--sky); }
+    .kicker::before { content: "\25A0\FE0E  "; font-size: 9px; vertical-align: 2px; }
+    h1 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(38px, 7vw, 72px); line-height: 1.02; margin: 14px 0 18px; max-width: 640px;
+    }
+    h1 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+    .hero .bajada { max-width: 560px; font-size: 17px; }
+    .tategaki {
+      position: absolute; top: 70px; right: 0;
+      writing-mode: vertical-rl; font-family: var(--font-jp); font-size: 17px;
+      color: var(--navy); opacity: 0.7; line-height: 1;
+    }
+    @media (max-width: 700px) { .tategaki { display: none; } }
+    .sello-kanji {
+      position: absolute; bottom: 34px; right: 4px;
+      width: 74px; height: 74px; border-radius: 50%;
+      background: var(--shu); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-jp); font-size: 34px; transform: rotate(-6deg);
+      box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
+    }
+    @media (max-width: 700px) { .sello-kanji { position: static; transform: rotate(-6deg); margin-top: 24px; } }
+
+    .banda { margin: 26px 0 0; }
+    .banda img { width: 100%; aspect-ratio: 16/8; object-fit: cover; object-position: center 62%; border-radius: 14px; }
+    .banda figcaption { font-size: 12.5px; color: var(--mid); padding: 8px 2px; }
+
+    section { padding: 58px 0 0; }
+    h2 { font-family: var(--font-display); font-weight: 700; color: var(--navy); font-size: clamp(26px, 4vw, 38px); margin-bottom: 12px; }
+    h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+    .lead { max-width: 600px; font-size: 16px; }
+
+    .casas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    @media (max-width: 700px) { .casas { grid-template-columns: 1fr; } }
+    .casa {
+      background: #fff; border-radius: 14px; padding: 24px 22px;
+      box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
+    }
+    .casa .num { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--sky); }
+    .casa h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--navy); margin: 6px 0 6px; }
+    .casa p { font-size: 14px; }
+    .casa--actual { background: var(--navy); }
+    .casa--actual h3 { color: var(--cream); }
+    .casa--actual p { color: var(--sky-lt); }
+    .casa--actual .num { color: var(--pistacho); }
+    .viaje { margin-top: 18px; font-size: 15px; color: var(--mid); }
+    .viaje span { color: var(--navy); font-weight: 500; }
+
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+    @media (max-width: 700px) { .duo { grid-template-columns: 1fr; } }
+    .mitad { border-radius: 14px; padding: 28px 26px; }
+    .mitad h3 { font-family: var(--font-display); font-weight: 700; font-size: 21px; margin-bottom: 10px; }
+    .mitad ul { list-style: none; font-size: 15px; }
+    .mitad li { margin-bottom: 7px; }
+    .mitad li::before { content: "\2192\FE0E  "; }
+    .mitad--manana { background: #fff; color: var(--dark); box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08); }
+    .mitad--manana h3 { color: var(--navy); }
+    .mitad--manana li::before { color: var(--sky); }
+    .mitad--fuego { background: var(--navy-2); color: var(--sky-lt); }
+    .mitad--fuego h3 { color: var(--cream); }
+    .mitad--fuego li::before { color: var(--pistacho); }
+
+    .galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+    @media (max-width: 700px) { .galeria { grid-template-columns: 1fr; } }
+    .galeria img { border-radius: 14px; aspect-ratio: 1/1; object-fit: cover; }
+
+    .cta-fila { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      text-decoration: none; padding: 13px 24px; border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--navy { background: var(--navy); color: var(--cream); }
+    .btn--ghost { border: 1.5px solid var(--navy); color: var(--navy); }
+
+    .proxima {
+      margin-top: 64px; background: var(--navy); border-radius: 14px;
+      padding: 40px 34px; position: relative; overflow: hidden;
+    }
+    .proxima h2 { color: var(--cream); }
+    .proxima p { color: var(--sky-lt); max-width: 520px; font-size: 16px; }
+    .proxima .selloJP { position: absolute; top: 26px; right: 28px; font-family: var(--font-jp); font-size: 14px; color: var(--sky-lt); opacity: 0.8; }
+
+    footer {
+      margin-top: 70px; padding: 34px 22px; border-top: 1px solid var(--beige-2);
+      display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 13px; color: var(--mid);
+    }
+    footer .jp { font-family: var(--font-jp); }
+    footer a { color: var(--mid); }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/"><img src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    <span class="label">La casa · Providencia</span>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <p class="kicker">Casa III · El anfitrión</p>
+      <h1>La casa que nos <em>recibe</em>.</h1>
+      <p class="bajada">Nice To Meat es una casa de fuego y carne en Av. Los Leones. En la mañana abre la puerta al café y al arte: ellos ponen el espacio, nosotros armamos el desayuno.</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">火と肉の家</span>
+      <span class="sello-kanji" lang="ja" aria-label="Kanji abrir">開</span>
+      <figure class="banda">
+        <img src="/img/socios/tile-1-fachada-ntm.jpg" alt="Fachada ilustrada de la casa en Providencia al amanecer, toldo navy y ventanas con luz tibia" />
+        <figcaption>Av. Los Leones, Providencia · la puerta se abre temprano</figcaption>
+      </figure>
+    </div>
+
+    <section>
+      <h2>De casa en <em>casa</em></h2>
+      <p class="lead">The Daily Grind es un café que viaja. Cada casa nos presta su barrio por un tiempo y le dejamos algo a cambio: arte en el desayuno.</p>
+      <div class="casas">
+        <div class="casa">
+          <span class="num">Casa I</span>
+          <h3>Jeró · Maitencillo</h3>
+          <p>Donde partió el ritual, frente al mar.</p>
+        </div>
+        <div class="casa">
+          <span class="num">Casa II</span>
+          <h3>UAI · Peñalolén</h3>
+          <p>El desayuno se hizo escenario entre clases.</p>
+        </div>
+        <div class="casa casa--actual">
+          <span class="num">Casa III · estamos aquí</span>
+          <h3>Nice To Meat · Providencia</h3>
+          <p>La casa de fuego y carne que nos recibe hoy.</p>
+        </div>
+      </div>
+      <p class="viaje">La ruta sigue: <span>una casa por barrio</span> es la naturaleza del proyecto.</p>
+    </section>
+
+    <section>
+      <h2>La mañana y el <em>fuego</em></h2>
+      <p class="lead">Dos marcas con el mismo peso, cada una en su hora. Convivimos todo el día en la misma casa.</p>
+      <div class="duo">
+        <div class="mitad mitad--manana">
+          <h3>La mañana es nuestra</h3>
+          <ul>
+            <li>Café de especialidad</li>
+            <li>Carta dulce de la casa</li>
+            <li>Heladería de 12 sabores</li>
+            <li>Soft de pistacho, la firma</li>
+          </ul>
+        </div>
+        <div class="mitad mitad--fuego">
+          <h3>El fuego es de ellos</h3>
+          <ul>
+            <li>Parrilla y carnes con oficio</li>
+            <li>La casa completa cuando cae la tarde</li>
+            <li>Activaciones juntos, dos veces al mes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="galeria">
+        <img src="/img/socios/tile-3-cafe-parrilla.jpg" alt="Taza de café humeante y desayuno sobre mesa de listones, luz de mañana" />
+        <img src="/img/socios/tile-9-comunidad-creativa.jpg" alt="Comunidad creativa reunida en la casa, ilustración editorial" />
+      </div>
+      <div class="cta-fila">
+        <a class="btn btn--navy" href="/menu">Ver el menú &#x2192;&#xFE0E;</a>
+        <a class="btn btn--ghost" href="/promos">Las promos de la casa</a>
+      </div>
+    </section>
+
+    <div class="proxima">
+      <span class="selloJP" lang="ja">次の家</span>
+      <h2>¿La próxima casa?</h2>
+      <p>Se está cocinando. Cuando una casa nueva nos abra la puerta, lo vas a saber primero por aquí y por la tarjeta de la casa.</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>The Daily Grind × Nice To Meat · Casa III · MMXXVI</span>
+    <span><span class="jp" lang="ja">開</span> · <a href="/">volver a la consola</a></span>
+  </footer>
+</body>
+</html>
