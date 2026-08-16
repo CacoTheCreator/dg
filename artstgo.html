@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Daily Grind en ART STGO</title>
+  <meta name="description" content="22 y 23 de agosto en el GAM: The Daily Grind lleva su heladería completa al pod de Plaza Central de ART STGO, con el estreno de un sabor hecho junto a un artista. Parte tu tarjeta antes de llegar." />
+  <meta property="og:title" content="The Daily Grind en ART STGO" />
+  <meta property="og:description" content="22 y 23 de agosto en el GAM: la heladería completa en el pod de Plaza Central y el estreno de un sabor hecho con un artista." />
+  <meta property="og:url" content="https://dailygrind.cl/artstgo" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&family=Sora:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --sky: #51b5f2;
+      --sky-lt: #a6d9f8; --pistacho: #c4d870; --pistacho-2: #7fa64a; --shu: #cf3f2f;
+      --beige: #e3ded9; --beige-2: #d9d4cf; --grano: #6f4e37; --dark: #212529; --mid: #6c757d;
+      /* paleta citada de ART STGO — su marca, no la nuestra */
+      --as-lima: #E8FF77; --as-teal: #04798d; --as-magenta: #DE2990; --as-negro: #111111;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+      --font-jp: 'Shippori Mincho', serif; --font-as: 'Sora', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--cream); color: var(--dark);
+      font-family: var(--font-body); font-weight: 300; line-height: 1.65;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--navy); }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 22px; border-bottom: 1px solid var(--beige-2);
+    }
+    header .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    header .logo img { height: 42px; }
+    .label { font-weight: 500; text-transform: uppercase; font-size: 11px; color: var(--mid); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+    .hero { position: relative; padding: 76px 0 30px; }
+    .kicker { font-weight: 500; font-size: 13px; color: var(--sky); }
+    .kicker::before { content: "\25A0\FE0E  "; font-size: 9px; vertical-align: 2px; }
+    h1 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(38px, 7vw, 72px); line-height: 1.02; margin: 14px 0 18px; max-width: 640px;
+    }
+    h1 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+    .hero .bajada { max-width: 580px; font-size: 17px; }
+    .tategaki {
+      position: absolute; top: 70px; right: 0;
+      writing-mode: vertical-rl; font-family: var(--font-jp); font-size: 17px;
+      color: var(--navy); opacity: 0.7; line-height: 1;
+    }
+    @media (max-width: 700px) { .tategaki { display: none; } }
+
+    /* ── cita de marca ART STGO: su universo, nuestro marco ── */
+    .as-marco { margin-top: 40px; }
+    .as-cita {
+      background:
+        radial-gradient(circle at 8px 8px, rgba(232, 255, 119, 0.16) 1.6px, transparent 1.6px),
+        var(--as-negro);
+      background-size: 22px 22px;
+      border: 10px solid var(--cream);
+      outline: 1.5px solid var(--beige-2);
+      border-radius: 6px;
+      padding: 54px 30px;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(14, 30, 86, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    /* El lockup respira la gráfica de ART STGO (Sora, lima eléctrico, halftone) — cita de marca, no estilo TDG */
+    .as-cita .titulo {
+      font-family: var(--font-as); font-weight: 800; text-transform: uppercase;
+      font-size: clamp(26px, 5vw, 46px); line-height: 1.05; color: var(--as-lima);
+    }
+    .as-cita .titulo span { color: var(--as-magenta); }
+    .as-cita .sub { font-family: var(--font-as); font-weight: 400; font-size: 14px; color: #fff; margin-top: 14px; }
+    .as-cita .fechas {
+      display: inline-block; margin-top: 20px;
+      font-family: var(--font-as); font-weight: 700; font-size: 13px; text-transform: uppercase;
+      background: var(--as-teal); color: #fff; padding: 8px 16px; border-radius: 4px;
+    }
+    .as-marco figcaption { font-size: 12.5px; color: var(--mid); padding: 10px 2px 0; text-align: center; }
+
+    section { padding: 58px 0 0; }
+    h2 { font-family: var(--font-display); font-weight: 700; color: var(--navy); font-size: clamp(26px, 4vw, 38px); margin-bottom: 12px; }
+    h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
+    .lead { max-width: 620px; font-size: 16px; }
+
+    .helado-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+    @media (max-width: 700px) { .helado-grid { grid-template-columns: 1fr; } }
+    .helado-card { border-radius: 14px; padding: 28px 26px; }
+    .helado-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 21px; margin-bottom: 10px; }
+    .helado-card p { font-size: 15px; }
+    .helado-card ul { list-style: none; font-size: 15px; margin-top: 8px; }
+    .helado-card li { margin-bottom: 7px; }
+    .helado-card li::before { content: "\2192\FE0E  "; }
+    .hc-vitrina { background: #fff; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08); }
+    .hc-vitrina h3 { color: var(--navy); }
+    .hc-vitrina li::before { color: var(--sky); }
+    .hc-autor { background: var(--navy); color: var(--sky-lt); position: relative; overflow: hidden; }
+    .hc-autor h3 { color: var(--cream); }
+    .hc-autor .sello-estreno {
+      position: absolute; top: 18px; right: 18px;
+      width: 62px; height: 62px; border-radius: 50%;
+      background: var(--shu); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-jp); font-size: 26px; transform: rotate(-6deg);
+      box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
+    }
+
+    .tarjeta-zona {
+      margin-top: 64px; background: var(--navy-3, #081234); border-radius: 14px;
+      padding: 40px 34px; position: relative; overflow: hidden; color: var(--cream);
+      background: #081234;
+    }
+    .tarjeta-zona h2 { color: var(--cream); }
+    .tarjeta-zona p { color: var(--sky-lt); max-width: 560px; font-size: 16px; }
+    .tarjeta-zona .selloJP { position: absolute; top: 26px; right: 28px; font-family: var(--font-jp); font-size: 14px; color: var(--sky-lt); opacity: 0.8; }
+    .timbres { display: flex; gap: 7px; margin: 20px 0 4px; font-size: 20px; color: var(--sky); }
+    .timbres .decimo { color: var(--pistacho); }
+    .cta-fila { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .btn {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      text-decoration: none; padding: 13px 24px; border-radius: 0; display: inline-block;
+      box-shadow: 3px 3px 0 rgba(14, 30, 86, 0.4); transition: transform 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--pistacho { background: var(--pistacho); color: var(--navy); }
+    .btn--claro { border: 1.5px solid var(--sky-lt); color: var(--sky-lt); box-shadow: none; }
+
+    .datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 30px; }
+    .dato { background: #fff; border-radius: 14px; padding: 22px; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08); font-size: 14.5px; }
+    .dato strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--navy); margin-bottom: 6px; }
+    .dato a { font-weight: 500; }
+
+    footer {
+      margin-top: 70px; padding: 34px 22px; border-top: 1px solid var(--beige-2);
+      display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 13px; color: var(--mid);
+    }
+    footer .jp { font-family: var(--font-jp); }
+    footer a { color: var(--mid); }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/"><img src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    <span class="label">Próxima parada · GAM</span>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <p class="kicker">22 y 23 de agosto · Centro Gabriel Mistral</p>
+      <h1>Nos vamos a la <em>feria</em>.</h1>
+      <p class="bajada">ART STGO junta arte, artistas y ciudad en el GAM. The Daily Grind lleva su heladería completa al pod de Plaza Central: vitrina de sabores de la casa, soft de açaí y de pistacho, y un estreno que se cuenta más abajo. Esos dos días somos solo helado.</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">芸術祭</span>
+    </div>
+
+    <figure class="as-marco">
+      <div class="as-cita">
+        <div class="titulo">El arte es lo que<br /><span>dejas salir</span></div>
+        <p class="sub">ART STGO · feria de arte de Santiago</p>
+        <span class="fechas">22 — 23 agosto · GAM</span>
+      </div>
+      <figcaption>La feria en su propia gráfica: lima eléctrico, halftone y Sora. Nosotros ponemos el marco.</figcaption>
+    </figure>
+
+    <section>
+      <h2>Solo <em>helado</em></h2>
+      <p class="lead">A la feria vamos con lo que mejor se comparte caminando entre obras.</p>
+      <div class="helado-grid">
+        <div class="helado-card hc-vitrina">
+          <h3>La vitrina de la casa</h3>
+          <ul>
+            <li>El insignia Daily Grind, celeste como la marca</li>
+            <li>La carta completa de sabores de la casa</li>
+            <li>Soft de açaí y soft de pistacho, la firma</li>
+            <li>En vasito, para seguir mirando arte</li>
+          </ul>
+        </div>
+        <div class="helado-card hc-autor">
+          <span class="sello-estreno" lang="ja" aria-label="Kanji estreno">初</span>
+          <h3>El sabor ART STGO</h3>
+          <p>Un helado hecho junto a un artista, edición exclusiva de la feria. Se estrena en vivo en el pod y dura lo que dure ART STGO.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="tarjeta-zona">
+      <span class="selloJP" lang="ja">十個目はうちから</span>
+      <h2>Llega con tu tarjeta lista</h2>
+      <p>La tarjeta de la casa debuta en la calle. Entra con tu Google, queda conectada al tiro, y cada helado de la feria timbra: nueve timbres y el décimo va por la casa.</p>
+      <div class="timbres" aria-hidden="true">
+        <span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span>&#x25A0;&#xFE0E;</span><span class="decimo" lang="ja">十</span>
+      </div>
+      <div class="cta-fila">
+        <a class="btn btn--pistacho" href="/dailyback/auth/google">Entrar con Google &#x2192;&#xFE0E;</a>
+        <a class="btn btn--claro" href="/laconsola/">Calienta en La Consola &#x2192;&#xFE0E;</a>
+      </div>
+    </div>
+
+    <section>
+      <h2>Dónde <em>encontrarnos</em></h2>
+      <div class="datos">
+        <div class="dato"><strong>El pod de Plaza Central</strong>Un tambor de hormigón del GAM con barra curva de madera. Imposible perderse: es el que huele a helado.</div>
+        <div class="dato"><strong>Cuándo</strong>Viernes 22 y sábado 23 de agosto, en el horario de la feria.</div>
+        <div class="dato"><strong>La feria completa</strong><a href="https://artstgo.cl/">artstgo.cl &#x2197;&#xFE0E;</a> · <a href="https://www.instagram.com/artstgo/">@artstgo &#x2197;&#xFE0E;</a></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>The Daily Grind × ART STGO · GAM · MMXXVI</span>
+    <span><span class="jp" lang="ja">芸術祭</span> · <a href="/">volver a la consola</a></span>
+  </footer>
+</body>
+</html>

@@ -294,6 +294,10 @@
     .cartucho.sel h2::before, .cartucho a:hover h2::before { opacity: 1; }
     .cartucho--pronto a { cursor: default; }
     .cartucho--pronto .accion { color: rgba(249, 243, 236, 0.45); }
+    /* cartucho de la feria: borde y acción en el lima de ART STGO (cita de su marca) */
+    .cartucho--feria a { border-color: rgba(232, 255, 119, 0.45); }
+    .cartucho--feria a:hover, .cartucho--feria.sel a { border-color: #e8ff77; }
+    .cartucho--feria .accion { color: #e8ff77; }
     .jp {
       color: rgba(249, 243, 236, 0.5);
       font-family: "DotGothic16", "DM Sans", sans-serif;
@@ -483,6 +487,20 @@
             despacho en bici. Su vitrina vive en la casa.
           </p>
           <span class="label accion">Ver la vitrina &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+      <li class="cartucho cartucho--grande cartucho--feria">
+        <a href="/artstgo">
+          <div class="fila">
+            <h2>ART STGO</h2>
+            <span class="label jp" lang="ja">芸術祭 · 22 y 23 de agosto</span>
+          </div>
+          <p>
+            La feria de arte del GAM. Llevamos la heladería completa al pod de
+            Plaza Central y estrenamos un sabor hecho con un artista. Parte tu
+            tarjeta antes de llegar.
+          </p>
+          <span class="label accion">La feria &#x2192;&#xFE0E;</span>
         </a>
       </li>
     </ul>
