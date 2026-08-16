@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
     rel="stylesheet"
   />
   <style>
@@ -55,8 +55,7 @@
     .label {
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 10px;
+      font-size: 11px;
     }
     .label--dim { color: rgba(249, 243, 236, 0.55); }
 
@@ -147,7 +146,20 @@
     .hero {
       text-align: center;
       padding: 64px 20px 40px;
+      position: relative;
     }
+    .hero .tategaki {
+      position: absolute;
+      top: 12px;
+      right: 22px;
+      writing-mode: vertical-rl;
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      color: rgba(166, 217, 248, 0.55);
+      line-height: 1;
+      animation: sube 0.6s 0.24s ease both;
+    }
+    @media (max-width: 700px) { .hero .tategaki { display: none; } }
     .hero .kicker {
       color: var(--sky);
       margin-bottom: 18px;
@@ -267,7 +279,12 @@
     .cartucho.sel h2::before, .cartucho a:hover h2::before { opacity: 1; }
     .cartucho--pronto a { cursor: default; }
     .cartucho--pronto .accion { color: rgba(249, 243, 236, 0.45); }
-    .jp { color: rgba(249, 243, 236, 0.45); font-size: 11px; }
+    .jp {
+      color: rgba(249, 243, 236, 0.5);
+      font-family: "DotGothic16", "DM Sans", sans-serif;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
 
     /* ── Paseo del personaje ──────────────────────── */
     .paseo-strip {
@@ -275,7 +292,17 @@
       background: var(--cream);
       color: var(--navy);
       padding: 10px 20px 4px;
+      position: relative;
     }
+    .paseo-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .paseo-strip .marco { position: relative; }
     .paseo-strip .marco {
       width: min(980px, 100%);
       margin: 0 auto;
@@ -299,8 +326,7 @@
       font-family: "DM Sans", sans-serif;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 10px;
+      font-size: 11px;
       color: rgba(14, 30, 86, 0.55);
       padding: 4px 0;
     }
@@ -362,6 +388,7 @@
   <main>
     <section class="hero">
       <p class="label kicker">La consola de la casa</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">ザ・デイリー・グラインド</span>
       <h1>Press <em>start</em><br />para entrar</h1>
       <p class="bajada">
         Bienvenido al portal de The Daily Grind. Juega, suma granos en tu
