@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>La casa que nos recibe — The Daily Grind</title>
-  <meta name="description" content="Nice To Meat es la tercera casa de The Daily Grind: una casa de fuego y carne en Av. Los Leones que en la mañana abre la puerta al café y al arte." />
+  <meta name="description" content="Nice To Meat hace las mejores smash burgers de todas y es la Casa III de The Daily Grind: ellos ponen el espacio y la plancha, nosotros armamos la mañana. Av. Los Leones, Providencia." />
   <meta property="og:title" content="La casa que nos recibe — The Daily Grind" />
-  <meta property="og:description" content="Nice To Meat pone el espacio y el fuego; nosotros armamos la mañana. Providencia, Casa III." />
-  <meta property="og:image" content="https://dailygrind.cl/img/socios/tile-1-fachada-ntm.jpg" />
+  <meta property="og:description" content="Las mejores smash burgers de todas nos abren la puerta en Providencia. La mañana es nuestra, el fuego es de ellos." />
+  <meta property="og:image" content="https://dailygrind.cl/img/socios/ntm-urbana-fachada.jpg" />
   <meta property="og:url" content="https://dailygrind.cl/nicetomeat" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="The Daily Grind" />
@@ -15,13 +15,14 @@
   <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&family=DotGothic16&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --sky: #51b5f2;
+      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --navy-3: #081234; --sky: #51b5f2;
       --sky-lt: #a6d9f8; --pistacho: #c4d870; --pistacho-2: #7fa64a; --shu: #cf3f2f;
       --beige: #e3ded9; --beige-2: #d9d4cf; --grano: #6f4e37; --dark: #212529; --mid: #6c757d;
-      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --font-jp: 'Shippori Mincho', serif;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+      --font-jp: 'Shippori Mincho', serif; --font-jp-game: 'DotGothic16', sans-serif;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -51,7 +52,7 @@
       font-size: clamp(38px, 7vw, 72px); line-height: 1.02; margin: 14px 0 18px; max-width: 640px;
     }
     h1 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
-    .hero .bajada { max-width: 560px; font-size: 17px; }
+    .hero .bajada { max-width: 580px; font-size: 17px; }
     .tategaki {
       position: absolute; top: 70px; right: 0;
       writing-mode: vertical-rl; font-family: var(--font-jp); font-size: 17px;
@@ -59,7 +60,7 @@
     }
     @media (max-width: 700px) { .tategaki { display: none; } }
     .sello-kanji {
-      position: absolute; bottom: 34px; right: 4px;
+      position: absolute; bottom: 34px; right: 4px; z-index: 2;
       width: 74px; height: 74px; border-radius: 50%;
       background: var(--shu); color: var(--cream);
       display: flex; align-items: center; justify-content: center;
@@ -69,7 +70,7 @@
     @media (max-width: 700px) { .sello-kanji { position: static; transform: rotate(-6deg); margin-top: 24px; } }
 
     .banda { margin: 26px 0 0; }
-    .banda img { width: 100%; aspect-ratio: 16/8; object-fit: cover; object-position: center 62%; border-radius: 14px; }
+    .banda img { width: 100%; border-radius: 14px; }
     .banda figcaption { font-size: 12.5px; color: var(--mid); padding: 8px 2px; }
 
     section { padding: 58px 0 0; }
@@ -77,12 +78,59 @@
     h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--sky); }
     .lead { max-width: 600px; font-size: 16px; }
 
+    /* ── El smash: la plancha de la casa ── */
+    .plancha-zona {
+      margin-top: 30px; background: var(--dark); border-radius: 16px;
+      padding: 36px 34px 30px; position: relative; overflow: hidden; color: var(--cream);
+    }
+    .plancha-zona::before {
+      content: "肉"; position: absolute; top: -34px; right: -8px;
+      font-family: var(--font-jp); font-size: 190px; line-height: 1;
+      color: rgba(196, 216, 112, 0.14); pointer-events: none;
+    }
+    .plancha-zona .saludo { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4vw, 40px); color: var(--cream); }
+    .plancha-zona .saludo span { color: var(--pistacho); }
+    .plancha-zona .mantra { margin-top: 10px; font-size: 16px; color: var(--beige-2); max-width: 520px; }
+    .plancha-zona .mantra strong { color: var(--cream); font-weight: 500; }
+    .carta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .burger {
+      border: 1px solid rgba(249, 243, 236, 0.28); border-radius: 999px;
+      padding: 8px 16px; font-size: 13.5px; font-weight: 500; color: var(--cream);
+    }
+    .burger span { color: var(--pistacho); }
+    .plancha-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; position: relative; z-index: 1; }
+    .btn {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      text-decoration: none; padding: 13px 24px; border-radius: 8px; transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--pistacho { background: var(--pistacho); color: var(--dark); }
+    .btn--borde { border: 1.5px solid var(--beige-2); color: var(--cream); }
+    .plancha-zona .credito { margin-top: 20px; font-size: 12px; color: var(--mid); }
+
+    /* ── El juego: スマッシュ ── */
+    .juego-zona { margin-top: 30px; }
+    .cartucho-marco {
+      background: var(--navy-3); border-radius: 14px; padding: 16px;
+      box-shadow: 6px 6px 0 rgba(14, 30, 86, 0.22);
+    }
+    .cartucho-cab { display: flex; justify-content: space-between; align-items: baseline; padding: 0 4px 12px; }
+    .cartucho-cab h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--cream); }
+    .cartucho-cab .jp { font-family: var(--font-jp-game); font-size: 14px; color: var(--sky-lt); }
+    .pantalla-smash { position: relative; border-radius: 8px; overflow: hidden; background: #101418; }
+    .pantalla-smash canvas { width: 100%; height: 300px; display: block; touch-action: manipulation; cursor: pointer; }
+    .pantalla-smash::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
+    }
+    .cartucho-pie { display: flex; justify-content: space-between; gap: 10px; padding: 12px 4px 0; flex-wrap: wrap; }
+    .cartucho-pie .label { color: rgba(249, 243, 236, 0.55); }
+    #smash-marcador { color: var(--sky-lt); }
+
     .casas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
     @media (max-width: 700px) { .casas { grid-template-columns: 1fr; } }
-    .casa {
-      background: #fff; border-radius: 14px; padding: 24px 22px;
-      box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
-    }
+    .casa { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08); }
     .casa .num { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--sky); }
     .casa h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--navy); margin: 6px 0 6px; }
     .casa p { font-size: 14px; }
@@ -112,19 +160,10 @@
     .galeria img { border-radius: 14px; aspect-ratio: 1/1; object-fit: cover; }
 
     .cta-fila { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-    .btn {
-      font-family: var(--font-display); font-weight: 700; font-size: 15px;
-      text-decoration: none; padding: 13px 24px; border-radius: 8px;
-      transition: transform 0.2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); }
     .btn--navy { background: var(--navy); color: var(--cream); }
     .btn--ghost { border: 1.5px solid var(--navy); color: var(--navy); }
 
-    .proxima {
-      margin-top: 64px; background: var(--navy); border-radius: 14px;
-      padding: 40px 34px; position: relative; overflow: hidden;
-    }
+    .proxima { margin-top: 64px; background: var(--navy); border-radius: 14px; padding: 40px 34px; position: relative; overflow: hidden; }
     .proxima h2 { color: var(--cream); }
     .proxima p { color: var(--sky-lt); max-width: 520px; font-size: 16px; }
     .proxima .selloJP { position: absolute; top: 26px; right: 28px; font-family: var(--font-jp); font-size: 14px; color: var(--sky-lt); opacity: 0.8; }
@@ -148,14 +187,55 @@
     <div class="hero">
       <p class="kicker">Casa III · El anfitrión</p>
       <h1>La casa que nos <em>recibe</em>.</h1>
-      <p class="bajada">Nice To Meat es una casa de fuego y carne en Av. Los Leones. En la mañana abre la puerta al café y al arte: ellos ponen el espacio, nosotros armamos el desayuno.</p>
+      <p class="bajada">Nice To Meat hace las mejores smash burgers de todas: carne fresca aplastada en plancha caliente hasta el borde crujiente. Y en la mañana, esa misma casa de Av. Los Leones nos abre la puerta: ellos ponen el espacio y el fuego, nosotros armamos el desayuno.</p>
       <span class="tategaki" lang="ja" aria-hidden="true">火と肉の家</span>
       <span class="sello-kanji" lang="ja" aria-label="Kanji abrir">開</span>
       <figure class="banda">
-        <img src="/img/socios/tile-1-fachada-ntm.jpg" alt="Fachada ilustrada de la casa en Providencia al amanecer, toldo navy y ventanas con luz tibia" />
-        <figcaption>Av. Los Leones, Providencia · la puerta se abre temprano</figcaption>
+        <img src="/img/socios/ntm-urbana-trio.jpg" alt="Tríptico urbano: la casa que abre, el desayuno con café y el soft de pistacho, con kanjis gigantes en pistacho" />
+        <figcaption>開 abrir · 朝 mañana · 旬 temporada — la casa contada en estampas urbanas</figcaption>
       </figure>
     </div>
+
+    <section>
+      <h2>El <em>smash</em></h2>
+      <p class="lead">El oficio de la casa por la tarde. Ellos lo dicen con cinco palabras y ninguna de sobra.</p>
+      <div class="plancha-zona">
+        <p class="saludo">Mucho gusto<span>.</span></p>
+        <p class="mantra"><strong>Carne brava. Plancha caliente. Pan dorado. Nada más. Nada menos.</strong> Así se presenta Nice To Meat, haciendo smash burgers desde 2023 con hambre de las buenas.</p>
+        <div class="carta">
+          <span class="burger"><span>&#x25A0;&#xFE0E;</span> Big Nice</span>
+          <span class="burger"><span>&#x25A0;&#xFE0E;</span> Classic Meat</span>
+          <span class="burger"><span>&#x25A0;&#xFE0E;</span> Blue Fire</span>
+          <span class="burger"><span>&#x25A0;&#xFE0E;</span> Crunchy Ring</span>
+          <span class="burger"><span>&#x25A0;&#xFE0E;</span> Smash &amp; Truffle</span>
+        </div>
+        <div class="plancha-links">
+          <a class="btn btn--pistacho" href="https://nicetomeat.cl/">nicetomeat.cl &#x2197;&#xFE0E;</a>
+          <a class="btn btn--borde" href="https://www.instagram.com/nicetomeatburger/">@nicetomeatburger &#x2197;&#xFE0E;</a>
+        </div>
+        <p class="credito">Av. Los Leones 1012, local 2 · Providencia · la tarde es de ellos</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>El cartucho de la <em>casa</em></h2>
+      <p class="lead">Todo lo que vive en esta casa termina convertido en juego. El de Nice To Meat se juega con una tecla: aplasta la smash justo cuando el anillo toca la carne.</p>
+      <div class="juego-zona">
+        <div class="cartucho-marco">
+          <div class="cartucho-cab">
+            <h3>Smash</h3>
+            <span class="jp" lang="ja">スマッシュ · K-EXTRA</span>
+          </div>
+          <div class="pantalla-smash">
+            <canvas id="smash-canvas" aria-label="Juego Smash: presiona espacio o toca cuando el anillo toque la hamburguesa"></canvas>
+          </div>
+          <div class="cartucho-pie">
+            <span class="label" id="smash-marcador">Espacio o toca la plancha para partir</span>
+            <span class="label">Pronto en La Consola &#x2192;&#xFE0E;</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section>
       <h2>De casa en <em>casa</em></h2>
@@ -174,7 +254,7 @@
         <div class="casa casa--actual">
           <span class="num">Casa III · estamos aquí</span>
           <h3>Nice To Meat · Providencia</h3>
-          <p>La casa de fuego y carne que nos recibe hoy.</p>
+          <p>La casa del smash que nos recibe hoy.</p>
         </div>
       </div>
       <p class="viaje">La ruta sigue: <span>una casa por barrio</span> es la naturaleza del proyecto.</p>
@@ -196,14 +276,14 @@
         <div class="mitad mitad--fuego">
           <h3>El fuego es de ellos</h3>
           <ul>
-            <li>Parrilla y carnes con oficio</li>
+            <li>Smash burgers de borde crujiente</li>
             <li>La casa completa cuando cae la tarde</li>
             <li>Activaciones juntos, dos veces al mes</li>
           </ul>
         </div>
       </div>
       <div class="galeria">
-        <img src="/img/socios/tile-3-cafe-parrilla.jpg" alt="Taza de café humeante y desayuno sobre mesa de listones, luz de mañana" />
+        <img src="/img/socios/tile-1-fachada-ntm.jpg" alt="Fachada ilustrada de la casa en Providencia al amanecer, línea serena" />
         <img src="/img/socios/tile-9-comunidad-creativa.jpg" alt="Comunidad creativa reunida en la casa, ilustración editorial" />
       </div>
       <div class="cta-fila">
@@ -223,5 +303,208 @@
     <span>The Daily Grind × Nice To Meat · Casa III · MMXXVI</span>
     <span><span class="jp" lang="ja">開</span> · <a href="/">volver a la consola</a></span>
   </footer>
+
+<script>
+(function () {
+  "use strict";
+  /* ── Smash · スマッシュ ──
+     Cae una hamburguesa a la plancha; un anillo se cierra sobre ella.
+     Espacio o toque cuando el anillo toca la carne = smash con borde crujiente.
+     完璧 si el calce es exacto. Tres quemadas y se apaga la plancha. */
+  var cv = document.getElementById("smash-canvas");
+  var marcador = document.getElementById("smash-marcador");
+  var ctx = cv.getContext("2d");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var st = {
+    modo: "idle",        // idle | cae | anillo | splat | fin
+    y: -40, vy: 0,
+    px: 0.5,             // posición x de la hamburguesa (fracción del ancho)
+    anillo: 0,           // radio actual del anillo
+    velAnillo: 90,       // px/s con que se cierra
+    t: 0, esperaSplat: 0,
+    puntos: 0, quemadas: 0, kanpeki: false,
+    mejor: 0, mensaje: ""
+  };
+  try { st.mejor = parseInt(localStorage.getItem("portal.smash.mejor") || "0", 10) || 0; } catch (e) {}
+
+  var R_CARNE = 26;      // radio de la hamburguesa cruda
+  var VENTANA = 10;      // margen de acierto
+  var PERFECTO = 4;      // margen de 完璧
+
+  function nuevaCarne() {
+    st.px = 0.2 + Math.abs(Math.sin(st.puntos * 3.7)) * 0.6;
+    st.y = -40; st.vy = 0;
+    st.modo = "cae";
+    st.kanpeki = false;
+  }
+  function empieza() {
+    st.puntos = 0; st.quemadas = 0; st.velAnillo = 90; st.mensaje = "";
+    nuevaCarne();
+    pinta();
+  }
+  function intenta() {
+    if (st.modo === "idle" || st.modo === "fin") { empieza(); return; }
+    if (st.modo !== "anillo") return;
+    var d = Math.abs(st.anillo - R_CARNE);
+    if (d <= VENTANA) {
+      st.kanpeki = d <= PERFECTO;
+      st.puntos += st.kanpeki ? 2 : 1;
+      st.modo = "splat"; st.esperaSplat = 0;
+      st.velAnillo = Math.min(st.velAnillo + 7, 230);
+    } else {
+      quema();
+    }
+  }
+  function quema() {
+    st.quemadas += 1;
+    st.modo = "splat"; st.esperaSplat = 0; st.kanpeki = false; st.quemando = true;
+    if (st.quemadas >= 3) {
+      st.modo = "fin";
+      if (st.puntos > st.mejor) {
+        st.mejor = st.puntos;
+        try { localStorage.setItem("portal.smash.mejor", String(st.mejor)); } catch (e) {}
+      }
+    }
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.code !== "Space") return;
+    var r = cv.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    e.preventDefault();
+    intenta();
+  });
+  cv.addEventListener("pointerdown", function (e) { e.preventDefault(); intenta(); });
+
+  var tPrev = null;
+  function pinta(ts) {
+    if (!cv.isConnected) return;
+    var caja = cv.parentElement.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (cv.width !== Math.round(caja.width * dpr)) {
+      cv.width = Math.round(caja.width * dpr);
+      cv.height = Math.round(caja.height * dpr);
+    }
+    var dt = 0;
+    if (ts != null) {
+      if (tPrev != null) dt = Math.min((ts - tPrev) / 1000, 0.05);
+      tPrev = ts;
+    }
+    var W = cv.width / dpr, H = cv.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    /* plancha */
+    ctx.fillStyle = "#101418";
+    ctx.fillRect(0, 0, W, H);
+    var suelo = H - 64;
+    ctx.fillStyle = "#1b2127";
+    ctx.fillRect(0, suelo, W, H - suelo);
+    ctx.strokeStyle = "rgba(249,243,236,0.07)";
+    ctx.lineWidth = 1;
+    for (var gx = 20; gx < W; gx += 34) {
+      ctx.beginPath(); ctx.moveTo(gx, suelo + 8); ctx.lineTo(gx, H - 8); ctx.stroke();
+    }
+
+    var cx = st.px * W;
+
+    if (st.modo === "cae") {
+      st.vy += 900 * dt;
+      st.y += st.vy * dt;
+      if (st.y >= suelo) {
+        st.y = suelo;
+        st.modo = "anillo";
+        st.anillo = Math.min(W, 260) * 0.42;
+      }
+      carne(cx, st.y, 1, false, false);
+    } else if (st.modo === "anillo") {
+      st.anillo -= st.velAnillo * dt;
+      if (st.anillo <= R_CARNE - VENTANA) { quema(); }
+      carne(cx, suelo, 1, false, false);
+      ctx.beginPath();
+      ctx.arc(cx, suelo - 12, Math.max(st.anillo, 4), 0, Math.PI * 2);
+      ctx.strokeStyle = Math.abs(st.anillo - R_CARNE) <= VENTANA ? "#c4d870" : "rgba(249,243,236,0.65)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    } else if (st.modo === "splat") {
+      st.esperaSplat += dt;
+      var esc = Math.min(1 + st.esperaSplat * 6, 1.9);
+      carne(cx, suelo, esc, true, st.quemando);
+      if (!st.quemando) {
+        ctx.font = "700 22px 'DotGothic16', sans-serif";
+        ctx.fillStyle = st.kanpeki ? "#c4d870" : "#f9f3ec";
+        ctx.textAlign = "center";
+        ctx.fillText(st.kanpeki ? "完璧!" : "スマッシュ!", cx, suelo - 58);
+      }
+      if (st.esperaSplat > 0.55) {
+        st.quemando = false;
+        if (st.quemadas >= 3) { st.modo = "fin"; } else { nuevaCarne(); }
+      }
+    } else if (st.modo === "fin") {
+      ctx.font = "700 26px 'DotGothic16', sans-serif";
+      ctx.fillStyle = "#f9f3ec"; ctx.textAlign = "center";
+      ctx.fillText("Se apagó la plancha", W / 2, H / 2 - 26);
+      ctx.font = "300 15px 'DM Sans', sans-serif";
+      ctx.fillStyle = "#a6d9f8";
+      ctx.fillText(st.puntos + " smash · mejor " + st.mejor + " · espacio para otra ronda", W / 2, H / 2 + 4);
+    } else {
+      ctx.font = "700 24px 'DotGothic16', sans-serif";
+      ctx.fillStyle = "#f9f3ec"; ctx.textAlign = "center";
+      ctx.fillText("スマッシュ", W / 2, H / 2 - 30);
+      ctx.font = "300 15px 'DM Sans', sans-serif";
+      ctx.fillStyle = "#a6d9f8";
+      ctx.fillText("Espacio o toca: aplasta cuando el anillo toque la carne", W / 2, H / 2);
+      carne(W / 2, suelo, 1.55, true, false);
+    }
+
+    /* HUD */
+    ctx.textAlign = "left";
+    ctx.font = "14px 'DotGothic16', sans-serif";
+    ctx.fillStyle = "#a6d9f8";
+    ctx.fillText("スマッシュ x " + st.puntos, 14, 24);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#cf3f2f";
+    var vidas = "";
+    for (var i = 0; i < 3; i++) vidas += (i < 3 - st.quemadas) ? "■ " : "□ ";
+    ctx.fillText(vidas.trim(), W - 14, 24);
+
+    if (marcador) {
+      marcador.textContent = st.modo === "fin"
+        ? ("Ronda lista: " + st.puntos + " smash · mejor " + st.mejor)
+        : (st.modo === "idle" ? "Espacio o toca la plancha para partir" : (st.puntos + " smash · " + (3 - st.quemadas) + " carnes en juego"));
+    }
+    if (!reduce || st.modo !== "idle") requestAnimationFrame(pinta);
+  }
+
+  function carne(x, y, esc, aplastada, quemada) {
+    ctx.save();
+    ctx.translate(x, y);
+    var r = R_CARNE * esc;
+    var alto = aplastada ? 10 : 18;
+    /* sombra */
+    ctx.beginPath();
+    ctx.ellipse(0, 2, r * 1.06, alto * 0.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(0,0,0,0.4)"; ctx.fill();
+    /* carne */
+    ctx.beginPath();
+    ctx.ellipse(0, -alto * 0.5, r, alto, 0, 0, Math.PI * 2);
+    ctx.fillStyle = quemada ? "#2a2320" : "#6f4e37";
+    ctx.fill();
+    if (aplastada && !quemada) {
+      /* borde crujiente */
+      ctx.beginPath();
+      ctx.ellipse(0, -alto * 0.5, r, alto, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = "#a97b50"; ctx.lineWidth = 3; ctx.stroke();
+      /* vapor */
+      ctx.strokeStyle = "rgba(249,243,236,0.5)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(-8, -alto - 8); ctx.quadraticCurveTo(-14, -alto - 18, -8, -alto - 26); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(8, -alto - 6); ctx.quadraticCurveTo(2, -alto - 16, 8, -alto - 24); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  pinta();
+})();
+</script>
 </body>
 </html>
