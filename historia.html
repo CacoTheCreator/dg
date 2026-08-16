@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La historia — The Daily Grind</title>
+
+  <meta property="og:title" content="La historia — The Daily Grind">
+  <meta property="og:description" content="El café abrió. La camisa viene. Registrate para ser de los primeros.">
+  <meta property="og:image" content="https://dailygrind.cl/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="The Daily Grind — Vol. 4 · Mismo ritual. Otro nivel.">
+  <meta property="og:url" content="https://dailygrind.cl/historia">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Daily Grind">
+  <meta property="og:locale" content="es_CL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="La historia — The Daily Grind">
+  <meta name="twitter:description" content="El café abrió. La camisa viene. Registrate para ser de los primeros.">
+  <meta name="twitter:image" content="https://dailygrind.cl/img/og-home.jpg">
+  <link rel="icon" href="LogoTDG.svg" type="image/svg+xml">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0e1e56;
+      --navy-2: #0b1845;
+      --sky:    #51b5f2;
+      --sky-lt: #a6d9f8;
+      --cream:  #f9f3ec;
+      --beige:  #e3ded9;
+      --beige-2:#d9d4cf;
+      --dark:   #212529;
+      --mid:    #6C757D;
+      --white:  #FFFFFF;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────
+       HEADER
+    ───────────────────────────────────── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 24px;
+      background-color: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo-link { display: flex; align-items: center; flex-shrink: 0; }
+    .nav-logo { height: 40px; width: auto; display: block; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--sky); }
+
+    .nav-cta {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+      background-color: var(--sky);
+      padding: 9px 20px;
+      border-radius: 7px;
+      text-decoration: none;
+      transition: background-color 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background-color: var(--sky-lt); transform: translateY(-1px); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      margin: 0 auto;
+      background-color: var(--white);
+      border-radius: 2px;
+      transition: transform 0.28s ease, opacity 0.2s ease;
+    }
+    .header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+    .header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* anchor offset under sticky nav */
+    html { scroll-padding-top: 72px; }
+    #volumes, #mundos, #eventos, #form { scroll-margin-top: 72px; }
+
+    /* ─────────────────────────────────────
+       HERO
+    ───────────────────────────────────── */
+    .hero {
+      position: relative;
+      background-color: var(--cream);
+      overflow: hidden;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+      z-index: 0;
+    }
+
+    /* Velo crema a la izquierda para que el texto siempre respire sobre la ilustración */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to right, var(--cream) 0%, rgba(249,243,236,0.86) 32%, rgba(249,243,236,0) 62%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 460px;
+      margin-left: clamp(24px, 7vw, 104px);
+      text-align: left;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.55;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(40px, 6.5vw, 70px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.02;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--dark);
+      max-width: 380px;
+      margin-bottom: 34px;
+      line-height: 1.65;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 15px 34px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.2s, transform 0.15s;
+      letter-spacing: 0.01em;
+      font-variant-emoji: text;
+    }
+
+    .hero-cta:hover {
+      background-color: var(--navy-2);
+      transform: translateY(-2px);
+    }
+
+    /* ─────────────────────────────────────
+       CAMISA VOL.04 (drop low-key, al final)
+    ───────────────────────────────────── */
+    .camisa {
+      background-color: var(--navy-2);
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .camisa-kicker {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      opacity: 0.7;
+      margin-bottom: 14px;
+    }
+    .camisa-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .camisa-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      opacity: 0.85;
+      max-width: 430px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+    .camisa-link {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--sky);
+      text-decoration: none;
+      font-variant-emoji: text;
+    }
+    .camisa-link:hover { color: var(--sky-lt); }
+
+    /* ─────────────────────────────────────
+       SHARED LABELS & UTILITIES
+    ───────────────────────────────────── */
+    .section-label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 14px;
+    }
+
+    .section-label.dark { color: var(--mid); }
+
+    /* ─────────────────────────────────────
+       VOLUMES
+    ───────────────────────────────────── */
+    .volumes {
+      background-color: var(--navy-2);
+      padding: 96px 24px;
+      text-align: center;
+    }
+
+    .volumes-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 56px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.2;
+    }
+
+    .volumes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 860px;
+      margin: 0 auto;
+      background-color: rgba(81,181,242,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .volume-item {
+      padding: 40px 28px;
+      background-color: var(--navy-2);
+      text-align: left;
+      transition: background-color 0.3s;
+    }
+
+    .volume-item:hover { background-color: rgba(81,181,242,0.05); }
+    .volume-item.active { background-color: rgba(81,181,242,0.08); }
+
+    .volume-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 14px;
+    }
+
+    .volume-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+
+    .volume-item.active .volume-name { color: var(--sky); }
+
+    .volume-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      line-height: 1.65;
+    }
+
+    .volume-item.volume-link {
+      position: relative;
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .volume-item.volume-link:hover {
+      transform: translateY(-2px);
+      background-color: rgba(81,181,242,0.14);
+    }
+    .volume-item.volume-link::after {
+      content: "↗\FE0E";
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--sky);
+      opacity: 0.55;
+      transition: opacity 0.25s, transform 0.25s;
+      font-variant-emoji: text;
+    }
+    .volume-item.volume-link:hover::after {
+      opacity: 1;
+      transform: translate(3px, -3px);
+    }
+
+    .volume-img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      background-color: var(--cream);
+    }
+
+    /* ─────────────────────────────────────
+       SCENE BAND (ilustración de escena)
+    ───────────────────────────────────── */
+    .scene-band {
+      position: relative;
+      background-color: var(--cream);
+      overflow: hidden;
+    }
+    .scene-band img {
+      display: block;
+      width: 100%;
+      max-height: 540px;
+      object-fit: cover;
+      object-position: right center;
+    }
+    /* Puente de color: arriba funde con el crema de Mundos, abajo con el navy de Eventos */
+    .scene-band::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      right: 0;
+      height: 130px;
+      background: linear-gradient(to bottom, var(--cream) 0%, rgba(249,243,236,0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .scene-band::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 170px;
+      background: linear-gradient(to top, var(--navy) 0%, rgba(14,30,86,0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .scene-copy {
+      position: absolute;
+      top: 50%;
+      left: clamp(24px, 7vw, 104px);
+      transform: translateY(-50%);
+      max-width: 340px;
+      z-index: 2;
+    }
+    .scene-copy .section-label { color: var(--sky); }
+    .scene-copy h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.05;
+    }
+
+    /* ─────────────────────────────────────
+       MUNDOS VIVOS
+    ───────────────────────────────────── */
+    .mundos {
+      background-color: var(--cream);
+      padding: 96px 24px;
+      text-align: center;
+    }
+    .mundos-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.05;
+    }
+    .mundos-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      max-width: 420px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+    .mundos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .mundo-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      background-color: var(--navy);
+      border-radius: 14px;
+      padding: 40px 34px;
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .mundo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 40px rgba(14,30,86,0.22);
+    }
+    .mundo-kicker {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 16px;
+    }
+    .mundo-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 14px;
+    }
+    .mundo-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+    .mundo-go {
+      margin-top: auto;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--sky);
+      letter-spacing: 0.02em;
+      font-variant-emoji: text;
+    }
+    .mundo-card:hover .mundo-go { color: var(--sky-lt); }
+
+    /* ─────────────────────────────────────
+       EVENTOS · CADA SEMANA
+    ───────────────────────────────────── */
+    .eventos {
+      background-color: var(--navy);
+      padding: 96px 24px;
+      text-align: center;
+    }
+    .eventos .section-label { color: var(--sky); }
+    .eventos-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.04;
+      margin-bottom: 14px;
+    }
+    .eventos-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      max-width: 470px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+    .eventos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .evento-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      border-radius: 14px;
+      padding: 40px 34px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .evento-card--lunes { background-color: var(--cream); }
+    .evento-card--miercoles { background-color: var(--sky-lt); }
+    .evento-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 46px rgba(0,0,0,0.30);
+    }
+    .evento-dia {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.55;
+      margin-bottom: 14px;
+    }
+    .evento-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.06;
+      margin-bottom: 4px;
+    }
+    .evento-host {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--mid);
+      margin-bottom: 18px;
+    }
+    .evento-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .evento-cta {
+      margin-top: auto;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background-color: var(--navy);
+      border: none;
+      border-radius: 8px;
+      padding: 13px 26px;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background-color 0.2s, transform 0.15s;
+      font-variant-emoji: text;
+    }
+    .evento-cta:hover { background-color: var(--navy-2); transform: translateY(-1px); }
+    .eventos-foot {
+      font-size: 12px;
+      color: var(--sky-lt);
+      opacity: 0.85;
+      margin-top: 38px;
+    }
+
+    /* ── Modal de inscripción ── */
+    .signup-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .signup-modal.open { display: flex; }
+    .signup-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(11,24,69,0.62);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .signup-dialog {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 42px 36px 36px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.38);
+      animation: signup-in 0.25s ease;
+    }
+    @keyframes signup-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    .signup-x {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--mid);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .signup-x:hover { color: var(--navy); }
+    .signup-kicker {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 10px;
+    }
+    .signup-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .signup-sub {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+    .field .opt { color: var(--beige-2); font-weight: 400; }
+    .evento-error {
+      display: none;
+      color: #c0392b;
+      font-size: 13px;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .signup-success { display: none; text-align: center; padding: 8px 0; }
+    .signup-card-link {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--sky);
+      text-decoration: none;
+      font-variant-emoji: text;
+    }
+    .signup-card-link:hover { color: var(--navy); }
+
+    /* ─────────────────────────────────────
+       COMIC
+    ───────────────────────────────────── */
+    .comic {
+      background-color: var(--navy-2);
+      padding: 88px 0 72px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .comic-head {
+      padding: 0 24px;
+      margin-bottom: 40px;
+    }
+
+    .comic-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .comic-chapter {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background-color: var(--sky);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    .comic-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .comic-title-jp {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      letter-spacing: 0.06em;
+    }
+
+    .comic-pages {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 40px 24px;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 40px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .comic-pages::-webkit-scrollbar { display: none; }
+
+    .comic-pages img {
+      flex-shrink: 0;
+      height: 560px;
+      width: auto;
+      border-radius: 8px;
+      scroll-snap-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .comic-hint {
+      display: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(166,217,248,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: -4px 0 18px;
+      text-align: center;
+      animation: hint-pulse 2.4s ease-in-out infinite;
+      font-variant-emoji: text;
+    }
+    .comic-hint.hidden { display: none !important; }
+    .comic-hint .arrow-left { display: inline-block; margin-right: 10px; animation: hint-nudge 2s ease-in-out infinite; }
+    .comic-hint .arrow-right { display: inline-block; margin-left: 10px; animation: hint-nudge 2s ease-in-out infinite reverse; }
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; }
+    }
+    @keyframes hint-nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    .comic-coming {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(166,217,248,0.45);
+      letter-spacing: 0.08em;
+      margin-top: 8px;
+      padding: 0 24px;
+    }
+
+    /* ─────────────────────────────────────
+       PRODUCT
+    ───────────────────────────────────── */
+    .product {
+      background-color: var(--beige);
+      padding: 96px 24px;
+    }
+
+    .product-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 64px;
+      align-items: start;
+    }
+
+    .product-divider {
+      background-color: var(--beige-2);
+      align-self: stretch;
+    }
+
+    .product-block-label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 16px;
+    }
+
+    .product-block h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .product-block p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.72;
+    }
+
+    .cafe-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      image-orientation: from-image;
+    }
+
+    .camisa-video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      display: block;
+      background-color: var(--navy);
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 24px;
+      transition: background-color 0.2s, transform 0.15s;
+    }
+
+    .product-cta:hover {
+      background-color: var(--navy-2);
+      transform: translateY(-1px);
+    }
+
+    /* ─────────────────────────────────────
+       AMBIENTE (carousel)
+    ───────────────────────────────────── */
+    .ambiente {
+      background-color: var(--navy);
+      padding: 96px 24px;
+      text-align: center;
+    }
+
+    .ambiente-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.05;
+    }
+
+    .ambiente-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sky-lt);
+      max-width: 440px;
+      margin: 0 auto 52px;
+      line-height: 1.7;
+    }
+
+    .ambiente-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .ambiente-slot {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--navy-2);
+    }
+
+    .ambiente-slot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      image-orientation: from-image;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .ambiente-slot img.active { opacity: 1; }
+
+    /* ─────────────────────────────────────
+       FORM SECTION
+    ───────────────────────────────────── */
+    .form-section {
+      padding: 88px 20px;
+      background-color: var(--beige);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .form-section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 360px;
+    }
+
+    .form-card {
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 4px 40px rgba(14,30,86,0.10);
+    }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 20px;
+    }
+
+    .divider-line {
+      height: 1px;
+      background-color: var(--beige);
+      margin-bottom: 24px;
+    }
+
+    .row { display: flex; gap: 16px; }
+    .row .field { flex: 1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .field input,
+    .field select {
+      border: 1.5px solid var(--beige);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dark);
+      background-color: var(--cream);
+      transition: border-color 0.2s, background-color 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--sky);
+      background-color: var(--white);
+    }
+
+    .field input::placeholder { color: var(--beige-2); }
+
+    .date-row { display: flex; gap: 8px; }
+
+    .date-row .date-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .date-row .date-field select {
+      border: 1.5px solid var(--beige);
+      border-radius: 8px;
+      padding: 11px 8px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dark);
+      background-color: var(--cream);
+      transition: border-color 0.2s, background-color 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236C757D' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 22px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .date-row .date-field select:focus {
+      border-color: var(--sky);
+      background-color: var(--white);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background-color: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background-color 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .btn:hover { background-color: var(--navy-2); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .btn.loading .spinner { display: block; }
+    .btn.loading .btn-text { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .privacy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--mid);
+      margin-top: 16px;
+      justify-content: center;
+    }
+
+    /* ─────────────────────────────────────
+       SUCCESS
+    ───────────────────────────────────── */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 32px 0 16px;
+    }
+
+    .success-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--navy);
+      color: var(--white);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .success h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .success p { font-size: 14px; color: var(--mid); }
+
+    /* ─────────────────────────────────────
+       DISCOVER STRIP
+    ───────────────────────────────────── */
+    .discover-strip {
+      background-color: var(--cream);
+      text-align: center;
+      padding: 56px 20px 64px;
+    }
+    .discover-kicker {
+      font-family: 'Syne', sans-serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--sky);
+      letter-spacing: 0.03em;
+      margin-bottom: 22px;
+    }
+    .discover-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .discover-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      background-color: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .discover-btn:hover {
+      background-color: var(--navy);
+      color: var(--cream);
+      transform: translateY(-1px);
+    }
+    .discover-btn .arrow {
+      font-size: 14px;
+      transition: transform 0.2s;
+      font-variant-emoji: text;
+    }
+    .discover-btn:hover .arrow { transform: translate(2px, -2px); }
+    @media (max-width: 480px) {
+      .discover-strip { padding: 44px 20px 52px; }
+      .discover-actions { flex-direction: column; width: 100%; max-width: 260px; margin: 0 auto; }
+      .discover-btn { width: 100%; justify-content: center; }
+    }
+
+    /* ─────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────── */
+    .footer {
+      background-color: var(--navy-2);
+      text-align: center;
+      padding: 40px 20px 32px;
+    }
+
+    .footer-logo {
+      height: 48px;
+      width: auto;
+      opacity: 0.8;
+      margin-bottom: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+
+    .footer-ai {
+      font-size: 11px;
+      color: rgba(81,181,242,0.5);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─────────────────────────────────────
+       PAGE LOADER
+    ───────────────────────────────────── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background-color: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease;
+    }
+
+    #loader.hidden { opacity: 0; pointer-events: none; }
+
+    #loader-logo {
+      height: 56px;
+      width: auto;
+      margin-bottom: 36px;
+    }
+
+    #loader-track {
+      width: 52px;
+      height: 2px;
+      background-color: rgba(81,181,242,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #loader-track::after {
+      content: '';
+      display: block;
+      width: 40%;
+      height: 100%;
+      background-color: var(--sky);
+      border-radius: 2px;
+      animation: loader-slide 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes loader-slide {
+      from { transform: translateX(-100%); }
+      to   { transform: translateX(260%); }
+    }
+
+    /* ─────────────────────────────────────
+       REVEAL
+    ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.34s; }
+
+    /* ─────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 6px 0 10px;
+        background-color: var(--navy-2);
+        border-top: 1px solid rgba(81,181,242,0.16);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.32s ease;
+      }
+      .header.nav-open .nav-links { max-height: 360px; }
+      .nav-link {
+        padding: 14px 24px;
+        font-size: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .nav-cta {
+        margin: 12px 24px 4px;
+        text-align: center;
+        padding: 13px 20px;
+        font-size: 14px;
+      }
+
+      .mundos-grid { grid-template-columns: 1fr; gap: 14px; }
+
+      .product-inner {
+        grid-template-columns: 1fr;
+        gap: 56px 0;
+      }
+      .product-divider { display: none; }
+
+      .ambiente-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .ambiente-slot:last-child {
+        grid-column: span 2;
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero { min-height: 440px; }
+      .hero::before { background: linear-gradient(to right, var(--cream) 0%, rgba(249,243,236,0.92) 55%, rgba(249,243,236,0.3) 100%); }
+      .hero-content { margin-left: 20px; margin-right: 20px; max-width: none; }
+      .hero h1 { font-size: 38px; }
+      .hero-desc { font-size: 15px; max-width: none; }
+      .camisa { padding: 56px 20px; }
+      .volumes { padding: 64px 20px; }
+      .volumes-grid { grid-template-columns: 1fr; }
+      .volume-item { text-align: left; padding: 28px 20px; }
+      .volume-item.volume-link::after { top: 20px; right: 20px; font-size: 16px; }
+      .volume-img { aspect-ratio: 16 / 10; }
+
+      .comic { padding: 64px 0 56px; }
+      .comic-head { padding: 0 20px; }
+      .comic-hint { display: block; }
+      .comic-pages {
+        padding: 4px 20px 20px;
+        gap: 14px;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: 20px;
+      }
+      .comic-pages img {
+        height: 420px;
+        scroll-snap-align: start;
+      }
+      .comic-coming { padding: 0 20px; }
+
+      .mundos { padding: 64px 20px; }
+      .mundo-card { padding: 32px 26px; }
+      .eventos { padding: 64px 20px; }
+      .eventos-grid { grid-template-columns: 1fr; gap: 14px; }
+      .evento-card { padding: 32px 26px; }
+      .signup-dialog { padding: 36px 24px 28px; }
+      .product { padding: 64px 20px; }
+      .ambiente { padding: 64px 20px; }
+      .ambiente-grid { grid-template-columns: 1fr; }
+      .ambiente-slot:last-child { grid-column: span 1; aspect-ratio: 3 / 4; }
+      .form-card { padding: 28px 20px; }
+      .row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LOADER ── -->
+  <div id="loader">
+    <img id="loader-logo" src="LogoTDG.svg" alt="The Daily Grind">
+    <div id="loader-track"></div>
+  </div>
+
+  <!-- ── HEADER / NAV ── -->
+  <header class="header">
+    <a href="/" class="nav-logo-link"><img src="LogoTDG.svg" alt="The Daily Grind" class="nav-logo"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#volumes" class="nav-link">La historia</a>
+      <a href="#mundos" class="nav-link">Mundos</a>
+      <a href="#eventos" class="nav-link">Cada semana</a>
+      <a href="#form" class="nav-cta">Únete</a>
+    </nav>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <img class="hero-img" src="img/ilustraciones/cafe-universidad.jpg" alt="La cafetería con gente entre clases" fetchpriority="high">
+    <div class="hero-content">
+      <span class="hero-label">Vol. 4 — La cafetería, abierta</span>
+      <h1>Mismo ritual.<br><em>Otro nivel.</em></h1>
+      <p class="hero-desc">El café abrió. Llegas, te sientas y la mañana se vuelve otra cosa.</p>
+      <a href="#form" class="hero-cta">Saca tu tarjeta de la casa →&#xFE0E;</a>
+    </div>
+  </section>
+
+  <!-- ── VOLUMES ── -->
+  <section class="volumes" id="volumes">
+    <span class="section-label reveal">La historia</span>
+    <h2 class="volumes-title reveal">Una historia que se despliega en volúmenes.</h2>
+    <div class="volumes-grid">
+      <div class="volume-item reveal reveal-delay-1">
+        <img class="volume-img" src="img/ilustraciones/vol1-musica.jpg" alt="Ilustración de un vinilo y un micrófono" loading="lazy">
+        <p class="volume-num">Vol. 1</p>
+        <p class="volume-name">Música</p>
+        <p class="volume-desc">Un álbum que instaló el nombre y el espíritu antes de que hubiera un espacio físico.</p>
+      </div>
+      <div class="volume-item reveal reveal-delay-2">
+        <img class="volume-img" src="img/ilustraciones/vol23-moda.jpg" alt="Ilustración de una polera doblada con un gorro" loading="lazy">
+        <p class="volume-num">Vol. 2 &amp; 3</p>
+        <p class="volume-name">Moda</p>
+        <p class="volume-desc">Poleras con estética cuidada. La marca dejó de ser solo sonido y se volvió algo que se usa.</p>
+      </div>
+      <a href="/menu" class="volume-item volume-link active reveal reveal-delay-3">
+        <img class="volume-img" src="img/ilustraciones/vol4-cafe.jpg" alt="Ilustración de una taza de café y una camisa doblada" loading="lazy">
+        <p class="volume-num">Vol. 4</p>
+        <p class="volume-name">La cafetería</p>
+        <p class="volume-desc">Arte y gastronomía en un espacio que existe porque debe existir. Y la camisa que lo sella.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── MUNDOS VIVOS ── -->
+  <section class="mundos" id="mundos">
+    <span class="section-label dark reveal">Dentro del Vol. 4</span>
+    <h2 class="mundos-title reveal">Mundos para hacer buena la espera.</h2>
+    <p class="mundos-sub reveal">El café es el lugar. Adentro siempre pasa algo.</p>
+    <div class="mundos-grid">
+      <a href="/laconsola/" class="mundo-card reveal reveal-delay-1">
+        <span class="mundo-kicker">La Consola</span>
+        <h3 class="mundo-name">Juega mientras esperas tu café.</h3>
+        <p class="mundo-desc">La pequeña arcade de la casa. Snake, latte art y más, con el grano de protagonista. Pensada para esos minutos entre que pides y te llaman.</p>
+        <span class="mundo-go">Entrar a La Consola ↗&#xFE0E;</span>
+      </a>
+      <a href="#form" class="mundo-card reveal reveal-delay-2">
+        <span class="mundo-kicker">Eldiez · DailyBack</span>
+        <h3 class="mundo-name">Cada café cuenta.</h3>
+        <p class="mundo-desc">El programa de la casa. Juntas sellos hasta llegar al diez y el café de la casa va por nosotros. Tu tarjeta vive en el teléfono, sin plástico que se pierda.</p>
+        <span class="mundo-go">Sacar mi tarjeta ↗&#xFE0E;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── EVENTOS · CADA SEMANA ── -->
+  <section class="eventos" id="eventos">
+    <span class="section-label reveal">Cada semana, en la casa</span>
+    <h2 class="eventos-title reveal">No dejes de ser parte de…</h2>
+    <p class="eventos-sub reveal">El café abre sus mesas. Te sientas, aprendes algo nuevo y te llevas más que un café.</p>
+    <div class="eventos-grid">
+      <div class="evento-card evento-card--lunes reveal reveal-delay-1">
+        <span class="evento-dia">Lunes</span>
+        <h3 class="evento-name">Vibecoding</h3>
+        <p class="evento-host">Sesión abierta de código</p>
+        <p class="evento-desc">Traes tu notebook y una idea a medio cocinar. Construimos en vivo, sin pose, entre cafés. Para los que crean y quieren acelerar.</p>
+        <button class="evento-cta" data-track="evento-vibecoding" data-titulo="Lunes de Vibecoding">Inscríbete →&#xFE0E;</button>
+      </div>
+      <div class="evento-card evento-card--miercoles reveal reveal-delay-2">
+        <span class="evento-dia">Miércoles</span>
+        <h3 class="evento-name">Especialidad</h3>
+        <p class="evento-host">con Guille</p>
+        <p class="evento-desc">Café de especialidad como pocas veces lo vas a tomar. Taller en vivo sobre el grano y la extracción. Cada semana, una historia distinta en la taza.</p>
+        <button class="evento-cta" data-track="evento-especialidad" data-titulo="Miércoles de Especialidad">Inscríbete →&#xFE0E;</button>
+      </div>
+    </div>
+    <p class="eventos-foot reveal">Cupos limitados · sede UAI. Te avisamos la próxima fecha apenas reserves.</p>
+  </section>
+
+  <!-- ── MODAL DE INSCRIPCIÓN (eventos) ── -->
+  <div class="signup-modal" id="signupModal" aria-hidden="true">
+    <div class="signup-backdrop" data-close></div>
+    <div class="signup-dialog" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+      <button class="signup-x" type="button" data-close aria-label="Cerrar">&times;</button>
+      <div class="signup-body">
+        <span class="signup-kicker" id="signupKicker">Inscripción</span>
+        <h3 class="signup-title" id="signupTitle">Reserva tu cupo</h3>
+        <p class="signup-sub">Déjanos tus datos y te guardamos el lugar. De paso queda lista tu tarjeta de la casa.</p>
+        <form id="eventForm" novalidate>
+          <div class="field">
+            <label for="ev-nombre">Nombre y apellido</label>
+            <input type="text" id="ev-nombre" placeholder="Tu nombre" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="ev-email">Email</label>
+            <input type="email" id="ev-email" placeholder="tucorreo@email.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="ev-telefono">WhatsApp <span class="opt">(opcional)</span></label>
+            <input type="tel" id="ev-telefono" placeholder="+56 9 0000 0000" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn" id="evBtn">
+            <span class="btn-text">Reservar mi cupo</span>
+            <span class="spinner"></span>
+          </button>
+          <p class="evento-error" id="evError"></p>
+        </form>
+      </div>
+      <div class="signup-success" id="evSuccess">
+        <div class="success-ring">■</div>
+        <h2>¡Te esperamos!</h2>
+        <p id="evSuccessMsg">Quedaste en la lista. Te escribimos con la próxima fecha.</p>
+        <a class="signup-card-link" id="evCardLink" href="#">Ver mi tarjeta de la casa →&#xFE0E;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COMIC ── -->
+  <section class="comic">
+    <div class="comic-head reveal">
+      <div class="comic-meta">
+        <span class="section-label" style="margin-bottom:0; color:var(--sky);">El universo TDG</span>
+        <span class="comic-chapter">Cap. 01</span>
+      </div>
+      <h2 class="comic-title">Un día en The Daily Grind.</h2>
+      <p class="comic-title-jp">デイリー・グラインドでの一日</p>
+    </div>
+    <p class="comic-hint" id="comicHint"><span class="arrow-left">←&#xFE0E;</span>Desliza para leer<span class="arrow-right">→&#xFE0E;</span></p>
+    <div class="comic-pages reveal" id="comicPages">
+      <img src="img/comic-01.png" alt="Un día en The Daily Grind — pág. 1" loading="lazy" decoding="async">
+      <img src="img/comic-02.png" alt="Un día en The Daily Grind — pág. 2" loading="lazy" decoding="async">
+      <img src="img/comic-03.png" alt="Un día en The Daily Grind — pág. 3" loading="lazy" decoding="async">
+      <img src="img/comic-04.png" alt="Un día en The Daily Grind — pág. 4" loading="lazy" decoding="async">
+      <img src="img/comic-05.png" alt="Un día en The Daily Grind — pág. 5" loading="lazy" decoding="async">
+    </div>
+    <p class="comic-coming">Más capítulos en camino.</p>
+  </section>
+
+  <!-- ── AMBIENTE ── -->
+  <section class="ambiente">
+    <span class="section-label reveal">Verano TDG 26</span>
+    <h2 class="ambiente-title reveal">El ambiente es el mensaje.</h2>
+    <p class="ambiente-sub reveal">Lo que pasa en los márgenes de una buena taza.</p>
+    <div class="ambiente-grid">
+      <!-- Slot 1: comunidad / gente -->
+      <div class="ambiente-slot reveal reveal-delay-1">
+        <img src="img/verano-1.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-10.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-11.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-2.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-3.jpeg"  alt="Verano TDG" loading="lazy" decoding="async">
+      </div>
+      <!-- Slot 2: lifestyle / editorial -->
+      <div class="ambiente-slot reveal reveal-delay-2">
+        <img src="img/verano-4.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-5.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-6.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-14.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-15.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+      </div>
+      <!-- Slot 3: noche / artistas / escenario -->
+      <div class="ambiente-slot reveal reveal-delay-3">
+        <img src="img/verano-7.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-8.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-9.jpg"   alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-12.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+        <img src="img/verano-13.jpeg" alt="Verano TDG" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FORM ── -->
+  <div class="form-section" id="form">
+    <span class="section-label dark">La casa</span>
+    <h2 class="form-section-title">Hazte de la casa.</h2>
+    <p class="form-section-sub">Tu tarjeta vive en el teléfono. Cada café cuenta y el de la casa va llegando.</p>
+
+    <div class="form-card">
+      <h3 class="form-title">Tus datos</h3>
+      <p class="form-sub">Una sola vez. Después, nosotros nos encargamos.</p>
+      <div class="divider-line"></div>
+
+      <form id="clientForm">
+        <div class="row">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Juan" required>
+          </div>
+          <div class="field">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" placeholder="García" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="juan@email.com" required>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input type="tel" id="telefono" placeholder="+56 9 0000 0000" required>
+        </div>
+        <div class="field">
+          <label>Fecha de cumpleaños</label>
+          <div class="date-row">
+            <div class="date-field">
+              <select id="cumple-dia" required>
+                <option value="" disabled selected>Día</option>
+              </select>
+            </div>
+            <div class="date-field">
+              <select id="cumple-mes" required>
+                <option value="" disabled selected>Mes</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+            </div>
+            <div class="date-field">
+              <select id="cumple-anio" required>
+                <option value="" disabled selected>Año</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="instagram">Instagram</label>
+          <input type="text" id="instagram" placeholder="@usuario">
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">
+          <span class="btn-text">Registrarme</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div id="formError" style="display:none;color:#dc3545;font-size:12px;margin-top:10px;text-align:center;">
+          Hubo un error al enviar. Intentá de nuevo en unos segundos.
+        </div>
+      </form>
+
+      <div class="privacy">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Tus datos están seguros y no serán compartidos.
+      </div>
+
+      <div id="successMsg" class="success">
+        <div class="success-ring"></div>
+        <h2>Ya estás adentro.</h2>
+        <p>Te llevamos a tu tarjeta DailyBack.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DISCOVER STRIP ── -->
+  <section class="discover-strip">
+    <p class="discover-kicker">Y mientras tanto, disfruta el sabor.</p>
+    <div class="discover-actions">
+      <a href="/laconsola/" class="discover-btn">Entrar a La Consola <span class="arrow">↗&#xFE0E;</span></a>
+    </div>
+  </section>
+
+  <!-- ── CAMISA VOL.04 (drop · en camino, low-key) ── -->
+  <section class="camisa">
+    <span class="camisa-kicker">El drop · Vol.04</span>
+    <h2 class="camisa-title">La camisa, sin apuro.</h2>
+    <p class="camisa-desc">La estamos terminando con calma — hasta las etiquetas, que las queremos ricas. Cuando salga, los de la casa son los primeros en saber.</p>
+    <a href="#form" class="camisa-link">Avísame cuando salga →&#xFE0E;</a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <img src="LogoTDG.svg" alt="The Daily Grind" class="footer-logo">
+    <p class="footer-copy">© 2026 The Daily Grind · Todos los derechos reservados</p>
+    <p class="footer-ai">Potenciado con IA · Todo parecido con una buena taza es completamente intencional</p>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby10UITZsg6yOvpxZhHjPOCEVCWE9ZvsIj8SSoY2YjyPtBnTq-Fqde9k6-Pr4lNpUNt/exec';
+
+    // ── Page loader ──
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+      loader.classList.add('hidden');
+      loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    });
+
+    // ── Nav: mobile toggle ──
+    (function () {
+      const header = document.querySelector('.header');
+      const toggle = document.getElementById('navToggle');
+      const links  = document.getElementById('navLinks');
+      if (!header || !toggle || !links) return;
+      toggle.addEventListener('click', () => {
+        const open = header.classList.toggle('nav-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      });
+      links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        header.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Abrir menú');
+      }));
+    })();
+
+    // ── Días ──
+    const diaSelect = document.getElementById('cumple-dia');
+    for (let d = 1; d <= 31; d++) {
+      const o = document.createElement('option');
+      o.value = String(d).padStart(2, '0');
+      o.textContent = d;
+      diaSelect.appendChild(o);
+    }
+
+    // ── Años ──
+    const anioSelect = document.getElementById('cumple-anio');
+    const yr = new Date().getFullYear();
+    for (let y = yr - 10; y >= yr - 80; y--) {
+      const o = document.createElement('option');
+      o.value = y; o.textContent = y;
+      anioSelect.appendChild(o);
+    }
+
+    // ── Submit ──
+    const form = document.getElementById('clientForm');
+    const btn  = document.getElementById('submitBtn');
+    const err  = document.getElementById('formError');
+    const suc  = document.getElementById('successMsg');
+
+    const DAILYBACK_SIGNUP_URL = '/dailyback/api/public/signup';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.style.display = 'none';
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      const nombre   = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+
+      const dia  = document.getElementById('cumple-dia').value;
+      const mes  = document.getElementById('cumple-mes').value;
+      const anio = document.getElementById('cumple-anio').value;
+      const cumple = (anio && mes && dia) ? `${anio}-${mes}-${dia}` : '';
+
+      let ig = document.getElementById('instagram').value.trim();
+      if (ig && !ig.startsWith('@')) ig = '@' + ig;
+
+      // Apps Script payload (legacy audit trail, fire-and-forget)
+      const sheetsPayload = {
+        nombre, apellido, email, telefono,
+        fecha_cumpleanos: cumple,
+        instagram: ig,
+        origen: 'landing-vol4',
+      };
+
+      // DailyBack payload (authoritative loyalty store)
+      const dailybackPayload = {
+        full_name: [nombre, apellido].filter(Boolean).join(' '),
+        email,
+        phone: telefono || undefined,
+        birthday: cumple || undefined,
+        instagram_handle: ig || undefined,
+        marketing_opt_in: true,
+        source: 'landing-vol4',
+      };
+
+      // Fire-and-forget Apps Script (no await — keeps the legacy sheet warm)
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sheetsPayload),
+      }).catch(() => { /* legacy sink, ignore */ });
+
+      // Authoritative DailyBack signup
+      try {
+        const res = await fetch(DAILYBACK_SIGNUP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dailybackPayload),
+        });
+        const json = await res.json().catch(() => null);
+        if (!res.ok || !json || !json.ok || !json.redirect) {
+          throw new Error((json && json.error) || 'signup_failed');
+        }
+        form.style.display = 'none';
+        document.querySelector('.form-sub').style.display = 'none';
+        document.querySelector('.divider-line').style.display = 'none';
+        document.querySelector('.privacy').style.display = 'none';
+        suc.style.display = 'block';
+        // Soft redirect to the personal DailyBack card after a beat
+        setTimeout(() => { window.location.href = json.redirect; }, 1400);
+      } catch (ex) {
+        err.textContent = (ex && ex.message && ex.message !== 'signup_failed')
+          ? ex.message
+          : 'Hubo un error al enviar. Intenta de nuevo en unos segundos.';
+        err.style.display = 'block';
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    });
+
+    // ── Modal de inscripción a eventos ──
+    // Escribe al mismo signup autoritativo de DailyBack que el form principal,
+    // con un `source` distinto por track, para que cada inscrito caiga como
+    // miembro en la base de fidelización (Eldiez), tenga o no tarjeta todavía.
+    (function () {
+      const modal = document.getElementById('signupModal');
+      if (!modal) return;
+      const form = document.getElementById('eventForm');
+      const body = modal.querySelector('.signup-body');
+      const titleEl = document.getElementById('signupTitle');
+      const kickerEl = document.getElementById('signupKicker');
+      const btn = document.getElementById('evBtn');
+      const errEl = document.getElementById('evError');
+      const successEl = document.getElementById('evSuccess');
+      const cardLink = document.getElementById('evCardLink');
+      const nombreEl = document.getElementById('ev-nombre');
+      const emailEl = document.getElementById('ev-email');
+      const telEl = document.getElementById('ev-telefono');
+      const SIGNUP_URL = '/dailyback/api/public/signup';
+      let currentSource = 'evento';
+
+      function openModal(track, titulo) {
+        currentSource = track || 'evento';
+        titleEl.textContent = titulo || 'Reserva tu cupo';
+        kickerEl.textContent = 'Inscripción';
+        body.style.display = '';
+        successEl.style.display = 'none';
+        errEl.style.display = 'none';
+        form.reset();
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => nombreEl.focus(), 60);
+      }
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.evento-cta').forEach((b) => {
+        b.addEventListener('click', () => openModal(b.dataset.track, b.dataset.titulo));
+      });
+      modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeModal));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errEl.style.display = 'none';
+        const full_name = nombreEl.value.trim();
+        const email = emailEl.value.trim();
+        const phone = telEl.value.trim();
+        if (!full_name) { errEl.textContent = 'Falta tu nombre.'; errEl.style.display = 'block'; return; }
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) { errEl.textContent = 'Revisa tu email.'; errEl.style.display = 'block'; return; }
+
+        btn.classList.add('loading');
+        btn.disabled = true;
+        try {
+          const res = await fetch(SIGNUP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              full_name,
+              email,
+              phone: phone || undefined,
+              marketing_opt_in: true,
+              source: currentSource,
+            }),
+          });
+          const json = await res.json().catch(() => null);
+          if (!res.ok || !json || !json.ok) {
+            throw new Error((json && json.error) || 'No pudimos guardar tu cupo. Intenta de nuevo.');
+          }
+          body.style.display = 'none';
+          successEl.style.display = 'block';
+          if (json.redirect) {
+            cardLink.href = json.redirect;
+            cardLink.style.display = '';
+          } else {
+            cardLink.style.display = 'none';
+          }
+        } catch (ex) {
+          errEl.textContent = (ex && ex.message) ? ex.message : 'Hubo un error. Intenta de nuevo en unos segundos.';
+          errEl.style.display = 'block';
+          btn.classList.remove('loading');
+          btn.disabled = false;
+        }
+      });
+    })();
+
+    // ── Carousel ambiente ──
+    (function () {
+      const INTERVAL = 4000;
+      const slots = Array.from(document.querySelectorAll('.ambiente-slot'));
+      slots.forEach(slot => slot.querySelectorAll('img')[0].classList.add('active'));
+      slots.forEach((slot, i) => {
+        let cur = 0;
+        setTimeout(() => {
+          setInterval(() => {
+            const imgs = slot.querySelectorAll('img');
+            imgs[cur].classList.remove('active');
+            cur = (cur + 1) % imgs.length;
+            imgs[cur].classList.add('active');
+          }, INTERVAL);
+        }, i * 1333);
+      });
+    })();
+
+    // ── Reveal on scroll ──
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('visible'));
+    }
+
+    // ── Comic hint: hide on first scroll ──
+    (function () {
+      const pages = document.getElementById('comicPages');
+      const hint  = document.getElementById('comicHint');
+      if (!pages || !hint) return;
+      const hide = () => { hint.classList.add('hidden'); pages.removeEventListener('scroll', hide); };
+      pages.addEventListener('scroll', hide, { passive: true, once: true });
+    })();
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        const t = document.querySelector(this.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+
+</body>
+</html>
