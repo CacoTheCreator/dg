@@ -1075,41 +1075,109 @@
 
     <figure class="estampa">
       <svg viewBox="0 0 520 360" role="img" aria-label="Beagle con hachimaki sentado junto a su café">
-        <defs>
-          <clipPath id="cuerpo-beagle">
-            <ellipse cx="175" cy="252" rx="52" ry="56"/>
-            <rect x="205" y="196" width="54" height="116" rx="27"/>
-          </clipPath>
-        </defs>
-        <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky-lt)"/>
-        <circle cx="402" cy="104" r="60" fill="var(--cream)"/>
-        <path d="M 0 292 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--pistacho)"/>
-        <text x="34" y="78" font-size="36" fill="var(--navy)" font-family="Shippori Mincho, serif" lang="ja">犬</text>
-        <ellipse cx="220" cy="310" rx="110" ry="12" fill="var(--navy)" opacity="0.1"/>
-        <path d="M 128 258 Q 100 230 118 196" stroke="var(--white)" stroke-width="16" fill="none" stroke-linecap="round"/>
-        <ellipse cx="175" cy="252" rx="52" ry="56" fill="var(--white)"/>
-        <rect x="205" y="196" width="54" height="116" rx="27" fill="var(--white)"/>
-        <ellipse cx="182" cy="222" rx="42" ry="30" fill="var(--navy)" clip-path="url(#cuerpo-beagle)"/>
-        <ellipse cx="150" cy="304" rx="22" ry="9" fill="var(--white)"/>
-        <ellipse cx="232" cy="307" rx="21" ry="9" fill="var(--white)"/>
-        <path d="M 224 186 L 282 196 L 246 226 Z" fill="var(--sky)"/>
-        <circle cx="252" cy="150" r="46" fill="var(--white)"/>
-        <circle cx="285" cy="166" r="24" fill="var(--white)"/>
-        <ellipse cx="224" cy="176" rx="17" ry="40" fill="var(--grano)" transform="rotate(10 224 176)"/>
-        <path d="M 210 136 Q 252 118 294 140" stroke="var(--navy)" stroke-width="11" fill="none" stroke-linecap="round"/>
-        <path d="M 210 136 l -22 -12" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/>
-        <path d="M 210 136 l -17 10" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="254" cy="126" r="6" fill="var(--sky)"/>
-        <ellipse cx="301" cy="160" rx="8" ry="7" fill="var(--navy)"/>
-        <path d="M 252 148 q 7 7 14 0" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M 287 177 q 8 6 16 0" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <ellipse cx="352" cy="300" rx="34" ry="8" fill="var(--white)"/>
-        <rect x="330" y="258" width="44" height="40" rx="8" fill="var(--white)"/>
-        <rect x="330" y="270" width="44" height="9" fill="var(--sky)"/>
-        <path d="M 374 268 q 16 8 0 20" stroke="var(--navy)" stroke-width="5" fill="none" stroke-linecap="round"/>
-        <path d="M 342 248 q 6 -10 0 -18" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55"/>
-        <path d="M 360 248 q -6 -10 0 -18" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55"/>
-      </svg>
+  <defs>
+    <clipPath id="clip-beagle">
+      <path d="M 236 92
+               C 252 88 268 94 278 106
+               C 292 112 304 120 310 130
+               C 316 138 315 146 306 148
+               C 298 150 288 150 280 152
+               C 272 162 266 176 262 192
+               C 256 214 252 240 250 262
+               C 249 278 248 292 248 300
+               L 218 300
+               C 218 288 219 270 221 252
+               C 214 254 206 255 198 254
+               C 202 268 202 284 198 300
+               L 128 300
+               C 116 292 106 278 102 260
+               C 96 234 102 208 118 190
+               C 128 178 142 170 158 168
+               C 170 166 182 168 192 172
+               C 198 156 206 140 216 126
+               C 222 112 228 98 236 92 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- fondo -->
+  <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky-lt)"/>
+  <circle cx="398" cy="102" r="62" fill="var(--cream)"/>
+  <text x="34" y="80" font-size="38" fill="var(--navy)" font-family="Shippori Mincho, serif" lang="ja">犬</text>
+
+  <!-- suelo pistacho -->
+  <path d="M 0 296 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--pistacho)"/>
+  <g stroke="var(--pistacho-2)" stroke-width="3" stroke-linecap="round">
+    <path d="M 70 314 q 3 -10 8 -13 M 78 315 q 1 -8 6 -12"/>
+    <path d="M 448 320 q 3 -10 8 -13 M 456 321 q 1 -8 6 -12"/>
+  </g>
+  <ellipse cx="205" cy="303" rx="112" ry="11" fill="var(--navy)" opacity="0.10"/>
+  <ellipse cx="372" cy="301" rx="46" ry="8" fill="var(--navy)" opacity="0.08"/>
+
+  <!-- cola (detrás del cuerpo) -->
+  <path d="M 112 226 C 88 210 80 182 96 160" fill="none"
+        stroke="var(--navy)" stroke-width="21" stroke-linecap="round"/>
+  <path d="M 112 226 C 88 210 80 182 96 160" fill="none"
+        stroke="var(--white)" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- silueta del beagle: una sola línea navy, relleno blanco -->
+  <path d="M 236 92
+           C 252 88 268 94 278 106
+           C 292 112 304 120 310 130
+           C 316 138 315 146 306 148
+           C 298 150 288 150 280 152
+           C 272 162 266 176 262 192
+           C 256 214 252 240 250 262
+           C 249 278 248 292 248 300
+           L 218 300
+           C 218 288 219 270 221 252
+           C 214 254 206 255 198 254
+           C 202 268 202 284 198 300
+           L 128 300
+           C 116 292 106 278 102 260
+           C 96 234 102 208 118 190
+           C 128 178 142 170 158 168
+           C 170 166 182 168 192 172
+           C 198 156 206 140 216 126
+           C 222 112 228 98 236 92 Z"
+        fill="var(--white)" stroke="var(--navy)" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- manchas (recortadas a la silueta) -->
+  <g clip-path="url(#clip-beagle)">
+    <path d="M 96 250 C 92 214 106 186 134 174 C 158 164 184 168 200 184 C 210 196 212 214 206 232 C 198 256 176 268 150 266 C 126 264 104 262 96 250 Z" fill="var(--navy)"/>
+    <circle cx="246" cy="286" r="20" fill="var(--grano)" opacity="0.9"/>
+  </g>
+
+  <!-- oreja -->
+  <path d="M 226 118 C 210 122 200 140 202 162 C 203 180 212 192 224 190 C 236 188 242 172 240 150 C 238 132 236 120 226 118 Z"
+        fill="var(--grano)" stroke="var(--navy)" stroke-width="3"/>
+
+  <!-- hachimaki -->
+  <path d="M 222 108 C 244 96 268 96 288 110" fill="none"
+        stroke="var(--navy)" stroke-width="11" stroke-linecap="round"/>
+  <path d="M 221 109 l -20 -12 M 221 109 l -16 9" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="258" cy="99" r="5.5" fill="var(--sky)"/>
+
+  <!-- cara -->
+  <ellipse cx="311" cy="132" rx="9" ry="8" fill="var(--navy)"/>
+  <path d="M 272 120 q 8 8 16 1" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 296 146 q 6 6 14 3" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="292" cy="136" r="1.8" fill="var(--navy)"/>
+  <circle cx="298" cy="132" r="1.8" fill="var(--navy)"/>
+
+  <!-- bandana -->
+  <path d="M 252 172 C 262 166 276 162 288 164 L 270 198 C 262 190 256 182 252 172 Z"
+        fill="var(--sky)" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- taza de café -->
+  <g>
+    <ellipse cx="372" cy="298" rx="36" ry="8" fill="var(--white)" stroke="var(--navy)" stroke-width="3"/>
+    <path d="M 348 254 L 396 254 L 390 292 L 354 292 Z" fill="var(--white)" stroke="var(--navy)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M 349.5 264 L 394.5 264 L 393 274 L 351 274 Z" fill="var(--sky)"/>
+    <path d="M 396 260 C 410 262 412 276 394 282" fill="none" stroke="var(--navy)" stroke-width="4"/>
+    <path d="M 360 244 C 356 236 362 230 358 222" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+    <path d="M 378 244 C 382 236 376 230 380 222" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+  </g>
+</svg>
       <figcaption><span>El perro de la casa cuida el mostrador.</span><span class="jp" lang="ja">犬 · いぬ</span></figcaption>
     </figure>
 
@@ -1201,77 +1269,123 @@
 
     <figure class="estampa">
       <svg viewBox="0 0 520 360" role="img" aria-label="Beagle en bicicleta con café en el canasto y cono de pistacho en alto">
-        <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky)"/>
-        <g fill="var(--white)" opacity="0.9">
-          <ellipse cx="96" cy="66" rx="42" ry="16"/>
-          <ellipse cx="128" cy="56" rx="30" ry="13"/>
-          <ellipse cx="392" cy="46" rx="38" ry="14"/>
-          <ellipse cx="424" cy="56" rx="26" ry="11"/>
-        </g>
-        <text x="448" y="82" font-size="36" fill="var(--white)" font-family="Shippori Mincho, serif" lang="ja">風</text>
-        <path d="M 0 302 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--navy)"/>
-        <line x1="24" y1="331" x2="496" y2="331" stroke="var(--cream)" stroke-width="4" stroke-dasharray="26 18" opacity="0.8"/>
-        <g stroke="var(--white)" stroke-width="5" stroke-linecap="round" opacity="0.55">
-          <line x1="36" y1="190" x2="118" y2="190"/>
-          <line x1="24" y1="226" x2="92" y2="226"/>
-          <line x1="48" y1="260" x2="124" y2="260"/>
-        </g>
-        <ellipse cx="168" cy="304" rx="52" ry="7" fill="var(--navy-2)" opacity="0.35"/>
-        <ellipse cx="352" cy="304" rx="52" ry="7" fill="var(--navy-2)" opacity="0.35"/>
-        <g stroke="var(--navy)" fill="none">
-          <circle cx="168" cy="262" r="42" stroke-width="8"/>
-          <circle cx="352" cy="262" r="42" stroke-width="8"/>
-          <g stroke-width="3" opacity="0.5">
-            <line x1="168" y1="224" x2="168" y2="300"/>
-            <line x1="132" y1="244" x2="204" y2="280"/>
-            <line x1="132" y1="280" x2="204" y2="244"/>
-            <line x1="352" y1="224" x2="352" y2="300"/>
-            <line x1="316" y1="244" x2="388" y2="280"/>
-            <line x1="316" y1="280" x2="388" y2="244"/>
-          </g>
-        </g>
-        <g stroke="var(--navy)" stroke-width="7" stroke-linecap="round" fill="none">
-          <path d="M 168 262 L 238 198 L 322 200 L 352 262"/>
-          <path d="M 238 198 L 258 262 L 168 262"/>
-          <path d="M 322 200 L 314 180"/>
-          <path d="M 314 180 q 18 -8 28 4"/>
-        </g>
-        <circle cx="168" cy="262" r="6" fill="var(--navy)"/>
-        <circle cx="352" cy="262" r="6" fill="var(--navy)"/>
-        <circle cx="258" cy="262" r="8" fill="var(--navy)"/>
-        <path d="M 258 262 l 15 19" stroke="var(--navy)" stroke-width="5" stroke-linecap="round"/>
-        <rect x="266" y="277" width="20" height="8" rx="4" fill="var(--navy)"/>
-        <rect x="220" y="188" width="32" height="11" rx="5.5" fill="var(--navy)"/>
-        <path d="M 348 196 h 48 l -8 36 h -32 Z" fill="var(--beige)"/>
-        <line x1="352" y1="208" x2="392" y2="208" stroke="var(--navy)" stroke-width="2.5" opacity="0.35"/>
-        <line x1="354" y1="220" x2="390" y2="220" stroke="var(--navy)" stroke-width="2.5" opacity="0.35"/>
-        <rect x="358" y="174" width="27" height="25" rx="5" fill="var(--white)"/>
-        <rect x="358" y="182" width="27" height="7" fill="var(--navy-2)" opacity="0.25"/>
-        <path d="M 366 166 q 5 -8 0 -15" stroke="var(--white)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
-        <path d="M 378 166 q -5 -8 0 -15" stroke="var(--white)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
-        <path d="M 234 182 q -22 -10 -26 -30" stroke="var(--white)" stroke-width="10" fill="none" stroke-linecap="round"/>
-        <path d="M 248 206 L 262 258" stroke="var(--white)" stroke-width="12" stroke-linecap="round"/>
-        <circle cx="245" cy="192" r="24" fill="var(--white)"/>
-        <ellipse cx="278" cy="186" rx="46" ry="26" fill="var(--white)" transform="rotate(-16 278 186)"/>
-        <ellipse cx="258" cy="192" rx="20" ry="12" fill="var(--navy)" transform="rotate(-16 258 192)"/>
-        <path d="M 296 164 L 256 148 L 266 176 Z" fill="var(--sky)"/>
-        <path d="M 302 184 L 324 180" stroke="var(--white)" stroke-width="11" stroke-linecap="round"/>
-        <circle cx="327" cy="179" r="7" fill="var(--white)"/>
-        <path d="M 288 172 L 270 122" stroke="var(--white)" stroke-width="11" stroke-linecap="round"/>
-        <path d="M 258 110 L 282 110 L 270 148 Z" fill="var(--beige-2)"/>
-        <line x1="262" y1="118" x2="278" y2="118" stroke="var(--navy)" stroke-width="2" opacity="0.3"/>
-        <ellipse cx="270" cy="104" rx="15" ry="9" fill="var(--pistacho)"/>
-        <ellipse cx="270" cy="94" rx="11" ry="8" fill="var(--pistacho)"/>
-        <ellipse cx="270" cy="85" rx="6" ry="6" fill="var(--pistacho)"/>
-        <ellipse cx="270" cy="130" rx="9" ry="7" fill="var(--white)"/>
-        <circle cx="314" cy="146" r="33" fill="var(--white)"/>
-        <circle cx="341" cy="156" r="18" fill="var(--white)"/>
-        <ellipse cx="286" cy="132" rx="26" ry="10" fill="var(--grano)" transform="rotate(-24 286 132)"/>
-        <ellipse cx="290" cy="148" rx="22" ry="8" fill="var(--grano)" transform="rotate(-10 290 148)"/>
-        <ellipse cx="354" cy="151" rx="7" ry="6" fill="var(--navy)"/>
-        <path d="M 316 140 q 7 7 14 0" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M 340 166 q 7 5 14 -2" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
-      </svg>
+  <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky)"/>
+  <g fill="var(--white)" opacity="0.9">
+    <path d="M 66 70 a 16 16 0 0 1 18 -12 a 14 14 0 0 1 26 -4 a 12 12 0 0 1 20 8 q 2 8 -8 8 l -48 0 q -10 0 -8 -8 Z"/>
+    <path d="M 380 44 a 13 13 0 0 1 15 -10 a 11 11 0 0 1 21 -3 a 10 10 0 0 1 16 7 q 2 6 -6 6 l -40 0 q -8 0 -6 -6 Z"/>
+  </g>
+  <text x="448" y="86" font-size="38" fill="var(--white)" font-family="Shippori Mincho, serif" lang="ja">風</text>
+
+  <!-- camino -->
+  <path d="M 0 300 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--navy)"/>
+  <line x1="24" y1="330" x2="496" y2="330" stroke="var(--cream)" stroke-width="4" stroke-dasharray="28 20" opacity="0.8"/>
+
+  <!-- líneas de viento -->
+  <g stroke="var(--white)" stroke-width="5" stroke-linecap="round" opacity="0.6">
+    <line x1="30" y1="170" x2="112" y2="170"/>
+    <line x1="18" y1="206" x2="86" y2="206"/>
+    <line x1="42" y1="242" x2="118" y2="242"/>
+  </g>
+
+  <!-- sombras -->
+  <ellipse cx="172" cy="302" rx="54" ry="7" fill="var(--navy-2)" opacity="0.35"/>
+  <ellipse cx="356" cy="302" rx="54" ry="7" fill="var(--navy-2)" opacity="0.35"/>
+
+  <!-- ruedas -->
+  <g fill="none" stroke="var(--navy)">
+    <circle cx="172" cy="258" r="44" stroke-width="9"/>
+    <circle cx="356" cy="258" r="44" stroke-width="9"/>
+    <circle cx="172" cy="258" r="30" stroke-width="3" opacity="0.5"/>
+    <circle cx="356" cy="258" r="30" stroke-width="3" opacity="0.5"/>
+    <g stroke-width="3" opacity="0.5">
+      <line x1="172" y1="228" x2="172" y2="288"/>
+      <line x1="146" y1="243" x2="198" y2="273"/>
+      <line x1="146" y1="273" x2="198" y2="243"/>
+      <line x1="356" y1="228" x2="356" y2="288"/>
+      <line x1="330" y1="243" x2="382" y2="273"/>
+      <line x1="330" y1="273" x2="382" y2="243"/>
+    </g>
+  </g>
+  <circle cx="172" cy="258" r="7" fill="var(--navy)"/>
+  <circle cx="356" cy="258" r="7" fill="var(--navy)"/>
+
+  <!-- marco -->
+  <g stroke="var(--navy)" stroke-width="8" stroke-linecap="round" fill="none">
+    <path d="M 172 258 L 244 194 L 322 196"/>
+    <path d="M 244 194 L 264 258 L 172 258"/>
+    <path d="M 322 196 L 356 258"/>
+    <path d="M 322 196 L 314 172"/>
+  </g>
+  <path d="M 314 172 q 20 -10 32 4" fill="none" stroke="var(--navy)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="264" cy="258" r="9" fill="var(--navy)"/>
+  <path d="M 264 258 l 16 20" stroke="var(--navy)" stroke-width="5" stroke-linecap="round"/>
+  <rect x="272" y="272" width="22" height="9" rx="4.5" fill="var(--navy)"/>
+  <path d="M 226 186 q 18 -8 34 0 l -4 10 q -13 -6 -26 0 Z" fill="var(--navy)"/>
+
+  <!-- canasto con café -->
+  <path d="M 344 190 h 52 l -9 38 h -34 Z" fill="var(--beige)" stroke="var(--navy)" stroke-width="3.5" stroke-linejoin="round"/>
+  <line x1="348" y1="203" x2="391" y2="203" stroke="var(--navy)" stroke-width="2.5" opacity="0.4"/>
+  <line x1="350" y1="215" x2="389" y2="215" stroke="var(--navy)" stroke-width="2.5" opacity="0.4"/>
+  <path d="M 356 170 L 384 170 L 381 192 L 359 192 Z" fill="var(--white)" stroke="var(--navy)" stroke-width="3"/>
+  <path d="M 357 176 L 383 176 L 382 183 L 358 183 Z" fill="var(--sky)"/>
+  <path d="M 364 162 q -4 -7 0 -14 M 376 162 q 4 -7 0 -14" fill="none" stroke="var(--white)" stroke-width="3" stroke-linecap="round" opacity="0.95"/>
+
+  <!-- cola -->
+  <path d="M 240 172 C 222 174 206 172 194 164" fill="none" stroke="var(--navy)" stroke-width="19" stroke-linecap="round"/>
+  <path d="M 240 172 C 222 174 206 172 194 164" fill="none" stroke="var(--white)" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- pata trasera al pedal -->
+  <path d="M 244 180 C 248 210 254 234 262 254" fill="none" stroke="var(--navy)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M 244 180 C 248 210 254 234 262 254" fill="none" stroke="var(--white)" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- brazo del cono (detrás del cuerpo) -->
+  <path d="M 278 148 C 262 132 250 114 244 96" fill="none" stroke="var(--navy)" stroke-width="17" stroke-linecap="round"/>
+  <path d="M 278 148 C 262 132 250 114 244 96" fill="none" stroke="var(--white)" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- cono soft pistacho -->
+  <path d="M 224 86 L 256 86 L 240 128 Z" fill="var(--beige-2)" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="230" y1="97" x2="250" y2="97" stroke="var(--navy)" stroke-width="2" opacity="0.35"/>
+  <ellipse cx="240" cy="80" rx="17" ry="9" fill="var(--pistacho)" stroke="var(--navy)" stroke-width="3"/>
+  <ellipse cx="240" cy="68" rx="12.5" ry="8" fill="var(--pistacho)" stroke="var(--navy)" stroke-width="3"/>
+  <ellipse cx="240" cy="57" rx="8" ry="7" fill="var(--pistacho)" stroke="var(--navy)" stroke-width="3"/>
+  <path d="M 240 50 q 8 -4 10 -12" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="242" cy="112" rx="10" ry="8" fill="var(--white)" stroke="var(--navy)" stroke-width="3"/>
+
+  <!-- cuerpo -->
+  <path d="M 238 156 C 246 142 262 132 280 130 C 298 128 314 134 322 146 C 328 156 326 168 316 176 C 304 186 284 190 266 186 C 248 182 234 170 238 156 Z"
+        fill="var(--white)" stroke="var(--navy)" stroke-width="3.5"/>
+  <path d="M 244 158 C 250 148 262 141 274 140 C 280 150 278 164 268 172 C 258 178 248 176 244 170 Z" fill="var(--navy)"/>
+
+  <!-- bandana volando -->
+  <path d="M 302 162 C 290 150 274 144 258 146 L 276 174 C 286 172 296 168 302 162 Z"
+        fill="var(--sky-lt)" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- pata delantera al manubrio -->
+  <path d="M 316 158 C 324 162 330 168 334 174" fill="none" stroke="var(--navy)" stroke-width="17" stroke-linecap="round"/>
+  <path d="M 316 158 C 324 162 330 168 334 174" fill="none" stroke="var(--white)" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- cabeza -->
+  <path d="M 306 104
+           C 322 96 340 98 352 108
+           C 364 114 374 122 378 130
+           C 382 138 380 144 372 145
+           C 364 146 356 145 350 146
+           C 344 156 334 162 322 162
+           C 308 162 296 152 294 138
+           C 292 124 296 110 306 104 Z"
+        fill="var(--white)" stroke="var(--navy)" stroke-width="3.5"/>
+
+  <!-- orejas volando -->
+  <path d="M 312 110 C 296 100 278 96 262 100 C 270 112 286 120 304 122 C 307 118 310 114 312 110 Z"
+        fill="var(--grano)" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 304 128 C 288 124 272 126 260 134 C 270 143 286 145 300 140 C 302 136 303 132 304 128 Z"
+        fill="var(--grano)" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- cara -->
+  <ellipse cx="377" cy="131" rx="8" ry="7" fill="var(--navy)"/>
+  <path d="M 336 116 q 8 8 16 1" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 358 143 q 6 6 14 2" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
       <figcaption><span>El café llega igual, llueva o truene.</span><span class="jp" lang="ja">風 · かぜ</span></figcaption>
     </figure>
 
