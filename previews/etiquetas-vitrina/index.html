@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Etiquetas de vitrina · The Daily Grind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f9f3ec;
+    --navy:#0e1e56;
+    --navy-2:#0b1845;
+    --sky:#51b5f2;
+    --pistacho:#c4d870;
+    --shu:#cf3f2f;
+    --beige-2:#d9d4cf;
+    --mid:#6c757d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--cream);
+    color:var(--navy);
+    font-family:"DM Sans",system-ui,sans-serif;
+    font-weight:300;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  img{display:block;max-width:100%;height:auto}
+
+  .wrap{max-width:960px;margin:0 auto;padding:20px 20px 72px}
+
+  .topbar{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    padding-bottom:16px;border-bottom:1px solid var(--navy);
+  }
+  .topbar a{font-weight:500;font-size:13px}
+  .topbar .ja{font-family:"Shippori Mincho",serif;font-size:13px;color:var(--mid)}
+
+  .portada{padding:34px 0 40px}
+  .kicker{font-weight:500;font-size:13px;color:var(--sky);margin-bottom:12px}
+  h1{
+    font-family:"Syne",sans-serif;font-weight:700;
+    font-size:clamp(2.15rem,8.5vw,3.6rem);line-height:1.02;text-wrap:balance;
+  }
+  h1 em{font-family:"DM Sans",sans-serif;font-style:italic;font-weight:300;color:var(--mid)}
+  .lead{margin-top:16px;font-size:1.05rem;color:var(--mid);max-width:58ch}
+
+  .ficha{
+    display:flex;flex-wrap:wrap;gap:6px 26px;
+    margin-top:24px;padding-top:16px;border-top:1px solid var(--beige-2);
+    font-size:.85rem;color:var(--mid);
+  }
+  .ficha b{color:var(--navy);font-weight:500}
+
+  section{margin-bottom:56px}
+  h2{
+    font-family:"Syne",sans-serif;font-weight:700;
+    font-size:clamp(1.4rem,5vw,1.9rem);line-height:1.14;
+    margin-bottom:12px;text-wrap:balance;
+  }
+  p{max-width:64ch}
+  p + p{margin-top:12px}
+  .apunte{font-size:.9rem;color:var(--mid);font-style:italic;margin-top:14px}
+
+  /* las dos piezas */
+  .piezas{display:grid;gap:18px;margin-top:24px}
+  @media (min-width:640px){ .piezas{grid-template-columns:1fr 1fr} }
+  .pieza{
+    border:1px solid var(--beige-2);border-radius:10px;overflow:hidden;
+    background:#fff;
+  }
+  .pieza img{width:100%}
+  .pieza .txt{padding:14px 16px 16px}
+  .pieza h3{
+    font-family:"Syne",sans-serif;font-weight:700;font-size:1.1rem;
+    margin-bottom:4px;
+  }
+  .pieza p{font-size:.9rem;color:var(--mid);max-width:none}
+  .pieza .dato{
+    margin-top:10px;padding-top:10px;border-top:1px solid var(--beige-2);
+    font-size:.8rem;color:var(--navy);font-variant-numeric:tabular-nums;
+  }
+
+  figure{margin:0}
+  figure img{border-radius:8px;border:1px solid var(--beige-2)}
+  figcaption{margin-top:8px;font-size:.82rem;color:var(--mid)}
+  .ancha{margin-top:22px}
+  .dupla{display:grid;gap:16px;margin-top:22px}
+  @media (min-width:640px){ .dupla{grid-template-columns:1fr 1fr;align-items:start} }
+
+  .solo-ancho{display:none}
+  @media (min-width:700px){
+    .solo-alto{display:none}
+    .solo-ancho{display:block}
+  }
+
+  .cotas div{
+    display:flex;justify-content:space-between;gap:18px;
+    padding:10px 0;border-bottom:1px solid var(--beige-2);
+    font-size:.92rem;font-variant-numeric:tabular-nums;
+  }
+  .cotas div:last-child{border-bottom:0}
+  .cotas span:last-child{color:var(--mid);text-align:right}
+
+  .marco{overflow-x:auto;margin-top:22px;border:1px solid var(--beige-2);border-radius:8px}
+  table{border-collapse:collapse;width:100%;min-width:500px;font-size:.88rem}
+  th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--beige-2);vertical-align:top}
+  thead th{font-weight:500;font-size:.78rem;color:var(--mid)}
+  tbody tr:last-child td{border-bottom:0}
+  td:first-child{color:var(--mid);white-space:nowrap}
+  td b{font-weight:500}
+
+  .aviso{
+    margin-top:22px;padding:16px 18px;border-radius:8px;
+    border:1px solid var(--beige-2);border-left:3px solid var(--shu);
+    font-size:.94rem;
+  }
+  .aviso h3{
+    font-family:"Syne",sans-serif;font-weight:700;font-size:1rem;
+    margin-bottom:6px;color:var(--shu);
+  }
+  .aviso ol{margin:10px 0 0 18px;padding:0}
+  .aviso li{margin-bottom:5px}
+
+  .pendientes{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:22px}
+  .pendientes li{
+    display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;
+    padding:14px 16px;border:1px solid var(--beige-2);border-radius:8px;
+    font-size:.94rem;
+  }
+  .pendientes .n{
+    font-family:"Syne",sans-serif;font-weight:700;font-size:.9rem;color:var(--sky);
+    font-variant-numeric:tabular-nums;
+  }
+  .pendientes b{font-weight:500}
+
+  .colofon{
+    margin-top:64px;padding-top:18px;border-top:1px solid var(--navy);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;
+    font-size:.8rem;color:var(--mid);
+  }
+  .colofon .ja{font-family:"Shippori Mincho",serif}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="/previews">&#x2190;&#xFE0E; Previews</a>
+    <span class="ja" lang="ja">ザ・デイリー・グラインド</span>
+  </div>
+
+  <header class="portada">
+    <div class="kicker">Vol. 04 &middot; Heladería &middot; Casa Providencia</div>
+    <h1>Etiquetas <em>de vitrina</em></h1>
+    <p class="lead">Los letreros de sabor de la heladería, en dos piezas: un soporte
+      impreso en 3D que se queda, y un papelito que se cambia cuando rota la carta.</p>
+    <div class="ficha">
+      <span>Soporte <b>72 &#xD7; 144 mm</b></span>
+      <span>Tarjeta <b>64 &#xD7; 33 mm</b></span>
+      <span><b>14</b> sabores</span>
+      <span>Estado: <b>propuesta</b></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Dos piezas</h2>
+    <p>El logo va arriba porque el soporte es lo permanente: se imprime una vez y
+      se queda en la cubeta. El sabor vive en el papelito, que sale de una hoja
+      normal y se corta con tijera. Cambiar un sabor deja de ser reimprimir la
+      etiqueta entera.</p>
+    <div class="piezas">
+      <div class="pieza">
+        <img src="soporte-angulo.jpg" alt="El soporte impreso en 3D, visto en ángulo" loading="lazy">
+        <div class="txt">
+          <h3>El soporte</h3>
+          <p>Impreso en 3D con el logo en relieve. El marco sujeta la tarjeta, que
+            entra deslizando por el costado derecho.</p>
+          <div class="dato">72 &#xD7; 144 &#xD7; 4,8 mm &middot; unos 22 g de filamento</div>
+        </div>
+      </div>
+      <div class="pieza">
+        <img src="soporte-frente.jpg" alt="El soporte de frente con una tarjeta puesta" loading="lazy">
+        <div class="txt">
+          <h3>Con la tarjeta puesta</h3>
+          <p>La ventana visible mide 62,5 &#xD7; 30 mm. El nombre se ajusta solo al
+            ancho, así que ningún sabor se sale.</p>
+          <div class="dato">Recorte 64 &#xD7; 33 mm &middot; canal de 0,9 mm</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>El logo en relieve</h2>
+    <p>El logo no está redibujado: se traza desde el archivo maestro de la marca y
+      se levanta 0,8 mm sobre el cabezal. El trazo más fino mide 0,93 mm, así que
+      sale limpio con una boquilla de 0,4 mm sin tocar nada.</p>
+    <p>Programando un cambio de filamento a 2,4 mm de altura, el cuerpo sale navy y
+      el logo crema. Sin impresora multimaterial y sin pintar.</p>
+    <figure class="ancha">
+      <img src="soporte-cabezal.jpg" alt="Detalle del cabezal con el logo en relieve" loading="lazy">
+    </figure>
+  </section>
+
+  <section>
+    <h2>Los papelitos</h2>
+    <p>Una hoja A4 rinde 24 tarjetas: los catorce sabores más diez en blanco para
+      escribir a mano cuando entra un sabor de paso. Cada una lleva el nombre, su
+      nombre japonés como sello de cierre y los alérgenos.</p>
+    <figure class="ancha">
+      <img class="solo-ancho" src="tarjetas.jpg" alt="Pliego con las tarjetas de sabor" loading="lazy">
+      <img class="solo-alto" src="tarjetas-alta.jpg" alt="Pliego con las tarjetas de sabor" loading="lazy">
+    </figure>
+    <p class="apunte">Papel de 300 g, o de 200 g plastificado. Se cortan siguiendo
+      las guías punteadas.</p>
+  </section>
+
+  <section>
+    <h2>Medidas</h2>
+    <div class="dupla">
+      <div class="cotas">
+        <div><span>Pieza completa</span><span>72 &#xD7; 144 &#xD7; 4,8 mm</span></div>
+        <div><span>Cabezal</span><span>&#x2300; 60 mm</span></div>
+        <div><span>Placa</span><span>72 &#xD7; 40 mm</span></div>
+        <div><span>Vástago</span><span>14 &#xD7; 52 mm</span></div>
+        <div><span>Espesor base</span><span>2,4 mm</span></div>
+        <div><span>Canal de la tarjeta</span><span>0,9 mm</span></div>
+      </div>
+      <div class="cotas">
+        <div><span>Material</span><span>PETG recomendado</span></div>
+        <div><span>Orientación</span><span>acostada, logo arriba</span></div>
+        <div><span>Soportes</span><span>ninguno</span></div>
+        <div><span>Altura de capa</span><span>0,2 mm</span></div>
+        <div><span>Por pieza</span><span>≈ 22 g</span></div>
+        <div><span>Tirada de 14</span><span>≈ 310 g</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué cambió</h2>
+    <p>Se mantiene la silueta y el orden original, logo arriba y sabor abajo, porque
+      es lo que pide el modelo de dos piezas. Lo que cambia es la ejecución.</p>
+    <div class="marco">
+      <table>
+        <thead><tr><th>&nbsp;</th><th>Antes</th><th>Ahora</th></tr></thead>
+        <tbody>
+          <tr><td>Logo</td><td>Redibujado, proporciones distintas</td><td><b>Trazado del archivo maestro y extruido</b></td></tr>
+          <tr><td>Sabor</td><td>Gris, mayúscula sostenida, con tracking</td><td>Navy, mayúscula inicial, en Syne</td></tr>
+          <tr><td>Paleta</td><td>Plateado con degradé, gris sobre blanco</td><td>Tinta navy sobre papel</td></tr>
+          <tr><td>Idioma</td><td>“Crafted gelato”</td><td>Español, con el sello japonés al cierre</td></tr>
+          <tr><td>Información</td><td>Solo el nombre</td><td>Nombre, japonés y alérgenos</td></tr>
+          <tr><td>Cambiar un sabor</td><td>Reimprimir la etiqueta entera</td><td>Cambiar el papelito</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="apunte">De paso quedan corregidas cuatro cosas que Ukiyo Diario
+      prohíbe y que la etiqueta anterior hacía: letter-spacing, mayúscula sostenida
+      en títulos, degradés decorativos y gris en vez de navy.</p>
+  </section>
+
+  <section>
+    <h2>Antes de imprimir la tirada</h2>
+
+    <div class="aviso">
+      <h3>Contacto con alimentos</h3>
+      <p>El vástago se entierra en el helado, y una pieza impresa en FDM no es apta
+        para contacto prolongado tal como sale de la impresora: entre capa y capa
+        quedan surcos que el lavado no alcanza. Hay tres caminos:</p>
+      <ol>
+        <li><b>Tratarlas como consumible.</b> PETG, lavado diario, recambio programado.</li>
+        <li><b>Sellarlas.</b> Una mano de resina epóxica apta para alimentos sobre el vástago.</li>
+        <li><b>Aislar el vástago.</b> Una funda de polipropileno grado alimenticio; la pieza impresa nunca toca el helado.</li>
+      </ol>
+      <p style="margin-top:10px">En los tres casos: boquilla de acero inoxidable, no
+        de latón, porque el latón contiene plomo.</p>
+    </div>
+
+    <ul class="pendientes">
+      <li><span class="n">1</span><span><b>Imprimir una sola y probarla.</b> El canal
+        está calculado en 0,9 mm; eso se confirma con el papel real en la mano antes
+        de largar las catorce.</span></li>
+      <li><span class="n">2</span><span><b>Profundidad de la cubeta.</b> El vástago
+        mide 52 mm. Si la cubeta es más baja se ajusta un número en el generador y
+        el archivo sale de nuevo.</span></li>
+      <li><span class="n">3</span><span><b>Ancho por sabor en la vitrina.</b> La placa
+        mide 72 mm. Con catorce sabores lado a lado es más de un metro.</span></li>
+      <li><span class="n">4</span><span><b>Manjar o dulce de leche.</b> Están las dos
+        tarjetas. El documento de heladería dice manjar; la referencia decía dulce de
+        leche. Hay que elegir una.</span></li>
+      <li><span class="n">5</span><span><b>Alérgenos.</b> Los que están puestos son los
+        previsibles por sabor. La lista real la tiene el proveedor del helado y es la
+        que manda.</span></li>
+    </ul>
+  </section>
+
+  <div class="colofon">
+    <span>Ukiyo Diario v1.0 &middot; The Daily Grind Vol. 4 &middot; MMXXVI</span>
+    <span class="ja" lang="ja">日常の浮世絵</span>
+  </div>
+
+</div>
+
+</body>
+</html>
