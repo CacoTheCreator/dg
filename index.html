@@ -351,6 +351,91 @@
     }
     .paseo-strip .label--casa { color: rgba(14, 30, 86, 0.55); }
 
+    /* ── Pop: entra a la comunidad ────────────────── */
+    .pop-fondo {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(8, 18, 52, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: aparece 0.2s ease both;
+    }
+    .pop-fondo[hidden] { display: none; }
+    @keyframes aparece { from { opacity: 0; } to { opacity: 1; } }
+    .pop-caja {
+      width: min(430px, 100%);
+      background: var(--navy-2);
+      border: 1px solid rgba(249, 243, 236, 0.35);
+      box-shadow: 6px 6px 0 rgba(4, 9, 26, 0.55);
+      padding: 30px 28px 22px;
+      animation: sube 0.25s ease both;
+    }
+    .pop-caja .label { color: var(--sky); }
+    .pop-caja h2 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 27px;
+      line-height: 1.05;
+      margin: 12px 0 10px;
+    }
+    .pop-caja p.texto {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(249, 243, 236, 0.78);
+    }
+    .pop-google {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: var(--pistacho);
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+      transition: background 0.12s ease;
+    }
+    .pop-google:hover { background: #d2e388; }
+    .pop-google small {
+      display: block;
+      font-weight: 300;
+      font-size: 11px;
+      text-transform: none;
+      margin-top: 2px;
+      color: rgba(14, 30, 86, 0.75);
+    }
+    .pop-luego {
+      margin-top: 12px;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(249, 243, 236, 0.5);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 8px 0;
+    }
+    .pop-luego:hover { color: var(--cream); }
+    @media (max-width: 480px) {
+      .pop-fondo { align-items: flex-end; padding: 0; }
+      .pop-caja {
+        width: 100%;
+        box-shadow: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding-bottom: 30px;
+      }
+    }
+
     footer {
       display: flex;
       justify-content: space-between;
@@ -437,7 +522,7 @@
           <span class="label accion">Jugar →</span>
         </a>
       </li>
-      <li class="cartucho">
+      <li class="cartucho" id="cartucho-tarjeta">
         <a href="/dailyback/auth/google">
           <div class="fila">
             <h2>Tu tarjeta</h2>
@@ -520,6 +605,22 @@
       </div>
     </div>
   </main>
+
+  <div class="pop-fondo" id="pop-comunidad" hidden>
+    <div class="pop-caja" role="dialog" aria-modal="true" aria-labelledby="pop-titulo">
+      <p class="label">DailyBack · <span class="jp" lang="ja">コミュニティ</span></p>
+      <h2 id="pop-titulo">Entra a la comunidad</h2>
+      <p class="texto">
+        Un toque con tu Google y tu tarjeta queda lista: los juegos suman
+        granos, cada helado timbra y el décimo va por la casa.
+      </p>
+      <a class="pop-google" href="/dailyback/auth/google">
+        <span>Entrar con Google<small>Tu tarjeta se crea al tiro</small></span>
+        <span>→</span>
+      </a>
+      <button class="pop-luego" id="pop-luego" type="button">Por ahora no</button>
+    </div>
+  </div>
 
   <footer>
     <span class="label label--dim">The Daily Grind · Vol. 4 · MMXXVI · <span class="jp" lang="ja">ザ・デイリー・グラインド</span></span>
@@ -625,6 +726,10 @@
           obs: [], prox: 0,
           chispas: [],
         };
+        window.__paseo = st;
+
+        // La tinta de los obstáculos cambia con la luz del día
+        var tintaObs = OUT;
 
         // Obstáculos en el idioma flat de la casa
         function dTaza(c) {
@@ -632,7 +737,7 @@
           c.moveTo(-8, 0); c.lineTo(-11, -24); c.lineTo(11, -24); c.lineTo(8, 0);
           c.closePath();
           c.fillStyle = CREAM; c.fill();
-          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.strokeStyle = tintaObs; c.lineWidth = 2.6; c.stroke();
           c.beginPath();
           c.rect(-13, -30, 26, 6);
           c.fillStyle = SKY; c.fill(); c.stroke();
@@ -641,7 +746,7 @@
           c.beginPath();
           c.ellipse(0, -9, 12, 9, 0, 0, Math.PI * 2);
           c.fillStyle = GRANO; c.fill();
-          c.strokeStyle = OUT; c.lineWidth = 2.6; c.stroke();
+          c.strokeStyle = tintaObs; c.lineWidth = 2.6; c.stroke();
           c.beginPath();
           c.moveTo(-8, -13); c.quadraticCurveTo(2, -9, -6, -3);
           c.stroke();
@@ -651,6 +756,234 @@
           { w: 24, h: 18, dib: function (c) { dGrano(c); } },
           { w: 58, h: 30, dib: function (c) { c.save(); c.translate(-15, 0); dTaza(c); c.restore(); c.save(); c.translate(15, 0); dTaza(c); c.restore(); } },
         ];
+
+        // ── El barrio detrás: el paseo cuenta el viaje de la casa ──
+        // Paralaje a media velocidad; con los metros se hace de noche y
+        // van apareciendo las paradas: la cafetería, Providencia, la playa
+        // Jeró, el Mónaco y la UAI. Después el barrio da la vuelta.
+        var P_FONDO = 0.5;
+        var CICLO = 6200;
+        var C_DIA = [249, 243, 236], C_NOCHE = [8, 18, 52];
+        var T_DIA = [14, 30, 86], T_NOCHE = [166, 217, 248];
+        var S_DIA = [14, 30, 86], S_NOCHE = [30, 52, 120];
+        var V_DIA = [249, 243, 236], V_NOCHE = [232, 195, 74];
+
+        function mezcla(a, b, t) {
+          return "rgb(" +
+            Math.round(a[0] + (b[0] - a[0]) * t) + "," +
+            Math.round(a[1] + (b[1] - a[1]) * t) + "," +
+            Math.round(a[2] + (b[2] - a[2]) * t) + ")";
+        }
+        // Bokashi del cielo: papel → celeste pálido → noche (nunca gris turbio)
+        var C_TARDE = [166, 217, 248];
+        function cielo(t) {
+          return t < 0.4
+            ? mezcla(C_DIA, C_TARDE, t / 0.4)
+            : mezcla(C_TARDE, C_NOCHE, (t - 0.4) / 0.6);
+        }
+
+        // Cada parada se dibuja con la base del suelo en y=0, centrada en x=0.
+        // S trae la luz del momento: silueta, tinta, ventana, franja y noche.
+        function dCafeteria(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-58, -74, 116, 74);
+          for (var i = 0; i < 6; i++) {
+            c.fillStyle = i % 2 ? SKY : CREAM;
+            c.globalAlpha = 1 - S.noche * 0.45;
+            c.fillRect(-64 + i * 21.34, -82, 21.5, 12);
+            c.globalAlpha = 1;
+          }
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.strokeRect(-64, -82, 128, 12);
+          c.fillStyle = S.ventana;
+          c.fillRect(-46, -58, 50, 36);
+          c.fillRect(16, -50, 28, 50);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.strokeRect(-46, -58, 50, 36);
+          c.strokeRect(16, -50, 28, 50);
+          c.beginPath(); c.moveTo(0, -96); c.lineTo(0, -82); c.stroke();
+          c.save(); c.translate(0, -98);
+          c.beginPath();
+          c.moveTo(-7, 6); c.lineTo(-9, -8); c.lineTo(9, -8); c.lineTo(7, 6);
+          c.closePath();
+          c.fillStyle = CREAM; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 2; c.stroke();
+          c.restore();
+        }
+        function dProvidencia(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-92, -96, 52, 96);
+          c.fillRect(-30, -132, 60, 132);
+          c.fillRect(40, -72, 50, 72);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.beginPath(); c.moveTo(0, -132); c.lineTo(0, -150); c.stroke();
+          c.fillStyle = S.ventana;
+          var col, fila;
+          for (col = 0; col < 2; col++) for (fila = 0; fila < 3; fila++)
+            c.fillRect(-84 + col * 22, -86 + fila * 28, 12, 14);
+          for (col = 0; col < 3; col++) for (fila = 0; fila < 4; fila++)
+            c.fillRect(-22 + col * 17, -122 + fila * 30, 10, 14);
+          for (col = 0; col < 2; col++) for (fila = 0; fila < 2; fila++)
+            c.fillRect(48 + col * 20, -62 + fila * 28, 12, 14);
+        }
+        function dJero(c, S) {
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          var o;
+          for (o = 0; o < 3; o++) {
+            c.beginPath();
+            c.moveTo(-90 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(-60 + o * 12, -16 - o * 8, -30 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(0 + o * 12, 4 - o * 8, 30 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(60 + o * 12, -16 - o * 8, 90 + o * 12, -6 - o * 8);
+            c.stroke();
+          }
+          c.beginPath(); c.moveTo(52, 0); c.lineTo(46, -62); c.stroke();
+          c.beginPath();
+          c.moveTo(6, -54); c.quadraticCurveTo(46, -92, 86, -54);
+          c.closePath();
+          c.fillStyle = S.silueta; c.fill();
+          c.strokeStyle = S.tinta; c.stroke();
+          c.beginPath();
+          c.moveTo(26, -57); c.quadraticCurveTo(46, -88, 66, -57);
+          c.fillStyle = CREAM;
+          c.globalAlpha = 1 - S.noche * 0.5;
+          c.fill();
+          c.globalAlpha = 1;
+          c.stroke();
+        }
+        function dMonaco(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-62, -70, 124, 70);
+          c.fillStyle = S.silueta;
+          c.fillRect(-52, -88, 104, 20);
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.strokeRect(-52, -88, 104, 20);
+          c.fillStyle = mezcla(V_DIA, V_NOCHE, S.noche);
+          c.font = "700 13px Syne, sans-serif";
+          c.textAlign = "center";
+          c.fillText("MÓNACO", 0, -73);
+          // la pantalla del fútbol
+          c.fillStyle = PISTA;
+          c.fillRect(-38, -56, 44, 26);
+          c.strokeStyle = S.tinta; c.strokeRect(-38, -56, 44, 26);
+          c.strokeStyle = "rgba(14,30,86,0.6)";
+          c.lineWidth = 1.4;
+          c.beginPath(); c.moveTo(-16, -56); c.lineTo(-16, -30); c.stroke();
+          c.beginPath(); c.arc(-16, -43, 5, 0, Math.PI * 2); c.stroke();
+          c.beginPath(); c.arc(-25, -46, 2.2, 0, Math.PI * 2);
+          c.fillStyle = CREAM; c.fill();
+          c.fillStyle = S.ventana;
+          c.fillRect(16, -52, 30, 52);
+        }
+        function dUai(c, S) {
+          c.beginPath();
+          c.moveTo(-100, 0);
+          c.quadraticCurveTo(0, -52, 100, 0);
+          c.closePath();
+          c.fillStyle = S.silueta;
+          c.globalAlpha = 0.55; c.fill(); c.globalAlpha = 1;
+          c.fillStyle = S.silueta;
+          c.fillRect(-46, -78, 92, 52);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          var p;
+          for (p = 0; p < 4; p++) {
+            c.fillStyle = S.ventana;
+            c.fillRect(-38 + p * 22, -70, 10, 36);
+          }
+          c.fillStyle = S.silueta;
+          c.beginPath();
+          c.moveTo(-52, -78); c.lineTo(0, -100); c.lineTo(52, -78);
+          c.closePath(); c.fill();
+          c.strokeStyle = S.tinta; c.stroke();
+        }
+        var PISTA = "#c4d870";
+        var PARADAS = [
+          { m: 0,   cap: "la cafetería",          dib: dCafeteria },
+          { m: 180, cap: "barrio Providencia",    dib: dProvidencia },
+          { m: 380, cap: "la playa Jeró · Casa I", dib: dJero },
+          { m: 580, cap: "Mónaco · el restobar",  dib: dMonaco },
+          { m: 780, cap: "la UAI · Casa II",      dib: dUai },
+        ];
+
+        function dibujaBarrio(noche) {
+          var bgOff = st.dist * P_FONDO;
+          var luzS = {
+            noche: noche,
+            silueta: mezcla(S_DIA, S_NOCHE, noche),
+            tinta: mezcla(T_DIA, T_NOCHE, noche),
+            ventana: mezcla(V_DIA, V_NOCHE, noche),
+          };
+          for (var i = 0; i < PARADAS.length; i++) {
+            var pa = PARADAS[i];
+            var x0 = pa.m === 0 ? W * 0.55 : W + pa.m * 5;
+            var sx = x0 - bgOff;
+            sx = ((sx % CICLO) + CICLO) % CICLO;
+            if (sx > W + 160 && sx < CICLO - 160) continue;
+            if (sx >= CICLO - 160) sx -= CICLO;
+            ctx.save();
+            ctx.translate(sx, suelo - 4);
+            ctx.scale(esc, esc);
+            pa.dib(ctx, luzS);
+            ctx.font = "500 12px 'DM Sans', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillStyle = luzS.tinta;
+            ctx.globalAlpha = 0.55;
+            ctx.fillText(pa.cap.toUpperCase(), 0, -158);
+            ctx.globalAlpha = 1;
+            ctx.restore();
+          }
+        }
+
+        function dibujaCielo(noche) {
+          if (noche > 0) {
+            var deg = ctx.createLinearGradient(0, 0, 0, H);
+            deg.addColorStop(0, cielo(Math.min(1, noche * 1.15)));
+            deg.addColorStop(1, cielo(noche * 0.8));
+            ctx.fillStyle = deg;
+            ctx.fillRect(0, 0, W, H);
+          }
+          // el sol shu se pone y la luna sube
+          if (noche > 0.02 && noche < 0.85) {
+            var sy = 24 + noche * (H + 20);
+            if (sy < suelo - 4) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(0, 0, W, suelo - 2);
+              ctx.clip();
+              ctx.beginPath();
+              ctx.arc(W * 0.8, sy, 13, 0, Math.PI * 2);
+              ctx.fillStyle = "#cf3f2f";
+              ctx.globalAlpha = 0.9 - noche * 0.6;
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+          if (noche > 0.35) {
+            var f = (noche - 0.35) / 0.65;
+            var ly = H * 0.75 - (H * 0.75 - 26) * f;
+            ctx.beginPath();
+            ctx.arc(W * 0.16, ly, 10, 0, Math.PI * 2);
+            ctx.fillStyle = CREAM;
+            ctx.globalAlpha = f;
+            ctx.fill();
+            ctx.fillStyle = cielo(Math.min(1, noche * 1.15));
+            ctx.beginPath();
+            ctx.arc(W * 0.16 + 5, ly - 3, 8.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+          if (noche > 0.45) {
+            var fe = (noche - 0.45) / 0.55;
+            ctx.fillStyle = CREAM;
+            for (var e = 0; e < 26; e++) {
+              var exx = (e * 137.51 + 40) % W;
+              var eyy = ((e * 71.3 + 12) % (H * 0.6));
+              ctx.globalAlpha = fe * (0.25 + 0.45 * Math.abs(Math.sin(st.t * 1.2 + e * 1.7)));
+              ctx.fillRect(exx, eyy, 2, 2);
+            }
+            ctx.globalAlpha = 1;
+          }
+        }
 
         function pinta() {
           if (!marcador) return;
@@ -791,13 +1124,23 @@
           }
 
           // ---- dibujo ----
+          // La noche cae con los metros: atardece desde los 240 m (el sol shu
+          // se pone sobre la playa Jeró) y es plena llegando a la UAI.
+          var noche = Math.max(0, Math.min(1, (st.dist / 10 - 240) / 460));
+          tintaObs = mezcla(T_DIA, T_NOCHE, noche);
+
           ctx.clearRect(0, 0, W, H);
-          ctx.strokeStyle = "rgba(14,30,86,0.25)";
+          dibujaCielo(noche);
+          dibujaBarrio(noche);
+
+          ctx.strokeStyle = tintaObs;
+          ctx.globalAlpha = 0.35;
           ctx.lineWidth = 1.5;
           ctx.beginPath();
           ctx.moveTo(8, suelo + 1);
           ctx.lineTo(W - 8, suelo + 1);
           ctx.stroke();
+          ctx.globalAlpha = 1;
 
           for (var k = 0; k < st.obs.length; k++) {
             var ob = st.obs[k];
@@ -862,6 +1205,77 @@
         });
       } else if (btnP) {
         btnP.style.display = "none";
+      }
+
+      // ── Comunidad: pop de invitación + saludo a los de la casa ──
+      // Si el Rally ya conectó una tarjeta (laconsola.rally.socio) o hay
+      // sesión DailyBack, el pop no aparece: el cartucho saluda por nombre.
+      var POP_KEY = "portal.comunidad.vista";
+      var POP_DIAS = 7;
+      function socioRally() {
+        try {
+          var id = localStorage.getItem("laconsola.rally.socio");
+          return id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
+            ? id
+            : null;
+        } catch (_) { return null; }
+      }
+      function sesionDailyback() {
+        try { return /(^|;\s*)sb-[^=;]*-auth-token/.test(document.cookie); } catch (_) { return false; }
+      }
+      function popVisto() {
+        try {
+          var t = parseInt(localStorage.getItem(POP_KEY) || "0", 10);
+          return !!t && Date.now() - t < POP_DIAS * 864e5;
+        } catch (_) { return true; }
+      }
+      function marcaPop() {
+        try { localStorage.setItem(POP_KEY, String(Date.now())); } catch (_) {}
+      }
+
+      var pop = document.getElementById("pop-comunidad");
+      var socio = socioRally();
+
+      if (socio) {
+        fetch("/dailyback/api/consola/estado?membership=" + encodeURIComponent(socio))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (!d || !d.ok) return;
+            var card = document.getElementById("cartucho-tarjeta");
+            if (!card) return;
+            var link = card.querySelector("a");
+            var h2 = card.querySelector("h2");
+            var p = card.querySelector("p");
+            var accion = card.querySelector(".accion");
+            if (h2 && d.nombre) h2.textContent = "Hola, " + d.nombre;
+            if (p) {
+              p.textContent =
+                "Tu tarjeta está activa: llevas " + d.granos +
+                (d.granos === 1 ? " grano" : " granos") +
+                " de la temporada. Sigue jugando y cada helado timbra.";
+            }
+            if (accion) accion.innerHTML = "Ver tu tarjeta →︎";
+            if (link) link.setAttribute("href", "/dailyback/mi-tarjeta/" + socio);
+          })
+          .catch(function () {});
+      } else if (pop && !sesionDailyback() && !popVisto()) {
+        var cierraPop = function () {
+          pop.hidden = true;
+          marcaPop();
+        };
+        window.setTimeout(function () {
+          pop.hidden = false;
+          var luego = document.getElementById("pop-luego");
+          if (luego) luego.addEventListener("click", cierraPop);
+          pop.addEventListener("click", function (e) {
+            if (e.target === pop) cierraPop();
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && !pop.hidden) cierraPop();
+          });
+          var cta = pop.querySelector(".pop-google");
+          if (cta) cta.addEventListener("click", marcaPop);
+        }, 2400);
       }
     })();
   </script>
