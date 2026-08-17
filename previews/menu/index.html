@@ -24,6 +24,8 @@
     --beige: #e3ded9;
     --beige-2: #d9d4cf;
     --mid: #6c757d;
+    --grano: #6f4e37;
+    --white: #ffffff;
     --lima: #e8ff77;
 
     --font-display: 'Syne', sans-serif;
@@ -94,6 +96,7 @@
     z-index: 5;
     background: var(--navy);
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     padding: 12px 0;
     margin-bottom: 30px;
@@ -518,6 +521,155 @@
   .carta-b footer .draft { font-style: italic; font-family: var(--font-body); }
 
   /* ==================================================
+     panel de estampa (ilustración plana)
+     ================================================== */
+  figure.estampa { margin: 6px 0 24px; }
+  figure.estampa svg { display: block; width: 100%; height: auto; }
+  figure.estampa figcaption {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--mid);
+  }
+  figure.estampa figcaption .jp { font-family: var(--font-jp); white-space: nowrap; }
+
+  /* ==================================================
+     OPCIÓN D — la bici (navy editorial)
+     ================================================== */
+  .carta-d {
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 16px;
+    border: 1px solid rgba(166, 217, 248, 0.22);
+    box-shadow: 0 24px 60px rgba(8, 18, 52, 0.55);
+    padding: 34px 28px 26px;
+  }
+  .carta-d .cabeza {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .carta-d .cabeza img { width: 150px; margin: -22px 0 -18px -22px; }
+  .carta-d .lugar {
+    text-align: right;
+    font-weight: 300;
+    font-size: 13.5px;
+    color: var(--sky-lt);
+    line-height: 1.5;
+  }
+  .carta-d .lugar strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--cream);
+  }
+  .carta-d .tagline {
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--sky);
+    border-top: 1px solid rgba(166, 217, 248, 0.3);
+    padding-top: 12px;
+    margin: 12px 0 18px;
+  }
+  .carta-d .tagline em { font-style: italic; }
+  .carta-d figure.estampa figcaption { color: var(--sky-lt); }
+  .carta-d h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .carta-d .sub {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--sky-lt);
+    margin-bottom: 12px;
+  }
+  .carta-d h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--sky);
+    margin: 16px 0 4px;
+  }
+  .carta-d .item .dots { border-bottom: 1px dotted rgba(249, 243, 236, 0.3); }
+  .carta-d .firma {
+    margin: 26px 0 6px;
+    border: 1.5px solid var(--pistacho);
+    background: rgba(196, 216, 112, 0.1);
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .carta-d .firma h3 { margin-bottom: 2px; color: var(--pistacho); }
+  .carta-d .firma .jp {
+    font-family: var(--font-jp);
+    font-size: 12px;
+    color: var(--sky-lt);
+    display: block;
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+  .carta-d .firma p { font-weight: 300; font-size: 13px; color: var(--sky-lt); }
+  .carta-d .firma .precio {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--pistacho);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .carta-d .firma .precio small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--sky-lt);
+  }
+  .carta-d .dos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  @media (min-width: 480px) {
+    .carta-d .dos { grid-template-columns: 1fr 1fr; column-gap: 30px; }
+    .carta-d .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; }
+  }
+  .carta-d .extras {
+    margin-top: 24px;
+    border-top: 1px solid rgba(166, 217, 248, 0.25);
+    padding-top: 14px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--sky-lt);
+  }
+  .carta-d .extras b { font-weight: 500; color: var(--cream); }
+  .carta-d footer {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(166, 217, 248, 0.65);
+  }
+  .carta-d footer .jp { font-family: var(--font-jp); white-space: nowrap; }
+  .carta-d footer .draft { font-style: italic; }
+
+  /* ==================================================
      ART STGO — la estampa urbana (feria)
      ================================================== */
   .carta-f {
@@ -705,14 +857,16 @@
 
   <header class="brand">
     <div class="eyebrow">■&#xFE0E; Previews · Carta Casa Providencia</div>
-    <h1>La carta, <em>dos pieles</em></h1>
-    <p class="lead">El mismo contenido dibujado en dos registros del sistema Ukiyo Diario: la estampa sobre papel y la pantalla de la consola. Abajo, la edición para la feria ART STGO.</p>
+    <h1>La carta, <em>cuatro pieles</em></h1>
+    <p class="lead">El mismo contenido dibujado en cuatro pieles del sistema Ukiyo Diario: el papel, la consola, el beagle de la casa y la bici. Abajo, la edición para la feria ART STGO.</p>
     <span class="aviso">Borrador interno · precios estimados por confirmar con Guille y los socios</span>
   </header>
 
   <nav class="saltos">
     <a href="#opcion-a">A · papel</a>
     <a href="#opcion-b">B · consola</a>
+    <a href="#opcion-c">C · beagle</a>
+    <a href="#opcion-d">D · bici</a>
     <a href="#artstgo">ART STGO</a>
   </nav>
 
@@ -895,6 +1049,295 @@
 
     <div class="extras">
       <b>Extras</b> · sin lactosa o NotMilk +$0 · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ OPCIÓN C ============ -->
+  <div class="opcion-head" id="opcion-c">
+    <div class="num">OPCIÓN C</div>
+    <h2>El beagle <em>· el perro de la casa</em></h2>
+    <p>La estampa de papel con protagonista: un beagle con hachimaki cuidando su café. Ilustración plana, línea navy, planos de color.</p>
+  </div>
+
+  <article class="carta-a">
+    <div class="cabeza">
+      <img src="LogoTDG-celeste.svg" alt="The Daily Grind">
+      <div class="sello-jp" lang="ja">メニュー</div>
+    </div>
+    <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones · con Nice To Meat</div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <figure class="estampa">
+      <svg viewBox="0 0 520 360" role="img" aria-label="Beagle con hachimaki sentado junto a su café">
+        <defs>
+          <clipPath id="cuerpo-beagle">
+            <ellipse cx="175" cy="252" rx="52" ry="56"/>
+            <rect x="205" y="196" width="54" height="116" rx="27"/>
+          </clipPath>
+        </defs>
+        <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky-lt)"/>
+        <circle cx="402" cy="104" r="60" fill="var(--cream)"/>
+        <path d="M 0 292 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--pistacho)"/>
+        <text x="34" y="78" font-size="36" fill="var(--navy)" font-family="Shippori Mincho, serif" lang="ja">犬</text>
+        <ellipse cx="220" cy="310" rx="110" ry="12" fill="var(--navy)" opacity="0.1"/>
+        <path d="M 128 258 Q 100 230 118 196" stroke="var(--white)" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <ellipse cx="175" cy="252" rx="52" ry="56" fill="var(--white)"/>
+        <rect x="205" y="196" width="54" height="116" rx="27" fill="var(--white)"/>
+        <ellipse cx="182" cy="222" rx="42" ry="30" fill="var(--navy)" clip-path="url(#cuerpo-beagle)"/>
+        <ellipse cx="150" cy="304" rx="22" ry="9" fill="var(--white)"/>
+        <ellipse cx="232" cy="307" rx="21" ry="9" fill="var(--white)"/>
+        <path d="M 224 186 L 282 196 L 246 226 Z" fill="var(--sky)"/>
+        <circle cx="252" cy="150" r="46" fill="var(--white)"/>
+        <circle cx="285" cy="166" r="24" fill="var(--white)"/>
+        <ellipse cx="224" cy="176" rx="17" ry="40" fill="var(--grano)" transform="rotate(10 224 176)"/>
+        <path d="M 210 136 Q 252 118 294 140" stroke="var(--navy)" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <path d="M 210 136 l -22 -12" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 210 136 l -17 10" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="254" cy="126" r="6" fill="var(--sky)"/>
+        <ellipse cx="301" cy="160" rx="8" ry="7" fill="var(--navy)"/>
+        <path d="M 252 148 q 7 7 14 0" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M 287 177 q 8 6 16 0" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="352" cy="300" rx="34" ry="8" fill="var(--white)"/>
+        <rect x="330" y="258" width="44" height="40" rx="8" fill="var(--white)"/>
+        <rect x="330" y="270" width="44" height="9" fill="var(--sky)"/>
+        <path d="M 374 268 q 16 8 0 20" stroke="var(--navy)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M 342 248 q 6 -10 0 -18" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <path d="M 360 248 q -6 -10 0 -18" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55"/>
+      </svg>
+      <figcaption><span>El perro de la casa cuida el mostrador.</span><span class="jp" lang="ja">犬 · いぬ</span></figcaption>
+    </figure>
+
+    <section>
+      <h3>Café</h3>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="firma">
+      <div>
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <div class="dos">
+      <section>
+        <h3>Dulce</h3>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </section>
+      <section>
+        <h3>Heladería</h3>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </section>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · leche sin lactosa o NotMilk sin recargo · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ OPCIÓN D ============ -->
+  <div class="opcion-head" id="opcion-d">
+    <div class="num">OPCIÓN D</div>
+    <h2>La bici <em>· a toda marcha</em></h2>
+    <p>El mismo beagle pedaleando con el café en el canasto y el cono de pistacho en alto. Cielo abierto sobre carta navy.</p>
+  </div>
+
+  <article class="carta-d">
+    <div class="cabeza">
+      <img src="LogoTDG-blanco.svg" alt="The Daily Grind">
+      <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones · con Nice To Meat</div>
+    </div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <figure class="estampa">
+      <svg viewBox="0 0 520 360" role="img" aria-label="Beagle en bicicleta con café en el canasto y cono de pistacho en alto">
+        <rect x="0" y="0" width="520" height="360" rx="14" fill="var(--sky)"/>
+        <g fill="var(--white)" opacity="0.9">
+          <ellipse cx="96" cy="66" rx="42" ry="16"/>
+          <ellipse cx="128" cy="56" rx="30" ry="13"/>
+          <ellipse cx="392" cy="46" rx="38" ry="14"/>
+          <ellipse cx="424" cy="56" rx="26" ry="11"/>
+        </g>
+        <text x="448" y="82" font-size="36" fill="var(--white)" font-family="Shippori Mincho, serif" lang="ja">風</text>
+        <path d="M 0 302 H 520 V 346 Q 520 360 506 360 H 14 Q 0 360 0 346 Z" fill="var(--navy)"/>
+        <line x1="24" y1="331" x2="496" y2="331" stroke="var(--cream)" stroke-width="4" stroke-dasharray="26 18" opacity="0.8"/>
+        <g stroke="var(--white)" stroke-width="5" stroke-linecap="round" opacity="0.55">
+          <line x1="36" y1="190" x2="118" y2="190"/>
+          <line x1="24" y1="226" x2="92" y2="226"/>
+          <line x1="48" y1="260" x2="124" y2="260"/>
+        </g>
+        <ellipse cx="168" cy="304" rx="52" ry="7" fill="var(--navy-2)" opacity="0.35"/>
+        <ellipse cx="352" cy="304" rx="52" ry="7" fill="var(--navy-2)" opacity="0.35"/>
+        <g stroke="var(--navy)" fill="none">
+          <circle cx="168" cy="262" r="42" stroke-width="8"/>
+          <circle cx="352" cy="262" r="42" stroke-width="8"/>
+          <g stroke-width="3" opacity="0.5">
+            <line x1="168" y1="224" x2="168" y2="300"/>
+            <line x1="132" y1="244" x2="204" y2="280"/>
+            <line x1="132" y1="280" x2="204" y2="244"/>
+            <line x1="352" y1="224" x2="352" y2="300"/>
+            <line x1="316" y1="244" x2="388" y2="280"/>
+            <line x1="316" y1="280" x2="388" y2="244"/>
+          </g>
+        </g>
+        <g stroke="var(--navy)" stroke-width="7" stroke-linecap="round" fill="none">
+          <path d="M 168 262 L 238 198 L 322 200 L 352 262"/>
+          <path d="M 238 198 L 258 262 L 168 262"/>
+          <path d="M 322 200 L 314 180"/>
+          <path d="M 314 180 q 18 -8 28 4"/>
+        </g>
+        <circle cx="168" cy="262" r="6" fill="var(--navy)"/>
+        <circle cx="352" cy="262" r="6" fill="var(--navy)"/>
+        <circle cx="258" cy="262" r="8" fill="var(--navy)"/>
+        <path d="M 258 262 l 15 19" stroke="var(--navy)" stroke-width="5" stroke-linecap="round"/>
+        <rect x="266" y="277" width="20" height="8" rx="4" fill="var(--navy)"/>
+        <rect x="220" y="188" width="32" height="11" rx="5.5" fill="var(--navy)"/>
+        <path d="M 348 196 h 48 l -8 36 h -32 Z" fill="var(--beige)"/>
+        <line x1="352" y1="208" x2="392" y2="208" stroke="var(--navy)" stroke-width="2.5" opacity="0.35"/>
+        <line x1="354" y1="220" x2="390" y2="220" stroke="var(--navy)" stroke-width="2.5" opacity="0.35"/>
+        <rect x="358" y="174" width="27" height="25" rx="5" fill="var(--white)"/>
+        <rect x="358" y="182" width="27" height="7" fill="var(--navy-2)" opacity="0.25"/>
+        <path d="M 366 166 q 5 -8 0 -15" stroke="var(--white)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <path d="M 378 166 q -5 -8 0 -15" stroke="var(--white)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <path d="M 234 182 q -22 -10 -26 -30" stroke="var(--white)" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M 248 206 L 262 258" stroke="var(--white)" stroke-width="12" stroke-linecap="round"/>
+        <circle cx="245" cy="192" r="24" fill="var(--white)"/>
+        <ellipse cx="278" cy="186" rx="46" ry="26" fill="var(--white)" transform="rotate(-16 278 186)"/>
+        <ellipse cx="258" cy="192" rx="20" ry="12" fill="var(--navy)" transform="rotate(-16 258 192)"/>
+        <path d="M 296 164 L 256 148 L 266 176 Z" fill="var(--sky)"/>
+        <path d="M 302 184 L 324 180" stroke="var(--white)" stroke-width="11" stroke-linecap="round"/>
+        <circle cx="327" cy="179" r="7" fill="var(--white)"/>
+        <path d="M 288 172 L 270 122" stroke="var(--white)" stroke-width="11" stroke-linecap="round"/>
+        <path d="M 258 110 L 282 110 L 270 148 Z" fill="var(--beige-2)"/>
+        <line x1="262" y1="118" x2="278" y2="118" stroke="var(--navy)" stroke-width="2" opacity="0.3"/>
+        <ellipse cx="270" cy="104" rx="15" ry="9" fill="var(--pistacho)"/>
+        <ellipse cx="270" cy="94" rx="11" ry="8" fill="var(--pistacho)"/>
+        <ellipse cx="270" cy="85" rx="6" ry="6" fill="var(--pistacho)"/>
+        <ellipse cx="270" cy="130" rx="9" ry="7" fill="var(--white)"/>
+        <circle cx="314" cy="146" r="33" fill="var(--white)"/>
+        <circle cx="341" cy="156" r="18" fill="var(--white)"/>
+        <ellipse cx="286" cy="132" rx="26" ry="10" fill="var(--grano)" transform="rotate(-24 286 132)"/>
+        <ellipse cx="290" cy="148" rx="22" ry="8" fill="var(--grano)" transform="rotate(-10 290 148)"/>
+        <ellipse cx="354" cy="151" rx="7" ry="6" fill="var(--navy)"/>
+        <path d="M 316 140 q 7 7 14 0" stroke="var(--navy)" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M 340 166 q 7 5 14 -2" stroke="var(--navy)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <figcaption><span>El café llega igual, llueva o truene.</span><span class="jp" lang="ja">風 · かぜ</span></figcaption>
+    </figure>
+
+    <section>
+      <h3>Café</h3>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="firma">
+      <div>
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <div class="dos">
+      <section>
+        <h3>Dulce</h3>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </section>
+      <section>
+        <h3>Heladería</h3>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </section>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · leche sin lactosa o NotMilk sin recargo · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
     </div>
 
     <footer>
