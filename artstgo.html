@@ -143,6 +143,43 @@
     .dato strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--navy); margin-bottom: 6px; }
     .dato a { font-weight: 500; }
 
+    /* ── Pop: entra a la comunidad (mismo de la consola) ── */
+    .pop-fondo {
+      position: fixed; inset: 0; z-index: 1000; background: rgba(8, 18, 52, 0.72);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      animation: pop-aparece 0.2s ease both;
+    }
+    .pop-fondo[hidden] { display: none; }
+    @keyframes pop-aparece { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pop-sube { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .pop-caja {
+      width: min(430px, 100%); background: var(--navy-2); color: var(--cream);
+      border: 1px solid rgba(249, 243, 236, 0.35); box-shadow: 6px 6px 0 rgba(4, 9, 26, 0.55);
+      padding: 30px 28px 22px; animation: pop-sube 0.25s ease both;
+    }
+    .pop-caja .pop-kicker { font-weight: 500; text-transform: uppercase; font-size: 11px; color: var(--sky); }
+    .pop-caja .pop-kicker .jp { font-family: var(--font-jp); text-transform: none; }
+    .pop-caja h2 { font-family: var(--font-display); font-weight: 700; font-size: 27px; line-height: 1.05; margin: 12px 0 10px; color: var(--cream); }
+    .pop-caja p.texto { font-size: 14px; line-height: 1.6; color: rgba(249, 243, 236, 0.78); }
+    .pop-google {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      margin-top: 20px; padding: 14px 18px; background: var(--pistacho); color: var(--navy);
+      text-decoration: none; font-weight: 500; text-transform: uppercase; font-size: 11px;
+      transition: background 0.12s ease;
+    }
+    .pop-google:hover { background: #d2e388; }
+    .pop-google small { display: block; font-weight: 300; font-size: 11px; text-transform: none; margin-top: 2px; color: rgba(14, 30, 86, 0.75); }
+    .pop-luego {
+      margin-top: 12px; width: 100%; background: none; border: none; cursor: pointer;
+      color: rgba(249, 243, 236, 0.5); font-family: var(--font-body); font-weight: 500;
+      text-transform: uppercase; font-size: 10px; padding: 8px 0;
+    }
+    .pop-luego:hover { color: var(--cream); }
+    @media (max-width: 480px) {
+      .pop-fondo { align-items: flex-end; padding: 0; }
+      .pop-caja { width: 100%; box-shadow: none; border-left: none; border-right: none; border-bottom: none; padding-bottom: 30px; }
+    }
+
     footer {
       margin-top: 70px; padding: 34px 22px; border-top: 1px solid var(--beige-2);
       display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 13px; color: var(--mid);
@@ -219,9 +256,72 @@
     </section>
   </div>
 
+  <div class="pop-fondo" id="pop-comunidad" hidden>
+    <div class="pop-caja" role="dialog" aria-modal="true" aria-labelledby="pop-titulo">
+      <p class="pop-kicker">DailyBack · <span class="jp" lang="ja">コミュニティ</span></p>
+      <h2 id="pop-titulo">Entra a la comunidad</h2>
+      <p class="texto">
+        Un toque con tu Google y tu tarjeta queda lista para la feria: cada
+        helado timbra, y el décimo va por la casa.
+      </p>
+      <a class="pop-google" href="/dailyback/auth/google">
+        <span>Entrar con Google<small>Tu tarjeta se crea al tiro</small></span>
+        <span>→</span>
+      </a>
+      <button class="pop-luego" id="pop-luego" type="button">Por ahora no</button>
+    </div>
+  </div>
+
   <footer>
     <span>The Daily Grind × ART STGO · GAM · MMXXVI</span>
     <span><span class="jp" lang="ja">芸術祭</span> · <a href="/">volver a la consola</a></span>
   </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      // Mismo pop de la consola: no aparece si ya hay tarjeta conectada
+      // (Rally) o sesión DailyBack, y descansa 7 días tras cerrarse.
+      var POP_KEY = "portal.comunidad.vista";
+      var POP_DIAS = 7;
+      function socioRally() {
+        try {
+          var id = localStorage.getItem("laconsola.rally.socio");
+          return !!(id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id));
+        } catch (_) { return false; }
+      }
+      function sesionDailyback() {
+        try { return /(^|;\s*)sb-[^=;]*-auth-token/.test(document.cookie); } catch (_) { return false; }
+      }
+      function popVisto() {
+        try {
+          var t = parseInt(localStorage.getItem(POP_KEY) || "0", 10);
+          return !!t && Date.now() - t < POP_DIAS * 864e5;
+        } catch (_) { return true; }
+      }
+      function marcaPop() {
+        try { localStorage.setItem(POP_KEY, String(Date.now())); } catch (_) {}
+      }
+      var pop = document.getElementById("pop-comunidad");
+      if (!pop || socioRally() || sesionDailyback() || popVisto()) return;
+      var cierraPop = function () {
+        pop.hidden = true;
+        marcaPop();
+      };
+      window.setTimeout(function () {
+        pop.hidden = false;
+        var luego = document.getElementById("pop-luego");
+        if (luego) luego.addEventListener("click", cierraPop);
+        pop.addEventListener("click", function (e) {
+          if (e.target === pop) cierraPop();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !pop.hidden) cierraPop();
+        });
+        var cta = pop.querySelector(".pop-google");
+        if (cta) cta.addEventListener("click", marcaPop);
+      }, 2400);
+    })();
+  </script>
 </body>
 </html>
