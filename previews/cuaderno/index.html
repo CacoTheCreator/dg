@@ -124,6 +124,9 @@
   }
   nav.saltos a:hover { border-color: var(--sky); color: var(--cream); }
 
+  /* el nav sticky no debe tapar el titulo al saltar por ancla */
+  section[id] { scroll-margin-top: 64px; }
+
   /* páginas de cuaderno */
   section.pagina {
     background: var(--cream);
@@ -241,6 +244,15 @@
     color: var(--navy-2);
   }
 
+  .tabla-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 10px;
+  }
+  .tabla-scroll table.plan { margin-top: 0; min-width: 420px; }
+  .tabla-scroll table.plan td,
+  .tabla-scroll table.plan th { padding-right: 14px; white-space: nowrap; }
+
   /* diagrama del pod */
   figure.pod { margin: 18px 0 6px; }
   figure.pod svg { display: block; width: 100%; height: auto; }
@@ -250,6 +262,70 @@
     font-weight: 300;
     color: var(--mid);
   }
+
+  /* cuenta regresiva */
+  .urgente {
+    background: var(--shu);
+    color: var(--cream);
+    border-radius: 14px;
+    padding: 20px 22px 22px;
+    margin: 26px 0;
+  }
+  .urgente .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(249, 243, 236, 0.8);
+  }
+  .urgente h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 6.5vw, 32px);
+    line-height: 1.1;
+    margin-top: 8px;
+  }
+  .urgente p {
+    margin-top: 12px;
+    font-weight: 300;
+    font-size: 15.5px;
+    line-height: 1.65;
+  }
+  .urgente ol {
+    margin: 14px 0 0 18px;
+    font-size: 14.5px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .urgente ol li { padding: 5px 0; }
+  .urgente ol li strong { font-weight: 500; }
+
+  .dias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .dias div {
+    background: rgba(14, 30, 86, 0.14);
+    border: 1px solid var(--beige-2);
+    border-radius: 10px;
+    padding: 11px 10px 13px;
+  }
+  .dias .d {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--pistacho-2);
+  }
+  .dias .q {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.45;
+  }
+  .dias div.hoy {
+    background: rgba(207, 63, 47, 0.14);
+    border-color: var(--shu);
+  }
+  .dias div.hoy .d { color: var(--shu); font-weight: 500; }
 
   .dato {
     margin-top: 14px;
@@ -301,13 +377,60 @@
   </header>
 
   <nav class="saltos">
+    <a href="#semana">Esta semana</a>
     <a href="#artstgo">ART STGO</a>
     <a href="#pod">El pod</a>
     <a href="#jornada">La jornada</a>
     <a href="#packlist">Pack list</a>
+    <a href="#compra">La compra</a>
     <a href="#casa">La casa</a>
     <a href="#comms">Comunicaciones</a>
   </nav>
+
+  <!-- ══════════ CUENTA REGRESIVA ══════════ -->
+
+  <section class="urgente" id="semana">
+    <div class="kicker">LUNES 17 · QUEDAN 5 DÍAS</div>
+    <h2>ART STGO es este fin de semana</h2>
+    <p>El arco normal de un evento parte tres semanas antes. Vamos tarde, así que todo eso se resuelve entre hoy y el miércoles. Cuatro cosas tienen que pasar hoy o el fin de semana se complica:</p>
+    <ol>
+      <li><strong>Llamar a Franchesca de Kraneo</strong> (+56 9 7145 6159): horarios por día, ventana de montaje del viernes, qué provee producción y quién tramita el sanitario.</li>
+      <li><strong>Confirmar el pedido de helado</strong> con entrega jueves o viernes. Sin esto no hay feria.</li>
+      <li><strong>Cerrar el nombre del sabor ART STGO.</strong> Era co-definido con Kraneo; si mañana no hay respuesta, lo bautizamos nosotros.</li>
+      <li><strong>Publicar el anuncio en Instagram.</strong> Cada día sin anunciar es público que no sabe que estaremos.</li>
+    </ol>
+  </section>
+
+  <section class="pagina">
+    <div class="kicker"><span>LA SEMANA, DÍA POR DÍA</span><span class="jp">週</span></div>
+    <h2>De acá al sábado</h2>
+    <div class="dias">
+      <div class="hoy">
+        <div class="d">LUN 17 · HOY</div>
+        <div class="q">Las cuatro llamadas. Anuncio en Instagram.</div>
+      </div>
+      <div>
+        <div class="d">MAR 18</div>
+        <div class="q">Turnos cerrados con nombres. Concurso foto en el pod. Pedido de vasitos y cucharitas.</div>
+      </div>
+      <div>
+        <div class="d">MIÉ 19</div>
+        <div class="q">Prueba real de las dos máquinas soft. POS en modo sin señal. Gel packs al congelador. Cuaderno impreso.</div>
+      </div>
+      <div>
+        <div class="d">JUE 20</div>
+        <div class="q">Llega el helado. Pack list armado y firmado. Fondo de caja al banco.</div>
+      </div>
+      <div>
+        <div class="d">VIE 21</div>
+        <div class="q">Montaje. La vitrina se enchufa y pre-enfría hasta −18 °C antes de cargar cubetas.</div>
+      </div>
+      <div>
+        <div class="d">SÁB 22 · DOM 23</div>
+        <div class="q">La feria. Jornada hora a hora, más abajo.</div>
+      </div>
+    </div>
+  </section>
 
   <!-- ══════════ ART STGO ══════════ -->
 
@@ -445,6 +568,42 @@
       <li>¿Qué faltó en el pack list? ¿Qué dijo la gente del sabor ART STGO?</li>
       <li>Tres cosas que repetimos, una que cambiamos — con dueño y fecha</li>
     </ul>
+  </section>
+
+  <section class="pagina" id="compra">
+    <div class="kicker"><span>PARTE I · LA COMPRA</span><span class="jp">氷</span></div>
+    <h2>Cuánto helado comprar <em>· y dónde vive el frío</em></h2>
+    <p>La vitrina carga 35 litros: siete depósitos de cinco. Una bocha son 95 ml y un vasito de soft, 120 ml. Un balde de soft de 3,6 litros rinde 4,18 litros servidos, o sea <strong>34 vasitos</strong>.</p>
+
+    <h3>Los tres escenarios</h3>
+    <div class="tabla-scroll">
+    <table class="plan">
+      <tr><th>PARA DOS DÍAS</th><th>CONSERVADOR</th><th>BASE</th><th>ALTO</th></tr>
+      <tr><td>Porciones por día</td><td>300</td><td>500</td><td>800</td></tr>
+      <tr><td>Cubetas de vitrina</td><td>7</td><td>12</td><td>19</td></tr>
+      <tr><td>Baldes de açaí</td><td>4</td><td>6</td><td>10</td></tr>
+      <tr><td>Baldes de pistacho</td><td>4</td><td>6</td><td>10</td></tr>
+      <tr><td>Vasos y cucharitas</td><td>660</td><td>1.100</td><td>1.760</td></tr>
+      <tr><td>Insumos (neto)</td><td>$301.373</td><td>$475.572</td><td>$761.945</td></tr>
+      <tr><td>Margen sobre insumos</td><td>83,7%</td><td>84,5%</td><td>84,5%</td></tr>
+    </table>
+    </div>
+
+    <div class="norte">
+      <div class="titulo">Comprar para el escenario base, en dos tandas.</div>
+      <p>Sábado: una carga completa de vitrina (7 cubetas, una por sabor) más 3 baldes de açaí y 3 de pistacho. El resto queda de reserva para el domingo. <strong>El helado congelado no se echa a perder: lo que sobra vuelve a Providencia y se vende.</strong> Quedarse corto cuesta más que sobrar — una hora sin un sabor es venta perdida y mala cara delante de Kraneo.</p>
+      <p><strong>Regla del sábado a mediodía:</strong> si a las dos horas de abrir se consumió más de un tercio de la carga, se activa la reserva completa para el domingo.</p>
+    </div>
+
+    <h3>El problema del frío</h3>
+    <p>Los dos refrigeradores de la ficha eléctrica sirven para el mix de soft, que va bajo 4 °C. <strong>No mantienen cubetas congeladas.</strong> Hay que elegir dónde vive la reposición:</p>
+    <ul class="check">
+      <li>Congelador propio en el stand <em>(suma consumo: avisar a Eduardo)</em></li>
+      <li>Bodega fría de la feria <em>(preguntar a Franchesca)</em></li>
+      <li>Traerla cada mañana en cajas isotérmicas <em>(plan por defecto: no cuesta ni depende de nadie)</em></li>
+    </ul>
+
+    <div class="dato"><strong>Dato del pistacho:</strong> el balde de 3,6 L cuesta $22.500 y rinde 34 vasitos — $584 de costo por vasito que se vende a $3.900, o sea 82% de margen. Cuesta 2,8 veces el balde de açaí y sigue siendo un producto excelente. El pistacho se defiende como firma de la casa, no se esconde por costo.</div>
   </section>
 
   <!-- ══════════ LA CASA ══════════ -->
