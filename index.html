@@ -762,7 +762,7 @@
         // van apareciendo las paradas: la cafetería, Providencia, la playa
         // Jeró, el Mónaco y la UAI. Después el barrio da la vuelta.
         var P_FONDO = 0.5;
-        var CICLO = 6200;
+        var CICLO = 7400;
         var C_DIA = [249, 243, 236], C_NOCHE = [8, 18, 52];
         var T_DIA = [14, 30, 86], T_NOCHE = [166, 217, 248];
         var S_DIA = [14, 30, 86], S_NOCHE = [30, 52, 120];
@@ -897,12 +897,135 @@
           c.strokeStyle = S.tinta; c.stroke();
         }
         var PISTA = "#c4d870";
+
+        // ── Los volúmenes: el recuerdo aparece de noche, camino a casa ──
+        // Vol. 1 música, Vol. 2 rechill, Vol. 3 apenas un guiño. El camaleón
+        // acompaña en cada uno y muta de color: arena, verde, rosado.
+        var ARENA = "#d9c7a2", VERDE = "#3c5c48", ROSA = "#e8a7b8", NEGRO = "#232a3d";
+
+        function dCamaleon(c, color, S) {
+          c.save();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.6;
+          // cola enrollada
+          c.beginPath(); c.arc(9, -5, 4, Math.PI * 0.2, Math.PI * 1.6);
+          c.strokeStyle = color; c.lineWidth = 2.4; c.stroke();
+          // cuerpo
+          c.beginPath(); c.ellipse(0, -6, 8, 5, 0, 0, Math.PI * 2);
+          c.fillStyle = color; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.4; c.stroke();
+          // cabeza con casco
+          c.beginPath();
+          c.moveTo(-6, -9); c.lineTo(-12, -12); c.lineTo(-13, -7); c.lineTo(-8, -3);
+          c.closePath(); c.fillStyle = color; c.fill(); c.stroke();
+          c.beginPath(); c.arc(-10, -9, 1.2, 0, Math.PI * 2);
+          c.fillStyle = S.tinta; c.fill();
+          // patitas
+          c.beginPath(); c.moveTo(-3, -1); c.lineTo(-3, 0); c.moveTo(4, -1); c.lineTo(4, 0);
+          c.strokeStyle = S.tinta; c.stroke();
+          c.restore();
+        }
+        function dRack(c, S, ancho) {
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.beginPath();
+          c.moveTo(-ancho, 0); c.lineTo(-ancho, -96);
+          c.moveTo(ancho, 0); c.lineTo(ancho, -96);
+          c.moveTo(-ancho - 8, -96); c.lineTo(ancho + 8, -96);
+          c.stroke();
+        }
+        function dPolera(c, S, x, ancho, alto, color) {
+          c.save();
+          c.translate(x, -94);
+          c.beginPath();
+          c.moveTo(-ancho * 0.5, 4); c.lineTo(-ancho * 0.82, 12); c.lineTo(-ancho * 0.62, 22);
+          c.lineTo(-ancho * 0.45, 16); c.lineTo(-ancho * 0.45, alto);
+          c.lineTo(ancho * 0.45, alto); c.lineTo(ancho * 0.45, 16);
+          c.lineTo(ancho * 0.62, 22); c.lineTo(ancho * 0.82, 12); c.lineTo(ancho * 0.5, 4);
+          c.closePath();
+          c.fillStyle = color; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.restore();
+        }
+        function dVol1(c, S) {
+          dRack(c, S, 42);
+          // el hoodie arena: capucha, cuerpo y bolsillo
+          c.save(); c.translate(0, -94);
+          c.beginPath();
+          c.moveTo(-13, 2); c.quadraticCurveTo(0, -8, 13, 2);
+          c.lineTo(22, 8); c.lineTo(24, 62); c.lineTo(-24, 62); c.lineTo(-22, 8);
+          c.closePath();
+          c.fillStyle = ARENA; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.beginPath(); c.moveTo(-13, 2); c.quadraticCurveTo(0, 14, 13, 2);
+          c.stroke();
+          // el elefante con su rosa roja al medio
+          c.fillStyle = "#55617e";
+          c.beginPath(); c.ellipse(1, 36, 8, 6, 0, 0, Math.PI * 2); c.fill();
+          c.beginPath(); c.arc(-8, 33, 4, 0, Math.PI * 2); c.fill();
+          c.beginPath(); c.moveTo(-11, 34); c.quadraticCurveTo(-15, 38, -12, 42);
+          c.strokeStyle = "#55617e"; c.lineWidth = 2; c.stroke();
+          c.beginPath(); c.arc(1, 34, 2.6, 0, Math.PI * 2);
+          c.fillStyle = "#cf3f2f"; c.fill();
+          c.restore();
+          // el vinilo apoyado, la música primero
+          c.beginPath(); c.arc(60, -16, 15, 0, Math.PI * 2);
+          c.fillStyle = "#16244f"; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.beginPath(); c.arc(60, -16, 5, 0, Math.PI * 2);
+          c.fillStyle = "#e8c34a"; c.fill();
+          c.fillStyle = S.tinta;
+          c.font = "13px 'DM Sans', sans-serif";
+          c.textAlign = "center";
+          c.fillText("♪", 74, -44);
+          c.save(); c.translate(-30, -96); dCamaleon(c, ARENA, S); c.restore();
+        }
+        function dVol2(c, S) {
+          dRack(c, S, 46);
+          dPolera(c, S, -22, 30, 54, VERDE);
+          dPolera(c, S, 22, 30, 54, ARENA);
+          // "daily grind" al medio, rechill
+          c.fillStyle = S.tinta;
+          c.font = "italic 6px 'DM Sans', sans-serif";
+          c.textAlign = "center";
+          c.fillText("daily grind", 22, -62);
+          // la joya: cadenita con colgante dorado
+          c.strokeStyle = "#e8c34a"; c.lineWidth = 1.4;
+          c.beginPath(); c.moveTo(52, -96); c.quadraticCurveTo(56, -80, 52, -66); c.stroke();
+          c.beginPath(); c.arc(52, -62, 3.4, 0, Math.PI * 2);
+          c.fillStyle = "#e8c34a"; c.fill();
+          c.save(); c.translate(-34, -96); dCamaleon(c, VERDE, S); c.restore();
+        }
+        function dVol3(c, S) {
+          // la repisa baja del guiño: tres cilindritos y tres poleras mini
+          dRack(c, S, 40);
+          dPolera(c, S, -24, 22, 40, ROSA);
+          dPolera(c, S, 0, 22, 40, CREAM);
+          dPolera(c, S, 24, 22, 40, NEGRO);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.beginPath(); c.moveTo(-36, -28); c.lineTo(36, -28); c.stroke();
+          c.beginPath(); c.moveTo(-30, -28); c.lineTo(-30, 0); c.moveTo(30, -28); c.lineTo(30, 0);
+          c.stroke();
+          var molCol = [ROSA, CREAM, NEGRO];
+          for (var mo = 0; mo < 3; mo++) {
+            var mx = -14 + mo * 14;
+            c.fillStyle = molCol[mo];
+            c.fillRect(mx - 5, -38, 10, 8);
+            c.strokeStyle = S.tinta; c.lineWidth = 1.4;
+            c.strokeRect(mx - 5, -38, 10, 8);
+            c.beginPath(); c.ellipse(mx, -38, 5, 2, 0, 0, Math.PI * 2);
+            c.fillStyle = molCol[mo]; c.fill(); c.stroke();
+          }
+          c.save(); c.translate(46, -28); dCamaleon(c, ROSA, S); c.restore();
+        }
+
         var PARADAS = [
-          { m: 0,   cap: "la cafetería",          dib: dCafeteria },
-          { m: 180, cap: "barrio Providencia",    dib: dProvidencia },
+          { m: 0,   cap: "la cafetería · Vol. 4",  dib: dCafeteria },
+          { m: 180, cap: "barrio Providencia",     dib: dProvidencia },
           { m: 380, cap: "la playa Jeró · Casa I", dib: dJero },
-          { m: 580, cap: "Mónaco · el restobar",  dib: dMonaco },
-          { m: 780, cap: "la UAI · Casa II",      dib: dUai },
+          { m: 580, cap: "Mónaco · el restobar",   dib: dMonaco },
+          { m: 780, cap: "la UAI · Casa II",       dib: dUai },
+          { m: 940, cap: "Vol. 1 · la música",     dib: dVol1 },
+          { m: 1040, cap: "Vol. 2 · rechill",      dib: dVol2 },
+          { m: 1140, cap: "Vol. 3 · un guiño",     dib: dVol3 },
         ];
 
         function dibujaBarrio(noche) {
