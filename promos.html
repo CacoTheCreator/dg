@@ -1,410 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Promos — The Daily Grind</title>
-<meta name="description" content="Promociones vigentes de The Daily Grind. Combos y ofertas del día.">
-
-<meta property="og:title" content="Promos — The Daily Grind">
-<meta property="og:description" content="Combos del Vol. 04. Platos de verdad, todos los días.">
-<meta property="og:image" content="https://dailygrind.cl/img/og-promos.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:alt" content="The Daily Grind — Promos">
-<meta property="og:url" content="https://dailygrind.cl/promos">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="The Daily Grind">
-<meta property="og:locale" content="es_CL">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Promos — The Daily Grind">
-<meta name="twitter:description" content="Combos del Vol. 04. Platos de verdad, todos los días.">
-<meta name="twitter:image" content="https://dailygrind.cl/img/og-promos.jpg">
-
-<link rel="icon" href="LogoTDG.svg" type="image/svg+xml">
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --navy:   #0e1e56;
-    --navy-2: #0b1845;
-    --sky:    #51b5f2;
-    --sky-lt: #a6d9f8;
-    --cream:  #f9f3ec;
-    --beige:  #e3ded9;
-    --beige-2:#d9d4cf;
-    --dark:   #212529;
-    --mid:    #6C757D;
-    --white:  #FFFFFF;
-  }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background-color: var(--navy);
-    color: var(--white);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  a { color: inherit; text-decoration: none; }
-
-  /* HEADER */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 24px;
-    background-color: var(--navy);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid rgba(81,181,242,0.12);
-  }
-
-  .header img { height: 48px; width: auto; }
-
-  .nav {
-    display: flex;
-    gap: 26px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--sky-lt);
-  }
-
-  .nav a { transition: color 0.2s ease; }
-  .nav a:hover, .nav a.active { color: var(--white); }
-
-  @media (max-width: 520px) {
-    .nav { gap: 18px; font-size: 12px; }
-  }
-
-  /* HERO */
-  .hero {
-    background-color: var(--navy);
-    padding: 96px 24px 64px;
-    text-align: center;
-    position: relative;
-  }
-
-  .section-label {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--sky);
-    margin-bottom: 18px;
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(40px, 8vw, 84px);
-    line-height: 0.98;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    margin-bottom: 24px;
-    max-width: 880px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero h1 .accent { color: var(--sky); }
-  .hero h1 em { font-style: italic; font-weight: 400; color: var(--sky-lt); }
-
-  .hero .lede {
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--sky-lt);
-    max-width: 56ch;
-    margin: 0 auto;
-    line-height: 1.65;
-  }
-
-  /* PROMOS */
-  .promos {
-    background-color: var(--navy-2);
-    padding: 80px 24px;
-  }
-
-  .promos-wrap {
-    max-width: 880px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .promo {
-    background-color: rgba(81,181,242,0.06);
-    border: 1px solid rgba(81,181,242,0.18);
-    border-radius: 10px;
-    padding: 32px 32px 32px 36px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 28px;
-    align-items: center;
-    transition: background-color 0.25s ease, border-color 0.25s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .promo::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 3px;
-    background: var(--sky);
-  }
-
-  .promo:hover {
-    background-color: rgba(81,181,242,0.1);
-    border-color: rgba(81,181,242,0.32);
-  }
-
-  .promo .category {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--navy);
-    background-color: var(--sky);
-    padding: 5px 11px;
-    border-radius: 3px;
-    white-space: nowrap;
-    height: fit-content;
-  }
-
-  .promo .name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(22px, 3.2vw, 30px);
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .promo .name .mul { color: var(--sky); margin: 0 0.15em; font-weight: 700; }
-
-  .promo .desc {
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--sky-lt);
-    line-height: 1.6;
-    max-width: 56ch;
-  }
-
-  .promo .desc em {
-    color: var(--white);
-    font-style: italic;
-    font-weight: 300;
-  }
-
-  .promo .price {
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  .promo .price .currency {
-    font-family: 'Syne', sans-serif;
-    color: var(--sky);
-    font-size: 24px;
-    font-weight: 700;
-    vertical-align: top;
-    margin-right: 2px;
-  }
-
-  .promo .price .amount {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(44px, 6vw, 64px);
-    line-height: 0.9;
-    letter-spacing: -0.03em;
-    color: var(--white);
-  }
-
-  .promo .price .note {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--sky-lt);
-    margin-top: 10px;
-  }
-
-  @media (max-width: 780px) {
-    .promo {
-      grid-template-columns: 1fr;
-      padding: 24px 22px;
-      gap: 16px;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promos — The Daily Grind</title>
+  <meta name="description" content="Las promos de The Daily Grind se están cocinando para la casa nueva de Providencia. Vuelve pronto — o parte por la carta de la feria en ART STGO." />
+  <meta property="og:title" content="Promos — The Daily Grind" />
+  <meta property="og:description" content="Las promos se están cocinando para la casa nueva. La carta de la feria ya vive en ART STGO." />
+  <meta property="og:url" content="https://dailygrind.cl/promos" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --navy: #0e1e56;
+      --navy-2: #0b1845;
+      --sky: #51b5f2;
+      --sky-lt: #a6d9f8;
+      --cream: #f9f3ec;
+      --pistacho: #c4d870;
     }
-    .promo .category { justify-self: start; }
-    .promo .price { text-align: left; }
-  }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* La pantalla encendida, igual que la consola */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(120% 60% at 50% -10%, rgba(81, 181, 242, 0.16), transparent 60%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(249, 243, 236, 0.025) 0 1px,
+          transparent 1px 4px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+    header, main, footer { position: relative; z-index: 1; }
+    .label {
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    .hud-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .hud-logo img { height: 26px; display: block; }
+    header .volver {
+      color: rgba(249, 243, 236, 0.55);
+      text-decoration: none;
+    }
+    header .volver:hover { color: var(--sky); }
 
-  /* CTA */
-  .cta {
-    background-color: var(--navy);
-    padding: 96px 24px 80px;
-    text-align: center;
-  }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+    .pantalla {
+      max-width: 560px;
+      text-align: center;
+      position: relative;
+    }
+    .pantalla .tategaki {
+      position: absolute;
+      top: -16px;
+      right: -54px;
+      writing-mode: vertical-rl;
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      color: rgba(166, 217, 248, 0.55);
+      line-height: 1;
+    }
+    @media (max-width: 700px) { .pantalla .tategaki { display: none; } }
+    .pantalla .kicker { color: var(--sky); margin-bottom: 18px; }
+    h1 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: clamp(32px, 7vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+    h1 em { font-style: normal; color: var(--sky); }
+    .pantalla p.texto {
+      margin: 20px auto 0;
+      max-width: 460px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(249, 243, 236, 0.78);
+      text-wrap: balance;
+    }
+    /* Barra de carga en el idioma de la consola */
+    .carga {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 32px;
+      font-family: "DotGothic16", "DM Sans", sans-serif;
+      font-size: 14px;
+      color: var(--sky-lt);
+    }
+    .carga .bloques { display: inline-flex; gap: 4px; }
+    .carga .bloques span {
+      width: 13px;
+      height: 13px;
+      background: rgba(249, 243, 236, 0.16);
+    }
+    .carga .bloques span.lleno { background: var(--pistacho); }
+    .carga .bloques span:nth-child(1) { animation: llena 2.8s steps(1) infinite; }
+    .carga .bloques span:nth-child(2) { animation: llena 2.8s steps(1) 0.35s infinite; }
+    .carga .bloques span:nth-child(3) { animation: llena 2.8s steps(1) 0.7s infinite; }
+    .carga .bloques span:nth-child(4) { animation: llena 2.8s steps(1) 1.05s infinite; }
+    .carga .bloques span:nth-child(5) { animation: llena 2.8s steps(1) 1.4s infinite; }
+    @keyframes llena {
+      0%, 12% { background: rgba(249, 243, 236, 0.16); }
+      50%, 88% { background: var(--pistacho); }
+      100% { background: rgba(249, 243, 236, 0.16); }
+    }
+    .acciones {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .acciones a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+    .acciones .feria {
+      background: var(--pistacho);
+      color: var(--navy);
+    }
+    .acciones .feria:hover { background: #d2e388; transform: translateY(-2px); }
+    .acciones .consola {
+      border: 1px solid rgba(249, 243, 236, 0.35);
+      color: var(--cream);
+    }
+    .acciones .consola:hover { border-color: var(--sky); color: var(--sky); }
 
-  .cta h2 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(28px, 5vw, 48px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    margin-bottom: 18px;
-  }
-
-  .cta h2 em { font-style: italic; color: var(--sky); font-weight: 400; }
-
-  .cta p {
-    color: var(--sky-lt);
-    font-weight: 300;
-    font-size: 15px;
-    margin-bottom: 32px;
-  }
-
-  .cta .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--sky);
-    color: var(--navy);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    padding: 14px 28px;
-    border-radius: 999px;
-    font-size: 14px;
-    transition: transform 0.2s ease, background 0.2s ease;
-    letter-spacing: 0.02em;
-    font-variant-emoji: text;
-  }
-
-  .cta .btn:hover {
-    transform: translateY(-1px);
-    background: var(--white);
-  }
-
-  /* FOOTER */
-  .footer {
-    padding: 32px 24px;
-    background-color: var(--navy);
-    border-top: 1px solid rgba(81,181,242,0.1);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--sky-lt);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    letter-spacing: 0.02em;
-  }
-
-  .footer .muted { opacity: 0.55; }
-</style>
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px;
+      border-top: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    footer span { color: rgba(249, 243, 236, 0.55); }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .carga .bloques span { background: var(--pistacho); }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <a class="hud-logo" href="/">
+      <img src="/LogoTDG.svg" alt="The Daily Grind" />
+      <span class="label" style="color: rgba(249,243,236,0.55)">Vol. 4 · MMXXVI</span>
+    </a>
+    <a class="label volver" href="/">Volver a la consola →</a>
+  </header>
 
-<header class="header">
-  <a href="/"><img src="LogoTDG.svg" alt="The Daily Grind"></a>
-  <nav class="nav">
-    <a href="/">Inicio</a>
-    <a href="/menu">Carta</a>
-    <a href="/promos" class="active">Promos</a>
-  </nav>
-</header>
-
-<section class="hero">
-  <span class="section-label">Promociones vigentes</span>
-  <h1>Mismo ritual. <em>Otro nivel.</em></h1>
-  <p class="lede">Combos pensados para tu rutina. Cambian según el día, siempre valen la pena. Consultá en caja por la promo del día.</p>
-</section>
-
-<section class="promos">
-  <div class="promos-wrap">
-
-    <article class="promo">
-      <span class="category">La del día</span>
-      <div class="body">
-        <div class="name">Promo <span class="mul">·</span> Daily</div>
-        <p class="desc"><em>La sorpresa del día.</em> Cambia según lo que tengamos, siempre vale la pena. Consultá en caja.</p>
+  <main>
+    <div class="pantalla">
+      <span class="tategaki" lang="ja" aria-hidden="true">プロモ</span>
+      <p class="label kicker">Las promos de la casa</p>
+      <h1>Las promos se están<br /><em>cocinando</em></h1>
+      <p class="texto">
+        La casa nueva de Providencia trae promos nuevas. Las estamos armando
+        con Nice To Meat y aparecen aquí apenas salgan del horno.
+      </p>
+      <div class="carga" aria-hidden="true">
+        <span class="bloques"><span></span><span></span><span></span><span></span><span></span></span>
+        <span lang="ja">ロード中</span>
       </div>
-      <div class="price">
-        <span class="currency">$</span><span class="amount">3.500</span>
-        <span class="note">Todos los días</span>
+      <div class="acciones">
+        <a class="feria" href="/artstgo#carta">La carta de la feria →</a>
+        <a class="consola" href="/laconsola/">Jugar mientras →</a>
       </div>
-    </article>
+    </div>
+  </main>
 
-    <article class="promo">
-      <span class="category">La más pedida</span>
-      <div class="body">
-        <div class="name">Sandwich <span class="mul">+</span> Galleta <span class="mul">+</span> Café</div>
-        <p class="desc"><em>Sándwich</em> Aliado (jamón, queso, tomate, orégano) o Masa madre (jamón, queso, pesto) · <em>Galleta</em> New York · <em>Café</em> Rito.</p>
-      </div>
-      <div class="price">
-        <span class="currency">$</span><span class="amount">5.500</span>
-        <span class="note">Combo destacado</span>
-      </div>
-    </article>
-
-    <article class="promo">
-      <span class="category">Almuerzo épico</span>
-      <div class="body">
-        <div class="name">Café <span class="mul">+</span> Almuerzo</div>
-        <p class="desc">Café Rito con <em>almuerzo épico del día</em>. Para ir sin vueltas.</p>
-      </div>
-      <div class="price">
-        <span class="currency">$</span><span class="amount">7.000</span>
-        <span class="note">Combo cafetería</span>
-      </div>
-    </article>
-
-    <article class="promo">
-      <span class="category">Almuerzo épico</span>
-      <div class="body">
-        <div class="name">Kapo <span class="mul">+</span> Almuerzo</div>
-        <p class="desc">Kapo clásico con <em>almuerzo épico del día</em>. El chileno de siempre.</p>
-      </div>
-      <div class="price">
-        <span class="currency">$</span><span class="amount">6.500</span>
-        <span class="note">Combo refrescante</span>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<section class="cta">
-  <span class="section-label">Todo junto</span>
-  <h2>Arte, café y rutina <em>en el mismo lugar.</em></h2>
-  <p>Vení a conocernos.</p>
-  <a href="/menu" class="btn">Ver la carta completa →&#xFE0E;</a>
-</section>
-
-<footer class="footer">
-  <div>The Daily Grind · Vol. 04</div>
-  <div class="muted">Platos de verdad, todos los días.</div>
-</footer>
-
+  <footer>
+    <span class="label">The Daily Grind · Vol. 4 · MMXXVI</span>
+    <a class="label volver" href="/artstgo" style="text-decoration:none;color:rgba(249,243,236,0.55)">ART STGO · 22 y 23 de agosto</a>
+  </footer>
 </body>
 </html>
