@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Daily Grind en ART STGO</title>
-  <meta name="description" content="22 y 23 de agosto en el GAM: The Daily Grind lleva su heladería completa al pod de Plaza Central de ART STGO, con el estreno de un sabor hecho junto a un artista. Parte tu tarjeta antes de llegar." />
+  <meta name="description" content="22 y 23 de agosto en el GAM: The Daily Grind lleva helado y açaí al pod de Plaza Central de ART STGO, con el estreno de un sabor hecho junto a un artista. Parte tu tarjeta antes de llegar." />
   <meta property="og:title" content="The Daily Grind en ART STGO" />
-  <meta property="og:description" content="22 y 23 de agosto en el GAM: la heladería completa en el pod de Plaza Central y el estreno de un sabor hecho con un artista." />
+  <meta property="og:description" content="22 y 23 de agosto en el GAM: helado y açaí en el pod de Plaza Central y el estreno de un sabor hecho con un artista." />
   <meta property="og:url" content="https://dailygrind.cl/artstgo" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="The Daily Grind" />
@@ -118,6 +118,30 @@
       box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
     }
 
+    /* ── La carta de la feria (お品書き, sin precios) ── */
+    .carta-feria {
+      margin-top: 64px; background: #fff; border-radius: 14px;
+      padding: 36px 34px; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
+      position: relative;
+    }
+    .carta-feria .oshinagaki {
+      position: absolute; top: 28px; right: 30px;
+      writing-mode: vertical-rl; font-family: var(--font-jp);
+      font-size: 15px; color: var(--navy); opacity: 0.6; line-height: 1;
+    }
+    .carta-feria ul { list-style: none; margin-top: 20px; max-width: 560px; }
+    .carta-feria li {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 13px 0; border-bottom: 1px dashed var(--beige-2);
+      font-size: 16px;
+    }
+    .carta-feria li:last-child { border-bottom: none; }
+    .carta-feria .plato { font-family: var(--font-display); font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .carta-feria .puntos { flex: 1; border-bottom: 1.5px dotted var(--beige-2); transform: translateY(-4px); }
+    .carta-feria .detalle { color: var(--mid); font-size: 14px; text-align: right; }
+    .carta-feria .nota { margin-top: 18px; font-size: 14px; color: var(--mid); }
+    .carta-feria .nota strong { color: var(--navy); font-weight: 500; }
+
     .tarjeta-zona {
       margin-top: 64px; background: var(--navy-3, #081234); border-radius: 14px;
       padding: 40px 34px; position: relative; overflow: hidden; color: var(--cream);
@@ -199,7 +223,7 @@
     <div class="hero">
       <p class="kicker">22 y 23 de agosto · Centro Gabriel Mistral</p>
       <h1>Nos vamos a la <em>feria</em>.</h1>
-      <p class="bajada">ART STGO junta arte, artistas y ciudad en el GAM. The Daily Grind lleva su heladería completa al pod de Plaza Central: vitrina de sabores de la casa, soft de açaí y de pistacho, y un estreno que se cuenta más abajo. Esos dos días somos solo helado.</p>
+      <p class="bajada">ART STGO junta arte, artistas y ciudad en el GAM. The Daily Grind lleva helado y açaí al pod de Plaza Central: la vitrina de sabores de la casa, açaí en vasito y un estreno que se cuenta más abajo. Esos dos días somos eso, y nada más.</p>
       <span class="tategaki" lang="ja" aria-hidden="true">芸術祭</span>
     </div>
 
@@ -221,7 +245,7 @@
           <ul>
             <li>El insignia Daily Grind, celeste como la marca</li>
             <li>La carta completa de sabores de la casa</li>
-            <li>Soft de açaí y soft de pistacho, la firma</li>
+            <li>Açaí de la casa, en dos tamaños</li>
             <li>En vasito, para seguir mirando arte</li>
           </ul>
         </div>
@@ -231,6 +255,19 @@
           <p>Un helado hecho junto a un artista, edición exclusiva de la feria. Se estrena en vivo en el pod y dura lo que dure ART STGO.</p>
         </div>
       </div>
+    </section>
+
+    <section class="carta-feria" id="carta">
+      <span class="oshinagaki" lang="ja" aria-hidden="true">お品書き</span>
+      <h2>La carta de la <em>feria</em></h2>
+      <p class="lead">Corta y al grano, como corresponde en una feria.</p>
+      <ul>
+        <li><span class="plato">Helado simple</span><span class="puntos"></span><span class="detalle">una bocha de la vitrina</span></li>
+        <li><span class="plato">Helado doble</span><span class="puntos"></span><span class="detalle">dos bochas, mezcla como quieras</span></li>
+        <li><span class="plato">Açaí</span><span class="puntos"></span><span class="detalle">vasito de 260 ml</span></li>
+        <li><span class="plato">Açaí grande</span><span class="puntos"></span><span class="detalle">vasito de 350 ml</span></li>
+      </ul>
+      <p class="nota">Los precios se preguntan <strong>en el pod</strong> — y cada helado timbra tu tarjeta.</p>
     </section>
 
     <div class="tarjeta-zona">
