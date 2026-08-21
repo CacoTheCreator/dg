@@ -13,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..");
 
 const TARGETS = [
-  { template: "home.html",      out: "img/og-home.jpg" },
+  { template: "home.html",      out: "img/og-home-consola.jpg" },
   { template: "previews.html",  out: "img/og-previews.jpg" },
   { template: "laconsola.html", out: "img/og-laconsola.jpg" },
   { template: "kraneo.html",    out: "img/og-kraneo.jpg" },
