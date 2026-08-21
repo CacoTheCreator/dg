@@ -11,6 +11,11 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="The Daily Grind" />
   <meta property="og:locale" content="es_CL" />
+  <meta property="og:image" content="https://dailygrind.cl/img/og-artstgo.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dailygrind.cl/img/og-artstgo.jpg" />
   <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -279,7 +284,7 @@
       </div>
       <div class="cta-fila">
         <a class="btn btn--pistacho" href="/dailyback/auth/google">Entrar con Google &#x2192;&#xFE0E;</a>
-        <a class="btn btn--claro" href="/laconsola/">Calienta en La Consola &#x2192;&#xFE0E;</a>
+        <a class="btn btn--claro" href="/laconsola/?src=artstgo">Calienta en La Consola &#x2192;&#xFE0E;</a>
       </div>
     </div>
 
@@ -358,6 +363,22 @@
         var cta = pop.querySelector(".pop-google");
         if (cta) cta.addEventListener("click", marcaPop);
       }, 2400);
+    })();
+  </script>
+  <script>
+    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
+    // sin terceros. `s` conserva src/utm para separar feria, pauta y orgánico.
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        var src = q.get("src") || q.get("utm_source") || "";
+        var camp = q.get("utm_campaign") || "";
+        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
+          p: location.pathname,
+          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
+          r: (document.referrer || "").slice(0, 120)
+        })], { type: "application/json" }));
+      } catch (e) {}
     })();
   </script>
 </body>

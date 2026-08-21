@@ -224,5 +224,21 @@
     <span class="label">The Daily Grind · Vol. 4 · MMXXVI</span>
     <a class="label volver" href="/artstgo" style="text-decoration:none;color:rgba(249,243,236,0.55)">ART STGO · 22 y 23 de agosto</a>
   </footer>
+  <script>
+    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
+    // sin terceros. `s` conserva src/utm para separar feria, pauta y orgánico.
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        var src = q.get("src") || q.get("utm_source") || "";
+        var camp = q.get("utm_campaign") || "";
+        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
+          p: location.pathname,
+          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
+          r: (document.referrer || "").slice(0, 120)
+        })], { type: "application/json" }));
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>
