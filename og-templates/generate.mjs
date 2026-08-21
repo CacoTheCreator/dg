@@ -17,6 +17,7 @@ const TARGETS = [
   { template: "previews.html",  out: "img/og-previews.jpg" },
   { template: "laconsola.html", out: "img/og-laconsola.jpg" },
   { template: "kraneo.html",    out: "img/og-kraneo.jpg" },
+  { template: "artstgo.html",   out: "img/og-artstgo.jpg" },
 ];
 
 const VIEWPORT = { width: 1200, height: 630 };
