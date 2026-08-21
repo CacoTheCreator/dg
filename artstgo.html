@@ -118,7 +118,56 @@
       box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
     }
 
-    /* ── La carta de la feria (お品書き, sin precios) ── */
+    /* ── La carta de la feria (お品書き, con precios reales) ── */
+    .carta-feria .grupo { margin-top: 26px; }
+    .carta-feria .grupo h3 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: 19px; display: flex; align-items: baseline; gap: 10px;
+    }
+    .carta-feria .grupo h3 span { font-family: var(--font-jp); font-size: 13px; opacity: .5; font-weight: 400; }
+    .carta-feria .valor {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: 17px; white-space: nowrap;
+    }
+    .carta-feria .valor small { font-family: var(--font-body); font-weight: 300; color: var(--mid); font-size: 13px; }
+    .carta-feria .bajo { display: block; color: var(--mid); font-size: 13px; font-weight: 300; margin-top: 2px; }
+    .carta-feria .vaso { width: 52px; height: auto; flex: 0 0 52px; align-self: center; }
+    .sabores-feria { margin-top: 34px; padding-top: 26px; border-top: 1px dashed var(--beige-2); }
+    .sabores-feria h3 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: 19px; display: flex; align-items: baseline; gap: 10px;
+    }
+    .sabores-feria h3 span { font-family: var(--font-jp); font-size: 13px; opacity: .5; font-weight: 400; }
+    .sabores-feria .fila {
+      margin-top: 16px; display: grid; gap: 14px 8px;
+      grid-template-columns: repeat(6, 1fr);
+    }
+    .sabores-feria figure { text-align: center; display: flex; flex-direction: column; }
+    .sabores-feria .marco { height: 104px; display: flex; align-items: flex-end; justify-content: center; }
+    .sabores-feria img { width: auto; max-width: 100%; max-height: 104px; margin: 0 auto; }
+    .sabores-feria figcaption {
+      margin-top: 4px; font-size: 13px; color: var(--navy); font-weight: 500; line-height: 1.3;
+    }
+    .sabores-feria .estreno figcaption { color: var(--shu); }
+    .sabores-feria .estreno { position: relative; }
+    .sabores-feria .estreno::after {
+      content: "初"; position: absolute; top: -4px; right: 12%;
+      width: 24px; height: 24px; border-radius: 50%; background: var(--shu); color: #fff;
+      font-family: var(--font-jp); font-size: 13px; line-height: 24px; transform: rotate(-9deg);
+    }
+    @media (max-width: 560px) {
+      .sabores-feria .fila { grid-template-columns: repeat(3, 1fr); }
+      /* En angosto el precio se apila bajo el nombre: con los dos extremos en
+         nowrap la fila no cabe y estira la pagina entera. */
+      .carta-feria li { flex-wrap: wrap; gap: 2px; }
+      .carta-feria .puntos { display: none; }
+      .carta-feria .plato { width: 100%; white-space: normal; }
+      .carta-feria .valor { white-space: normal; font-size: 16px; }
+      .carta-feria .bajo { margin-bottom: 4px; }
+      .carta-feria .vaso { flex: 0 0 42px; width: 42px; align-self: flex-start; }
+      .carta-feria li:has(.vaso) .plato { width: calc(100% - 54px); }
+    }
+
     .carta-feria {
       margin-top: 64px; background: #fff; border-radius: 14px;
       padding: 36px 34px; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
@@ -243,8 +292,8 @@
         <div class="helado-card hc-vitrina">
           <h3>La vitrina de la casa</h3>
           <ul>
-            <li>El insignia Daily Grind, celeste como la marca</li>
-            <li>La carta completa de sabores de la casa</li>
+            <li>Seis sabores elegidos para la feria</li>
+            <li>La frambuesa ART STGO, que se estrena acá</li>
             <li>Açaí de la casa, en dos tamaños</li>
             <li>En vasito, para seguir mirando arte</li>
           </ul>
@@ -261,13 +310,47 @@
       <span class="oshinagaki" lang="ja" aria-hidden="true">お品書き</span>
       <h2>La carta de la <em>feria</em></h2>
       <p class="lead">Corta y al grano, como corresponde en una feria.</p>
-      <ul>
-        <li><span class="plato">Helado simple</span><span class="puntos"></span><span class="detalle">una bocha de la vitrina</span></li>
-        <li><span class="plato">Helado doble</span><span class="puntos"></span><span class="detalle">dos bochas, mezcla como quieras</span></li>
-        <li><span class="plato">Açaí</span><span class="puntos"></span><span class="detalle">vasito de 260 ml</span></li>
-        <li><span class="plato">Açaí grande</span><span class="puntos"></span><span class="detalle">vasito de 350 ml</span></li>
-      </ul>
-      <p class="nota">Los precios se preguntan <strong>en el pod</strong> — y cada helado timbra tu tarjeta.</p>
+
+      <div class="grupo">
+        <h3>Açaí <span lang="ja">アサイー</span></h3>
+        <ul>
+          <li>
+            <img class="vaso" src="/img/artstgo/acai-best.webp" alt="" width="339" height="520" loading="lazy">
+            <span class="plato">The Best<span class="bajo">Leche condensada y granola con miel</span></span>
+            <span class="puntos"></span>
+            <span class="valor">$5.990 <small>266 ml</small> · $7.590 <small>355 ml</small></span>
+          </li>
+          <li>
+            <img class="vaso" src="/img/artstgo/acai-one.webp" alt="" width="371" height="520" loading="lazy">
+            <span class="plato">The One<span class="bajo">Leche en polvo y yoghurt de sabor</span></span>
+            <span class="puntos"></span>
+            <span class="valor">$5.990 <small>266 ml</small> · $7.590 <small>355 ml</small></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grupo">
+        <h3>Helado <span lang="ja">アイスクリーム</span></h3>
+        <ul>
+          <li><span class="plato">Una bolita</span><span class="puntos"></span><span class="valor">$3.590</span></li>
+          <li><span class="plato">Dos bolitas<span class="bajo">Dos sabores distintos si quieres</span></span><span class="puntos"></span><span class="valor">$4.090</span></li>
+          <li><span class="plato">Topping premium</span><span class="puntos"></span><span class="valor">+$690</span></li>
+        </ul>
+      </div>
+
+      <div class="sabores-feria">
+        <h3>Los seis sabores <span lang="ja">味</span></h3>
+        <div class="fila">
+          <figure><span class="marco"><img src="/img/artstgo/bolita-mango.webp" alt="Bolita de mango" width="308" height="300" loading="lazy"></span><figcaption>Mango</figcaption></figure>
+          <figure><span class="marco"><img src="/img/artstgo/bolita-vainilla.webp" alt="Bolita de vainilla" width="308" height="300" loading="lazy"></span><figcaption>Vainilla</figcaption></figure>
+          <figure><span class="marco"><img src="/img/artstgo/bolita-cookies.webp" alt="Bolita de cookies and cream" width="308" height="300" loading="lazy"></span><figcaption>Cookies and cream</figcaption></figure>
+          <figure><span class="marco"><img src="/img/artstgo/bolita-snickers.webp" alt="Bolita de snickers" width="308" height="300" loading="lazy"></span><figcaption>Snickers</figcaption></figure>
+          <figure class="estreno"><span class="marco"><img src="/img/artstgo/bolita-frambuesa.webp" alt="Bolita de frambuesa" width="308" height="300" loading="lazy"></span><figcaption>Frambuesa</figcaption></figure>
+          <figure><span class="marco"><img src="/img/artstgo/bolita-chocolate.webp" alt="Bolita de chocolate" width="308" height="300" loading="lazy"></span><figcaption>Chocolate</figcaption></figure>
+        </div>
+      </div>
+
+      <p class="nota">Déjanos tus datos y <strong>te hacemos 10%</strong> en lo que pidas. Y cada helado timbra tu tarjeta.</p>
     </section>
 
     <div class="tarjeta-zona">
@@ -287,7 +370,7 @@
       <h2>Dónde <em>encontrarnos</em></h2>
       <div class="datos">
         <div class="dato"><strong>El pod de Plaza Central</strong>Un tambor de hormigón del GAM con barra curva de madera. Imposible perderse: es el que huele a helado.</div>
-        <div class="dato"><strong>Cuándo</strong>Viernes 22 y sábado 23 de agosto, en el horario de la feria.</div>
+        <div class="dato"><strong>Cuándo</strong>Sábado 22 y domingo 23 de agosto, en el horario de la feria.</div>
         <div class="dato"><strong>La feria completa</strong><a href="https://artstgo.cl/">artstgo.cl &#x2197;&#xFE0E;</a> · <a href="https://www.instagram.com/artstgo/">@artstgo &#x2197;&#xFE0E;</a></div>
       </div>
     </section>
