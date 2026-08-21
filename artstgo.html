@@ -267,6 +267,8 @@
     .pop-caja .pop-kicker .jp { font-family: var(--font-jp); text-transform: none; }
     .pop-caja h2 { font-family: var(--font-display); font-weight: 700; font-size: 27px; line-height: 1.05; margin: 12px 0 10px; color: var(--cream); }
     .pop-caja p.texto { font-size: 14px; line-height: 1.6; color: rgba(249, 243, 236, 0.78); }
+    .pop-caja p.texto.chica { font-size: 12.5px; opacity: 0.72; margin-top: 10px; }
+    .pop-caja p.texto.chica a { color: var(--sky-lt); }
     .pop-google {
       display: flex; justify-content: space-between; align-items: center; gap: 10px;
       margin-top: 20px; padding: 14px 18px; background: var(--pistacho); color: var(--navy);
@@ -405,9 +407,9 @@
         <div class="que">
           <span class="jp" lang="ja">割引</span>
           <span class="pct">10%</span>
-          <span class="txt">dejando tus datos</span>
+          <span class="txt">entrando a DailyBack</span>
         </div>
-        <span class="cuando">Sábado 22 y domingo 23 · cada helado timbra tu tarjeta</span>
+        <span class="cuando">Sábado 22 y domingo 23 · el décimo helado va por la casa</span>
       </div>
     </section>
 
@@ -442,6 +444,11 @@
         Un toque con tu Google y tu tarjeta queda lista para la feria: cada
         helado timbra, y el décimo va por la casa.
       </p>
+      <p class="texto chica">
+        Guardamos tu nombre y tu correo para llevar la tarjeta y contarte cosas de
+        la casa. Nada más, y te puedes salir cuando quieras.
+        <a href="/privacidad">Cómo cuidamos tus datos &#x2192;&#xFE0E;</a>
+      </p>
       <a class="pop-google" href="/dailyback/auth/google">
         <span>Entrar con Google<small>Tu tarjeta se crea al tiro</small></span>
         <span>→</span>
@@ -452,7 +459,7 @@
 
   <footer>
     <span>The Daily Grind × ART STGO · GAM · MMXXVI</span>
-    <span><span class="jp" lang="ja">芸術祭</span> · <a href="/">volver a la consola</a></span>
+    <span><span class="jp" lang="ja">芸術祭</span> · <a href="/privacidad">tus datos</a> · <a href="/">volver a la consola</a></span>
   </footer>
 
   <script>
