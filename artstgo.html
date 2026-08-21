@@ -118,78 +118,111 @@
       box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
     }
 
-    /* ── La carta de la feria (お品書き, con precios reales) ── */
-    .carta-feria .grupo { margin-top: 26px; }
-    .carta-feria .grupo h3 {
-      font-family: var(--font-display); font-weight: 700; color: var(--navy);
-      font-size: 19px; display: flex; align-items: baseline; gap: 10px;
+    /* ── La carta de la feria: el mismo tablero que va en la pantalla del pod ── */
+    .carta-feria {
+      margin-top: 64px; border-radius: 14px; padding: 40px 34px 0;
+      box-shadow: 0 18px 48px rgba(14, 30, 86, 0.16); position: relative; overflow: hidden;
+      background: radial-gradient(120% 90% at 50% 0%, #16296b 0%, #0b1845 58%, #081234 100%);
+      color: var(--cream);
     }
-    .carta-feria .grupo h3 span { font-family: var(--font-jp); font-size: 13px; opacity: .5; font-weight: 400; }
-    .carta-feria .valor {
-      font-family: var(--font-display); font-weight: 700; color: var(--navy);
-      font-size: 17px; white-space: nowrap;
+    .carta-feria h2 { color: var(--cream); }
+    .carta-feria h2 em { color: var(--sky); }
+    .carta-feria .lead { color: rgba(249, 243, 236, 0.6); }
+    .carta-feria .oshinagaki { color: var(--sky-lt); opacity: 0.45; }
+
+    .tablero { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin-top: 30px; }
+    .tablero .zona + .zona { border-left: 1px solid rgba(249,243,236,0.13); padding-left: 40px; }
+    .tablero h3 {
+      font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--sky-lt);
+      display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px;
     }
-    .carta-feria .valor small { font-family: var(--font-body); font-weight: 300; color: var(--mid); font-size: 13px; }
-    .carta-feria .bajo { display: block; color: var(--mid); font-size: 13px; font-weight: 300; margin-top: 2px; }
-    .carta-feria .vaso { width: 52px; height: auto; flex: 0 0 52px; align-self: center; }
-    .sabores-feria { margin-top: 34px; padding-top: 26px; border-top: 1px dashed var(--beige-2); }
+    .tablero h3 span { font-family: var(--font-jp); font-size: 13px; opacity: 0.55; font-weight: 400; }
+    .platos { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: end; }
+    .plato { text-align: center; }
+    .plato .marco { height: 132px; display: flex; align-items: flex-end; justify-content: center; }
+    .plato .marco img {
+      width: auto; max-height: 132px; max-width: 100%;
+      filter: drop-shadow(0 14px 22px rgba(4, 9, 29, 0.55));
+    }
+    .plato .marco .par { display: flex; align-items: flex-end; }
+    .plato .marco .par img:first-child { margin-right: -22px; position: relative; z-index: 2; max-height: 112px; }
+    .plato h4 {
+      font-family: var(--font-display); font-weight: 700; font-size: 22px;
+      color: var(--cream); margin-top: 12px; line-height: 1.15;
+    }
+    .plato .con { font-size: 13px; color: rgba(249, 243, 236, 0.55); margin-top: 3px; line-height: 1.4; }
+    .tarifa { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+    .tarifa .fila { display: flex; align-items: baseline; justify-content: center; gap: 10px; }
+    .tarifa .med {
+      font-family: var(--font-mono, 'DM Sans'); font-size: 12px;
+      color: rgba(249, 243, 236, 0.45); width: 52px; text-align: right;
+    }
+    .tarifa b {
+      font-family: var(--font-display); font-weight: 700; font-size: 25px;
+      color: var(--cream); width: 92px; text-align: left;
+    }
+    .tarifa.sola b { width: auto; text-align: center; font-size: 30px; }
+    .tarifa b i { font-style: normal; font-size: 16px; color: var(--sky); margin-right: 2px; vertical-align: 0.15em; }
+    .topping {
+      margin-top: 20px; padding-top: 14px; border-top: 1px dashed rgba(249,243,236,0.16);
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .topping span { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+    .topping b { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--pistacho); }
+
+    .sabores-feria { margin-top: 34px; padding-top: 24px; border-top: 1px solid rgba(249,243,236,0.13); }
     .sabores-feria h3 {
-      font-family: var(--font-display); font-weight: 700; color: var(--navy);
-      font-size: 19px; display: flex; align-items: baseline; gap: 10px;
+      font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--sky-lt);
+      display: flex; align-items: baseline; gap: 10px;
     }
-    .sabores-feria h3 span { font-family: var(--font-jp); font-size: 13px; opacity: .5; font-weight: 400; }
-    .sabores-feria .fila {
-      margin-top: 16px; display: grid; gap: 14px 8px;
-      grid-template-columns: repeat(6, 1fr);
-    }
-    .sabores-feria figure { text-align: center; display: flex; flex-direction: column; }
-    .sabores-feria .marco { height: 104px; display: flex; align-items: flex-end; justify-content: center; }
-    .sabores-feria img { width: auto; max-width: 100%; max-height: 104px; margin: 0 auto; }
+    .sabores-feria h3 span { font-family: var(--font-jp); font-size: 13px; opacity: 0.55; font-weight: 400; }
+    .sabores-feria .fila { margin-top: 16px; display: grid; gap: 14px 8px; grid-template-columns: repeat(6, 1fr); }
+    .sabores-feria figure { display: flex; flex-direction: column; text-align: center; position: relative; }
+    .sabores-feria .marco { height: 96px; display: flex; align-items: flex-end; justify-content: center; }
+    .sabores-feria img { width: auto; max-width: 100%; max-height: 96px; }
     .sabores-feria figcaption {
-      margin-top: 4px; font-size: 13px; color: var(--navy); font-weight: 500; line-height: 1.3;
+      margin-top: 5px; font-size: 13px; color: var(--cream); font-weight: 500; line-height: 1.3;
     }
-    .sabores-feria .estreno figcaption { color: var(--shu); }
-    .sabores-feria .estreno { position: relative; }
+    .sabores-feria .estreno figcaption { color: var(--as-lima); }
     .sabores-feria .estreno::after {
-      content: "初"; position: absolute; top: -4px; right: 12%;
+      content: "初"; position: absolute; top: -2px; right: 16%;
       width: 24px; height: 24px; border-radius: 50%; background: var(--shu); color: #fff;
       font-family: var(--font-jp); font-size: 13px; line-height: 24px; transform: rotate(-9deg);
     }
-    @media (max-width: 560px) {
-      .sabores-feria .fila { grid-template-columns: repeat(3, 1fr); }
-      /* En angosto el precio se apila bajo el nombre: con los dos extremos en
-         nowrap la fila no cabe y estira la pagina entera. */
-      .carta-feria li { flex-wrap: wrap; gap: 2px; }
-      .carta-feria .puntos { display: none; }
-      .carta-feria .plato { width: 100%; white-space: normal; }
-      .carta-feria .valor { white-space: normal; font-size: 16px; }
-      .carta-feria .bajo { margin-bottom: 4px; }
-      .carta-feria .vaso { flex: 0 0 42px; width: 42px; align-self: flex-start; }
-      .carta-feria li:has(.vaso) .plato { width: calc(100% - 54px); }
-    }
 
-    .carta-feria {
-      margin-top: 64px; background: #fff; border-radius: 14px;
-      padding: 36px 34px; box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
-      position: relative;
+    .franja-oferta {
+      margin: 30px -34px 0; background: var(--as-lima); color: #081234;
+      padding: 18px 34px; display: flex; align-items: baseline; justify-content: space-between;
+      gap: 18px; flex-wrap: wrap;
     }
-    .carta-feria .oshinagaki {
-      position: absolute; top: 28px; right: 30px;
-      writing-mode: vertical-rl; font-family: var(--font-jp);
-      font-size: 15px; color: var(--navy); opacity: 0.6; line-height: 1;
+    .franja-oferta .que { display: flex; align-items: baseline; gap: 12px; }
+    .franja-oferta .jp { font-family: var(--font-jp); font-size: 15px; opacity: 0.55; }
+    .franja-oferta .pct { font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1; }
+    .franja-oferta .txt { font-size: 16px; font-weight: 500; }
+    .franja-oferta .cuando { font-size: 14px; opacity: 0.7; }
+
+    @media (max-width: 760px) {
+      .tablero { grid-template-columns: 1fr; gap: 30px; }
+      .tablero .zona + .zona { border-left: none; padding-left: 0; padding-top: 26px; border-top: 1px solid rgba(249,243,236,0.13); }
     }
-    .carta-feria ul { list-style: none; margin-top: 20px; max-width: 560px; }
-    .carta-feria li {
-      display: flex; align-items: baseline; gap: 12px;
-      padding: 13px 0; border-bottom: 1px dashed var(--beige-2);
-      font-size: 16px;
+    @media (max-width: 560px) {
+      .carta-feria { padding: 32px 22px 0; }
+      .franja-oferta { margin: 26px -22px 0; padding: 16px 22px; }
+      .sabores-feria .fila { grid-template-columns: repeat(3, 1fr); }
+      /* En dos columnas angostas los anchos fijos del precio no caben: acá manda el contenido. */
+      .platos { gap: 14px; }
+      .plato .marco { height: 104px; }
+      .plato .marco img { max-height: 104px; }
+      .plato .marco .par img { max-height: 84px; }
+      .plato .marco .par img:first-child { max-height: 74px; margin-right: -16px; }
+      .plato h4 { font-size: 18px; }
+      .plato .con { font-size: 12px; }
+      .tarifa .fila { gap: 6px; }
+      .tarifa .med { width: auto; font-size: 11px; }
+      .tarifa b { width: auto; font-size: 20px; text-align: center; }
+      .tarifa.sola b { font-size: 24px; }
+      .topping span { font-size: 15px; }
     }
-    .carta-feria li:last-child { border-bottom: none; }
-    .carta-feria .plato { font-family: var(--font-display); font-weight: 700; color: var(--navy); white-space: nowrap; }
-    .carta-feria .puntos { flex: 1; border-bottom: 1.5px dotted var(--beige-2); transform: translateY(-4px); }
-    .carta-feria .detalle { color: var(--mid); font-size: 14px; text-align: right; }
-    .carta-feria .nota { margin-top: 18px; font-size: 14px; color: var(--mid); }
-    .carta-feria .nota strong { color: var(--navy); font-weight: 500; }
 
     .tarjeta-zona {
       margin-top: 64px; background: var(--navy-3, #081234); border-radius: 14px;
@@ -309,33 +342,51 @@
     <section class="carta-feria" id="carta">
       <span class="oshinagaki" lang="ja" aria-hidden="true">お品書き</span>
       <h2>La carta de la <em>feria</em></h2>
-      <p class="lead">Corta y al grano, como corresponde en una feria.</p>
+      <p class="lead">La misma que va a estar en la pantalla del pod.</p>
 
-      <div class="grupo">
-        <h3>Açaí <span lang="ja">アサイー</span></h3>
-        <ul>
-          <li>
-            <img class="vaso" src="/img/artstgo/acai-best.webp" alt="" width="339" height="520" loading="lazy">
-            <span class="plato">The Best<span class="bajo">Leche condensada y granola con miel</span></span>
-            <span class="puntos"></span>
-            <span class="valor">$5.990 <small>266 ml</small> · $7.590 <small>355 ml</small></span>
-          </li>
-          <li>
-            <img class="vaso" src="/img/artstgo/acai-one.webp" alt="" width="371" height="520" loading="lazy">
-            <span class="plato">The One<span class="bajo">Leche en polvo y yoghurt de sabor</span></span>
-            <span class="puntos"></span>
-            <span class="valor">$5.990 <small>266 ml</small> · $7.590 <small>355 ml</small></span>
-          </li>
-        </ul>
-      </div>
+      <div class="tablero">
+        <div class="zona">
+          <h3>Açaí <span lang="ja">アサイー</span></h3>
+          <div class="platos">
+            <article class="plato">
+              <span class="marco"><img src="/img/artstgo/acai-best.webp" alt="Açaí The Best" width="339" height="520" loading="lazy"></span>
+              <h4>The Best</h4>
+              <p class="con">Leche condensada y granola con miel</p>
+              <div class="tarifa">
+                <div class="fila"><span class="med">266 ml</span><b><i>$</i>5.990</b></div>
+                <div class="fila"><span class="med">355 ml</span><b><i>$</i>7.590</b></div>
+              </div>
+            </article>
+            <article class="plato">
+              <span class="marco"><img src="/img/artstgo/acai-one.webp" alt="Açaí The One" width="371" height="520" loading="lazy"></span>
+              <h4>The One</h4>
+              <p class="con">Leche en polvo y yoghurt de sabor</p>
+              <div class="tarifa">
+                <div class="fila"><span class="med">266 ml</span><b><i>$</i>5.990</b></div>
+                <div class="fila"><span class="med">355 ml</span><b><i>$</i>7.590</b></div>
+              </div>
+            </article>
+          </div>
+        </div>
 
-      <div class="grupo">
-        <h3>Helado <span lang="ja">アイスクリーム</span></h3>
-        <ul>
-          <li><span class="plato">Una bolita</span><span class="puntos"></span><span class="valor">$3.590</span></li>
-          <li><span class="plato">Dos bolitas<span class="bajo">Dos sabores distintos si quieres</span></span><span class="puntos"></span><span class="valor">$4.090</span></li>
-          <li><span class="plato">Topping premium</span><span class="puntos"></span><span class="valor">+$690</span></li>
-        </ul>
+        <div class="zona">
+          <h3>Helado <span lang="ja">アイスクリーム</span></h3>
+          <div class="platos">
+            <article class="plato">
+              <span class="marco"><img src="/img/artstgo/bolita-mango.webp" alt="Una bolita" width="298" height="300" loading="lazy"></span>
+              <h4>Una bolita</h4>
+              <p class="con">El sabor que quieras</p>
+              <div class="tarifa sola"><div class="fila"><b><i>$</i>3.590</b></div></div>
+            </article>
+            <article class="plato">
+              <span class="marco"><span class="par"><img src="/img/artstgo/bolita-frambuesa.webp" alt="" width="309" height="300" loading="lazy"><img src="/img/artstgo/bolita-chocolate.webp" alt="Dos bolitas" width="304" height="300" loading="lazy"></span></span>
+              <h4>Dos bolitas</h4>
+              <p class="con">Dos sabores distintos si quieres</p>
+              <div class="tarifa sola"><div class="fila"><b><i>$</i>4.090</b></div></div>
+            </article>
+          </div>
+          <div class="topping"><span>Topping premium</span><b>+$690</b></div>
+        </div>
       </div>
 
       <div class="sabores-feria">
@@ -350,7 +401,14 @@
         </div>
       </div>
 
-      <p class="nota">Déjanos tus datos y <strong>te hacemos 10%</strong> en lo que pidas. Y cada helado timbra tu tarjeta.</p>
+      <div class="franja-oferta">
+        <div class="que">
+          <span class="jp" lang="ja">割引</span>
+          <span class="pct">10%</span>
+          <span class="txt">dejando tus datos</span>
+        </div>
+        <span class="cuando">Sábado 22 y domingo 23 · cada helado timbra tu tarjeta</span>
+      </div>
     </section>
 
     <div class="tarjeta-zona">
