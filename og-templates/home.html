@@ -4,29 +4,42 @@
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&family=DotGothic16&display=swap" rel="stylesheet">
 <style>
+  /* La home es la consola: la tarjeta og la refleja — Press start, capa
+     juego DotGothic16 y el suelo del paseo con el personaje en salto. */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1200px; height: 630px; background: #0e1e56; color: #f9f3ec; font-family: "DM Sans", sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
 
-  .canvas { position: relative; width: 1200px; height: 630px; padding: 56px 72px; display: flex; flex-direction: column; justify-content: space-between; }
+  .canvas { position: relative; width: 1200px; height: 630px; padding: 52px 64px 46px; display: flex; flex-direction: column; justify-content: space-between; }
+  /* Scanlines suaves de la capa consola */
+  .canvas::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(166, 217, 248, 0.045) 0 2px, transparent 2px 6px); }
 
   .top { display: flex; align-items: flex-start; justify-content: space-between; }
-  .label { font-family: "DM Sans"; font-weight: 500; text-transform: uppercase; letter-spacing: 0.22em; font-size: 16px; color: #a6d9f8; }
-  .ja { font-family: "DM Sans"; font-weight: 500; font-size: 18px; color: rgba(166, 217, 248, 0.65); letter-spacing: 0.05em; }
-
-  .wordmark { font-family: "Syne", sans-serif; font-weight: 700; font-size: 72px; letter-spacing: -0.02em; line-height: 1; color: #f9f3ec; margin-top: 8px; }
+  .label { font-weight: 500; text-transform: uppercase; font-size: 16px; color: #a6d9f8; }
+  .ja { font-family: "Shippori Mincho", serif; font-size: 19px; color: rgba(166, 217, 248, 0.65); }
+  .wordmark { font-family: "Syne", sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.02em; line-height: 1; color: #f9f3ec; margin-top: 8px; }
   .wordmark .dot { color: #51b5f2; }
 
-  .lockup { margin-top: 30px; }
-  .lockup__h { font-family: "Syne", sans-serif; font-weight: 700; font-size: 124px; line-height: 0.96; letter-spacing: -0.03em; color: #f9f3ec; }
-  .lockup__h em { font-family: "DM Sans", sans-serif; font-style: italic; font-weight: 300; color: #51b5f2; letter-spacing: -0.02em; }
+  .lockup { position: relative; }
+  .lockup h1 { font-family: "Syne", sans-serif; font-weight: 700; font-size: 108px; line-height: 1.0; letter-spacing: -0.02em; color: #f9f3ec; }
+  .lockup h1 em { font-family: "DM Sans", sans-serif; font-style: italic; font-weight: 300; color: #51b5f2; }
+  .lockup .juego { font-family: "DotGothic16", sans-serif; font-size: 24px; color: #c4d870; margin-top: 26px; }
+  .lockup .juego .blanco { color: rgba(249, 243, 236, 0.85); }
+
+  /* El paseo: suelo, el personaje en salto y una taza de obstáculo */
+  .paseo { position: relative; height: 74px; }
+  .suelo { position: absolute; left: 0; right: 0; bottom: 22px; height: 2.5px; background: rgba(249, 243, 236, 0.8); }
+  .px { position: absolute; }
+  .runner { left: 210px; bottom: 44px; width: 26px; height: 34px; background: #51b5f2; border-radius: 6px 6px 3px 3px; transform: rotate(-9deg); }
+  .runner::before { content: ""; position: absolute; top: -14px; left: 4px; width: 18px; height: 16px; background: #51b5f2; border-radius: 5px; }
+  .taza { left: 330px; bottom: 25px; width: 22px; height: 18px; background: #f9f3ec; border-radius: 2px 2px 7px 7px; }
+  .taza::after { content: ""; position: absolute; right: -8px; top: 3px; width: 9px; height: 9px; border: 2.5px solid #f9f3ec; border-radius: 50%; }
+  .estrella { width: 4px; height: 4px; background: rgba(249, 243, 236, 0.75); border-radius: 50%; }
 
   .bottom { display: flex; align-items: baseline; justify-content: space-between; }
-  .vol { font-family: "DM Sans"; font-weight: 500; text-transform: uppercase; letter-spacing: 0.22em; font-size: 16px; color: #a6d9f8; }
-  .url { font-family: "DM Sans"; font-weight: 500; text-transform: uppercase; letter-spacing: 0.22em; font-size: 16px; color: rgba(166, 217, 248, 0.6); }
-
-  .rule { height: 1px; background: rgba(166, 217, 248, 0.25); margin: 14px 0 0; }
+  .meta { font-weight: 500; text-transform: uppercase; font-size: 16px; color: #a6d9f8; }
+  .url { font-weight: 500; text-transform: uppercase; font-size: 16px; color: rgba(166, 217, 248, 0.6); }
 </style>
 </head>
 <body>
@@ -34,23 +47,29 @@
 
   <div class="top">
     <div>
-      <div class="label">Vol · 04 · Café</div>
+      <div class="label">La consola de la casa</div>
       <div class="wordmark">THE DAILY <span class="dot">·</span> GRIND</div>
     </div>
-    <div class="ja">ザ・デイリー</div>
+    <div class="ja" lang="ja">ザ・デイリー・グラインド</div>
   </div>
 
   <div class="lockup">
-    <div class="lockup__h">Mismo ritual.</div>
-    <div class="lockup__h"><em>Otro nivel.</em></div>
+    <h1>Press <em>start</em><br>para entrar.</h1>
+    <p class="juego">▶ スタート <span class="blanco">· juega, suma granos y pide tu helado cuando quieras</span></p>
   </div>
 
-  <div>
-    <div class="rule"></div>
-    <div class="bottom" style="margin-top: 18px;">
-      <div class="vol">MMXXVI · La cafetería · La camisa</div>
-      <div class="url">dailygrind.cl</div>
-    </div>
+  <div class="paseo">
+    <span class="px estrella" style="left: 640px; top: 0;"></span>
+    <span class="px estrella" style="left: 860px; top: 14px;"></span>
+    <span class="px estrella" style="left: 1010px; top: 4px;"></span>
+    <span class="px runner"></span>
+    <span class="px taza"></span>
+    <div class="suelo"></div>
+  </div>
+
+  <div class="bottom">
+    <div class="meta">MMXXVI · Vol. 04 · La casa completa es un juego</div>
+    <div class="url">dailygrind.cl</div>
   </div>
 
 </div>
