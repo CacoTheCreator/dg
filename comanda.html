@@ -44,6 +44,10 @@ header button.ajustes{background:none;border:1px solid rgba(249,243,236,.25);col
 .pestanas button .globo:empty{display:none}
 
 main{padding:16px}
+/* La vista que no toca se esconde con el atributo hidden. Va con !important
+   porque main.tomar{display:flex} del ancho de escritorio le gana por
+   especificidad y dejaba los productos pegados encima de las otras vistas. */
+main[hidden]{display:none!important}
 
 /* ── Tomar pedido: productos ── */
 #productos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -143,6 +147,33 @@ main{padding:16px}
 .orden .otravez{background:none;border:none;color:rgba(14,30,86,.45);font-size:12.5px;
   cursor:pointer;text-decoration:underline}
 
+/* ── Historial (todo lo vendido, no solo lo que falta salir) ── */
+.hist-barra{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.hist-barra label{font-size:14px;color:rgba(249,243,236,.6)}
+.hist-barra select{background:rgba(249,243,236,.08);color:var(--cream);
+  border:1px solid rgba(249,243,236,.22);border-radius:10px;padding:8px 10px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500}
+.hist-suma{margin-left:auto;font-family:'Syne',sans-serif;font-weight:700;font-size:19px}
+.hist-suma small{font-family:'DM Sans',sans-serif;font-weight:300;font-size:13.5px;
+  color:rgba(249,243,236,.6);margin-left:8px}
+#histLista{display:flex;flex-direction:column;gap:8px}
+#histLista .nada{text-align:center;color:rgba(249,243,236,.5);font-size:15px;padding:40px 0}
+.venta{background:rgba(249,243,236,.06);border:1px solid rgba(249,243,236,.12);
+  border-radius:14px;padding:13px 15px;display:flex;gap:14px;align-items:flex-start}
+.venta .col{min-width:0;flex:1}
+.venta .arriba{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.venta .n{font-family:'Syne',sans-serif;font-weight:700;font-size:17px}
+.venta .hora{font-size:13px;color:rgba(249,243,236,.55)}
+.venta .quien{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--sky);
+  text-transform:uppercase}
+.venta .marca-dscto{font-size:12px;font-weight:500;color:var(--pistacho)}
+.venta .marca-cola{font-size:12px;font-weight:500;color:var(--shu)}
+.venta .que{font-size:14px;font-weight:300;color:rgba(249,243,236,.78);
+  line-height:1.35;margin-top:3px}
+.venta .plata{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;white-space:nowrap}
+.venta .re{background:none;border:none;color:rgba(249,243,236,.4);font-size:12px;
+  cursor:pointer;text-decoration:underline;padding:0;margin-top:4px;display:block}
+
 /* ── Modal ── */
 #velo{position:fixed;inset:0;background:rgba(8,18,52,.78);display:flex;
   align-items:flex-end;justify-content:center;z-index:50}
@@ -191,7 +222,7 @@ main{padding:16px}
   @page{size:80mm auto;margin:0}
   body{background:#fff;padding:0}
   #app,#velo,#velo-panel,#barra{display:none!important}
-  #ticket{display:block;width:72mm;margin:0 auto;padding:3mm 0 8mm;
+  #ticket{display:block;width:72mm;margin:0 auto;padding:3mm 0 0;
     color:#000;font-family:'DM Sans',sans-serif}
   #ticket .cab{text-align:center}
   #ticket .cab h1{font-family:'Syne',sans-serif;font-weight:700;font-size:17pt;line-height:1}
@@ -210,6 +241,11 @@ main{padding:16px}
   #ticket .tot b{font-family:'Syne',sans-serif;font-weight:700;font-size:16pt}
   #ticket .dscto{font-size:9pt;font-weight:300;margin-top:1mm}
   #ticket .pie{text-align:center;font-size:8.5pt;font-weight:300;margin-top:4mm}
+  /* Cola de papel: la barra de corte queda ~2 cm mas abajo que el cabezal
+     termico, asi que sin esto el tijeretazo pasa por encima del pie.
+     Son lineas reales y no padding porque el padding del final lo recorta
+     el driver cuando la pagina es de alto automatico. */
+  #ticket .feed{font-size:10pt;line-height:5mm;text-align:center}
 }
 </style>
 </head>
@@ -225,6 +261,7 @@ main{padding:16px}
     <nav class="pestanas">
       <button id="tabTomar" class="viva">Tomar pedido</button>
       <button id="tabCocina">En cola<span class="globo" id="globoCola"></span></button>
+      <button id="tabHistorial">Historial</button>
     </nav>
   </header>
 
@@ -250,6 +287,16 @@ main{padding:16px}
   <main id="vistaCocina" hidden>
     <section id="pendientes"></section>
   </main>
+
+  <main id="vistaHistorial" hidden>
+    <section id="historial">
+      <div class="hist-barra">
+        <label>día <select id="histDia"></select></label>
+        <span class="hist-suma" id="histSuma"></span>
+      </div>
+      <div id="histLista"></div>
+    </section>
+  </main>
 </div>
 
 <div id="velo-panel" hidden></div>
@@ -265,8 +312,8 @@ var PRODUCTOS = [
     precios:[["266 ml",5990],["355 ml",7590]]},
   {id:"one", nombre:"The One", tipo:"acai", det:"açaí · leche en polvo · yoghurt",
     precios:[["266 ml",5990],["355 ml",7590]]},
-  {id:"b1", nombre:"Una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
-  {id:"b2", nombre:"Dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
+  {id:"b1", nombre:"Helado una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
+  {id:"b2", nombre:"Helado dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
   {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí 266 ml + una bolita · ahorra $1.090", precio:8490},
   {id:"top", nombre:"Topping extra", tipo:"topping", det:"premium, el que quieran", precio:690},
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
@@ -289,20 +336,24 @@ function hoy(){ return new Date().toLocaleDateString("es-CL"); }
 function ahora(){ return new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); }
 
 /* ── Pestañas ── */
-var vistaTomar = document.getElementById("vistaTomar");
-var vistaCocina = document.getElementById("vistaCocina");
-var tabTomar = document.getElementById("tabTomar");
-var tabCocina = document.getElementById("tabCocina");
+var VISTAS = {
+  tomar:     {vista:"vistaTomar",     tab:"tabTomar"},
+  cocina:    {vista:"vistaCocina",    tab:"tabCocina"},
+  historial: {vista:"vistaHistorial", tab:"tabHistorial"}
+};
 function mostrar(cual){
-  var cocina = (cual === "cocina");
-  vistaTomar.hidden = cocina;
-  vistaCocina.hidden = !cocina;
-  tabTomar.classList.toggle("viva", !cocina);
-  tabCocina.classList.toggle("viva", cocina);
-  if (cocina) pintarCola();
+  Object.keys(VISTAS).forEach(function(k){
+    var v = VISTAS[k];
+    document.getElementById(v.vista).hidden = (k !== cual);
+    document.getElementById(v.tab).classList.toggle("viva", k === cual);
+  });
+  if (cual === "cocina") pintarCola();
+  if (cual === "historial") pintarHistorial();
 }
-tabTomar.addEventListener("click", function(){ mostrar("tomar"); });
-tabCocina.addEventListener("click", function(){ mostrar("cocina"); });
+Object.keys(VISTAS).forEach(function(k){
+  document.getElementById(VISTAS[k].tab)
+    .addEventListener("click", function(){ mostrar(k); });
+});
 
 /* ── Productos ── */
 var elProductos = document.getElementById("productos");
@@ -615,6 +666,74 @@ function pintarCola(){
   pintarGlobo();
 }
 
+/* ── Historial (todo lo vendido, no solo lo que falta salir) ── */
+var elHistDia = document.getElementById("histDia");
+var elHistLista = document.getElementById("histLista");
+var elHistSuma = document.getElementById("histSuma");
+
+/* Se ordena por el timestamp de la venta y no por el texto de la fecha:
+   "22-08-2026" ordenado como string pone marzo antes que febrero. */
+function diasConVentas(){
+  var mapa = {};
+  datos.ventas.forEach(function(v){
+    if (!mapa[v.fecha] || (v.t || 0) > mapa[v.fecha]) mapa[v.fecha] = v.t || 0;
+  });
+  return Object.keys(mapa).sort(function(a,b){ return mapa[b] - mapa[a]; });
+}
+
+function pintarHistorial(){
+  var dias = diasConVentas();
+  if (!dias.length){
+    elHistDia.innerHTML = "";
+    elHistSuma.textContent = "";
+    elHistLista.innerHTML = "<div class='nada'>todavía no hay ventas</div>";
+    return;
+  }
+  var elegido = elHistDia.value;
+  if (dias.indexOf(elegido) === -1) elegido = (dias.indexOf(hoy()) !== -1) ? hoy() : dias[0];
+  elHistDia.innerHTML = "";
+  dias.forEach(function(d){
+    var o = document.createElement("option");
+    o.value = d;
+    o.textContent = (d === hoy() ? "hoy · " : "") + d;
+    elHistDia.appendChild(o);
+  });
+  elHistDia.value = elegido;
+
+  var delDia = datos.ventas.filter(function(v){ return v.fecha === elegido; })
+    .slice().sort(function(a,b){ return (b.t || 0) - (a.t || 0); });
+  var suma = delDia.reduce(function(s,v){ return s + v.total; }, 0);
+  elHistSuma.innerHTML = plata(suma) + "<small></small>";
+  elHistSuma.querySelector("small").textContent =
+    delDia.length + (delDia.length === 1 ? " pedido" : " pedidos");
+
+  elHistLista.innerHTML = "";
+  delDia.forEach(function(v){
+    var fila = document.createElement("div");
+    fila.className = "venta";
+    fila.innerHTML = "<div class='col'><div class='arriba'>" +
+      "<span class='n'>#" + v.n + "</span><span class='hora'></span>" +
+      "<span class='quien'></span>" +
+      (v.dscto ? "<span class='marca-dscto'></span>" : "") +
+      (v.estado === "pendiente" ? "<span class='marca-cola'>en cola</span>" : "") +
+      "</div><div class='que'></div></div>" +
+      "<div><div class='plata'></div>" +
+      (datos.imprime ? "<button class='re'>reimprimir</button>" : "") + "</div>";
+    fila.querySelector(".hora").textContent = v.hora;
+    fila.querySelector(".quien").textContent = v.nombre || "";
+    var md = fila.querySelector(".marca-dscto");
+    if (md) md.textContent = (v.dscto === "amigos" ? "20% amigos" : "10% DailyBack");
+    fila.querySelector(".que").textContent = v.lineas.map(function(l){
+      return l.qty + "× " + l.desc + (l.extra ? " (" + l.extra + ")" : "");
+    }).join(" · ");
+    fila.querySelector(".plata").textContent = plata(v.total);
+    var re = fila.querySelector(".re");
+    if (re) re.addEventListener("click", function(){ armarTicket(v); window.print(); });
+    elHistLista.appendChild(fila);
+  });
+}
+elHistDia.addEventListener("change", pintarHistorial);
+
 /* ── Pasar a cocina ── */
 function armarTicket(v){
   var t = document.getElementById("ticket");
@@ -626,7 +745,8 @@ function armarTicket(v){
     "<div class='tot'><span>TOTAL</span><b>" + plata(v.total) + "</b></div>" +
     (v.dscto === "amigos" ? "<div class='dscto'>con 20% amigos de la casa</div>" :
      v.dscto ? "<div class='dscto'>con 10% DailyBack aplicado</div>" : "") +
-    "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>";
+    "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>" +
+    "<div class='feed'>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</div>";
   var items = t.querySelector(".items");
   v.lineas.forEach(function(l){
     var fila = document.createElement("div");
@@ -667,6 +787,10 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     "<label class='ajuste-fila'><input type='checkbox' id='ajImprime'>" +
     "<span>Imprimir comanda en la impresora<br><small style='font-weight:300;color:rgba(14,30,86,.55)'>" +
     "apagado = las comandas quedan solo en la pantalla En cola</small></span></label>" +
+    "<p style='font-size:12.5px;font-weight:300;color:rgba(14,30,86,.6);margin:0;line-height:1.4'>" +
+    "¿Sale el cuadro de imprimir cada vez? Es el navegador, no La Comanda: " +
+    "ninguna página puede saltárselo por su cuenta. Abrir Chrome con el " +
+    "acceso <b>Abrir La Comanda</b> del escritorio y el papel sale solo.</p>" +
     "<div class='opciones' style='flex-direction:column;align-items:stretch'>" +
     "<button id='ajPrueba'>Impresión de prueba</button>" +
     "<button id='ajCierre'>Cierre del día (bajar planilla)</button>" +
@@ -704,7 +828,8 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     if (!confirm("¿Borrar las ventas de hoy? Baja la planilla primero.")) return;
     datos.ventas = datos.ventas.filter(function(v){ return v.fecha !== hoy(); });
     datos.seq = 1;
-    guardar(); pintarDia(); pintarPedido(); pintarGlobo(); pintarCola(); cerrarModal();
+    guardar(); pintarDia(); pintarPedido(); pintarGlobo(); pintarCola();
+    pintarHistorial(); cerrarModal();
   });
   velo.hidden = false;
 });
@@ -712,7 +837,7 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
 /* Reloj, cola viva y arranque */
 function tic(){
   document.getElementById("horaAhora").textContent = ahora();
-  if (!vistaCocina.hidden) pintarCola();
+  if (!document.getElementById("vistaCocina").hidden) pintarCola();
 }
 tic(); setInterval(tic, 30000);
 pintarPedido(); pintarDia(); pintarGlobo();
