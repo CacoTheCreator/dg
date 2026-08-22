@@ -43,6 +43,21 @@ header button.ajustes{background:none;border:1px solid rgba(249,243,236,.25);col
   font-family:'DM Sans',sans-serif;font-weight:500;font-size:12px;vertical-align:2px}
 .pestanas button .globo:empty{display:none}
 
+/* Aviso del numero asignado: aparece unos segundos y se va solo. */
+.aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);
+  background:var(--pistacho);color:var(--navy);border-radius:14px;
+  padding:13px 20px;font-family:'Syne',sans-serif;font-weight:700;font-size:17px;
+  box-shadow:0 10px 30px rgba(4,9,29,.5);z-index:60;pointer-events:none;
+  transition:transform .22s ease;max-width:90vw;text-align:center}
+.aviso.vivo{transform:translate(-50%,0)}
+.aviso.sinred{background:var(--shu);color:#fff}
+
+/* Aviso de enlace: vacio cuando todo esta al dia, para no hacer ruido. */
+.enlace{font-size:12.5px;font-weight:500;color:var(--pistacho);white-space:nowrap}
+.enlace:empty{display:none}
+.enlace.tibio{color:var(--sky)}
+.enlace.mal{color:var(--shu)}
+
 main{padding:16px}
 /* La vista que no toca se esconde con el atributo hidden. Va con !important
    porque main.tomar{display:flex} del ancho de escritorio le gana por
@@ -171,8 +186,12 @@ main[hidden]{display:none!important}
 .venta .que{font-size:14px;font-weight:300;color:rgba(249,243,236,.78);
   line-height:1.35;margin-top:3px}
 .venta .plata{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;white-space:nowrap}
-.venta .re{background:none;border:none;color:rgba(249,243,236,.4);font-size:12px;
-  cursor:pointer;text-decoration:underline;padding:0;margin-top:4px;display:block}
+.venta .acciones-venta{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.venta .re,.venta .borrar-venta{background:none;border:none;font-size:12px;
+  cursor:pointer;text-decoration:underline;padding:0;margin-top:2px}
+.venta .re{color:rgba(249,243,236,.4)}
+.venta .borrar-venta{color:rgba(207,63,47,.75)}
+.venta .borrar-venta:hover{color:var(--shu)}
 
 /* ── Modal ── */
 #velo{position:fixed;inset:0;background:rgba(8,18,52,.78);display:flex;
@@ -255,6 +274,7 @@ main[hidden]{display:none!important}
     <div class="arriba">
       <span class="marca">THE DAILY <i>GRIND</i></span>
       <span class="chip">La Comanda · ART STGO '26</span>
+      <span class="enlace" id="enlace"></span>
       <span class="dia" id="resumenDia"></span>
       <button class="ajustes" id="btnAjustes">ajustes</button>
     </div>
@@ -299,6 +319,8 @@ main[hidden]{display:none!important}
   </main>
 </div>
 
+<div class="aviso" id="aviso"></div>
+
 <div id="velo-panel" hidden></div>
 <div id="velo" hidden><div id="modal"></div></div>
 <div id="ticket"></div>
@@ -319,21 +341,161 @@ var PRODUCTOS = [
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
 ];
 
+/* El pedido vive en el servidor y este navegador es una vista. Lo que queda
+   en localStorage es la preferencia de impresora, una copia de lo ya visto
+   para poder pintar sin conexion, y la salida de cosas por mandar. */
 var CLAVE = "laComandaDG";
 function cargar(){
   try {
     var d = JSON.parse(localStorage.getItem(CLAVE));
-    if (d && d.seq) return d;
+    if (d && d.cache) return d;
   } catch(e){}
-  return {seq:1, ventas:[], imprime:false};
+  return {imprime:false, cache:{}, salida:[], ultimoSync:0};
 }
-function guardar(){ localStorage.setItem(CLAVE, JSON.stringify(datos)); }
+function guardar(){
+  try { localStorage.setItem(CLAVE, JSON.stringify(datos)); } catch(e){}
+}
 var datos = cargar();
 var pedido = [];   // {desc, extra, precio, qty}
 
 function plata(n){ return "$" + Math.round(n).toLocaleString("es-CL"); }
 function hoy(){ return new Date().toLocaleDateString("es-CL"); }
 function ahora(){ return new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); }
+
+/* Los ids los genera el navegador para que un reintento por señal mala no
+   termine creando el mismo pedido dos veces con numeros distintos. */
+function nuevoId(){
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "p-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+}
+
+function ventasDe(fecha){
+  var out = [];
+  for (var id in datos.cache){
+    var v = datos.cache[id];
+    if (v && v.fecha === fecha && !v.borrado) out.push(v);
+  }
+  return out;
+}
+
+/* ── Sincronizacion con la cola compartida ──────────────────────────────────
+   Todo lo que cambia se anota primero en pantalla y se encola en `salida`.
+   El ciclo vacia esa salida en orden y despues pregunta que cambio desde el
+   ultimo sondeo. Asi el que atiende nunca espera a la red, y los aparatos
+   convergen apenas vuelve la señal. */
+var API = "/comanda/api";
+var hayRed = true;
+
+function pintarEnlace(){
+  var el = document.getElementById("enlace");
+  var pendientes = datos.salida.length;
+  if (!hayRed){
+    el.className = "enlace mal";
+    el.textContent = pendientes ? "sin conexión · " + pendientes + " por mandar" : "sin conexión";
+  } else if (pendientes){
+    el.className = "enlace tibio";
+    el.textContent = "mandando " + pendientes + "…";
+  } else {
+    el.className = "enlace";
+    el.textContent = "";
+  }
+}
+
+function conexion(ok){
+  if (hayRed !== ok){ hayRed = ok; }
+  pintarEnlace();
+}
+
+function postJson(url, cuerpo){
+  return fetch(url, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(cuerpo)
+  }).then(function(r){
+    // Un 4xx no se arregla reintentando: el servidor ya dijo que no.
+    if (r.status >= 400 && r.status < 500){
+      return r.json().catch(function(){ return {}; }).then(function(d){
+        var e = new Error(d.error || "rechazado");
+        e.definitivo = true;
+        throw e;
+      });
+    }
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  });
+}
+
+function mandar(item){
+  if (item.tipo === "nuevo"){
+    return postJson(API + "/pedidos", item.payload).then(function(d){
+      if (d && d.pedido) datos.cache[d.pedido.id] = d.pedido;
+    });
+  }
+  if (item.tipo === "estado"){
+    return postJson(API + "/pedidos/" + item.id + "/estado", {estado: item.estado});
+  }
+  if (item.tipo === "borrar"){
+    return postJson(API + "/pedidos/" + item.id + "/borrar", {});
+  }
+  if (item.tipo === "diaBorrar"){
+    return postJson(API + "/dia/borrar", {fecha: item.fecha});
+  }
+  return Promise.resolve();
+}
+
+function vaciarSalida(){
+  if (!datos.salida.length) return Promise.resolve();
+  var item = datos.salida[0];
+  return mandar(item).then(function(){
+    datos.salida.shift(); guardar(); pintarEnlace();
+    return vaciarSalida();
+  }, function(err){
+    // Rechazado de plano: se descarta para no atascar la fila detras.
+    if (err && err.definitivo){
+      datos.salida.shift(); guardar(); pintarEnlace();
+      return vaciarSalida();
+    }
+    throw err;
+  });
+}
+
+function encolar(item){
+  datos.salida.push(item);
+  guardar();
+  pintarEnlace();
+  sincronizar();
+}
+
+var sincronizando = false;
+function sincronizar(fecha){
+  if (sincronizando) return Promise.resolve();
+  sincronizando = true;
+  var dia = fecha || hoy();
+  // Un dia distinto al de hoy se pide entero: nunca se sondeo antes.
+  var desde = (dia === hoy()) ? (datos.ultimoSync || 0) : 0;
+  return vaciarSalida().then(function(){
+    return fetch(API + "/pedidos?fecha=" + encodeURIComponent(dia) + "&desde=" + desde);
+  }).then(function(r){
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  }).then(function(d){
+    (d.pedidos || []).forEach(function(p){ datos.cache[p.id] = p; });
+    if (dia === hoy() && d.servidor) datos.ultimoSync = d.servidor;
+    guardar();
+    conexion(true);
+    repintar();
+  }).catch(function(){
+    conexion(false);
+  }).then(function(){
+    sincronizando = false;
+  });
+}
+
+function repintar(){
+  pintarDia(); pintarGlobo(); pintarEnlace();
+  if (!document.getElementById("vistaCocina").hidden) pintarCola();
+  if (!document.getElementById("vistaHistorial").hidden) pintarHistorial();
+}
 
 /* ── Pestañas ── */
 var VISTAS = {
@@ -592,7 +754,9 @@ function pintarPedido(){
   });
   elTotal.textContent = plata(totalPedido());
   btnPasar.disabled = !pedido.length;
-  document.getElementById("numPedido").textContent = "Pedido #" + datos.seq;
+  // El numero lo asigna el servidor al recibirlo, para que dos aparatos
+  // tomando pedidos a la vez no canten el mismo. Aca no se promete ninguno.
+  document.getElementById("numPedido").textContent = "Pedido nuevo";
   document.getElementById("pasarNota").textContent =
     datos.imprime ? "se imprime la comanda" : "queda en la cola de la pantalla";
   if (elBarra){
@@ -612,7 +776,7 @@ function pintarPedido(){
 })();
 
 function pintarDia(){
-  var deHoy = datos.ventas.filter(function(v){ return v.fecha === hoy(); });
+  var deHoy = ventasDe(hoy());
   var t = deHoy.reduce(function(s,v){ return s + v.total; }, 0);
   document.getElementById("resumenDia").innerHTML =
     "hoy: <b>" + deHoy.length + "</b> · <b>" + plata(t) + "</b>";
@@ -621,7 +785,8 @@ function pintarDia(){
 /* ── La cola (pantalla de cocina) ── */
 var elPendientes = document.getElementById("pendientes");
 function pendientesHoy(){
-  return datos.ventas.filter(function(v){ return v.fecha === hoy() && v.estado === "pendiente"; });
+  return ventasDe(hoy()).filter(function(v){ return v.estado === "pendiente"; })
+    .sort(function(a,b){ return (a.t || 0) - (b.t || 0); });
 }
 function pintarGlobo(){
   document.getElementById("globoCola").textContent = pendientesHoy().length || "";
@@ -639,7 +804,8 @@ function pintarCola(){
     var min = minutosDesde(v);
     var card = document.createElement("div");
     card.className = "orden" + (min >= 8 ? " tarda" : "");
-    card.innerHTML = "<div class='cabeza'><span class='n'>#" + v.n + "</span>" +
+    card.innerHTML = "<div class='cabeza'><span class='n'>" +
+      (v.n ? "#" + v.n : "sin número") + "</span>" +
       "<span class='quien'></span><span class='espera'>" +
       (min < 1 ? "recién" : "hace " + min + " min") + "</span></div>" +
       "<ul></ul>" +
@@ -658,6 +824,7 @@ function pintarCola(){
     card.querySelector(".listo").addEventListener("click", function(){
       v.estado = "listo";
       guardar(); pintarCola(); pintarGlobo();
+      encolar({tipo:"estado", id:v.id, estado:"listo"});
     });
     var otra = card.querySelector(".otravez");
     if (otra) otra.addEventListener("click", function(){ armarTicket(v); window.print(); });
@@ -675,9 +842,12 @@ var elHistSuma = document.getElementById("histSuma");
    "22-08-2026" ordenado como string pone marzo antes que febrero. */
 function diasConVentas(){
   var mapa = {};
-  datos.ventas.forEach(function(v){
+  mapa[hoy()] = Date.now();   // hoy siempre aparece, aunque todavia no haya venta
+  for (var id in datos.cache){
+    var v = datos.cache[id];
+    if (!v || v.borrado) continue;
     if (!mapa[v.fecha] || (v.t || 0) > mapa[v.fecha]) mapa[v.fecha] = v.t || 0;
-  });
+  }
   return Object.keys(mapa).sort(function(a,b){ return mapa[b] - mapa[a]; });
 }
 
@@ -700,7 +870,7 @@ function pintarHistorial(){
   });
   elHistDia.value = elegido;
 
-  var delDia = datos.ventas.filter(function(v){ return v.fecha === elegido; })
+  var delDia = ventasDe(elegido)
     .slice().sort(function(a,b){ return (b.t || 0) - (a.t || 0); });
   var suma = delDia.reduce(function(s,v){ return s + v.total; }, 0);
   elHistSuma.innerHTML = plata(suma) + "<small></small>";
@@ -708,17 +878,23 @@ function pintarHistorial(){
     delDia.length + (delDia.length === 1 ? " pedido" : " pedidos");
 
   elHistLista.innerHTML = "";
+  if (!delDia.length){
+    elHistLista.innerHTML = "<div class='nada'>ninguna venta este día</div>";
+    return;
+  }
   delDia.forEach(function(v){
     var fila = document.createElement("div");
     fila.className = "venta";
     fila.innerHTML = "<div class='col'><div class='arriba'>" +
-      "<span class='n'>#" + v.n + "</span><span class='hora'></span>" +
+      "<span class='n'>" + (v.n ? "#" + v.n : "sin número") + "</span>" +
+      "<span class='hora'></span>" +
       "<span class='quien'></span>" +
       (v.dscto ? "<span class='marca-dscto'></span>" : "") +
       (v.estado === "pendiente" ? "<span class='marca-cola'>en cola</span>" : "") +
       "</div><div class='que'></div></div>" +
-      "<div><div class='plata'></div>" +
-      (datos.imprime ? "<button class='re'>reimprimir</button>" : "") + "</div>";
+      "<div class='acciones-venta'><div class='plata'></div>" +
+      (datos.imprime ? "<button class='re'>reimprimir</button>" : "") +
+      "<button class='borrar-venta'>eliminar</button></div>";
     fila.querySelector(".hora").textContent = v.hora;
     fila.querySelector(".quien").textContent = v.nombre || "";
     var md = fila.querySelector(".marca-dscto");
@@ -729,10 +905,40 @@ function pintarHistorial(){
     fila.querySelector(".plata").textContent = plata(v.total);
     var re = fila.querySelector(".re");
     if (re) re.addEventListener("click", function(){ armarTicket(v); window.print(); });
+    fila.querySelector(".borrar-venta").addEventListener("click", function(){
+      var quien = v.n ? "el pedido #" + v.n : "este pedido";
+      if (!confirm("¿Eliminar " + quien + " de " + plata(v.total) + "? Se va para todos.")) return;
+      v.borrado = true;
+      guardar();
+      encolar({tipo:"borrar", id:v.id});
+      repintar();
+    });
     elHistLista.appendChild(fila);
   });
 }
 elHistDia.addEventListener("change", pintarHistorial);
+
+/* ── Cola de papel al final del ticket ──────────────────────────────────────
+   La barra de corte queda mas abajo que el cabezal termico, asi que sin papel
+   de sobra el tiron parte la comanda por la mitad. Cuanto falta depende del
+   modelo, por eso se regula desde Ajustes en vez de quedar fijo en el codigo.
+   Van lineas de verdad y no margen: el margen del final lo recorta el driver
+   cuando la pagina es de alto automatico. */
+var COLA_POR_DEFECTO = 50;   // mm
+var COLA_LINEA = 5;          // mm que ocupa cada linea vacia
+
+function colaMm(){
+  var n = Number(datos.colaMm);
+  if (!Number.isFinite(n)) return COLA_POR_DEFECTO;
+  return Math.min(120, Math.max(10, Math.round(n)));
+}
+
+function colaDePapel(){
+  var lineas = Math.max(1, Math.round(colaMm() / COLA_LINEA));
+  var relleno = [];
+  for (var i = 0; i < lineas; i++) relleno.push("&nbsp;");
+  return "<div class='feed'>" + relleno.join("<br>") + "</div>";
+}
 
 /* ── Pasar a cocina ── */
 function armarTicket(v){
@@ -746,7 +952,7 @@ function armarTicket(v){
     (v.dscto === "amigos" ? "<div class='dscto'>con 20% amigos de la casa</div>" :
      v.dscto ? "<div class='dscto'>con 10% DailyBack aplicado</div>" : "") +
     "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>" +
-    "<div class='feed'>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</div>";
+    colaDePapel();
   var items = t.querySelector(".items");
   v.lineas.forEach(function(l){
     var fila = document.createElement("div");
@@ -765,21 +971,49 @@ function armarTicket(v){
 btnPasar.addEventListener("click", function(){
   if (!pedido.length) return;
   var v = {
-    n: datos.seq, fecha: hoy(), hora: ahora(), t: Date.now(), estado: "pendiente",
+    id: nuevoId(), n: null, fecha: hoy(), hora: ahora(), t: Date.now(),
+    estado: "pendiente",
     lineas: pedido.map(function(l){ return {desc:l.desc, extra:l.extra, precio:l.precio, qty:l.qty}; }),
     total: totalPedido(), dscto: dscto,
-    nombre: document.getElementById("nombreCliente").value.trim()
+    nombre: document.getElementById("nombreCliente").value.trim(),
+    borrado: false
   };
-  datos.ventas.push(v);
-  datos.seq += 1;
+
+  // Entra a la pantalla al tiro y sale a la red por detras: quien atiende
+  // no espera a que responda el servidor.
+  datos.cache[v.id] = v;
+  datos.salida.push({tipo:"nuevo", payload:{
+    id:v.id, fecha:v.fecha, hora:v.hora, t:v.t, lineas:v.lineas,
+    total:v.total, dscto:v.dscto, nombre:v.nombre
+  }});
   guardar();
-  if (datos.imprime){ armarTicket(v); window.print(); }
+
   pedido = [];
   limpiarDscto();
   document.getElementById("nombreCliente").value = "";
   cerrarPanel();
-  pintarPedido(); pintarDia(); pintarGlobo();
+  pintarPedido(); pintarDia(); pintarGlobo(); pintarEnlace();
+
+  // El numero llega con la respuesta del servidor, asi que el ticket se
+  // imprime recien despues de sincronizar. Si la red falla se imprime igual,
+  // sin numero: la cocina necesita el papel mas que el correlativo.
+  sincronizar().then(function(){
+    var listo = datos.cache[v.id] || v;
+    if (datos.imprime){ armarTicket(listo); window.print(); }
+    avisarPedido(listo);
+  });
 });
+
+/* Aviso corto con el numero asignado, para cantarlo y anotarlo en el vaso. */
+function avisarPedido(v){
+  var el = document.getElementById("aviso");
+  el.textContent = v.n
+    ? "Pedido #" + v.n + " a cocina" + (v.nombre ? " · " + v.nombre : "")
+    : "Pedido anotado, sin número hasta que vuelva la señal";
+  el.className = "aviso vivo" + (v.n ? "" : " sinred");
+  clearTimeout(avisarPedido.reloj);
+  avisarPedido.reloj = setTimeout(function(){ el.className = "aviso"; }, 4000);
+}
 
 /* ── Ajustes ── */
 document.getElementById("btnAjustes").addEventListener("click", function(){
@@ -791,6 +1025,12 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     "¿Sale el cuadro de imprimir cada vez? Es el navegador, no La Comanda: " +
     "ninguna página puede saltárselo por su cuenta. Abrir Chrome con el " +
     "acceso <b>Abrir La Comanda</b> del escritorio y el papel sale solo.</p>" +
+    "<label class='ajuste-fila'><input type='number' id='ajCola' min='10' max='120' step='5' " +
+    "style='width:78px;padding:8px;border-radius:9px;border:1px solid rgba(14,30,86,.25);" +
+    "font-family:inherit;font-size:15px'>" +
+    "<span>Milímetros de papel al final<br><small style='font-weight:300;color:rgba(14,30,86,.55)'>" +
+    "si el ticket se corta por la mitad al tirarlo, subir este número e imprimir de prueba" +
+    "</small></span></label>" +
     "<div class='opciones' style='flex-direction:column;align-items:stretch'>" +
     "<button id='ajPrueba'>Impresión de prueba</button>" +
     "<button id='ajCierre'>Cierre del día (bajar planilla)</button>" +
@@ -801,6 +1041,13 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
   chk.addEventListener("change", function(){
     datos.imprime = chk.checked; guardar(); pintarPedido();
   });
+  var cola = modal.querySelector("#ajCola");
+  cola.value = colaMm();
+  cola.addEventListener("change", function(){
+    datos.colaMm = Number(cola.value) || COLA_POR_DEFECTO;
+    guardar();
+    cola.value = colaMm();
+  });
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   modal.querySelector("#ajPrueba").addEventListener("click", function(){
     armarTicket({n:0, fecha:hoy(), hora:ahora(), total:0, dscto:false, nombre:"PRUEBA",
@@ -808,8 +1055,10 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     window.print();
   });
   modal.querySelector("#ajCierre").addEventListener("click", function(){
-    var deHoy = datos.ventas.filter(function(v){ return v.fecha === hoy(); });
-    if (!deHoy.length){ alert("Hoy no hay ventas todavía."); return; }
+    // Baja el dia que este mirando el historial, no siempre hoy.
+    var dia = elHistDia.value || hoy();
+    var deHoy = ventasDe(dia).sort(function(a,b){ return (a.t||0) - (b.t||0); });
+    if (!deHoy.length){ alert("Ese día no tiene ventas."); return; }
     var filas = ["fecha;hora;pedido;producto;detalle;cantidad;precio;total_pedido;descuento;nombre"];
     deHoy.forEach(function(v){
       v.lineas.forEach(function(l){
@@ -821,18 +1070,25 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     var blob = new Blob(["﻿" + filas.join("\n")], {type:"text/csv;charset=utf-8"});
     var a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "ventas-daily-grind-" + hoy().replace(/\//g,"-") + ".csv";
+    a.download = "ventas-daily-grind-" + dia.replace(/\//g,"-") + ".csv";
     a.click();
   });
   modal.querySelector("#ajBorrar").addEventListener("click", function(){
-    if (!confirm("¿Borrar las ventas de hoy? Baja la planilla primero.")) return;
-    datos.ventas = datos.ventas.filter(function(v){ return v.fecha !== hoy(); });
-    datos.seq = 1;
-    guardar(); pintarDia(); pintarPedido(); pintarGlobo(); pintarCola();
-    pintarHistorial(); cerrarModal();
+    var dia = elHistDia.value || hoy();
+    var cuantas = ventasDe(dia).length;
+    if (!cuantas){ alert("Ese día no tiene ventas."); return; }
+    if (!confirm("¿Borrar las " + cuantas + " ventas del " + dia +
+                 "? Se van para todos los aparatos. Baja la planilla primero.")) return;
+    ventasDe(dia).forEach(function(v){ v.borrado = true; });
+    guardar();
+    encolar({tipo:"diaBorrar", fecha:dia});
+    repintar(); pintarPedido(); cerrarModal();
   });
   velo.hidden = false;
 });
+
+/* El selector del historial pide el dia elegido si todavia no se conoce. */
+elHistDia.addEventListener("change", function(){ sincronizar(elHistDia.value); });
 
 /* Reloj, cola viva y arranque */
 function tic(){
@@ -840,7 +1096,17 @@ function tic(){
   if (!document.getElementById("vistaCocina").hidden) pintarCola();
 }
 tic(); setInterval(tic, 30000);
-pintarPedido(); pintarDia(); pintarGlobo();
+
+/* Sondeo de la cola compartida. Cada 4 s alcanza para que la cocina vea el
+   pedido casi al tiro sin castigar la señal del pod. */
+setInterval(function(){ sincronizar(); }, 4000);
+document.addEventListener("visibilitychange", function(){
+  if (!document.hidden) sincronizar();
+});
+window.addEventListener("online", function(){ sincronizar(); });
+
+pintarPedido(); pintarDia(); pintarGlobo(); pintarEnlace();
+sincronizar();
 </script>
 </body>
 </html>

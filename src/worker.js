@@ -31,6 +31,11 @@ export default {
       if (gated) return gated;
     }
 
+    // La Comanda — cola compartida entre los aparatos que atienden
+    if (url.pathname.startsWith("/comanda/api/")) {
+      return handleComanda(request, env, url);
+    }
+
     // Publisher API
     if (url.pathname.startsWith("/publisher/api/")) {
       return handleApi(request, env, ctx);
@@ -797,6 +802,173 @@ function requirePublicUrl(u) {
   if (!u || typeof u !== "string") throw new Error("url vacia");
   if (!/^https?:\/\//.test(u)) throw new Error(`url no http(s): ${u}`);
   if (/localhost|127\.0\.0\.1/.test(u)) throw new Error("url localhost no es publica");
+}
+
+// ============================================================================
+// La Comanda — cola compartida
+//
+// El navegador dejo de ser el dueño del pedido y paso a ser una vista. Todos
+// los aparatos que abren /comanda leen y escriben la misma cola, asi que el
+// correlativo es uno solo y lo que uno marca entregado lo ven los demas.
+//
+// Las bajas son logicas (borrado = 1) y no DELETE: un aparato que estaba sin
+// señal necesita enterarse de que la fila se fue, y una fila que desaparece
+// del resultado es indistinguible de una que nunca sincronizo.
+// ============================================================================
+
+const COMANDA_ESTADOS = ["pendiente", "listo"];
+
+async function handleComanda(request, env, url) {
+  const ruta = url.pathname.replace(/^\/comanda\/api/, "");
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: comandaCors() });
+  }
+  if (!env.DB) return comandaJson({ error: "sin base de datos" }, 503);
+
+  try {
+    // GET /pedidos?desde=<epoch ms>&fecha=<dd-mm-aaaa>
+    // Sin `desde` devuelve el dia completo; con `desde` solo lo que cambio.
+    if (ruta === "/pedidos" && request.method === "GET") {
+      const fecha = url.searchParams.get("fecha") || "";
+      const desde = Number(url.searchParams.get("desde") || 0) || 0;
+      if (!/^\d{2}-\d{2}-\d{4}$/.test(fecha)) {
+        return comandaJson({ error: "fecha invalida" }, 400);
+      }
+      const res = await env.DB.prepare(
+        "SELECT * FROM comanda_pedidos WHERE fecha = ? AND actualizado > ? ORDER BY t ASC"
+      ).bind(fecha, desde).all();
+      return comandaJson({
+        pedidos: (res.results || []).map(comandaFila),
+        servidor: Date.now(),
+      });
+    }
+
+    // POST /pedidos — crea. El correlativo lo asigna el servidor.
+    if (ruta === "/pedidos" && request.method === "POST") {
+      const b = await request.json().catch(() => null);
+      const error = comandaValida(b);
+      if (error) return comandaJson({ error }, 400);
+
+      // Reintento por señal mala: si el id ya existe, devolver lo guardado
+      // en vez de crear un pedido gemelo con otro numero.
+      const previo = await env.DB.prepare(
+        "SELECT * FROM comanda_pedidos WHERE id = ?"
+      ).bind(b.id).first();
+      if (previo) return comandaJson({ pedido: comandaFila(previo), repetido: true });
+
+      const ahora = Date.now();
+      const fila = await env.DB.prepare(
+        "SELECT COALESCE(MAX(n), 0) AS tope FROM comanda_pedidos WHERE fecha = ?"
+      ).bind(b.fecha).first();
+      const n = (fila?.tope || 0) + 1;
+
+      await env.DB.prepare(
+        `INSERT INTO comanda_pedidos
+           (id, n, fecha, hora, t, estado, nombre, dscto, total, lineas, borrado, actualizado)
+         VALUES (?, ?, ?, ?, ?, 'pendiente', ?, ?, ?, ?, 0, ?)`
+      ).bind(
+        b.id, n, b.fecha, String(b.hora || "").slice(0, 5), Number(b.t) || ahora,
+        String(b.nombre || "").slice(0, 60), String(b.dscto || ""),
+        Math.round(Number(b.total) || 0), JSON.stringify(b.lineas), ahora
+      ).run();
+
+      const creado = await env.DB.prepare(
+        "SELECT * FROM comanda_pedidos WHERE id = ?"
+      ).bind(b.id).first();
+      return comandaJson({ pedido: comandaFila(creado) });
+    }
+
+    // POST /pedidos/<id>/estado — entregado o de vuelta a la cola.
+    const mEstado = ruta.match(/^\/pedidos\/([\w-]{1,64})\/estado$/);
+    if (mEstado && request.method === "POST") {
+      const b = await request.json().catch(() => ({}));
+      if (!COMANDA_ESTADOS.includes(b.estado)) {
+        return comandaJson({ error: "estado invalido" }, 400);
+      }
+      const r = await env.DB.prepare(
+        "UPDATE comanda_pedidos SET estado = ?, actualizado = ? WHERE id = ? AND borrado = 0"
+      ).bind(b.estado, Date.now(), mEstado[1]).run();
+      if (!r.meta?.changes) return comandaJson({ error: "no existe" }, 404);
+      return comandaJson({ ok: true });
+    }
+
+    // POST /pedidos/<id>/borrar — saca la venta del historial.
+    const mBorrar = ruta.match(/^\/pedidos\/([\w-]{1,64})\/borrar$/);
+    if (mBorrar && request.method === "POST") {
+      const r = await env.DB.prepare(
+        "UPDATE comanda_pedidos SET borrado = 1, actualizado = ? WHERE id = ?"
+      ).bind(Date.now(), mBorrar[1]).run();
+      if (!r.meta?.changes) return comandaJson({ error: "no existe" }, 404);
+      return comandaJson({ ok: true });
+    }
+
+    // POST /dia/borrar — vacia un dia entero. Siempre acotado por fecha:
+    // nunca un UPDATE sin WHERE sobre la tabla.
+    if (ruta === "/dia/borrar" && request.method === "POST") {
+      const b = await request.json().catch(() => ({}));
+      if (!/^\d{2}-\d{2}-\d{4}$/.test(b.fecha || "")) {
+        return comandaJson({ error: "fecha invalida" }, 400);
+      }
+      const r = await env.DB.prepare(
+        "UPDATE comanda_pedidos SET borrado = 1, actualizado = ? WHERE fecha = ? AND borrado = 0"
+      ).bind(Date.now(), b.fecha).run();
+      return comandaJson({ ok: true, borrados: r.meta?.changes || 0 });
+    }
+
+    // GET /dias — los dias que tienen ventas, para el selector del historial.
+    if (ruta === "/dias" && request.method === "GET") {
+      const res = await env.DB.prepare(
+        `SELECT fecha, MAX(t) AS ultimo FROM comanda_pedidos
+          WHERE borrado = 0 GROUP BY fecha ORDER BY ultimo DESC LIMIT 60`
+      ).all();
+      return comandaJson({ dias: (res.results || []).map((r) => r.fecha) });
+    }
+
+    return comandaJson({ error: "ruta desconocida" }, 404);
+  } catch (e) {
+    return comandaJson({ error: String(e && e.message ? e.message : e) }, 500);
+  }
+}
+
+function comandaValida(b) {
+  if (!b || typeof b !== "object") return "cuerpo invalido";
+  if (!/^[\w-]{8,64}$/.test(b.id || "")) return "id invalido";
+  if (!/^\d{2}-\d{2}-\d{4}$/.test(b.fecha || "")) return "fecha invalida";
+  if (!Array.isArray(b.lineas) || !b.lineas.length) return "pedido sin lineas";
+  if (b.lineas.length > 60) return "demasiadas lineas";
+  if (!Number.isFinite(Number(b.total)) || Number(b.total) < 0) return "total invalido";
+  return null;
+}
+
+function comandaFila(r) {
+  let lineas = [];
+  try { lineas = JSON.parse(r.lineas); } catch (e) { lineas = []; }
+  return {
+    id: r.id, n: r.n, fecha: r.fecha, hora: r.hora, t: r.t,
+    estado: r.estado, nombre: r.nombre || "", dscto: r.dscto || "",
+    total: r.total, lineas,
+    borrado: !!r.borrado, actualizado: r.actualizado,
+  };
+}
+
+function comandaCors() {
+  return {
+    "Access-Control-Allow-Origin": "https://dailygrind.cl",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
+function comandaJson(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      ...comandaCors(),
+    },
+  });
 }
 
 function json(data, status = 200) {
