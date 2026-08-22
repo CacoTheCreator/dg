@@ -377,16 +377,14 @@ var SABORES = ["Mango","Vainilla","Cookies & cream","Snickers","Frambuesa","Choc
 var TOPPINGS = ["Granola","Leche condensada","Leche en polvo","Yoghurt",
                 "Plátano","Maní","Coco laminado","Almendra laminada"];
 var PRODUCTOS = [
-  {id:"best", nombre:"The Best", tipo:"acai", det:"açaí · condensada · granola",
-    precios:[["266 ml",5990],["355 ml",7590]]},
-  {id:"one", nombre:"The One", tipo:"acai", det:"açaí · leche en polvo · yoghurt",
-    precios:[["266 ml",5990],["355 ml",7590]]},
-  {id:"libre", nombre:"Açaí a elección", tipo:"acaiLibre", det:"dos toppings, los que quieras",
-    precios:[["266 ml",5990],["355 ml",7590]]},
+  {id:"achico", nombre:"Açaí chico", tipo:"acaiLibre", det:"266 ml · 2 toppings incluidos",
+    precio:5990},
+  {id:"agrande", nombre:"Açaí grande", tipo:"acaiLibre", det:"355 ml · 2 toppings incluidos",
+    precio:7590},
   {id:"b1", nombre:"Helado una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
   {id:"b2", nombre:"Helado dos bolitas", tipo:"helado2", det:"dos sabores", precio:4590},
-  {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí 266 ml + una bolita · ahorra $1.090", precio:8490},
-  {id:"top", nombre:"Topping extra", tipo:"topping", det:"premium, el que quieran", precio:690},
+  {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí chico + una bolita · ahorra $1.090", precio:8490},
+  {id:"top", nombre:"Topping extra", tipo:"topping", det:"del tercero en adelante", precio:990},
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
 ];
 
@@ -711,85 +709,94 @@ function elegir(p){
   agregar(p.nombre, "", p.precio);
 }
 
+/* Açaí chico con sus dos toppings, mas una bolita. Mismo orden que en el
+   meson: primero se arma el açaí y despues se elige el sabor del helado. */
 function modalCombo(p){
-  modal.innerHTML = "<h3></h3><div class='sub'>primero: cuál açaí (266 ml)</div>" +
-    "<div class='opciones'></div>" +
-    "<div class='acciones'><button class='cancelar'>cancelar</button></div>";
+  modal.innerHTML = "<h3></h3><div class='sub'>los dos toppings del açaí" +
+    " (toca dos veces si repite)</div><div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button>" +
+    "<button class='ok' disabled>Seguir</button></div>";
   modal.querySelector("h3").textContent = p.nombre;
   var ops = modal.querySelector(".opciones");
-  ["The Best","The One"].forEach(function(acai){
+  var ok = modal.querySelector(".ok");
+  var sel = [];
+
+  TOPPINGS.forEach(function(s){
     var b = document.createElement("button");
-    b.className = "grande";
-    b.textContent = acai;
+    b.dataset.top = s;
+    b.textContent = s;
     b.addEventListener("click", function(){
-      modal.querySelector(".sub").textContent = "ahora: el sabor de la bolita";
-      ops.innerHTML = "";
-      SABORES.forEach(function(s){
-        var bs = document.createElement("button");
-        bs.textContent = s;
-        bs.addEventListener("click", function(){
-          agregar(p.nombre, acai + " 266 + bolita " + s, p.precio);
-          cerrarModal();
-        });
-        ops.appendChild(bs);
+      sel.push(s);
+      if (sel.length > 2) sel.shift();
+      var vivos = {};
+      sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
+      ops.querySelectorAll("button").forEach(function(bb){
+        var base = bb.dataset.top;
+        bb.classList.toggle("sel", !!vivos[base]);
+        bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
       });
+      ok.disabled = (sel.length !== 2);
     });
     ops.appendChild(b);
   });
+
+  ok.addEventListener("click", function(){
+    modal.querySelector(".sub").textContent = "ahora: el sabor de la bolita";
+    ops.innerHTML = "";
+    modal.querySelector(".acciones").innerHTML =
+      "<button class='cancelar'>cancelar</button>";
+    modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+    SABORES.forEach(function(s){
+      var bs = document.createElement("button");
+      bs.textContent = s;
+      bs.addEventListener("click", function(){
+        agregar(p.nombre, "açaí chico (" + sel.join(" + ") + ") + bolita " + s, p.precio);
+        cerrarModal();
+      });
+      ops.appendChild(bs);
+    });
+  });
+
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   velo.hidden = false;
 }
 
-/* Mismo precio que los açaí armados, pero los dos toppings los pone el cliente.
-   Va en dos pasos, primero el tamaño y despues los toppings, para no mostrar
-   diez botones juntos en el celular de quien atiende. */
+/* El tamaño ya viene en el producto, asi que lo unico que se pregunta son los
+   dos toppings que van incluidos. Del tercero en adelante se cobran con el
+   boton Topping extra, igual que lo dice la carta de la tele. */
 function modalAcaiLibre(p){
-  modal.innerHTML = "<h3></h3><div class='sub'>primero: qué tamaño</div>" +
-    "<div class='opciones'></div>" +
-    "<div class='acciones'><button class='cancelar'>cancelar</button></div>";
+  modal.innerHTML = "<h3></h3><div class='sub'>los dos toppings que van incluidos" +
+    " (toca dos veces si repite)</div><div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button>" +
+    "<button class='ok' disabled>Agregar</button></div>";
   modal.querySelector("h3").textContent = p.nombre;
   var ops = modal.querySelector(".opciones");
+  var ok = modal.querySelector(".ok");
+  var sel = [];
 
-  p.precios.forEach(function(par){
+  TOPPINGS.forEach(function(s){
     var b = document.createElement("button");
-    b.className = "grande";
-    b.textContent = par[0] + " · " + plata(par[1]);
-    b.addEventListener("click", function(){ pasoToppings(par[0], par[1]); });
+    b.dataset.top = s;
+    b.textContent = s;
+    b.addEventListener("click", function(){
+      sel.push(s);
+      if (sel.length > 2) sel.shift();
+      var vivos = {};
+      sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
+      ops.querySelectorAll("button").forEach(function(bb){
+        var base = bb.dataset.top;
+        bb.classList.toggle("sel", !!vivos[base]);
+        bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
+      });
+      ok.disabled = (sel.length !== 2);
+    });
     ops.appendChild(b);
   });
 
-  function pasoToppings(tamano, precio){
-    modal.querySelector(".sub").textContent = "ahora: dos toppings (toca dos veces si repite)";
-    ops.innerHTML = "";
-    modal.querySelector(".acciones").innerHTML =
-      "<button class='cancelar'>cancelar</button><button class='ok' disabled>Agregar</button>";
-    modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
-    var ok = modal.querySelector(".ok");
-    var sel = [];
-    TOPPINGS.forEach(function(s){
-      var b = document.createElement("button");
-      b.dataset.top = s;
-      b.textContent = s;
-      b.addEventListener("click", function(){
-        sel.push(s);
-        if (sel.length > 2) sel.shift();
-        var vivos = {};
-        sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
-        ops.querySelectorAll("button").forEach(function(bb){
-          var base = bb.dataset.top;
-          bb.classList.toggle("sel", !!vivos[base]);
-          bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
-        });
-        ok.disabled = (sel.length !== 2);
-      });
-      ops.appendChild(b);
-    });
-    ok.addEventListener("click", function(){
-      agregar(p.nombre + " · " + tamano, sel.join(" + "), precio);
-      cerrarModal();
-    });
-  }
-
+  ok.addEventListener("click", function(){
+    agregar(p.nombre, sel.join(" + "), p.precio);
+    cerrarModal();
+  });
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   velo.hidden = false;
 }
