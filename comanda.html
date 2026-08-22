@@ -193,6 +193,36 @@ main[hidden]{display:none!important}
 .venta .borrar-venta{color:rgba(207,63,47,.75)}
 .venta .borrar-venta:hover{color:var(--shu)}
 
+/* ── Checklist de evento ── */
+.chk-barra{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.chk-nuevo{display:flex;gap:8px;flex:1;min-width:260px}
+.chk-nuevo input{flex:1;background:rgba(249,243,236,.08);color:var(--cream);
+  border:1px solid rgba(249,243,236,.22);border-radius:12px;padding:12px 14px;
+  font-family:'DM Sans',sans-serif;font-size:16px;font-weight:400}
+.chk-nuevo input::placeholder{color:rgba(249,243,236,.4)}
+.chk-nuevo button{background:var(--sky);color:var(--navy);border:none;border-radius:12px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:0 18px;cursor:pointer;
+  box-shadow:3px 3px 0 rgba(8,18,52,.85)}
+.chk-nuevo button:active{transform:translate(2px,2px);box-shadow:0 0 0 transparent}
+.chk-cuenta{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;white-space:nowrap}
+.chk-cuenta.completo{color:var(--pistacho)}
+.chk-reset{background:none;border:none;color:rgba(249,243,236,.45);font-size:12.5px;
+  cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap}
+#chkLista{display:flex;flex-direction:column;gap:7px}
+#chkLista .nada{text-align:center;color:rgba(249,243,236,.5);font-size:15px;padding:40px 0}
+.item{background:rgba(249,243,236,.06);border:1px solid rgba(249,243,236,.12);
+  border-radius:13px;padding:12px 15px;display:flex;gap:13px;align-items:center;cursor:pointer}
+.item:hover{background:rgba(249,243,236,.1)}
+.item .caja{width:24px;height:24px;flex:none;border-radius:7px;
+  border:2px solid rgba(249,243,236,.35);display:flex;align-items:center;
+  justify-content:center;font-size:15px;color:var(--navy)}
+.item.listo .caja{background:var(--pistacho);border-color:var(--pistacho)}
+.item .texto{flex:1;font-size:16px;font-weight:500;line-height:1.3;word-break:break-word}
+.item.listo .texto{color:rgba(249,243,236,.45);text-decoration:line-through}
+.item .sacar{background:none;border:none;color:rgba(249,243,236,.3);font-size:19px;
+  cursor:pointer;padding:0 4px;line-height:1;flex:none}
+.item .sacar:hover{color:var(--shu)}
+
 /* ── Modal ── */
 #velo{position:fixed;inset:0;background:rgba(8,18,52,.78);display:flex;
   align-items:flex-end;justify-content:center;z-index:50}
@@ -282,6 +312,7 @@ main[hidden]{display:none!important}
       <button id="tabTomar" class="viva">Tomar pedido</button>
       <button id="tabCocina">En cola<span class="globo" id="globoCola"></span></button>
       <button id="tabHistorial">Historial</button>
+      <button id="tabChecklist">Checklist<span class="globo" id="globoCheck"></span></button>
     </nav>
   </header>
 
@@ -317,6 +348,20 @@ main[hidden]{display:none!important}
       <div id="histLista"></div>
     </section>
   </main>
+
+  <main id="vistaChecklist" hidden>
+    <section id="checklist">
+      <div class="chk-barra">
+        <form class="chk-nuevo" id="chkNuevo">
+          <input type="text" id="chkTexto" placeholder="qué no puede faltar" autocomplete="off" maxlength="200">
+          <button type="submit">Agregar</button>
+        </form>
+        <span class="chk-cuenta" id="chkCuenta"></span>
+        <button class="chk-reset" id="chkReset">desmarcar todo</button>
+      </div>
+      <div id="chkLista"></div>
+    </section>
+  </main>
 </div>
 
 <div class="aviso" id="aviso"></div>
@@ -349,12 +394,60 @@ var PRODUCTOS = [
    en localStorage es la preferencia de impresora, una copia de lo ya visto
    para poder pintar sin conexion, y la salida de cosas por mandar. */
 var CLAVE = "laComandaDG";
+function vacio(){
+  return {imprime:false, cache:{}, check:{}, salida:[], ultimoSync:0, checkSync:0};
+}
+
+/* Id estable a partir del contenido de la venta: si esta recuperacion corre
+   dos veces en el mismo aparato, el servidor reconoce el id y no duplica. */
+function idHeredado(v){
+  var semilla = [v.fecha, v.hora, v.n, v.total,
+    (v.lineas || []).map(function(l){ return l.desc + l.qty; }).join("|")].join("~");
+  var h = 5381;
+  for (var i = 0; i < semilla.length; i++) h = ((h * 33) ^ semilla.charCodeAt(i)) >>> 0;
+  return "heredado-" + h.toString(36) + "-" + String(v.n || 0) + "-" + (v.fecha || "").replace(/\D/g, "");
+}
+
+/* Rescate de las ventas que quedaron en este navegador cuando la cola todavia
+   era local. Se suben a la cola compartida en vez de descartarse. */
+function rescatar(viejo){
+  var d = vacio();
+  d.imprime = !!viejo.imprime;
+  (viejo.ventas || []).forEach(function(v){
+    if (!v || !v.lineas || !v.lineas.length) return;
+    var id = idHeredado(v);
+    d.cache[id] = {
+      id:id, n:v.n || null, fecha:v.fecha, hora:v.hora, t:v.t || Date.now(),
+      estado: v.estado === "listo" ? "listo" : "pendiente",
+      lineas:v.lineas, total:v.total || 0, dscto:v.dscto || "",
+      nombre:v.nombre || "", borrado:false
+    };
+    d.salida.push({tipo:"nuevo", payload:{
+      id:id, fecha:v.fecha, hora:v.hora, t:v.t || Date.now(),
+      lineas:v.lineas, total:v.total || 0, dscto:v.dscto || "", nombre:v.nombre || ""
+    }});
+    // El servidor las recibe como pendientes. Lo ya entregado se vuelve a
+    // marcar en seguida, para no llenar la cocina de pedidos que ya salieron.
+    if (v.estado === "listo"){
+      d.salida.push({tipo:"estado", id:id, estado:"listo"});
+    }
+  });
+  return d;
+}
+
 function cargar(){
-  try {
-    var d = JSON.parse(localStorage.getItem(CLAVE));
-    if (d && d.cache) return d;
-  } catch(e){}
-  return {imprime:false, cache:{}, salida:[], ultimoSync:0};
+  var d = null;
+  try { d = JSON.parse(localStorage.getItem(CLAVE)); } catch(e){}
+  if (!d || typeof d !== "object") return vacio();
+
+  // Guardados del formato viejo: las ventas vivian sueltas en el navegador.
+  if (!d.cache && Array.isArray(d.ventas)) return rescatar(d);
+
+  if (!d.cache) return vacio();
+  if (!d.check) d.check = {};
+  if (!d.checkSync) d.checkSync = 0;
+  if (!Array.isArray(d.salida)) d.salida = [];
+  return d;
 }
 function guardar(){
   try { localStorage.setItem(CLAVE, JSON.stringify(datos)); } catch(e){}
@@ -444,6 +537,18 @@ function mandar(item){
   if (item.tipo === "diaBorrar"){
     return postJson(API + "/dia/borrar", {fecha: item.fecha});
   }
+  if (item.tipo === "checkNuevo"){
+    return postJson(API + "/checklist", item.payload);
+  }
+  if (item.tipo === "check"){
+    return postJson(API + "/checklist/" + item.id, {hecho: item.hecho});
+  }
+  if (item.tipo === "checkBorrar"){
+    return postJson(API + "/checklist/" + item.id + "/borrar", {});
+  }
+  if (item.tipo === "checkDesmarcar"){
+    return postJson(API + "/checklist/desmarcar", {});
+  }
   return Promise.resolve();
 }
 
@@ -488,6 +593,16 @@ function sincronizar(fecha){
     guardar();
     conexion(true);
     repintar();
+    return fetch(API + "/checklist?desde=" + (datos.checkSync || 0));
+  }).then(function(r){
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  }).then(function(d){
+    (d.items || []).forEach(function(it){ datos.check[it.id] = it; });
+    if (d.servidor) datos.checkSync = d.servidor;
+    guardar();
+    pintarGloboCheck();
+    if (!document.getElementById("vistaChecklist").hidden) pintarChecklist();
   }).catch(function(){
     conexion(false);
   }).then(function(){
@@ -505,7 +620,8 @@ function repintar(){
 var VISTAS = {
   tomar:     {vista:"vistaTomar",     tab:"tabTomar"},
   cocina:    {vista:"vistaCocina",    tab:"tabCocina"},
-  historial: {vista:"vistaHistorial", tab:"tabHistorial"}
+  historial: {vista:"vistaHistorial", tab:"tabHistorial"},
+  checklist: {vista:"vistaChecklist", tab:"tabChecklist"}
 };
 function mostrar(cual){
   Object.keys(VISTAS).forEach(function(k){
@@ -515,6 +631,7 @@ function mostrar(cual){
   });
   if (cual === "cocina") pintarCola();
   if (cual === "historial") pintarHistorial();
+  if (cual === "checklist") pintarChecklist();
 }
 Object.keys(VISTAS).forEach(function(k){
   document.getElementById(VISTAS[k].tab)
@@ -999,6 +1116,94 @@ function colaDePapel(){
   return "<div class='feed'>" + relleno.join("<br>") + "</div>";
 }
 
+/* ── Checklist de evento ────────────────────────────────────────────────────
+   La lista de lo que no puede faltar al montar el pod. No se corta por dia
+   como los pedidos: sirve para el proximo evento y se desmarca entera cuando
+   toca volver a cargar el auto. La comparten todos los aparatos. */
+var elChkLista = document.getElementById("chkLista");
+var elChkCuenta = document.getElementById("chkCuenta");
+
+function itemsChecklist(){
+  var out = [];
+  for (var id in datos.check){
+    var it = datos.check[id];
+    if (it && !it.borrado) out.push(it);
+  }
+  return out.sort(function(a,b){ return (a.orden || 0) - (b.orden || 0); });
+}
+
+function pintarGloboCheck(){
+  var items = itemsChecklist();
+  var faltan = items.filter(function(i){ return !i.hecho; }).length;
+  document.getElementById("globoCheck").textContent = faltan || "";
+}
+
+function pintarChecklist(){
+  var items = itemsChecklist();
+  var hechos = items.filter(function(i){ return i.hecho; }).length;
+
+  elChkCuenta.textContent = items.length ? hechos + " de " + items.length : "";
+  elChkCuenta.className = "chk-cuenta" + (items.length && hechos === items.length ? " completo" : "");
+
+  elChkLista.innerHTML = "";
+  if (!items.length){
+    elChkLista.innerHTML = "<div class='nada'>la lista está vacía — agrega lo primero arriba</div>";
+    pintarGloboCheck();
+    return;
+  }
+
+  items.forEach(function(it){
+    var fila = document.createElement("div");
+    fila.className = "item" + (it.hecho ? " listo" : "");
+    fila.innerHTML = "<span class='caja'>" + (it.hecho ? "✓" : "") + "</span>" +
+      "<span class='texto'></span><button class='sacar' title='sacar de la lista'>×</button>";
+    fila.querySelector(".texto").textContent = it.texto;
+
+    fila.addEventListener("click", function(ev){
+      if (ev.target.classList.contains("sacar")) return;
+      it.hecho = !it.hecho;
+      guardar();
+      encolar({tipo:"check", id:it.id, hecho:it.hecho});
+      pintarChecklist();
+    });
+
+    fila.querySelector(".sacar").addEventListener("click", function(){
+      if (!confirm("¿Sacar “" + it.texto + "” de la lista? Se va para todos.")) return;
+      it.borrado = true;
+      guardar();
+      encolar({tipo:"checkBorrar", id:it.id});
+      pintarChecklist();
+    });
+
+    elChkLista.appendChild(fila);
+  });
+  pintarGloboCheck();
+}
+
+document.getElementById("chkNuevo").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var campo = document.getElementById("chkTexto");
+  var texto = campo.value.trim();
+  if (!texto) return;
+  var it = {id:nuevoId(), texto:texto, hecho:false, orden:Date.now(), borrado:false};
+  datos.check[it.id] = it;
+  guardar();
+  encolar({tipo:"checkNuevo", payload:{id:it.id, texto:it.texto, orden:it.orden}});
+  campo.value = "";
+  campo.focus();
+  pintarChecklist();
+});
+
+document.getElementById("chkReset").addEventListener("click", function(){
+  var items = itemsChecklist().filter(function(i){ return i.hecho; });
+  if (!items.length){ alert("No hay nada marcado."); return; }
+  if (!confirm("¿Desmarcar los " + items.length + " ítems marcados? La lista se mantiene.")) return;
+  items.forEach(function(i){ i.hecho = false; });
+  guardar();
+  encolar({tipo:"checkDesmarcar"});
+  pintarChecklist();
+});
+
 /* ── Pasar a cocina ── */
 function armarTicket(v){
   var t = document.getElementById("ticket");
@@ -1164,7 +1369,7 @@ document.addEventListener("visibilitychange", function(){
 });
 window.addEventListener("online", function(){ sincronizar(); });
 
-pintarPedido(); pintarDia(); pintarGlobo(); pintarEnlace();
+pintarPedido(); pintarDia(); pintarGlobo(); pintarGloboCheck(); pintarEnlace();
 sincronizar();
 </script>
 </body>

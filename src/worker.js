@@ -916,6 +916,79 @@ async function handleComanda(request, env, url) {
       return comandaJson({ ok: true, borrados: r.meta?.changes || 0 });
     }
 
+    // ── Checklist de evento ───────────────────────────────────────────────
+    // No se corta por dia: es la lista de lo que no puede faltar al montar.
+
+    if (ruta === "/checklist" && request.method === "GET") {
+      const desde = Number(url.searchParams.get("desde") || 0) || 0;
+      const res = await env.DB.prepare(
+        "SELECT * FROM comanda_checklist WHERE actualizado > ? ORDER BY orden ASC"
+      ).bind(desde).all();
+      return comandaJson({
+        items: (res.results || []).map(comandaItem),
+        servidor: Date.now(),
+      });
+    }
+
+    if (ruta === "/checklist" && request.method === "POST") {
+      const b = await request.json().catch(() => null);
+      if (!b || !/^[\w-]{8,64}$/.test(b.id || "")) {
+        return comandaJson({ error: "id invalido" }, 400);
+      }
+      const texto = String(b.texto || "").trim().slice(0, 200);
+      if (!texto) return comandaJson({ error: "sin texto" }, 400);
+
+      const ahora = Date.now();
+      await env.DB.prepare(
+        `INSERT INTO comanda_checklist (id, texto, hecho, orden, borrado, actualizado)
+         VALUES (?, ?, 0, ?, 0, ?)
+         ON CONFLICT(id) DO NOTHING`
+      ).bind(b.id, texto, Number(b.orden) || ahora, ahora).run();
+
+      const creado = await env.DB.prepare(
+        "SELECT * FROM comanda_checklist WHERE id = ?"
+      ).bind(b.id).first();
+      return comandaJson({ item: comandaItem(creado) });
+    }
+
+    const mChk = ruta.match(/^\/checklist\/([\w-]{1,64})$/);
+    if (mChk && request.method === "POST") {
+      const b = await request.json().catch(() => ({}));
+      const campos = [];
+      const valores = [];
+      if (typeof b.hecho === "boolean"){ campos.push("hecho = ?"); valores.push(b.hecho ? 1 : 0); }
+      if (typeof b.texto === "string"){
+        const t = b.texto.trim().slice(0, 200);
+        if (!t) return comandaJson({ error: "sin texto" }, 400);
+        campos.push("texto = ?"); valores.push(t);
+      }
+      if (!campos.length) return comandaJson({ error: "nada que cambiar" }, 400);
+      valores.push(Date.now(), mChk[1]);
+      const r = await env.DB.prepare(
+        `UPDATE comanda_checklist SET ${campos.join(", ")}, actualizado = ?
+          WHERE id = ? AND borrado = 0`
+      ).bind(...valores).run();
+      if (!r.meta?.changes) return comandaJson({ error: "no existe" }, 404);
+      return comandaJson({ ok: true });
+    }
+
+    const mChkBorrar = ruta.match(/^\/checklist\/([\w-]{1,64})\/borrar$/);
+    if (mChkBorrar && request.method === "POST") {
+      const r = await env.DB.prepare(
+        "UPDATE comanda_checklist SET borrado = 1, actualizado = ? WHERE id = ?"
+      ).bind(Date.now(), mChkBorrar[1]).run();
+      if (!r.meta?.changes) return comandaJson({ error: "no existe" }, 404);
+      return comandaJson({ ok: true });
+    }
+
+    // Desmarca todo para el proximo evento, sin perder la lista.
+    if (ruta === "/checklist/desmarcar" && request.method === "POST") {
+      const r = await env.DB.prepare(
+        "UPDATE comanda_checklist SET hecho = 0, actualizado = ? WHERE borrado = 0 AND hecho = 1"
+      ).bind(Date.now()).run();
+      return comandaJson({ ok: true, desmarcados: r.meta?.changes || 0 });
+    }
+
     // GET /dias — los dias que tienen ventas, para el selector del historial.
     if (ruta === "/dias" && request.method === "GET") {
       const res = await env.DB.prepare(
@@ -948,6 +1021,13 @@ function comandaFila(r) {
     id: r.id, n: r.n, fecha: r.fecha, hora: r.hora, t: r.t,
     estado: r.estado, nombre: r.nombre || "", dscto: r.dscto || "",
     total: r.total, lineas,
+    borrado: !!r.borrado, actualizado: r.actualizado,
+  };
+}
+
+function comandaItem(r) {
+  return {
+    id: r.id, texto: r.texto, hecho: !!r.hecho, orden: r.orden,
     borrado: !!r.borrado, actualizado: r.actualizado,
   };
 }
