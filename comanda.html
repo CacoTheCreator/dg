@@ -268,6 +268,7 @@ var PRODUCTOS = [
   {id:"b1", nombre:"Una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
   {id:"b2", nombre:"Dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
   {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí 266 ml + una bolita · ahorra $1.090", precio:8490},
+  {id:"top", nombre:"Topping extra", tipo:"topping", det:"premium, el que quieran", precio:690},
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
 ];
 
@@ -328,6 +329,7 @@ function elegir(p){
   if (p.tipo === "helado1") return modalSabores(p, 1);
   if (p.tipo === "helado2") return modalSabores(p, 2);
   if (p.tipo === "combo") return modalCombo(p);
+  if (p.tipo === "topping") return modalTopping(p);
   if (p.tipo === "libre") return modalLibre();
   agregar(p.nombre, "", p.precio);
 }
@@ -411,6 +413,29 @@ function modalSabores(p, cuantos){
   });
   ok.addEventListener("click", function(){
     agregar(p.nombre, sel.join(" + "), p.precio); cerrarModal();
+  });
+  modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+  velo.hidden = false;
+}
+
+function modalTopping(p){
+  modal.innerHTML = "<h3>Topping extra</h3><div class='sub'>+" + plata(p.precio) + " cada uno</div>" +
+    "<div class='opciones'></div>" +
+    "<div class='filaLibre'><input type='text' id='topNom' placeholder='u otro: cuál'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button>" +
+    "<button class='ok'>Agregar</button></div>";
+  var ops = modal.querySelector(".opciones");
+  ["Granola","Leche condensada"].forEach(function(s){
+    var b = document.createElement("button");
+    b.textContent = s;
+    b.addEventListener("click", function(){
+      agregar(p.nombre, s, p.precio); cerrarModal();
+    });
+    ops.appendChild(b);
+  });
+  var nom = modal.querySelector("#topNom");
+  modal.querySelector(".ok").addEventListener("click", function(){
+    agregar(p.nombre, nom.value.trim(), p.precio); cerrarModal();
   });
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   velo.hidden = false;
