@@ -58,6 +58,8 @@ main{padding:16px}
 .prod.libre{background:transparent;border:1.5px dashed rgba(249,243,236,.4);color:var(--cream)}
 .prod.libre h3{color:var(--cream)}
 .prod.libre .det{color:rgba(249,243,236,.55)}
+.prod.promo{background:var(--lima)}
+.prod.promo .det{color:rgba(14,30,86,.68)}
 
 /* ── Barra inferior (móvil) ── */
 #barra{position:fixed;left:0;right:0;bottom:0;z-index:40;
@@ -101,9 +103,11 @@ main{padding:16px}
 #panel input[type=text]{border:1.5px solid rgba(14,30,86,.25);border-radius:10px;background:#fff;
   padding:11px 12px;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:500;color:var(--navy);outline:none}
 #panel input[type=text]:focus{border-color:var(--sky)}
-.dback{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;cursor:pointer;user-select:none}
-.dback input{width:22px;height:22px;accent-color:var(--navy)}
-.dback span i{font-style:normal;color:var(--shu)}
+.dsctos{display:flex;gap:8px;flex-wrap:wrap}
+.dsctos button{background:#fff;border:1.5px solid rgba(14,30,86,.25);color:var(--navy);
+  border-radius:999px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-weight:500;
+  font-size:14px;cursor:pointer}
+.dsctos button.sel{background:var(--navy);color:var(--cream);border-color:var(--navy)}
 .total{display:flex;justify-content:space-between;align-items:baseline;
   border-top:1.5px solid rgba(14,30,86,.15);padding-top:10px}
 .total span{font-size:15px}
@@ -233,8 +237,11 @@ main{padding:16px}
       <label class="nombre">nombre para gritar el pedido
         <input type="text" id="nombreCliente" placeholder="opcional" autocomplete="off">
       </label>
-      <label class="dback"><input type="checkbox" id="chkDback">
-        <span>10% DailyBack <i>割引</i></span></label>
+      <div class="dsctos" id="dsctos">
+        <button data-d="" class="sel">sin dscto</button>
+        <button data-d="dailyback">10% DailyBack</button>
+        <button data-d="amigos">20% Amigos</button>
+      </div>
       <div class="total"><span>Total</span><b id="totalPedido">$0</b></div>
       <button id="pasar" disabled>Pasar a cocina<small id="pasarNota"></small></button>
     </aside>
@@ -260,6 +267,7 @@ var PRODUCTOS = [
     precios:[["266 ml",5990],["355 ml",7590]]},
   {id:"b1", nombre:"Una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
   {id:"b2", nombre:"Dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
+  {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí 266 ml + una bolita · ahorra $1.090", precio:8490},
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
 ];
 
@@ -299,7 +307,7 @@ tabCocina.addEventListener("click", function(){ mostrar("cocina"); });
 var elProductos = document.getElementById("productos");
 PRODUCTOS.forEach(function(p){
   var b = document.createElement("button");
-  b.className = "prod" + (p.tipo === "libre" ? " libre" : "");
+  b.className = "prod" + (p.tipo === "libre" ? " libre" : "") + (p.tipo === "combo" ? " promo" : "");
   var desde = p.precios ? "desde " + plata(p.precios[0][1]) : (p.precio ? plata(p.precio) : "");
   b.innerHTML = "<h3></h3><span class='det'></span><span class='desde'></span>";
   b.querySelector("h3").textContent = p.nombre;
@@ -319,8 +327,38 @@ function elegir(p){
   if (p.tipo === "acai") return modalTamano(p);
   if (p.tipo === "helado1") return modalSabores(p, 1);
   if (p.tipo === "helado2") return modalSabores(p, 2);
+  if (p.tipo === "combo") return modalCombo(p);
   if (p.tipo === "libre") return modalLibre();
   agregar(p.nombre, "", p.precio);
+}
+
+function modalCombo(p){
+  modal.innerHTML = "<h3></h3><div class='sub'>primero: cuál açaí (266 ml)</div>" +
+    "<div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button></div>";
+  modal.querySelector("h3").textContent = p.nombre;
+  var ops = modal.querySelector(".opciones");
+  ["The Best","The One"].forEach(function(acai){
+    var b = document.createElement("button");
+    b.className = "grande";
+    b.textContent = acai;
+    b.addEventListener("click", function(){
+      modal.querySelector(".sub").textContent = "ahora: el sabor de la bolita";
+      ops.innerHTML = "";
+      SABORES.forEach(function(s){
+        var bs = document.createElement("button");
+        bs.textContent = s;
+        bs.addEventListener("click", function(){
+          agregar(p.nombre, acai + " 266 + bolita " + s, p.precio);
+          cerrarModal();
+        });
+        ops.appendChild(bs);
+      });
+    });
+    ops.appendChild(b);
+  });
+  modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+  velo.hidden = false;
 }
 
 function modalTamano(p){
@@ -421,12 +459,31 @@ function agregar(desc, extra, precio){
 var elLineas = document.getElementById("lineas");
 var elTotal = document.getElementById("totalPedido");
 var btnPasar = document.getElementById("pasar");
-var chkDback = document.getElementById("chkDback");
 var elBarra = null;
+
+var dscto = "";
+var FACTOR = { "": 1, dailyback: 0.9, amigos: 0.8 };
+var elDsctos = document.getElementById("dsctos");
+elDsctos.addEventListener("click", function(ev){
+  var b = ev.target.closest("button");
+  if (!b) return;
+  dscto = b.dataset.d;
+  elDsctos.querySelectorAll("button").forEach(function(bb){
+    bb.classList.toggle("sel", bb === b);
+  });
+  pintarPedido();
+});
+function limpiarDscto(){
+  dscto = "";
+  elDsctos.querySelectorAll("button").forEach(function(bb){
+    bb.classList.toggle("sel", bb.dataset.d === "");
+  });
+}
 
 function totalPedido(){
   var t = pedido.reduce(function(s,l){ return s + l.precio*l.qty; }, 0);
-  if (chkDback.checked) t = Math.round(t*0.9/10)*10;
+  var f = FACTOR[dscto] || 1;
+  if (f !== 1) t = Math.round(t*f/10)*10;
   return t;
 }
 function cuantasCosas(){
@@ -468,7 +525,6 @@ function pintarPedido(){
     elBarra.querySelector("button").disabled = !pedido.length;
   }
 }
-chkDback.addEventListener("change", pintarPedido);
 
 /* barra inferior móvil */
 (function(){
@@ -543,7 +599,8 @@ function armarTicket(v){
     "<div class='items'></div>" +
     (v.nombre ? "<div class='para'>para<b></b></div>" : "") +
     "<div class='tot'><span>TOTAL</span><b>" + plata(v.total) + "</b></div>" +
-    (v.dscto ? "<div class='dscto'>con 10% DailyBack aplicado</div>" : "") +
+    (v.dscto === "amigos" ? "<div class='dscto'>con 20% amigos de la casa</div>" :
+     v.dscto ? "<div class='dscto'>con 10% DailyBack aplicado</div>" : "") +
     "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>";
   var items = t.querySelector(".items");
   v.lineas.forEach(function(l){
@@ -565,7 +622,7 @@ btnPasar.addEventListener("click", function(){
   var v = {
     n: datos.seq, fecha: hoy(), hora: ahora(), t: Date.now(), estado: "pendiente",
     lineas: pedido.map(function(l){ return {desc:l.desc, extra:l.extra, precio:l.precio, qty:l.qty}; }),
-    total: totalPedido(), dscto: chkDback.checked,
+    total: totalPedido(), dscto: dscto,
     nombre: document.getElementById("nombreCliente").value.trim()
   };
   datos.ventas.push(v);
@@ -573,7 +630,7 @@ btnPasar.addEventListener("click", function(){
   guardar();
   if (datos.imprime){ armarTicket(v); window.print(); }
   pedido = [];
-  chkDback.checked = false;
+  limpiarDscto();
   document.getElementById("nombreCliente").value = "";
   cerrarPanel();
   pintarPedido(); pintarDia(); pintarGlobo();
@@ -604,11 +661,12 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
   modal.querySelector("#ajCierre").addEventListener("click", function(){
     var deHoy = datos.ventas.filter(function(v){ return v.fecha === hoy(); });
     if (!deHoy.length){ alert("Hoy no hay ventas todavía."); return; }
-    var filas = ["fecha;hora;pedido;producto;detalle;cantidad;precio;total_pedido;dailyback;nombre"];
+    var filas = ["fecha;hora;pedido;producto;detalle;cantidad;precio;total_pedido;descuento;nombre"];
     deHoy.forEach(function(v){
       v.lineas.forEach(function(l){
         filas.push([v.fecha, v.hora, v.n, l.desc, l.extra, l.qty, l.precio,
-          v.total, v.dscto ? "si" : "no", v.nombre].join(";"));
+          v.total, v.dscto === "amigos" ? "amigos 20" : v.dscto ? "dailyback 10" : "",
+          v.nombre].join(";"));
       });
     });
     var blob = new Blob(["﻿" + filas.join("\n")], {type:"text/csv;charset=utf-8"});
