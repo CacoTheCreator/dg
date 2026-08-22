@@ -329,10 +329,14 @@ main[hidden]{display:none!important}
 "use strict";
 
 var SABORES = ["Mango","Vainilla","Cookies & cream","Snickers","Frambuesa","Chocolate"];
+var TOPPINGS = ["Granola","Leche condensada","Leche en polvo","Yoghurt",
+                "Plátano","Maní","Coco laminado","Almendra laminada"];
 var PRODUCTOS = [
   {id:"best", nombre:"The Best", tipo:"acai", det:"açaí · condensada · granola",
     precios:[["266 ml",5990],["355 ml",7590]]},
   {id:"one", nombre:"The One", tipo:"acai", det:"açaí · leche en polvo · yoghurt",
+    precios:[["266 ml",5990],["355 ml",7590]]},
+  {id:"libre", nombre:"Açaí a elección", tipo:"acaiLibre", det:"dos toppings, los que quieras",
     precios:[["266 ml",5990],["355 ml",7590]]},
   {id:"b1", nombre:"Helado una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
   {id:"b2", nombre:"Helado dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
@@ -539,6 +543,7 @@ velo.addEventListener("click", function(ev){ if (ev.target === velo) cerrarModal
 
 function elegir(p){
   if (p.tipo === "acai") return modalTamano(p);
+  if (p.tipo === "acaiLibre") return modalAcaiLibre(p);
   if (p.tipo === "helado1") return modalSabores(p, 1);
   if (p.tipo === "helado2") return modalSabores(p, 2);
   if (p.tipo === "combo") return modalCombo(p);
@@ -572,6 +577,60 @@ function modalCombo(p){
     });
     ops.appendChild(b);
   });
+  modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+  velo.hidden = false;
+}
+
+/* Mismo precio que los açaí armados, pero los dos toppings los pone el cliente.
+   Va en dos pasos, primero el tamaño y despues los toppings, para no mostrar
+   diez botones juntos en el celular de quien atiende. */
+function modalAcaiLibre(p){
+  modal.innerHTML = "<h3></h3><div class='sub'>primero: qué tamaño</div>" +
+    "<div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button></div>";
+  modal.querySelector("h3").textContent = p.nombre;
+  var ops = modal.querySelector(".opciones");
+
+  p.precios.forEach(function(par){
+    var b = document.createElement("button");
+    b.className = "grande";
+    b.textContent = par[0] + " · " + plata(par[1]);
+    b.addEventListener("click", function(){ pasoToppings(par[0], par[1]); });
+    ops.appendChild(b);
+  });
+
+  function pasoToppings(tamano, precio){
+    modal.querySelector(".sub").textContent = "ahora: dos toppings (toca dos veces si repite)";
+    ops.innerHTML = "";
+    modal.querySelector(".acciones").innerHTML =
+      "<button class='cancelar'>cancelar</button><button class='ok' disabled>Agregar</button>";
+    modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+    var ok = modal.querySelector(".ok");
+    var sel = [];
+    TOPPINGS.forEach(function(s){
+      var b = document.createElement("button");
+      b.dataset.top = s;
+      b.textContent = s;
+      b.addEventListener("click", function(){
+        sel.push(s);
+        if (sel.length > 2) sel.shift();
+        var vivos = {};
+        sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
+        ops.querySelectorAll("button").forEach(function(bb){
+          var base = bb.dataset.top;
+          bb.classList.toggle("sel", !!vivos[base]);
+          bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
+        });
+        ok.disabled = (sel.length !== 2);
+      });
+      ops.appendChild(b);
+    });
+    ok.addEventListener("click", function(){
+      agregar(p.nombre + " · " + tamano, sel.join(" + "), precio);
+      cerrarModal();
+    });
+  }
+
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   velo.hidden = false;
 }
@@ -638,7 +697,7 @@ function modalTopping(p){
     "<div class='acciones'><button class='cancelar'>cancelar</button>" +
     "<button class='ok'>Agregar</button></div>";
   var ops = modal.querySelector(".opciones");
-  ["Granola","Leche condensada"].forEach(function(s){
+  TOPPINGS.forEach(function(s){
     var b = document.createElement("button");
     b.textContent = s;
     b.addEventListener("click", function(){
