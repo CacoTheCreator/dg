@@ -395,7 +395,14 @@ var PRODUCTOS = [
    para poder pintar sin conexion, y la salida de cosas por mandar. */
 var CLAVE = "laComandaDG";
 function vacio(){
-  return {imprime:false, cache:{}, check:{}, salida:[], ultimoSync:0, checkSync:0};
+  return {imprime:false, cache:{}, check:{}, salida:[], rechazados:[],
+          ultimoSync:0, checkSync:0};
+}
+
+/* Los guardados de antes traen la fecha como la escribia el navegador, que en
+   Windows sale con barras. Se normaliza para que calce con lo de la base. */
+function normalizaFecha(f){
+  return String(f || "").replace(/\//g, "-");
 }
 
 /* Id estable a partir del contenido de la venta: si esta recuperacion corre
@@ -415,6 +422,7 @@ function rescatar(viejo){
   d.imprime = !!viejo.imprime;
   (viejo.ventas || []).forEach(function(v){
     if (!v || !v.lineas || !v.lineas.length) return;
+    v.fecha = normalizaFecha(v.fecha);
     var id = idHeredado(v);
     d.cache[id] = {
       id:id, n:v.n || null, fecha:v.fecha, hora:v.hora, t:v.t || Date.now(),
@@ -447,6 +455,16 @@ function cargar(){
   if (!d.check) d.check = {};
   if (!d.checkSync) d.checkSync = 0;
   if (!Array.isArray(d.salida)) d.salida = [];
+  if (!Array.isArray(d.rechazados)) d.rechazados = [];
+
+  // Ventas cacheadas con la fecha en formato del navegador viejo.
+  for (var id in d.cache){
+    if (d.cache[id]) d.cache[id].fecha = normalizaFecha(d.cache[id].fecha);
+  }
+  d.salida.forEach(function(it){
+    if (it.payload) it.payload.fecha = normalizaFecha(it.payload.fecha);
+    if (it.fecha) it.fecha = normalizaFecha(it.fecha);
+  });
   return d;
 }
 function guardar(){
@@ -456,8 +474,20 @@ var datos = cargar();
 var pedido = [];   // {desc, extra, precio, qty}
 
 function plata(n){ return "$" + Math.round(n).toLocaleString("es-CL"); }
-function hoy(){ return new Date().toLocaleDateString("es-CL"); }
-function ahora(){ return new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); }
+/* La fecha y la hora se arman a mano, sin toLocaleString.
+   Un mismo navegador devuelve "22-08-2026" en un Mac y puede devolver
+   "22/08/2026" en un Windows, y la hora sale como "01:37 p. m.". El servidor
+   guarda por fecha y valida el formato, asi que esa diferencia dejaba pedidos
+   afuera y el historial en blanco en el computador del pod. */
+function dosDigitos(n){ return (n < 10 ? "0" : "") + n; }
+function fechaDe(d){
+  return dosDigitos(d.getDate()) + "-" + dosDigitos(d.getMonth() + 1) + "-" + d.getFullYear();
+}
+function hoy(){ return fechaDe(new Date()); }
+function ahora(){
+  var d = new Date();
+  return dosDigitos(d.getHours()) + ":" + dosDigitos(d.getMinutes());
+}
 
 /* Los ids los genera el navegador para que un reintento por señal mala no
    termine creando el mismo pedido dos veces con numeros distintos. */
@@ -486,6 +516,12 @@ var hayRed = true;
 function pintarEnlace(){
   var el = document.getElementById("enlace");
   var pendientes = datos.salida.length;
+  if (datos.rechazados.length){
+    el.className = "enlace mal";
+    el.textContent = datos.rechazados.length + " rechazado" +
+      (datos.rechazados.length === 1 ? "" : "s") + " — avisar";
+    return;
+  }
   if (!hayRed){
     el.className = "enlace mal";
     el.textContent = pendientes ? "sin conexión · " + pendientes + " por mandar" : "sin conexión";
@@ -509,7 +545,9 @@ function postJson(url, cuerpo){
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(cuerpo)
   }).then(function(r){
-    // Un 4xx no se arregla reintentando: el servidor ya dijo que no.
+    // Un 4xx no se arregla reintentando, pero tampoco se tira a la basura en
+    // silencio: se guarda aparte y se avisa en pantalla. Un pedido que
+    // desaparece sin que nadie se entere es peor que uno que queda pendiente.
     if (r.status >= 400 && r.status < 500){
       return r.json().catch(function(){ return {}; }).then(function(d){
         var e = new Error(d.error || "rechazado");
@@ -559,9 +597,13 @@ function vaciarSalida(){
     datos.salida.shift(); guardar(); pintarEnlace();
     return vaciarSalida();
   }, function(err){
-    // Rechazado de plano: se descarta para no atascar la fila detras.
+    // Rechazado de plano: sale de la fila para no atascar lo que viene detras,
+    // pero queda registrado y visible en vez de evaporarse.
     if (err && err.definitivo){
-      datos.salida.shift(); guardar(); pintarEnlace();
+      var muerto = datos.salida.shift();
+      muerto.motivo = err.message || "rechazado";
+      datos.rechazados.push(muerto);
+      guardar(); pintarEnlace();
       return vaciarSalida();
     }
     throw err;

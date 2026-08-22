@@ -818,6 +818,25 @@ function requirePublicUrl(u) {
 
 const COMANDA_ESTADOS = ["pendiente", "listo"];
 
+// Un aparato con la version vieja manda la fecha como se la da el navegador,
+// que en Windows sale con barras. Se normaliza en la puerta para que todo
+// quede guardado y consultado con el mismo formato.
+function fechaOk(f) {
+  const v = String(f || "").replace(/\//g, "-");
+  return /^\d{2}-\d{2}-\d{4}$/.test(v) ? v : null;
+}
+
+// Lo mismo con la hora: "01:37 p. m." tiene que quedar como "13:37".
+function horaOk(h) {
+  const s = String(h || "").trim().toLowerCase();
+  const m = s.match(/^(\d{1,2}):(\d{2})/);
+  if (!m) return "";
+  let hh = Number(m[1]);
+  if (/p\.?\s*m/.test(s) && hh < 12) hh += 12;
+  if (/a\.?\s*m/.test(s) && hh === 12) hh = 0;
+  return String(hh).padStart(2, "0") + ":" + m[2];
+}
+
 async function handleComanda(request, env, url) {
   const ruta = url.pathname.replace(/^\/comanda\/api/, "");
 
@@ -830,11 +849,9 @@ async function handleComanda(request, env, url) {
     // GET /pedidos?desde=<epoch ms>&fecha=<dd-mm-aaaa>
     // Sin `desde` devuelve el dia completo; con `desde` solo lo que cambio.
     if (ruta === "/pedidos" && request.method === "GET") {
-      const fecha = url.searchParams.get("fecha") || "";
+      const fecha = fechaOk(url.searchParams.get("fecha"));
       const desde = Number(url.searchParams.get("desde") || 0) || 0;
-      if (!/^\d{2}-\d{2}-\d{4}$/.test(fecha)) {
-        return comandaJson({ error: "fecha invalida" }, 400);
-      }
+      if (!fecha) return comandaJson({ error: "fecha invalida" }, 400);
       const res = await env.DB.prepare(
         "SELECT * FROM comanda_pedidos WHERE fecha = ? AND actualizado > ? ORDER BY t ASC"
       ).bind(fecha, desde).all();
@@ -858,9 +875,10 @@ async function handleComanda(request, env, url) {
       if (previo) return comandaJson({ pedido: comandaFila(previo), repetido: true });
 
       const ahora = Date.now();
+      const fecha = fechaOk(b.fecha);
       const fila = await env.DB.prepare(
         "SELECT COALESCE(MAX(n), 0) AS tope FROM comanda_pedidos WHERE fecha = ?"
-      ).bind(b.fecha).first();
+      ).bind(fecha).first();
       const n = (fila?.tope || 0) + 1;
 
       await env.DB.prepare(
@@ -868,7 +886,7 @@ async function handleComanda(request, env, url) {
            (id, n, fecha, hora, t, estado, nombre, dscto, total, lineas, borrado, actualizado)
          VALUES (?, ?, ?, ?, ?, 'pendiente', ?, ?, ?, ?, 0, ?)`
       ).bind(
-        b.id, n, b.fecha, String(b.hora || "").slice(0, 5), Number(b.t) || ahora,
+        b.id, n, fecha, horaOk(b.hora), Number(b.t) || ahora,
         String(b.nombre || "").slice(0, 60), String(b.dscto || ""),
         Math.round(Number(b.total) || 0), JSON.stringify(b.lineas), ahora
       ).run();
@@ -907,12 +925,11 @@ async function handleComanda(request, env, url) {
     // nunca un UPDATE sin WHERE sobre la tabla.
     if (ruta === "/dia/borrar" && request.method === "POST") {
       const b = await request.json().catch(() => ({}));
-      if (!/^\d{2}-\d{2}-\d{4}$/.test(b.fecha || "")) {
-        return comandaJson({ error: "fecha invalida" }, 400);
-      }
+      const fecha = fechaOk(b.fecha);
+      if (!fecha) return comandaJson({ error: "fecha invalida" }, 400);
       const r = await env.DB.prepare(
         "UPDATE comanda_pedidos SET borrado = 1, actualizado = ? WHERE fecha = ? AND borrado = 0"
-      ).bind(Date.now(), b.fecha).run();
+      ).bind(Date.now(), fecha).run();
       return comandaJson({ ok: true, borrados: r.meta?.changes || 0 });
     }
 
@@ -1007,7 +1024,7 @@ async function handleComanda(request, env, url) {
 function comandaValida(b) {
   if (!b || typeof b !== "object") return "cuerpo invalido";
   if (!/^[\w-]{8,64}$/.test(b.id || "")) return "id invalido";
-  if (!/^\d{2}-\d{2}-\d{4}$/.test(b.fecha || "")) return "fecha invalida";
+  if (!fechaOk(b.fecha)) return "fecha invalida";
   if (!Array.isArray(b.lineas) || !b.lineas.length) return "pedido sin lineas";
   if (b.lineas.length > 60) return "demasiadas lineas";
   if (!Number.isFinite(Number(b.total)) || Number(b.total) < 0) return "total invalido";
