@@ -43,7 +43,26 @@ header button.ajustes{background:none;border:1px solid rgba(249,243,236,.25);col
   font-family:'DM Sans',sans-serif;font-weight:500;font-size:12px;vertical-align:2px}
 .pestanas button .globo:empty{display:none}
 
+/* Aviso del numero asignado: aparece unos segundos y se va solo. */
+.aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);
+  background:var(--pistacho);color:var(--navy);border-radius:14px;
+  padding:13px 20px;font-family:'Syne',sans-serif;font-weight:700;font-size:17px;
+  box-shadow:0 10px 30px rgba(4,9,29,.5);z-index:60;pointer-events:none;
+  transition:transform .22s ease;max-width:90vw;text-align:center}
+.aviso.vivo{transform:translate(-50%,0)}
+.aviso.sinred{background:var(--shu);color:#fff}
+
+/* Aviso de enlace: vacio cuando todo esta al dia, para no hacer ruido. */
+.enlace{font-size:12.5px;font-weight:500;color:var(--pistacho);white-space:nowrap}
+.enlace:empty{display:none}
+.enlace.tibio{color:var(--sky)}
+.enlace.mal{color:var(--shu)}
+
 main{padding:16px}
+/* La vista que no toca se esconde con el atributo hidden. Va con !important
+   porque main.tomar{display:flex} del ancho de escritorio le gana por
+   especificidad y dejaba los productos pegados encima de las otras vistas. */
+main[hidden]{display:none!important}
 
 /* ── Tomar pedido: productos ── */
 #productos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -143,6 +162,67 @@ main{padding:16px}
 .orden .otravez{background:none;border:none;color:rgba(14,30,86,.45);font-size:12.5px;
   cursor:pointer;text-decoration:underline}
 
+/* ── Historial (todo lo vendido, no solo lo que falta salir) ── */
+.hist-barra{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.hist-barra label{font-size:14px;color:rgba(249,243,236,.6)}
+.hist-barra select{background:rgba(249,243,236,.08);color:var(--cream);
+  border:1px solid rgba(249,243,236,.22);border-radius:10px;padding:8px 10px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500}
+.hist-suma{margin-left:auto;font-family:'Syne',sans-serif;font-weight:700;font-size:19px}
+.hist-suma small{font-family:'DM Sans',sans-serif;font-weight:300;font-size:13.5px;
+  color:rgba(249,243,236,.6);margin-left:8px}
+#histLista{display:flex;flex-direction:column;gap:8px}
+#histLista .nada{text-align:center;color:rgba(249,243,236,.5);font-size:15px;padding:40px 0}
+.venta{background:rgba(249,243,236,.06);border:1px solid rgba(249,243,236,.12);
+  border-radius:14px;padding:13px 15px;display:flex;gap:14px;align-items:flex-start}
+.venta .col{min-width:0;flex:1}
+.venta .arriba{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.venta .n{font-family:'Syne',sans-serif;font-weight:700;font-size:17px}
+.venta .hora{font-size:13px;color:rgba(249,243,236,.55)}
+.venta .quien{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--sky);
+  text-transform:uppercase}
+.venta .marca-dscto{font-size:12px;font-weight:500;color:var(--pistacho)}
+.venta .marca-cola{font-size:12px;font-weight:500;color:var(--shu)}
+.venta .que{font-size:14px;font-weight:300;color:rgba(249,243,236,.78);
+  line-height:1.35;margin-top:3px}
+.venta .plata{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;white-space:nowrap}
+.venta .acciones-venta{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.venta .re,.venta .borrar-venta{background:none;border:none;font-size:12px;
+  cursor:pointer;text-decoration:underline;padding:0;margin-top:2px}
+.venta .re{color:rgba(249,243,236,.4)}
+.venta .borrar-venta{color:rgba(207,63,47,.75)}
+.venta .borrar-venta:hover{color:var(--shu)}
+
+/* ── Checklist de evento ── */
+.chk-barra{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.chk-nuevo{display:flex;gap:8px;flex:1;min-width:260px}
+.chk-nuevo input{flex:1;background:rgba(249,243,236,.08);color:var(--cream);
+  border:1px solid rgba(249,243,236,.22);border-radius:12px;padding:12px 14px;
+  font-family:'DM Sans',sans-serif;font-size:16px;font-weight:400}
+.chk-nuevo input::placeholder{color:rgba(249,243,236,.4)}
+.chk-nuevo button{background:var(--sky);color:var(--navy);border:none;border-radius:12px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:0 18px;cursor:pointer;
+  box-shadow:3px 3px 0 rgba(8,18,52,.85)}
+.chk-nuevo button:active{transform:translate(2px,2px);box-shadow:0 0 0 transparent}
+.chk-cuenta{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;white-space:nowrap}
+.chk-cuenta.completo{color:var(--pistacho)}
+.chk-reset{background:none;border:none;color:rgba(249,243,236,.45);font-size:12.5px;
+  cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap}
+#chkLista{display:flex;flex-direction:column;gap:7px}
+#chkLista .nada{text-align:center;color:rgba(249,243,236,.5);font-size:15px;padding:40px 0}
+.item{background:rgba(249,243,236,.06);border:1px solid rgba(249,243,236,.12);
+  border-radius:13px;padding:12px 15px;display:flex;gap:13px;align-items:center;cursor:pointer}
+.item:hover{background:rgba(249,243,236,.1)}
+.item .caja{width:24px;height:24px;flex:none;border-radius:7px;
+  border:2px solid rgba(249,243,236,.35);display:flex;align-items:center;
+  justify-content:center;font-size:15px;color:var(--navy)}
+.item.listo .caja{background:var(--pistacho);border-color:var(--pistacho)}
+.item .texto{flex:1;font-size:16px;font-weight:500;line-height:1.3;word-break:break-word}
+.item.listo .texto{color:rgba(249,243,236,.45);text-decoration:line-through}
+.item .sacar{background:none;border:none;color:rgba(249,243,236,.3);font-size:19px;
+  cursor:pointer;padding:0 4px;line-height:1;flex:none}
+.item .sacar:hover{color:var(--shu)}
+
 /* ── Modal ── */
 #velo{position:fixed;inset:0;background:rgba(8,18,52,.78);display:flex;
   align-items:flex-end;justify-content:center;z-index:50}
@@ -191,7 +271,7 @@ main{padding:16px}
   @page{size:80mm auto;margin:0}
   body{background:#fff;padding:0}
   #app,#velo,#velo-panel,#barra{display:none!important}
-  #ticket{display:block;width:72mm;margin:0 auto;padding:3mm 0 8mm;
+  #ticket{display:block;width:72mm;margin:0 auto;padding:3mm 0 0;
     color:#000;font-family:'DM Sans',sans-serif}
   #ticket .cab{text-align:center}
   #ticket .cab h1{font-family:'Syne',sans-serif;font-weight:700;font-size:17pt;line-height:1}
@@ -210,6 +290,11 @@ main{padding:16px}
   #ticket .tot b{font-family:'Syne',sans-serif;font-weight:700;font-size:16pt}
   #ticket .dscto{font-size:9pt;font-weight:300;margin-top:1mm}
   #ticket .pie{text-align:center;font-size:8.5pt;font-weight:300;margin-top:4mm}
+  /* Cola de papel: la barra de corte queda ~2 cm mas abajo que el cabezal
+     termico, asi que sin esto el tijeretazo pasa por encima del pie.
+     Son lineas reales y no padding porque el padding del final lo recorta
+     el driver cuando la pagina es de alto automatico. */
+  #ticket .feed{font-size:10pt;line-height:5mm;text-align:center}
 }
 </style>
 </head>
@@ -219,12 +304,15 @@ main{padding:16px}
     <div class="arriba">
       <span class="marca">THE DAILY <i>GRIND</i></span>
       <span class="chip">La Comanda · ART STGO '26</span>
+      <span class="enlace" id="enlace"></span>
       <span class="dia" id="resumenDia"></span>
       <button class="ajustes" id="btnAjustes">ajustes</button>
     </div>
     <nav class="pestanas">
       <button id="tabTomar" class="viva">Tomar pedido</button>
       <button id="tabCocina">En cola<span class="globo" id="globoCola"></span></button>
+      <button id="tabHistorial">Historial</button>
+      <button id="tabChecklist">Checklist<span class="globo" id="globoCheck"></span></button>
     </nav>
   </header>
 
@@ -250,7 +338,33 @@ main{padding:16px}
   <main id="vistaCocina" hidden>
     <section id="pendientes"></section>
   </main>
+
+  <main id="vistaHistorial" hidden>
+    <section id="historial">
+      <div class="hist-barra">
+        <label>día <select id="histDia"></select></label>
+        <span class="hist-suma" id="histSuma"></span>
+      </div>
+      <div id="histLista"></div>
+    </section>
+  </main>
+
+  <main id="vistaChecklist" hidden>
+    <section id="checklist">
+      <div class="chk-barra">
+        <form class="chk-nuevo" id="chkNuevo">
+          <input type="text" id="chkTexto" placeholder="qué no puede faltar" autocomplete="off" maxlength="200">
+          <button type="submit">Agregar</button>
+        </form>
+        <span class="chk-cuenta" id="chkCuenta"></span>
+        <button class="chk-reset" id="chkReset">desmarcar todo</button>
+      </div>
+      <div id="chkLista"></div>
+    </section>
+  </main>
 </div>
+
+<div class="aviso" id="aviso"></div>
 
 <div id="velo-panel" hidden></div>
 <div id="velo" hidden><div id="modal"></div></div>
@@ -259,50 +373,310 @@ main{padding:16px}
 <script>
 "use strict";
 
-var SABORES = ["Mango","Vainilla","Cookies & cream","Snickers","Frambuesa","Chocolate"];
+var SABORES = ["Mango","Vainilla","Cookies & cream","Enrique","Frambuesa","Chocolate"];
+var TOPPINGS = ["Granola","Leche condensada","Leche en polvo","Yoghurt",
+                "Plátano","Maní","Coco laminado","Almendra laminada"];
 var PRODUCTOS = [
-  {id:"best", nombre:"The Best", tipo:"acai", det:"açaí · condensada · granola",
-    precios:[["266 ml",5990],["355 ml",7590]]},
-  {id:"one", nombre:"The One", tipo:"acai", det:"açaí · leche en polvo · yoghurt",
-    precios:[["266 ml",5990],["355 ml",7590]]},
-  {id:"b1", nombre:"Una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
-  {id:"b2", nombre:"Dos bolitas", tipo:"helado2", det:"dos sabores", precio:4090},
-  {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí 266 ml + una bolita · ahorra $1.090", precio:8490},
-  {id:"top", nombre:"Topping extra", tipo:"topping", det:"premium, el que quieran", precio:690},
+  {id:"achico", nombre:"Açaí chico", tipo:"acaiLibre", det:"266 ml · 2 toppings incluidos",
+    precio:5990},
+  {id:"agrande", nombre:"Açaí grande", tipo:"acaiLibre", det:"355 ml · 2 toppings incluidos",
+    precio:7590},
+  {id:"b1", nombre:"Helado una bolita", tipo:"helado1", det:"el sabor que quieras", precio:3590},
+  {id:"b2", nombre:"Helado dos bolitas", tipo:"helado2", det:"dos sabores", precio:4590},
+  {id:"duo", nombre:"Dúo de feria", tipo:"combo", det:"açaí chico + una bolita · ahorra $1.090", precio:8490},
+  {id:"top", nombre:"Topping extra", tipo:"topping", det:"del tercero en adelante", precio:990},
   {id:"otro", nombre:"Otro", tipo:"libre", det:"lo que sea, precio a mano"}
 ];
 
+/* El pedido vive en el servidor y este navegador es una vista. Lo que queda
+   en localStorage es la preferencia de impresora, una copia de lo ya visto
+   para poder pintar sin conexion, y la salida de cosas por mandar. */
 var CLAVE = "laComandaDG";
-function cargar(){
-  try {
-    var d = JSON.parse(localStorage.getItem(CLAVE));
-    if (d && d.seq) return d;
-  } catch(e){}
-  return {seq:1, ventas:[], imprime:false};
+function vacio(){
+  return {imprime:false, cache:{}, check:{}, salida:[], rechazados:[],
+          ultimoSync:0, checkSync:0};
 }
-function guardar(){ localStorage.setItem(CLAVE, JSON.stringify(datos)); }
+
+/* Los guardados de antes traen la fecha como la escribia el navegador, que en
+   Windows sale con barras. Se normaliza para que calce con lo de la base. */
+function normalizaFecha(f){
+  return String(f || "").replace(/\//g, "-");
+}
+
+/* Id estable a partir del contenido de la venta: si esta recuperacion corre
+   dos veces en el mismo aparato, el servidor reconoce el id y no duplica. */
+function idHeredado(v){
+  var semilla = [v.fecha, v.hora, v.n, v.total,
+    (v.lineas || []).map(function(l){ return l.desc + l.qty; }).join("|")].join("~");
+  var h = 5381;
+  for (var i = 0; i < semilla.length; i++) h = ((h * 33) ^ semilla.charCodeAt(i)) >>> 0;
+  return "heredado-" + h.toString(36) + "-" + String(v.n || 0) + "-" + (v.fecha || "").replace(/\D/g, "");
+}
+
+/* Rescate de las ventas que quedaron en este navegador cuando la cola todavia
+   era local. Se suben a la cola compartida en vez de descartarse. */
+function rescatar(viejo){
+  var d = vacio();
+  d.imprime = !!viejo.imprime;
+  (viejo.ventas || []).forEach(function(v){
+    if (!v || !v.lineas || !v.lineas.length) return;
+    v.fecha = normalizaFecha(v.fecha);
+    var id = idHeredado(v);
+    d.cache[id] = {
+      id:id, n:v.n || null, fecha:v.fecha, hora:v.hora, t:v.t || Date.now(),
+      estado: v.estado === "listo" ? "listo" : "pendiente",
+      lineas:v.lineas, total:v.total || 0, dscto:v.dscto || "",
+      nombre:v.nombre || "", borrado:false
+    };
+    d.salida.push({tipo:"nuevo", payload:{
+      id:id, fecha:v.fecha, hora:v.hora, t:v.t || Date.now(),
+      lineas:v.lineas, total:v.total || 0, dscto:v.dscto || "", nombre:v.nombre || ""
+    }});
+    // El servidor las recibe como pendientes. Lo ya entregado se vuelve a
+    // marcar en seguida, para no llenar la cocina de pedidos que ya salieron.
+    if (v.estado === "listo"){
+      d.salida.push({tipo:"estado", id:id, estado:"listo"});
+    }
+  });
+  return d;
+}
+
+function cargar(){
+  var d = null;
+  try { d = JSON.parse(localStorage.getItem(CLAVE)); } catch(e){}
+  if (!d || typeof d !== "object") return vacio();
+
+  // Guardados del formato viejo: las ventas vivian sueltas en el navegador.
+  if (!d.cache && Array.isArray(d.ventas)) return rescatar(d);
+
+  if (!d.cache) return vacio();
+  if (!d.check) d.check = {};
+  if (!d.checkSync) d.checkSync = 0;
+  if (!Array.isArray(d.salida)) d.salida = [];
+  if (!Array.isArray(d.rechazados)) d.rechazados = [];
+
+  // Ventas cacheadas con la fecha en formato del navegador viejo.
+  for (var id in d.cache){
+    if (d.cache[id]) d.cache[id].fecha = normalizaFecha(d.cache[id].fecha);
+  }
+  d.salida.forEach(function(it){
+    if (it.payload) it.payload.fecha = normalizaFecha(it.payload.fecha);
+    if (it.fecha) it.fecha = normalizaFecha(it.fecha);
+  });
+  return d;
+}
+function guardar(){
+  try { localStorage.setItem(CLAVE, JSON.stringify(datos)); } catch(e){}
+}
 var datos = cargar();
 var pedido = [];   // {desc, extra, precio, qty}
 
 function plata(n){ return "$" + Math.round(n).toLocaleString("es-CL"); }
-function hoy(){ return new Date().toLocaleDateString("es-CL"); }
-function ahora(){ return new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); }
+/* La fecha y la hora se arman a mano, sin toLocaleString.
+   Un mismo navegador devuelve "22-08-2026" en un Mac y puede devolver
+   "22/08/2026" en un Windows, y la hora sale como "01:37 p. m.". El servidor
+   guarda por fecha y valida el formato, asi que esa diferencia dejaba pedidos
+   afuera y el historial en blanco en el computador del pod. */
+function dosDigitos(n){ return (n < 10 ? "0" : "") + n; }
+function fechaDe(d){
+  return dosDigitos(d.getDate()) + "-" + dosDigitos(d.getMonth() + 1) + "-" + d.getFullYear();
+}
+function hoy(){ return fechaDe(new Date()); }
+function ahora(){
+  var d = new Date();
+  return dosDigitos(d.getHours()) + ":" + dosDigitos(d.getMinutes());
+}
+
+/* Los ids los genera el navegador para que un reintento por señal mala no
+   termine creando el mismo pedido dos veces con numeros distintos. */
+function nuevoId(){
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "p-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+}
+
+function ventasDe(fecha){
+  var out = [];
+  for (var id in datos.cache){
+    var v = datos.cache[id];
+    if (v && v.fecha === fecha && !v.borrado) out.push(v);
+  }
+  return out;
+}
+
+/* ── Sincronizacion con la cola compartida ──────────────────────────────────
+   Todo lo que cambia se anota primero en pantalla y se encola en `salida`.
+   El ciclo vacia esa salida en orden y despues pregunta que cambio desde el
+   ultimo sondeo. Asi el que atiende nunca espera a la red, y los aparatos
+   convergen apenas vuelve la señal. */
+var API = "/comanda/api";
+var hayRed = true;
+
+function pintarEnlace(){
+  var el = document.getElementById("enlace");
+  var pendientes = datos.salida.length;
+  if (datos.rechazados.length){
+    el.className = "enlace mal";
+    el.textContent = datos.rechazados.length + " rechazado" +
+      (datos.rechazados.length === 1 ? "" : "s") + " — avisar";
+    return;
+  }
+  if (!hayRed){
+    el.className = "enlace mal";
+    el.textContent = pendientes ? "sin conexión · " + pendientes + " por mandar" : "sin conexión";
+  } else if (pendientes){
+    el.className = "enlace tibio";
+    el.textContent = "mandando " + pendientes + "…";
+  } else {
+    el.className = "enlace";
+    el.textContent = "";
+  }
+}
+
+function conexion(ok){
+  if (hayRed !== ok){ hayRed = ok; }
+  pintarEnlace();
+}
+
+function postJson(url, cuerpo){
+  return fetch(url, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(cuerpo)
+  }).then(function(r){
+    // Un 4xx no se arregla reintentando, pero tampoco se tira a la basura en
+    // silencio: se guarda aparte y se avisa en pantalla. Un pedido que
+    // desaparece sin que nadie se entere es peor que uno que queda pendiente.
+    if (r.status >= 400 && r.status < 500){
+      return r.json().catch(function(){ return {}; }).then(function(d){
+        var e = new Error(d.error || "rechazado");
+        e.definitivo = true;
+        throw e;
+      });
+    }
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  });
+}
+
+function mandar(item){
+  if (item.tipo === "nuevo"){
+    return postJson(API + "/pedidos", item.payload).then(function(d){
+      if (d && d.pedido) datos.cache[d.pedido.id] = d.pedido;
+    });
+  }
+  if (item.tipo === "estado"){
+    return postJson(API + "/pedidos/" + item.id + "/estado", {estado: item.estado});
+  }
+  if (item.tipo === "borrar"){
+    return postJson(API + "/pedidos/" + item.id + "/borrar", {});
+  }
+  if (item.tipo === "diaBorrar"){
+    return postJson(API + "/dia/borrar", {fecha: item.fecha});
+  }
+  if (item.tipo === "checkNuevo"){
+    return postJson(API + "/checklist", item.payload);
+  }
+  if (item.tipo === "check"){
+    return postJson(API + "/checklist/" + item.id, {hecho: item.hecho});
+  }
+  if (item.tipo === "checkBorrar"){
+    return postJson(API + "/checklist/" + item.id + "/borrar", {});
+  }
+  if (item.tipo === "checkDesmarcar"){
+    return postJson(API + "/checklist/desmarcar", {});
+  }
+  return Promise.resolve();
+}
+
+function vaciarSalida(){
+  if (!datos.salida.length) return Promise.resolve();
+  var item = datos.salida[0];
+  return mandar(item).then(function(){
+    datos.salida.shift(); guardar(); pintarEnlace();
+    return vaciarSalida();
+  }, function(err){
+    // Rechazado de plano: sale de la fila para no atascar lo que viene detras,
+    // pero queda registrado y visible en vez de evaporarse.
+    if (err && err.definitivo){
+      var muerto = datos.salida.shift();
+      muerto.motivo = err.message || "rechazado";
+      datos.rechazados.push(muerto);
+      guardar(); pintarEnlace();
+      return vaciarSalida();
+    }
+    throw err;
+  });
+}
+
+function encolar(item){
+  datos.salida.push(item);
+  guardar();
+  pintarEnlace();
+  sincronizar();
+}
+
+var sincronizando = false;
+function sincronizar(fecha){
+  if (sincronizando) return Promise.resolve();
+  sincronizando = true;
+  var dia = fecha || hoy();
+  // Un dia distinto al de hoy se pide entero: nunca se sondeo antes.
+  var desde = (dia === hoy()) ? (datos.ultimoSync || 0) : 0;
+  return vaciarSalida().then(function(){
+    return fetch(API + "/pedidos?fecha=" + encodeURIComponent(dia) + "&desde=" + desde);
+  }).then(function(r){
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  }).then(function(d){
+    (d.pedidos || []).forEach(function(p){ datos.cache[p.id] = p; });
+    if (dia === hoy() && d.servidor) datos.ultimoSync = d.servidor;
+    guardar();
+    conexion(true);
+    repintar();
+    return fetch(API + "/checklist?desde=" + (datos.checkSync || 0));
+  }).then(function(r){
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  }).then(function(d){
+    (d.items || []).forEach(function(it){ datos.check[it.id] = it; });
+    if (d.servidor) datos.checkSync = d.servidor;
+    guardar();
+    pintarGloboCheck();
+    if (!document.getElementById("vistaChecklist").hidden) pintarChecklist();
+  }).catch(function(){
+    conexion(false);
+  }).then(function(){
+    sincronizando = false;
+  });
+}
+
+function repintar(){
+  pintarDia(); pintarGlobo(); pintarEnlace();
+  if (!document.getElementById("vistaCocina").hidden) pintarCola();
+  if (!document.getElementById("vistaHistorial").hidden) pintarHistorial();
+}
 
 /* ── Pestañas ── */
-var vistaTomar = document.getElementById("vistaTomar");
-var vistaCocina = document.getElementById("vistaCocina");
-var tabTomar = document.getElementById("tabTomar");
-var tabCocina = document.getElementById("tabCocina");
+var VISTAS = {
+  tomar:     {vista:"vistaTomar",     tab:"tabTomar"},
+  cocina:    {vista:"vistaCocina",    tab:"tabCocina"},
+  historial: {vista:"vistaHistorial", tab:"tabHistorial"},
+  checklist: {vista:"vistaChecklist", tab:"tabChecklist"}
+};
 function mostrar(cual){
-  var cocina = (cual === "cocina");
-  vistaTomar.hidden = cocina;
-  vistaCocina.hidden = !cocina;
-  tabTomar.classList.toggle("viva", !cocina);
-  tabCocina.classList.toggle("viva", cocina);
-  if (cocina) pintarCola();
+  Object.keys(VISTAS).forEach(function(k){
+    var v = VISTAS[k];
+    document.getElementById(v.vista).hidden = (k !== cual);
+    document.getElementById(v.tab).classList.toggle("viva", k === cual);
+  });
+  if (cual === "cocina") pintarCola();
+  if (cual === "historial") pintarHistorial();
+  if (cual === "checklist") pintarChecklist();
 }
-tabTomar.addEventListener("click", function(){ mostrar("tomar"); });
-tabCocina.addEventListener("click", function(){ mostrar("cocina"); });
+Object.keys(VISTAS).forEach(function(k){
+  document.getElementById(VISTAS[k].tab)
+    .addEventListener("click", function(){ mostrar(k); });
+});
 
 /* ── Productos ── */
 var elProductos = document.getElementById("productos");
@@ -326,6 +700,7 @@ velo.addEventListener("click", function(ev){ if (ev.target === velo) cerrarModal
 
 function elegir(p){
   if (p.tipo === "acai") return modalTamano(p);
+  if (p.tipo === "acaiLibre") return modalAcaiLibre(p);
   if (p.tipo === "helado1") return modalSabores(p, 1);
   if (p.tipo === "helado2") return modalSabores(p, 2);
   if (p.tipo === "combo") return modalCombo(p);
@@ -334,30 +709,93 @@ function elegir(p){
   agregar(p.nombre, "", p.precio);
 }
 
+/* Açaí chico con sus dos toppings, mas una bolita. Mismo orden que en el
+   meson: primero se arma el açaí y despues se elige el sabor del helado. */
 function modalCombo(p){
-  modal.innerHTML = "<h3></h3><div class='sub'>primero: cuál açaí (266 ml)</div>" +
-    "<div class='opciones'></div>" +
-    "<div class='acciones'><button class='cancelar'>cancelar</button></div>";
+  modal.innerHTML = "<h3></h3><div class='sub'>los dos toppings del açaí" +
+    " (toca dos veces si repite)</div><div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button>" +
+    "<button class='ok' disabled>Seguir</button></div>";
   modal.querySelector("h3").textContent = p.nombre;
   var ops = modal.querySelector(".opciones");
-  ["The Best","The One"].forEach(function(acai){
+  var ok = modal.querySelector(".ok");
+  var sel = [];
+
+  TOPPINGS.forEach(function(s){
     var b = document.createElement("button");
-    b.className = "grande";
-    b.textContent = acai;
+    b.dataset.top = s;
+    b.textContent = s;
     b.addEventListener("click", function(){
-      modal.querySelector(".sub").textContent = "ahora: el sabor de la bolita";
-      ops.innerHTML = "";
-      SABORES.forEach(function(s){
-        var bs = document.createElement("button");
-        bs.textContent = s;
-        bs.addEventListener("click", function(){
-          agregar(p.nombre, acai + " 266 + bolita " + s, p.precio);
-          cerrarModal();
-        });
-        ops.appendChild(bs);
+      sel.push(s);
+      if (sel.length > 2) sel.shift();
+      var vivos = {};
+      sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
+      ops.querySelectorAll("button").forEach(function(bb){
+        var base = bb.dataset.top;
+        bb.classList.toggle("sel", !!vivos[base]);
+        bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
       });
+      ok.disabled = (sel.length !== 2);
     });
     ops.appendChild(b);
+  });
+
+  ok.addEventListener("click", function(){
+    modal.querySelector(".sub").textContent = "ahora: el sabor de la bolita";
+    ops.innerHTML = "";
+    modal.querySelector(".acciones").innerHTML =
+      "<button class='cancelar'>cancelar</button>";
+    modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+    SABORES.forEach(function(s){
+      var bs = document.createElement("button");
+      bs.textContent = s;
+      bs.addEventListener("click", function(){
+        agregar(p.nombre, "açaí chico (" + sel.join(" + ") + ") + bolita " + s, p.precio);
+        cerrarModal();
+      });
+      ops.appendChild(bs);
+    });
+  });
+
+  modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
+  velo.hidden = false;
+}
+
+/* El tamaño ya viene en el producto, asi que lo unico que se pregunta son los
+   dos toppings que van incluidos. Del tercero en adelante se cobran con el
+   boton Topping extra, igual que lo dice la carta de la tele. */
+function modalAcaiLibre(p){
+  modal.innerHTML = "<h3></h3><div class='sub'>los dos toppings que van incluidos" +
+    " (toca dos veces si repite)</div><div class='opciones'></div>" +
+    "<div class='acciones'><button class='cancelar'>cancelar</button>" +
+    "<button class='ok' disabled>Agregar</button></div>";
+  modal.querySelector("h3").textContent = p.nombre;
+  var ops = modal.querySelector(".opciones");
+  var ok = modal.querySelector(".ok");
+  var sel = [];
+
+  TOPPINGS.forEach(function(s){
+    var b = document.createElement("button");
+    b.dataset.top = s;
+    b.textContent = s;
+    b.addEventListener("click", function(){
+      sel.push(s);
+      if (sel.length > 2) sel.shift();
+      var vivos = {};
+      sel.forEach(function(x){ vivos[x] = (vivos[x] || 0) + 1; });
+      ops.querySelectorAll("button").forEach(function(bb){
+        var base = bb.dataset.top;
+        bb.classList.toggle("sel", !!vivos[base]);
+        bb.textContent = base + (vivos[base] === 2 ? " ×2" : "");
+      });
+      ok.disabled = (sel.length !== 2);
+    });
+    ops.appendChild(b);
+  });
+
+  ok.addEventListener("click", function(){
+    agregar(p.nombre, sel.join(" + "), p.precio);
+    cerrarModal();
   });
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   velo.hidden = false;
@@ -425,7 +863,7 @@ function modalTopping(p){
     "<div class='acciones'><button class='cancelar'>cancelar</button>" +
     "<button class='ok'>Agregar</button></div>";
   var ops = modal.querySelector(".opciones");
-  ["Granola","Leche condensada"].forEach(function(s){
+  TOPPINGS.forEach(function(s){
     var b = document.createElement("button");
     b.textContent = s;
     b.addEventListener("click", function(){
@@ -541,7 +979,9 @@ function pintarPedido(){
   });
   elTotal.textContent = plata(totalPedido());
   btnPasar.disabled = !pedido.length;
-  document.getElementById("numPedido").textContent = "Pedido #" + datos.seq;
+  // El numero lo asigna el servidor al recibirlo, para que dos aparatos
+  // tomando pedidos a la vez no canten el mismo. Aca no se promete ninguno.
+  document.getElementById("numPedido").textContent = "Pedido nuevo";
   document.getElementById("pasarNota").textContent =
     datos.imprime ? "se imprime la comanda" : "queda en la cola de la pantalla";
   if (elBarra){
@@ -561,7 +1001,7 @@ function pintarPedido(){
 })();
 
 function pintarDia(){
-  var deHoy = datos.ventas.filter(function(v){ return v.fecha === hoy(); });
+  var deHoy = ventasDe(hoy());
   var t = deHoy.reduce(function(s,v){ return s + v.total; }, 0);
   document.getElementById("resumenDia").innerHTML =
     "hoy: <b>" + deHoy.length + "</b> · <b>" + plata(t) + "</b>";
@@ -570,7 +1010,8 @@ function pintarDia(){
 /* ── La cola (pantalla de cocina) ── */
 var elPendientes = document.getElementById("pendientes");
 function pendientesHoy(){
-  return datos.ventas.filter(function(v){ return v.fecha === hoy() && v.estado === "pendiente"; });
+  return ventasDe(hoy()).filter(function(v){ return v.estado === "pendiente"; })
+    .sort(function(a,b){ return (a.t || 0) - (b.t || 0); });
 }
 function pintarGlobo(){
   document.getElementById("globoCola").textContent = pendientesHoy().length || "";
@@ -588,7 +1029,8 @@ function pintarCola(){
     var min = minutosDesde(v);
     var card = document.createElement("div");
     card.className = "orden" + (min >= 8 ? " tarda" : "");
-    card.innerHTML = "<div class='cabeza'><span class='n'>#" + v.n + "</span>" +
+    card.innerHTML = "<div class='cabeza'><span class='n'>" +
+      (v.n ? "#" + v.n : "sin número") + "</span>" +
       "<span class='quien'></span><span class='espera'>" +
       (min < 1 ? "recién" : "hace " + min + " min") + "</span></div>" +
       "<ul></ul>" +
@@ -607,6 +1049,7 @@ function pintarCola(){
     card.querySelector(".listo").addEventListener("click", function(){
       v.estado = "listo";
       guardar(); pintarCola(); pintarGlobo();
+      encolar({tipo:"estado", id:v.id, estado:"listo"});
     });
     var otra = card.querySelector(".otravez");
     if (otra) otra.addEventListener("click", function(){ armarTicket(v); window.print(); });
@@ -614,6 +1057,201 @@ function pintarCola(){
   });
   pintarGlobo();
 }
+
+/* ── Historial (todo lo vendido, no solo lo que falta salir) ── */
+var elHistDia = document.getElementById("histDia");
+var elHistLista = document.getElementById("histLista");
+var elHistSuma = document.getElementById("histSuma");
+
+/* Se ordena por el timestamp de la venta y no por el texto de la fecha:
+   "22-08-2026" ordenado como string pone marzo antes que febrero. */
+function diasConVentas(){
+  var mapa = {};
+  mapa[hoy()] = Date.now();   // hoy siempre aparece, aunque todavia no haya venta
+  for (var id in datos.cache){
+    var v = datos.cache[id];
+    if (!v || v.borrado) continue;
+    if (!mapa[v.fecha] || (v.t || 0) > mapa[v.fecha]) mapa[v.fecha] = v.t || 0;
+  }
+  return Object.keys(mapa).sort(function(a,b){ return mapa[b] - mapa[a]; });
+}
+
+function pintarHistorial(){
+  var dias = diasConVentas();
+  if (!dias.length){
+    elHistDia.innerHTML = "";
+    elHistSuma.textContent = "";
+    elHistLista.innerHTML = "<div class='nada'>todavía no hay ventas</div>";
+    return;
+  }
+  var elegido = elHistDia.value;
+  if (dias.indexOf(elegido) === -1) elegido = (dias.indexOf(hoy()) !== -1) ? hoy() : dias[0];
+  elHistDia.innerHTML = "";
+  dias.forEach(function(d){
+    var o = document.createElement("option");
+    o.value = d;
+    o.textContent = (d === hoy() ? "hoy · " : "") + d;
+    elHistDia.appendChild(o);
+  });
+  elHistDia.value = elegido;
+
+  var delDia = ventasDe(elegido)
+    .slice().sort(function(a,b){ return (b.t || 0) - (a.t || 0); });
+  var suma = delDia.reduce(function(s,v){ return s + v.total; }, 0);
+  elHistSuma.innerHTML = plata(suma) + "<small></small>";
+  elHistSuma.querySelector("small").textContent =
+    delDia.length + (delDia.length === 1 ? " pedido" : " pedidos");
+
+  elHistLista.innerHTML = "";
+  if (!delDia.length){
+    elHistLista.innerHTML = "<div class='nada'>ninguna venta este día</div>";
+    return;
+  }
+  delDia.forEach(function(v){
+    var fila = document.createElement("div");
+    fila.className = "venta";
+    fila.innerHTML = "<div class='col'><div class='arriba'>" +
+      "<span class='n'>" + (v.n ? "#" + v.n : "sin número") + "</span>" +
+      "<span class='hora'></span>" +
+      "<span class='quien'></span>" +
+      (v.dscto ? "<span class='marca-dscto'></span>" : "") +
+      (v.estado === "pendiente" ? "<span class='marca-cola'>en cola</span>" : "") +
+      "</div><div class='que'></div></div>" +
+      "<div class='acciones-venta'><div class='plata'></div>" +
+      (datos.imprime ? "<button class='re'>reimprimir</button>" : "") +
+      "<button class='borrar-venta'>eliminar</button></div>";
+    fila.querySelector(".hora").textContent = v.hora;
+    fila.querySelector(".quien").textContent = v.nombre || "";
+    var md = fila.querySelector(".marca-dscto");
+    if (md) md.textContent = (v.dscto === "amigos" ? "20% amigos" : "10% DailyBack");
+    fila.querySelector(".que").textContent = v.lineas.map(function(l){
+      return l.qty + "× " + l.desc + (l.extra ? " (" + l.extra + ")" : "");
+    }).join(" · ");
+    fila.querySelector(".plata").textContent = plata(v.total);
+    var re = fila.querySelector(".re");
+    if (re) re.addEventListener("click", function(){ armarTicket(v); window.print(); });
+    fila.querySelector(".borrar-venta").addEventListener("click", function(){
+      var quien = v.n ? "el pedido #" + v.n : "este pedido";
+      if (!confirm("¿Eliminar " + quien + " de " + plata(v.total) + "? Se va para todos.")) return;
+      v.borrado = true;
+      guardar();
+      encolar({tipo:"borrar", id:v.id});
+      repintar();
+    });
+    elHistLista.appendChild(fila);
+  });
+}
+elHistDia.addEventListener("change", pintarHistorial);
+
+/* ── Cola de papel al final del ticket ──────────────────────────────────────
+   La barra de corte queda mas abajo que el cabezal termico, asi que sin papel
+   de sobra el tiron parte la comanda por la mitad. Cuanto falta depende del
+   modelo, por eso se regula desde Ajustes en vez de quedar fijo en el codigo.
+   Van lineas de verdad y no margen: el margen del final lo recorta el driver
+   cuando la pagina es de alto automatico. */
+var COLA_POR_DEFECTO = 50;   // mm
+var COLA_LINEA = 5;          // mm que ocupa cada linea vacia
+
+function colaMm(){
+  var n = Number(datos.colaMm);
+  if (!Number.isFinite(n)) return COLA_POR_DEFECTO;
+  return Math.min(120, Math.max(10, Math.round(n)));
+}
+
+function colaDePapel(){
+  var lineas = Math.max(1, Math.round(colaMm() / COLA_LINEA));
+  var relleno = [];
+  for (var i = 0; i < lineas; i++) relleno.push("&nbsp;");
+  return "<div class='feed'>" + relleno.join("<br>") + "</div>";
+}
+
+/* ── Checklist de evento ────────────────────────────────────────────────────
+   La lista de lo que no puede faltar al montar el pod. No se corta por dia
+   como los pedidos: sirve para el proximo evento y se desmarca entera cuando
+   toca volver a cargar el auto. La comparten todos los aparatos. */
+var elChkLista = document.getElementById("chkLista");
+var elChkCuenta = document.getElementById("chkCuenta");
+
+function itemsChecklist(){
+  var out = [];
+  for (var id in datos.check){
+    var it = datos.check[id];
+    if (it && !it.borrado) out.push(it);
+  }
+  return out.sort(function(a,b){ return (a.orden || 0) - (b.orden || 0); });
+}
+
+function pintarGloboCheck(){
+  var items = itemsChecklist();
+  var faltan = items.filter(function(i){ return !i.hecho; }).length;
+  document.getElementById("globoCheck").textContent = faltan || "";
+}
+
+function pintarChecklist(){
+  var items = itemsChecklist();
+  var hechos = items.filter(function(i){ return i.hecho; }).length;
+
+  elChkCuenta.textContent = items.length ? hechos + " de " + items.length : "";
+  elChkCuenta.className = "chk-cuenta" + (items.length && hechos === items.length ? " completo" : "");
+
+  elChkLista.innerHTML = "";
+  if (!items.length){
+    elChkLista.innerHTML = "<div class='nada'>la lista está vacía — agrega lo primero arriba</div>";
+    pintarGloboCheck();
+    return;
+  }
+
+  items.forEach(function(it){
+    var fila = document.createElement("div");
+    fila.className = "item" + (it.hecho ? " listo" : "");
+    fila.innerHTML = "<span class='caja'>" + (it.hecho ? "✓" : "") + "</span>" +
+      "<span class='texto'></span><button class='sacar' title='sacar de la lista'>×</button>";
+    fila.querySelector(".texto").textContent = it.texto;
+
+    fila.addEventListener("click", function(ev){
+      if (ev.target.classList.contains("sacar")) return;
+      it.hecho = !it.hecho;
+      guardar();
+      encolar({tipo:"check", id:it.id, hecho:it.hecho});
+      pintarChecklist();
+    });
+
+    fila.querySelector(".sacar").addEventListener("click", function(){
+      if (!confirm("¿Sacar “" + it.texto + "” de la lista? Se va para todos.")) return;
+      it.borrado = true;
+      guardar();
+      encolar({tipo:"checkBorrar", id:it.id});
+      pintarChecklist();
+    });
+
+    elChkLista.appendChild(fila);
+  });
+  pintarGloboCheck();
+}
+
+document.getElementById("chkNuevo").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var campo = document.getElementById("chkTexto");
+  var texto = campo.value.trim();
+  if (!texto) return;
+  var it = {id:nuevoId(), texto:texto, hecho:false, orden:Date.now(), borrado:false};
+  datos.check[it.id] = it;
+  guardar();
+  encolar({tipo:"checkNuevo", payload:{id:it.id, texto:it.texto, orden:it.orden}});
+  campo.value = "";
+  campo.focus();
+  pintarChecklist();
+});
+
+document.getElementById("chkReset").addEventListener("click", function(){
+  var items = itemsChecklist().filter(function(i){ return i.hecho; });
+  if (!items.length){ alert("No hay nada marcado."); return; }
+  if (!confirm("¿Desmarcar los " + items.length + " ítems marcados? La lista se mantiene.")) return;
+  items.forEach(function(i){ i.hecho = false; });
+  guardar();
+  encolar({tipo:"checkDesmarcar"});
+  pintarChecklist();
+});
 
 /* ── Pasar a cocina ── */
 function armarTicket(v){
@@ -626,7 +1264,8 @@ function armarTicket(v){
     "<div class='tot'><span>TOTAL</span><b>" + plata(v.total) + "</b></div>" +
     (v.dscto === "amigos" ? "<div class='dscto'>con 20% amigos de la casa</div>" :
      v.dscto ? "<div class='dscto'>con 10% DailyBack aplicado</div>" : "") +
-    "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>";
+    "<div class='pie'>dailygrind.cl · @dailygrind.cl</div>" +
+    colaDePapel();
   var items = t.querySelector(".items");
   v.lineas.forEach(function(l){
     var fila = document.createElement("div");
@@ -645,21 +1284,49 @@ function armarTicket(v){
 btnPasar.addEventListener("click", function(){
   if (!pedido.length) return;
   var v = {
-    n: datos.seq, fecha: hoy(), hora: ahora(), t: Date.now(), estado: "pendiente",
+    id: nuevoId(), n: null, fecha: hoy(), hora: ahora(), t: Date.now(),
+    estado: "pendiente",
     lineas: pedido.map(function(l){ return {desc:l.desc, extra:l.extra, precio:l.precio, qty:l.qty}; }),
     total: totalPedido(), dscto: dscto,
-    nombre: document.getElementById("nombreCliente").value.trim()
+    nombre: document.getElementById("nombreCliente").value.trim(),
+    borrado: false
   };
-  datos.ventas.push(v);
-  datos.seq += 1;
+
+  // Entra a la pantalla al tiro y sale a la red por detras: quien atiende
+  // no espera a que responda el servidor.
+  datos.cache[v.id] = v;
+  datos.salida.push({tipo:"nuevo", payload:{
+    id:v.id, fecha:v.fecha, hora:v.hora, t:v.t, lineas:v.lineas,
+    total:v.total, dscto:v.dscto, nombre:v.nombre
+  }});
   guardar();
-  if (datos.imprime){ armarTicket(v); window.print(); }
+
   pedido = [];
   limpiarDscto();
   document.getElementById("nombreCliente").value = "";
   cerrarPanel();
-  pintarPedido(); pintarDia(); pintarGlobo();
+  pintarPedido(); pintarDia(); pintarGlobo(); pintarEnlace();
+
+  // El numero llega con la respuesta del servidor, asi que el ticket se
+  // imprime recien despues de sincronizar. Si la red falla se imprime igual,
+  // sin numero: la cocina necesita el papel mas que el correlativo.
+  sincronizar().then(function(){
+    var listo = datos.cache[v.id] || v;
+    if (datos.imprime){ armarTicket(listo); window.print(); }
+    avisarPedido(listo);
+  });
 });
+
+/* Aviso corto con el numero asignado, para cantarlo y anotarlo en el vaso. */
+function avisarPedido(v){
+  var el = document.getElementById("aviso");
+  el.textContent = v.n
+    ? "Pedido #" + v.n + " a cocina" + (v.nombre ? " · " + v.nombre : "")
+    : "Pedido anotado, sin número hasta que vuelva la señal";
+  el.className = "aviso vivo" + (v.n ? "" : " sinred");
+  clearTimeout(avisarPedido.reloj);
+  avisarPedido.reloj = setTimeout(function(){ el.className = "aviso"; }, 4000);
+}
 
 /* ── Ajustes ── */
 document.getElementById("btnAjustes").addEventListener("click", function(){
@@ -667,6 +1334,16 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     "<label class='ajuste-fila'><input type='checkbox' id='ajImprime'>" +
     "<span>Imprimir comanda en la impresora<br><small style='font-weight:300;color:rgba(14,30,86,.55)'>" +
     "apagado = las comandas quedan solo en la pantalla En cola</small></span></label>" +
+    "<p style='font-size:12.5px;font-weight:300;color:rgba(14,30,86,.6);margin:0;line-height:1.4'>" +
+    "¿Sale el cuadro de imprimir cada vez? Es el navegador, no La Comanda: " +
+    "ninguna página puede saltárselo por su cuenta. Abrir Chrome con el " +
+    "acceso <b>Abrir La Comanda</b> del escritorio y el papel sale solo.</p>" +
+    "<label class='ajuste-fila'><input type='number' id='ajCola' min='10' max='120' step='5' " +
+    "style='width:78px;padding:8px;border-radius:9px;border:1px solid rgba(14,30,86,.25);" +
+    "font-family:inherit;font-size:15px'>" +
+    "<span>Milímetros de papel al final<br><small style='font-weight:300;color:rgba(14,30,86,.55)'>" +
+    "si el ticket se corta por la mitad al tirarlo, subir este número e imprimir de prueba" +
+    "</small></span></label>" +
     "<div class='opciones' style='flex-direction:column;align-items:stretch'>" +
     "<button id='ajPrueba'>Impresión de prueba</button>" +
     "<button id='ajCierre'>Cierre del día (bajar planilla)</button>" +
@@ -677,6 +1354,13 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
   chk.addEventListener("change", function(){
     datos.imprime = chk.checked; guardar(); pintarPedido();
   });
+  var cola = modal.querySelector("#ajCola");
+  cola.value = colaMm();
+  cola.addEventListener("change", function(){
+    datos.colaMm = Number(cola.value) || COLA_POR_DEFECTO;
+    guardar();
+    cola.value = colaMm();
+  });
   modal.querySelector(".cancelar").addEventListener("click", cerrarModal);
   modal.querySelector("#ajPrueba").addEventListener("click", function(){
     armarTicket({n:0, fecha:hoy(), hora:ahora(), total:0, dscto:false, nombre:"PRUEBA",
@@ -684,8 +1368,10 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     window.print();
   });
   modal.querySelector("#ajCierre").addEventListener("click", function(){
-    var deHoy = datos.ventas.filter(function(v){ return v.fecha === hoy(); });
-    if (!deHoy.length){ alert("Hoy no hay ventas todavía."); return; }
+    // Baja el dia que este mirando el historial, no siempre hoy.
+    var dia = elHistDia.value || hoy();
+    var deHoy = ventasDe(dia).sort(function(a,b){ return (a.t||0) - (b.t||0); });
+    if (!deHoy.length){ alert("Ese día no tiene ventas."); return; }
     var filas = ["fecha;hora;pedido;producto;detalle;cantidad;precio;total_pedido;descuento;nombre"];
     deHoy.forEach(function(v){
       v.lineas.forEach(function(l){
@@ -697,25 +1383,43 @@ document.getElementById("btnAjustes").addEventListener("click", function(){
     var blob = new Blob(["﻿" + filas.join("\n")], {type:"text/csv;charset=utf-8"});
     var a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "ventas-daily-grind-" + hoy().replace(/\//g,"-") + ".csv";
+    a.download = "ventas-daily-grind-" + dia.replace(/\//g,"-") + ".csv";
     a.click();
   });
   modal.querySelector("#ajBorrar").addEventListener("click", function(){
-    if (!confirm("¿Borrar las ventas de hoy? Baja la planilla primero.")) return;
-    datos.ventas = datos.ventas.filter(function(v){ return v.fecha !== hoy(); });
-    datos.seq = 1;
-    guardar(); pintarDia(); pintarPedido(); pintarGlobo(); pintarCola(); cerrarModal();
+    var dia = elHistDia.value || hoy();
+    var cuantas = ventasDe(dia).length;
+    if (!cuantas){ alert("Ese día no tiene ventas."); return; }
+    if (!confirm("¿Borrar las " + cuantas + " ventas del " + dia +
+                 "? Se van para todos los aparatos. Baja la planilla primero.")) return;
+    ventasDe(dia).forEach(function(v){ v.borrado = true; });
+    guardar();
+    encolar({tipo:"diaBorrar", fecha:dia});
+    repintar(); pintarPedido(); cerrarModal();
   });
   velo.hidden = false;
 });
 
+/* El selector del historial pide el dia elegido si todavia no se conoce. */
+elHistDia.addEventListener("change", function(){ sincronizar(elHistDia.value); });
+
 /* Reloj, cola viva y arranque */
 function tic(){
   document.getElementById("horaAhora").textContent = ahora();
-  if (!vistaCocina.hidden) pintarCola();
+  if (!document.getElementById("vistaCocina").hidden) pintarCola();
 }
 tic(); setInterval(tic, 30000);
-pintarPedido(); pintarDia(); pintarGlobo();
+
+/* Sondeo de la cola compartida. Cada 4 s alcanza para que la cocina vea el
+   pedido casi al tiro sin castigar la señal del pod. */
+setInterval(function(){ sincronizar(); }, 4000);
+document.addEventListener("visibilitychange", function(){
+  if (!document.hidden) sincronizar();
+});
+window.addEventListener("online", function(){ sincronizar(); });
+
+pintarPedido(); pintarDia(); pintarGlobo(); pintarGloboCheck(); pintarEnlace();
+sincronizar();
 </script>
 </body>
 </html>
