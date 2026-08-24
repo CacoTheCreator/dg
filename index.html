@@ -36,6 +36,7 @@
       --beige: #e3ded9;
       --pistacho: #c4d870;
       --morado: #8a4fd8;
+      --rosa: #ff4f9a;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -235,6 +236,50 @@
       padding: 2px 6px;
       margin: 0 1px;
       font-size: 9px;
+    }
+
+    /* ── La puerta rosada: eventos y activaciones ──
+       Rosado propio de la línea de eventos. No es el rosa del Delaire,
+       que sigue siendo candado del postre. */
+    .puerta-eventos {
+      width: min(980px, calc(100% - 40px));
+      margin: 30px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 24px;
+      background: var(--rosa);
+      color: var(--navy);
+      text-decoration: none;
+      box-shadow: 4px 4px 0 rgba(4, 9, 26, 0.45);
+      transition: transform 0.12s ease, background 0.12s ease;
+      animation: sube 0.6s 0.36s ease both;
+    }
+    .puerta-eventos:hover { background: #ff6aab; transform: translateY(-2px); }
+    .puerta-eventos .frase {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: clamp(19px, 3.4vw, 27px);
+      line-height: 1.1;
+    }
+    .puerta-eventos .sub {
+      display: block;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 4px;
+      color: rgba(14, 30, 86, 0.92);
+    }
+    .puerta-eventos .flecha {
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    @media (max-width: 560px) {
+      .puerta-eventos { padding: 16px 18px; }
+      .puerta-eventos .flecha span { display: none; }
     }
 
     /* ── Cartuchos ────────────────────────────────── */
@@ -483,6 +528,7 @@
         </a>
         <a href="/laconsola/"><span>La Consola</span><span class="jp">ラ・コンソラ</span></a>
         <a href="/laconsola/rally/"><span>El Rally</span><span class="jp">ラリー</span></a>
+        <a href="/eventos"><span>Eventos y activaciones</span><span class="jp" lang="ja">実現</span></a>
         <a href="/menu"><span>El menú</span><span class="jp">メニュー</span></a>
         <a href="/promos"><span>Promos</span><span>→</span></a>
         <a href="/historia"><span>La historia</span><span class="jp" lang="ja">物語</span></a>
@@ -506,6 +552,14 @@
         Muévete con <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> y entra con <kbd>Enter</kbd>
       </p>
     </section>
+
+    <a class="puerta-eventos" href="/eventos">
+      <span class="frase">
+        Nos gusta hacerlo realidad
+        <span class="sub">Llevamos la barra completa a ferias, lanzamientos y campus</span>
+      </span>
+      <span class="flecha"><span lang="ja">実現</span> &#x2192;&#xFE0E;</span>
+    </a>
 
     <ul class="cartuchos" id="cartuchos">
       <li class="cartucho cartucho--grande">
