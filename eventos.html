@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eventos y activaciones — The Daily Grind</title>
+  <meta name="description" content="The Daily Grind lleva su barra de helado, el café y la escena completa a ferias, lanzamientos y campus. Lo hicimos en Jeró Maitencillo, en la UAI y en ART STGO del GAM." />
+  <meta property="og:title" content="Nos gusta hacerlo realidad — The Daily Grind" />
+  <meta property="og:description" content="Barra de helado, café de especialidad, un sabor estrenado para la ocasión y la gráfica completa. Eventos y activaciones de The Daily Grind." />
+  <meta property="og:url" content="https://dailygrind.cl/eventos" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <meta property="og:image" content="https://dailygrind.cl/img/og-eventos.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dailygrind.cl/img/og-eventos.jpg" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&family=Sora:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --navy-3: #081234;
+      --sky: #51b5f2; --sky-lt: #a6d9f8; --pistacho: #c4d870; --shu: #cf3f2f;
+      --beige: #e3ded9; --beige-2: #d9d4cf; --dark: #212529; --mid: #6c757d;
+      /* Rosado de la línea de eventos. No es el rosa del Delaire (ese sigue candado
+         del postre): este vive solo en eventos y activaciones. */
+      --rosa: #ff4f9a; --rosa-tinta: #b3145f; --rosa-hueso: #ffe6f0;
+      /* paleta citada de ART STGO — su marca, no la nuestra */
+      --as-lima: #e8ff77; --as-teal: #04798d; --as-magenta: #de2990; --as-negro: #111111;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+      --font-jp: 'Shippori Mincho', serif; --font-as: 'Sora', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--cream); color: var(--dark);
+      font-family: var(--font-body); font-weight: 300; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--navy); }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+      padding: 16px 22px; border-bottom: 1px solid var(--beige-2);
+    }
+    header .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    header .logo img { height: 42px; }
+    header .volver { font-size: 13px; color: var(--mid); text-decoration: none; }
+    header .volver:hover { color: var(--navy); }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+
+    /* ── Portada ─────────────────────────────────────── */
+    .hero { position: relative; padding: 84px 0 8px; }
+    .kicker { font-weight: 500; font-size: 13px; color: var(--rosa-tinta); }
+    .kicker::before { content: "\25A0\FE0E  "; font-size: 9px; vertical-align: 2px; }
+    h1 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(42px, 8.4vw, 88px); line-height: 0.98; margin: 16px 0 22px;
+      max-width: 12ch;
+    }
+    h1 em {
+      font-style: italic; font-family: var(--font-body); font-weight: 300;
+      color: var(--rosa-tinta); position: relative; white-space: nowrap;
+    }
+    h1 em::after {
+      content: ""; position: absolute; left: 0.04em; right: 0.02em; bottom: 0.08em; height: 0.13em;
+      background: var(--rosa); z-index: -1; opacity: 0.55;
+    }
+    .hero .bajada { max-width: 46ch; font-size: 18px; }
+    .hero .bajada + .bajada { margin-top: 14px; }
+    .sello-jp {
+      position: absolute; top: 78px; right: 0;
+      writing-mode: vertical-rl; font-family: var(--font-jp); font-size: 18px;
+      color: var(--rosa-tinta); line-height: 1;
+    }
+    @media (max-width: 760px) { .sello-jp { display: none; } }
+
+    .tira-fotos {
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 8px; margin-top: 46px;
+    }
+    .tira-fotos img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+    .tira-fotos img:first-child { aspect-ratio: 16 / 10; }
+    @media (max-width: 720px) {
+      .tira-fotos { grid-template-columns: 1fr 1fr; }
+      .tira-fotos img:first-child { grid-column: 1 / -1; }
+    }
+
+    section { padding: 74px 0 0; }
+    h2 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(28px, 4.4vw, 44px); line-height: 1.06; margin-bottom: 14px;
+    }
+    h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--rosa-tinta); }
+    .lead { max-width: 54ch; font-size: 17px; }
+
+    /* ── El rider: rótulo arriba, dato abajo, línea fina que separa ── */
+    .rider { margin-top: 34px; border-top: 1px solid var(--beige-2); }
+    .rider .fila {
+      display: grid; grid-template-columns: 15rem 1fr; gap: 8px 40px;
+      padding: 22px 0; border-bottom: 1px solid var(--beige-2); align-items: baseline;
+    }
+    .rider h3 {
+      font-family: var(--font-display); font-weight: 700; font-size: 19px;
+      color: var(--navy); line-height: 1.2;
+    }
+    .rider p { font-size: 16px; max-width: 58ch; }
+    .rider .ficha { display: block; margin-top: 6px; font-size: 14px; color: var(--mid); }
+    @media (max-width: 720px) {
+      .rider .fila { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+    }
+
+    /* ── Casos ───────────────────────────────────────── */
+    .caso { margin-top: 58px; }
+    .caso-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+    .caso-cab h3 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(24px, 3.4vw, 34px); line-height: 1.1;
+    }
+    .caso-cab .cuando { font-size: 14px; color: var(--mid); }
+    .caso p.texto { margin-top: 12px; max-width: 56ch; font-size: 16.5px; }
+    .caso .ficha-caso {
+      margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--beige-2);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px 30px;
+    }
+    .caso .ficha-caso div { font-size: 14.5px; }
+    .caso .ficha-caso span { display: block; color: var(--mid); font-size: 12.5px; }
+
+    .caso-jero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px 40px; align-items: end; }
+    .caso-jero .foto-grande { grid-column: 1 / -1; margin-bottom: 6px; }
+    .caso-jero .foto-grande img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 42%; }
+    .caso-jero .par { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .caso-jero .par img { aspect-ratio: 1 / 1; object-fit: cover; width: 100%; }
+    @media (max-width: 800px) { .caso-jero { grid-template-columns: 1fr; align-items: start; } }
+
+    .caso-uai { display: grid; grid-template-columns: 1fr 0.85fr; gap: 34px 40px; align-items: center; }
+    .caso-uai img { width: 100%; }
+    @media (max-width: 800px) { .caso-uai { grid-template-columns: 1fr; } }
+
+    /* Cita de la gráfica ART STGO: su universo, nuestro marco */
+    .caso-feria { display: grid; grid-template-columns: 1fr 0.9fr; gap: 34px 40px; align-items: center; }
+    @media (max-width: 800px) { .caso-feria { grid-template-columns: 1fr; } }
+    .as-cita {
+      background:
+        radial-gradient(circle at 8px 8px, rgba(232, 255, 119, 0.16) 1.6px, transparent 1.6px),
+        var(--as-negro);
+      background-size: 22px 22px; padding: 46px 28px; text-align: center; position: relative;
+    }
+    .as-cita .titulo {
+      font-family: var(--font-as); font-weight: 800; text-transform: uppercase;
+      font-size: clamp(24px, 4.4vw, 40px); line-height: 1.04; color: var(--as-lima);
+    }
+    .as-cita .titulo span { color: var(--as-magenta); }
+    .as-cita .sub { font-family: var(--font-as); font-weight: 400; font-size: 13.5px; color: #fff; margin-top: 12px; }
+    .as-cita .sello {
+      position: absolute; top: -16px; right: 10px; width: 62px; height: 62px; border-radius: 50%;
+      background: var(--shu); color: var(--cream); display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-jp); font-size: 26px; transform: rotate(-7deg);
+      box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 5px var(--cream);
+    }
+    .as-pie { font-size: 12.5px; color: var(--mid); margin-top: 10px; text-align: center; }
+
+    /* ── Cómo lo armamos ─────────────────────────────── */
+    .pasos { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 30px 34px; }
+    .paso .num {
+      font-family: var(--font-display); font-weight: 700; font-size: 34px;
+      color: var(--rosa); line-height: 1;
+    }
+    .paso h3 { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--navy); margin: 8px 0 6px; }
+    .paso p { font-size: 15px; }
+
+    /* ── Dónde entramos ──────────────────────────────── */
+    .entradas { margin-top: 26px; columns: 2; column-gap: 44px; max-width: 760px; }
+    .entradas li { list-style: none; padding: 11px 0; border-bottom: 1px solid var(--beige-2); font-size: 16px; break-inside: avoid; }
+    .entradas li::before { content: "\2192\FE0E  "; color: var(--rosa-tinta); }
+    @media (max-width: 640px) { .entradas { columns: 1; } }
+
+    /* ── Cierre ──────────────────────────────────────── */
+    .cierre { margin-top: 86px; background: var(--rosa); color: var(--navy); }
+    .cierre .adentro { max-width: 1000px; margin: 0 auto; padding: 58px 22px 54px; }
+    .cierre h2 { color: var(--navy); margin-bottom: 12px; }
+    .cierre p { max-width: 48ch; font-size: 17px; color: var(--navy); }
+    .cierre .jp { font-family: var(--font-jp); }
+    .contactos { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .btn {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      text-decoration: none; padding: 14px 24px; display: inline-block;
+      transition: transform 0.18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--navy { background: var(--navy); color: var(--cream); box-shadow: 3px 3px 0 rgba(14, 30, 86, 0.25); }
+    .btn--linea { border: 1.5px solid var(--navy); color: var(--navy); }
+
+    footer {
+      padding: 34px 22px; display: flex; flex-wrap: wrap; gap: 14px;
+      justify-content: space-between; font-size: 13px; color: var(--mid);
+    }
+    footer .jp { font-family: var(--font-jp); }
+    footer a { color: var(--mid); }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/"><img src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    <a class="volver" href="/">volver a la consola</a>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <p class="kicker">Eventos y activaciones</p>
+      <span class="sello-jp" lang="ja">実現 · 出張</span>
+      <h1>Nos gusta hacerlo <em>realidad</em>.</h1>
+      <p class="bajada">
+        Llevamos la casa a donde nos inviten, con la barra completa y la escena
+        que la rodea. Helado hecho por nosotros, café de especialidad y un sabor
+        que se estrena esa misma tarde.
+      </p>
+      <p class="bajada">
+        Lo hicimos una temporada entera frente al mar en Maitencillo, un semestre
+        adentro de un campus y dos días en el GAM con la feria de arte más grande
+        de Santiago.
+      </p>
+      <div class="tira-fotos">
+        <img src="/img/eventos/jero-set.jpg" alt="Set de música en vivo al atardecer en la barra de Maitencillo" />
+        <img src="/img/eventos/jero-arte.jpg" alt="Cuadro pintado en la barra, con açaí en las manos de la figura" loading="lazy" />
+        <img src="/img/eventos/equipo.jpg" alt="El equipo de The Daily Grind atendiendo la barra" loading="lazy" />
+      </div>
+    </div>
+
+    <section>
+      <h2>Lo que llega <em>con nosotros</em></h2>
+      <p class="lead">
+        Montamos con equipo propio y gráfica propia. La barra está pensada para
+        aguantar cola larga sin que la fila se detenga.
+      </p>
+
+      <div class="rider">
+        <div class="fila">
+          <h3>La barra de helado</h3>
+          <p>
+            Barquillera rotulada con la marca, siete cubetas de cinco litros y
+            vidrio semicurvo con luz interior.
+            <span class="ficha">130 cm de frente · 230 V · menos de 4 kWh al día · certificada SEC · sobre ruedas</span>
+          </p>
+        </div>
+        <div class="fila">
+          <h3>Soft en máquina</h3>
+          <p>
+            Hasta tres máquinas de açaí y pistacho, que escalan según el flujo del
+            día. Se sirve en vasito, que es lo que mantiene la fila avanzando.
+          </p>
+        </div>
+        <div class="fila">
+          <h3>Café de especialidad</h3>
+          <p>
+            Grano y métodos de Café Akyn, el café que nos da vida en la casa. Viaja
+            con nosotros a donde vayamos.
+          </p>
+        </div>
+        <div class="fila">
+          <h3>Un sabor para la ocasión</h3>
+          <p>
+            Una edición pensada con la marca o con un artista invitado, que se
+            estrena en el evento y lleva su propio sello. En ART STGO fue la
+            frambuesa.
+          </p>
+        </div>
+        <div class="fila">
+          <h3>La gráfica</h3>
+          <p>
+            Tótems de 50 × 150, wrap de columna, vinilos de vitrina, marcadores de
+            sabor y la carta corriendo en pantalla. Producimos a tamaño real y
+            llegamos instalados el día anterior.
+          </p>
+        </div>
+        <div class="fila">
+          <h3>El juego</h3>
+          <p>
+            La Consola sube al evento. La gente juega mientras espera, suma granos
+            y se lleva la tarjeta de la casa en el teléfono.
+          </p>
+        </div>
+        <div class="fila">
+          <h3>El balance del día</h3>
+          <p>
+            Queda el conteo de lo que pasó por la barra: cuánta gente, qué se
+            llevaron y a qué hora se movió. Al cierre te llega ese balance junto
+            con las fotos y el video que grabamos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Lo que ya <em>hicimos</em></h2>
+      <p class="lead">Tres formatos distintos, la misma casa llegando entera a cada uno.</p>
+
+      <article class="caso caso-jero">
+        <div class="foto-grande">
+          <img src="/img/eventos/jero-mc.jpg" alt="Presentación en vivo en la terraza de Jeró, frente al mar de Maitencillo" loading="lazy" />
+        </div>
+        <div>
+          <div class="caso-cab">
+            <h3>Jeró · Maitencillo</h3>
+            <span class="cuando">Verano 2025-2026</span>
+          </div>
+          <p class="texto">
+            Una temporada completa frente al mar. Partíamos con café en la mañana y
+            cerrábamos con música en vivo cuando bajaba el sol. El arte estuvo en la
+            barra todo el verano, entre la gráfica y los cuadros que colgamos.
+          </p>
+          <div class="ficha-caso">
+            <div><span>Dónde</span>Jeró, Maitencillo</div>
+            <div><span>Formato</span>Temporada de verano</div>
+            <div><span>Qué montamos</span>Barra, música en vivo y gráfica de la casa</div>
+          </div>
+        </div>
+        <div class="par">
+          <img src="/img/eventos/jero-publico.jpg" alt="Mesa llena en la terraza de la playa" loading="lazy" />
+          <img src="/img/eventos/jero-arte.jpg" alt="Detalle del cuadro pintado que acompañó la barra" loading="lazy" />
+        </div>
+      </article>
+
+      <article class="caso caso-uai">
+        <div>
+          <div class="caso-cab">
+            <h3>UAI · Peñalolén</h3>
+            <span class="cuando">Un semestre, 2026</span>
+          </div>
+          <p class="texto">
+            Una temporada de un semestre adentro de un campus, con operación diaria y
+            equipo propio. Cada mes abrimos dos talleres a quien quisiera llegar: uno
+            de código y uno de café de especialidad. Ahí probamos la tarjeta con una
+            comunidad que vuelve todos los días.
+          </p>
+          <div class="ficha-caso">
+            <div><span>Dónde</span>Campus UAI, Peñalolén</div>
+            <div><span>Formato</span>Cafetería diaria por un semestre</div>
+            <div><span>Qué montamos</span>Barra, talleres mensuales y el programa de tarjeta</div>
+          </div>
+        </div>
+        <img src="/img/eventos/uai-campus.jpg" alt="Ilustración de la cafetería del campus con gente entre clases" loading="lazy" />
+      </article>
+
+      <article class="caso caso-feria">
+        <div>
+          <div class="caso-cab">
+            <h3>ART STGO · GAM</h3>
+            <span class="cuando">22 y 23 de agosto de 2026</span>
+          </div>
+          <p class="texto">
+            La feria de arte del GAM. Tomamos uno de los pods circulares de Plaza
+            Central: las máquinas de soft por dentro del anillo, la barquillera sobre
+            la barra y la carta corriendo en una pantalla que se lee desde la fila.
+            Estrenamos la frambuesa como edición de la feria, con su sello 初.
+          </p>
+          <div class="ficha-caso">
+            <div><span>Dónde</span>Pod de Plaza Central, GAM</div>
+            <div><span>Formato</span>Feria de arte, dos días</div>
+            <div><span>Qué montamos</span>Seis sabores, açaí en máquina, gráfica de gran formato y carta en pantalla</div>
+          </div>
+          <p class="texto"><a href="/artstgo">Ver la página de la feria &#x2192;&#xFE0E;</a></p>
+        </div>
+        <figure>
+          <div class="as-cita">
+            <span class="sello" lang="ja">初</span>
+            <p class="titulo">ART <span>STGO</span></p>
+            <p class="sub">El arte es lo que dejas salir</p>
+          </div>
+          <figcaption class="as-pie">Gráfica de ART STGO, citada en su propio universo.</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <section>
+      <h2>Cómo lo <em>armamos</em></h2>
+      <div class="pasos">
+        <div class="paso">
+          <p class="num">01</p>
+          <h3>Vemos el lugar</h3>
+          <p>Nos cuentas el espacio, el flujo esperado y la fecha. Si se puede, vamos a verlo antes.</p>
+        </div>
+        <div class="paso">
+          <p class="num">02</p>
+          <h3>Definimos la carta</h3>
+          <p>Elegimos los sabores, el formato de servicio y el sabor que se estrena ese día.</p>
+        </div>
+        <div class="paso">
+          <p class="num">03</p>
+          <h3>Producimos</h3>
+          <p>Gráfica, señalética y montaje. Llegamos instalados antes de que abra la puerta.</p>
+        </div>
+        <div class="paso">
+          <p class="num">04</p>
+          <h3>Operamos y cerramos</h3>
+          <p>El equipo atiende todos los días que dure. Al final te llega el balance y el material.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Dónde entramos <em>bien</em></h2>
+      <ul class="entradas">
+        <li>Ferias y festivales</li>
+        <li>Lanzamientos de marca</li>
+        <li>Universidades y campus</li>
+        <li>Espacios gastronómicos que quieren postre y café</li>
+        <li>Productoras armando la parada gastronómica de un evento</li>
+        <li>Temporadas de verano en la costa</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="cierre">
+    <div class="adentro">
+      <p class="kicker" style="color: var(--navy);">Hablemos <span class="jp" lang="ja">実現</span></p>
+      <h2>Cuéntanos qué se te ocurre</h2>
+      <p>
+        Escríbenos con la fecha y el lugar. Te volvemos con la propuesta armada:
+        carta, montaje, gráfica y presupuesto.
+      </p>
+      <div class="contactos">
+        <a class="btn btn--navy" href="mailto:pulpabrava@gmail.com?subject=Evento%20con%20The%20Daily%20Grind">pulpabrava@gmail.com</a>
+        <a class="btn btn--linea" href="https://www.instagram.com/dailygrind.cl/">@dailygrind.cl &#x2197;&#xFE0E;</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>The Daily Grind · Vol. 4 · MMXXVI · <span class="jp" lang="ja">ザ・デイリー・グラインド</span></span>
+    <span><a href="/">volver a la consola</a> · <a href="/historia">la historia</a></span>
+  </footer>
+</body>
+</html>
