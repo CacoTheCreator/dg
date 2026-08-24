@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e1e56">
+<meta name="robots" content="noindex,nofollow">
+<title>La carta · The Daily Grind</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700;800&family=Shippori+Mincho:wght@400;500&family=DotGothic16&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f9f3ec;
+    --navy: #0e1e56;
+    --navy-2: #0b1845;
+    --navy-3: #081234;
+    --sky: #51b5f2;
+    --sky-lt: #a6d9f8;
+    --pistacho: #c4d870;
+    --pistacho-2: #7fa64a;
+    --shu: #cf3f2f;
+    --beige: #e3ded9;
+    --beige-2: #d9d4cf;
+    --mid: #6c757d;
+    --grano: #6f4e37;
+    --white: #ffffff;
+    --lima: #e8ff77;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-jp: 'Shippori Mincho', serif;
+    --font-jp-game: 'DotGothic16', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 18px 80px;
+  }
+
+  /* ---------- intro ---------- */
+  header.brand { margin-bottom: 34px; }
+  .brand .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sky);
+  }
+  .brand h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(36px, 9vw, 54px);
+    line-height: 1.04;
+    margin-top: 14px;
+  }
+  .brand h1 em {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+  .brand p.lead {
+    margin-top: 16px;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(166, 217, 248, 0.88);
+    max-width: 480px;
+  }
+  .brand .aviso {
+    display: inline-block;
+    margin-top: 18px;
+    border: 1px solid rgba(207, 63, 47, 0.55);
+    color: #f0a49b;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 7px 12px;
+    border-radius: 8px;
+  }
+
+  nav.saltos {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--navy);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(166, 217, 248, 0.2);
+  }
+  nav.saltos a {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--sky-lt);
+    text-decoration: none;
+    border: 1px solid rgba(166, 217, 248, 0.35);
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  nav.saltos a:hover { border-color: var(--sky); color: var(--cream); }
+
+  .opcion-head { margin: 44px 0 16px; }
+  .opcion-head .num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--pistacho);
+  }
+  .opcion-head h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 27px;
+    margin-top: 6px;
+  }
+  .opcion-head h2 em {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sky);
+  }
+  .opcion-head p {
+    margin-top: 8px;
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(166, 217, 248, 0.8);
+    max-width: 480px;
+  }
+
+  /* ==================================================
+     ítems compartidos (dotted leader)
+     ================================================== */
+  .item {
+    display: flex;
+    align-items: baseline;
+    font-size: 15.5px;
+    padding: 5.5px 0;
+  }
+  .item .n { font-weight: 300; }
+  .item .dots { flex: 1; margin: 0 10px; transform: translateY(-4px); }
+  .item .p { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ==================================================
+     OPCIÓN A — la estampa (papel)
+     ================================================== */
+  .carta-a {
+    background: var(--cream);
+    color: var(--navy);
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(8, 18, 52, 0.5);
+    padding: 34px 28px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .carta-a::before {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: radial-gradient(rgba(14, 30, 86, 0.05) 1px, transparent 1px);
+    background-size: 5px 5px;
+  }
+  .carta-a > * { position: relative; }
+
+  .carta-a .cabeza {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .carta-a .cabeza img { width: 150px; margin: -22px 0 -22px -22px; }
+  .carta-a .sello-jp {
+    font-family: var(--font-jp);
+    font-size: 15px;
+    color: var(--navy);
+    writing-mode: vertical-rl;
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .carta-a .lugar {
+    font-weight: 300;
+    font-size: 13.5px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .carta-a .lugar strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+  }
+  .carta-a .tagline {
+    font-weight: 300;
+    font-size: 15px;
+    border-top: 1px solid var(--navy);
+    padding-top: 12px;
+    margin: 14px 0 26px;
+  }
+  .carta-a .tagline em { font-style: italic; color: var(--sky); }
+
+  .carta-a h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .carta-a .sub {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 12px;
+  }
+  .carta-a h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--sky);
+    margin: 16px 0 4px;
+  }
+  .carta-a .item .dots { border-bottom: 1px dotted var(--beige-2); }
+
+  .carta-a .firma {
+    margin: 26px 0 6px;
+    border: 1.5px solid var(--pistacho-2);
+    background: rgba(196, 216, 112, 0.16);
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .carta-a .firma h3 { margin-bottom: 2px; }
+  .carta-a .firma { flex-wrap: wrap; }
+  .carta-a .firma .jp {
+    font-family: var(--font-jp);
+    font-size: 12px;
+    color: var(--pistacho-2);
+    display: block;
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+  .carta-a .firma p { font-weight: 300; font-size: 13px; color: var(--mid); }
+  .carta-a .firma .precio {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--pistacho-2);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .carta-a .firma .precio small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--mid);
+  }
+
+  .carta-a .dos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  @media (min-width: 480px) {
+    .carta-a .dos { grid-template-columns: 1fr 1fr; column-gap: 30px; }
+    .carta-a .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; }
+  }
+
+  .carta-a .extras {
+    margin-top: 24px;
+    border-top: 1px solid var(--beige-2);
+    padding-top: 14px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--mid);
+  }
+  .carta-a .extras b { font-weight: 500; color: var(--navy); }
+
+  .carta-a footer {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--mid);
+  }
+  .carta-a footer .jp { white-space: nowrap; }
+  .carta-a footer .jp { font-family: var(--font-jp); }
+  .carta-a footer .draft { font-style: italic; }
+
+  /* ==================================================
+     OPCIÓN B — la consola (pantalla)
+     ================================================== */
+  .carta-b {
+    background: var(--navy-3);
+    color: var(--cream);
+    border: 1.5px solid rgba(166, 217, 248, 0.28);
+    box-shadow: 6px 6px 0 var(--navy-2);
+    padding: 26px 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .carta-b::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+  .carta-b > * { position: relative; z-index: 1; }
+
+  .carta-b .hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-jp-game);
+    font-size: 14px;
+    color: var(--sky-lt);
+    margin-bottom: 18px;
+  }
+  .carta-b .hud .vivo {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--sky);
+    margin-right: 8px;
+    vertical-align: 1px;
+    animation: pulso 2.2s ease-out infinite;
+  }
+  @keyframes pulso {
+    0% { box-shadow: 0 0 0 0 rgba(81, 181, 242, 0.5); }
+    100% { box-shadow: 0 0 0 12px rgba(81, 181, 242, 0); }
+  }
+
+  .carta-b .cabeza { display: flex; align-items: flex-start; justify-content: space-between; }
+  .carta-b .cabeza img { width: 150px; margin: -22px 0 -18px -22px; }
+  .carta-b .lugar {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 12.5px;
+    color: var(--sky-lt);
+    line-height: 1.6;
+  }
+  .carta-b .lugar strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--cream);
+  }
+  .carta-b .tagline {
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--sky);
+    border-top: 1px solid rgba(166, 217, 248, 0.3);
+    padding-top: 12px;
+    margin: 12px 0 22px;
+  }
+  .carta-b .tagline em { font-style: italic; }
+
+  .cartucho {
+    border: 1.5px solid rgba(166, 217, 248, 0.35);
+    background: rgba(11, 24, 69, 0.6);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+    padding: 16px 18px 12px;
+    margin-bottom: 18px;
+  }
+  .cartucho .rotulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .cartucho .rotulo .jp { white-space: nowrap; }
+  .cartucho .rotulo h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 19px;
+    color: var(--cream);
+  }
+  .cartucho .rotulo .jp {
+    font-family: var(--font-jp-game);
+    font-size: 14px;
+    color: var(--sky-lt);
+  }
+  .cartucho .sub {
+    font-weight: 300;
+    font-size: 12.5px;
+    color: rgba(166, 217, 248, 0.75);
+    margin-bottom: 8px;
+  }
+  .cartucho h4 {
+    font-family: var(--font-jp-game);
+    font-size: 13px;
+    color: var(--pistacho);
+    margin: 12px 0 2px;
+  }
+  .carta-b .item { font-family: var(--font-mono); font-size: 14px; font-weight: 300; }
+  .carta-b .item .p { font-weight: 500; color: var(--sky-lt); }
+  .carta-b .item .dots { border-bottom: 1px dotted rgba(166, 217, 248, 0.3); }
+
+  .carta-b .firma {
+    border: 1.5px solid var(--pistacho);
+    background: rgba(196, 216, 112, 0.08);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+    padding: 18px 18px 14px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    position: relative;
+  }
+  .carta-b .firma .txt h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 21px;
+    color: var(--pistacho);
+  }
+  .carta-b .firma { flex-wrap: wrap; }
+  .carta-b .firma .txt .jp {
+    font-family: var(--font-jp-game);
+    font-size: 13px;
+    color: var(--sky-lt);
+    display: block;
+    margin: 3px 0 6px;
+    white-space: nowrap;
+  }
+  .carta-b .firma .txt p { font-weight: 300; font-size: 13px; color: rgba(166, 217, 248, 0.8); }
+  .carta-b .firma .precio {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--cream);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .carta-b .firma .precio small {
+    display: block;
+    font-weight: 300;
+    font-size: 11.5px;
+    color: rgba(166, 217, 248, 0.7);
+  }
+  .hanko {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--shu);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-jp);
+    font-size: 25px;
+    transform: rotate(-6deg);
+    box-shadow: inset 0 0 0 3px var(--shu), inset 0 0 0 4.5px var(--cream);
+    user-select: none;
+    flex: none;
+  }
+  .carta-b .firma .hanko {
+    position: absolute;
+    top: -16px;
+    right: -10px;
+    animation: hankoPress 0.55s cubic-bezier(0.2, 1.6, 0.4, 1) 0.5s backwards;
+  }
+  @keyframes hankoPress {
+    from { transform: rotate(-6deg) scale(2.4); opacity: 0; }
+    to { transform: rotate(-6deg) scale(1); opacity: 1; }
+  }
+
+  @media (min-width: 480px) {
+    .carta-b .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; }
+    .carta-b .par { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .carta-b .par .cartucho { margin-bottom: 0; }
+    .carta-b .par { margin-bottom: 18px; }
+  }
+
+  .carta-b .extras {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 1.8;
+    color: rgba(166, 217, 248, 0.75);
+    border-top: 1px solid rgba(166, 217, 248, 0.25);
+    padding-top: 12px;
+  }
+  .carta-b .extras b { font-weight: 500; color: var(--cream); }
+  .carta-b footer {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 11.5px;
+    color: rgba(166, 217, 248, 0.6);
+  }
+  .carta-b footer .jp { font-family: var(--font-jp-game); white-space: nowrap; }
+  .carta-b footer .draft { font-style: italic; font-family: var(--font-body); }
+
+  /* ==================================================
+     panel de estampa (ilustración plana)
+     ================================================== */
+  figure.estampa { margin: 6px 0 24px; }
+  figure.estampa svg, figure.estampa img { display: block; width: 100%; height: auto; border-radius: 14px; }
+  figure.estampa figcaption {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--mid);
+  }
+  figure.estampa figcaption .jp { font-family: var(--font-jp); white-space: nowrap; }
+
+  /* ==================================================
+     OPCIÓN D — la bici (navy editorial)
+     ================================================== */
+  .carta-d {
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 16px;
+    border: 1px solid rgba(166, 217, 248, 0.22);
+    box-shadow: 0 24px 60px rgba(8, 18, 52, 0.55);
+    padding: 34px 28px 26px;
+  }
+  .carta-d .cabeza {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .carta-d .cabeza img { width: 150px; margin: -22px 0 -18px -22px; }
+  .carta-d .lugar {
+    text-align: right;
+    font-weight: 300;
+    font-size: 13.5px;
+    color: var(--sky-lt);
+    line-height: 1.5;
+  }
+  .carta-d .lugar strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--cream);
+  }
+  .carta-d .tagline {
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--sky);
+    border-top: 1px solid rgba(166, 217, 248, 0.3);
+    padding-top: 12px;
+    margin: 12px 0 18px;
+  }
+  .carta-d .tagline em { font-style: italic; }
+  .carta-d figure.estampa figcaption { color: var(--sky-lt); }
+  .carta-d h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .carta-d .sub {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--sky-lt);
+    margin-bottom: 12px;
+  }
+  .carta-d h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--sky);
+    margin: 16px 0 4px;
+  }
+  .carta-d .item .dots { border-bottom: 1px dotted rgba(249, 243, 236, 0.3); }
+  .carta-d .firma {
+    margin: 26px 0 6px;
+    border: 1.5px solid var(--pistacho);
+    background: rgba(196, 216, 112, 0.1);
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .carta-d .firma h3 { margin-bottom: 2px; color: var(--pistacho); }
+  .carta-d .firma .jp {
+    font-family: var(--font-jp);
+    font-size: 12px;
+    color: var(--sky-lt);
+    display: block;
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+  .carta-d .firma p { font-weight: 300; font-size: 13px; color: var(--sky-lt); }
+  .carta-d .firma .precio {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--pistacho);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .carta-d .firma .precio small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--sky-lt);
+  }
+  .carta-d .dos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  @media (min-width: 480px) {
+    .carta-d .dos { grid-template-columns: 1fr 1fr; column-gap: 30px; }
+    .carta-d .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; }
+  }
+  .carta-d .extras {
+    margin-top: 24px;
+    border-top: 1px solid rgba(166, 217, 248, 0.25);
+    padding-top: 14px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--sky-lt);
+  }
+  .carta-d .extras b { font-weight: 500; color: var(--cream); }
+  .carta-d footer {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(166, 217, 248, 0.65);
+  }
+  .carta-d footer .jp { font-family: var(--font-jp); white-space: nowrap; }
+  .carta-d footer .draft { font-style: italic; }
+
+  /* ==================================================
+     ART STGO — la estampa urbana (feria)
+     ================================================== */
+  .carta-f {
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(8, 18, 52, 0.55);
+    border: 1px solid rgba(166, 217, 248, 0.22);
+    padding: 30px 26px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .carta-f .kanji-fondo {
+    position: absolute;
+    top: -30px;
+    right: -26px;
+    font-family: var(--font-jp);
+    font-size: 260px;
+    line-height: 1;
+    color: var(--pistacho);
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .carta-f .luz {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 55%, rgba(81, 181, 242, 0.1) 55.2%, rgba(81, 181, 242, 0.03) 78%, transparent 78.2%);
+  }
+  .carta-f > * { position: relative; }
+
+  .carta-f .cabeza { display: flex; align-items: flex-start; justify-content: space-between; }
+  .carta-f .cabeza img { width: 150px; margin: -22px 0 -18px -22px; }
+  .carta-f .lugar {
+    text-align: right;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--sky-lt);
+    line-height: 1.55;
+  }
+  .carta-f .lugar strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--lima);
+  }
+  .carta-f .tagline {
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--sky);
+    border-top: 1px solid rgba(166, 217, 248, 0.3);
+    padding-top: 12px;
+    margin: 12px 0 22px;
+  }
+  .carta-f .tagline em { font-style: italic; }
+
+  .carta-f .firma {
+    border: 1.5px solid var(--sky);
+    border-radius: 10px;
+    background: rgba(81, 181, 242, 0.08);
+    padding: 18px 20px 15px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .carta-f .firma h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cream);
+  }
+  .carta-f .firma { flex-wrap: wrap; }
+  .carta-f .firma .jp {
+    font-family: var(--font-jp);
+    font-size: 12.5px;
+    color: var(--sky-lt);
+    display: block;
+    margin: 3px 0 6px;
+    white-space: nowrap;
+  }
+  .carta-f .firma p { font-weight: 300; font-size: 13px; color: var(--sky-lt); }
+  .carta-f .firma .precio {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--sky);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .carta-f .firma .precio small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--sky-lt);
+  }
+
+  .carta-f h3.seccion {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+  .carta-f .sub {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--sky-lt);
+    margin-bottom: 10px;
+  }
+  .carta-f .item .dots { border-bottom: 1px dotted rgba(249, 243, 236, 0.3); }
+
+  .sabores {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 6px 0 18px;
+  }
+  .sabores li {
+    font-weight: 300;
+    font-size: 13.5px;
+    border: 1px solid rgba(166, 217, 248, 0.4);
+    border-radius: 999px;
+    padding: 6px 13px;
+    color: var(--cream);
+  }
+  .sabores li.insignia {
+    border-color: var(--sky);
+    background: rgba(81, 181, 242, 0.15);
+    font-weight: 500;
+  }
+  .sabores li.estreno {
+    border-color: var(--lima);
+    background: rgba(232, 255, 119, 0.1);
+    color: var(--lima);
+    font-weight: 500;
+  }
+  .sabores li .jp { font-family: var(--font-jp); font-size: 12px; margin-left: 5px; }
+
+  .carta-f .nota-casa {
+    border-top: 1px solid rgba(166, 217, 248, 0.25);
+    padding-top: 13px;
+    margin-top: 18px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--sky-lt);
+  }
+  .carta-f .nota-casa .jp { font-family: var(--font-jp); color: var(--cream); }
+  .carta-f footer {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(166, 217, 248, 0.6);
+  }
+  .carta-f footer .draft { font-style: italic; }
+
+  /* ---------- cierre ---------- */
+  footer.foot {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(166, 217, 248, 0.18);
+    text-align: center;
+    font-weight: 300;
+    font-size: 12.5px;
+    color: rgba(166, 217, 248, 0.55);
+    line-height: 1.9;
+  }
+  footer.foot .jp { font-family: var(--font-jp); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carta-b .hud .vivo, .carta-b .firma .hanko { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<main class="shell">
+
+  <header class="brand">
+    <div class="eyebrow">■&#xFE0E; Previews · Carta Casa Providencia</div>
+    <h1>La carta, <em>cuatro pieles</em></h1>
+    <p class="lead">El mismo contenido dibujado en cuatro pieles del sistema Ukiyo Diario: el papel, la consola, el beagle de la casa y la bici. Abajo, la edición para la feria ART STGO.</p>
+    <span class="aviso">Borrador interno · precios estimados por confirmar con Guille y los socios</span>
+  </header>
+
+  <nav class="saltos">
+    <a href="#opcion-a">A · papel</a>
+    <a href="#opcion-b">B · consola</a>
+    <a href="#opcion-c">C · beagle</a>
+    <a href="#opcion-d">D · bici</a>
+    <a href="#artstgo">ART STGO</a>
+  </nav>
+
+  <!-- ============ OPCIÓN A ============ -->
+  <div class="opcion-head" id="opcion-a">
+    <div class="num">OPCIÓN A</div>
+    <h2>La estampa <em>· papel y tinta</em></h2>
+    <p>Registro editorial del menú: papel crema, tinta navy, el pistacho como firma. Es la piel para imprimir y enmarcar en la casa.</p>
+  </div>
+
+  <article class="carta-a">
+    <div class="cabeza">
+      <img src="LogoTDG-celeste.svg" alt="The Daily Grind">
+      <div class="sello-jp" lang="ja">メニュー</div>
+    </div>
+    <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones · con Nice To Meat</div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <section>
+      <h3>Café</h3>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="firma">
+      <div>
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <div class="dos">
+      <section>
+        <h3>Dulce</h3>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </section>
+      <section>
+        <h3>Heladería</h3>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </section>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · leche sin lactosa o NotMilk sin recargo · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ OPCIÓN B ============ -->
+  <div class="opcion-head" id="opcion-b">
+    <div class="num">OPCIÓN B</div>
+    <h2>La consola <em>· pantalla de la casa</em></h2>
+    <p>El menú entra al mundo de La Consola: pantalla profunda, cartuchos, katakana de interfaz y el hanko timbrando la firma. Es la piel para la pantalla del local y el ecosistema digital.</p>
+  </div>
+
+  <article class="carta-b">
+    <div class="hud">
+      <span><span class="vivo"></span>La casa está abierta</span>
+      <span lang="ja">メニュー · 第四巻</span>
+    </div>
+
+    <div class="cabeza">
+      <img src="LogoTDG-blanco.svg" alt="The Daily Grind">
+      <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones<br>con Nice To Meat</div>
+    </div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <div class="cartucho">
+      <div class="rotulo">
+        <h3>Café</h3>
+        <span class="jp" lang="ja">コーヒー</span>
+      </div>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="firma">
+      <div class="txt">
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+      <div class="hanko" lang="ja" aria-hidden="true">印</div>
+    </div>
+
+    <div class="par">
+      <div class="cartucho">
+        <div class="rotulo">
+          <h3>Dulce</h3>
+          <span class="jp" lang="ja">デザート</span>
+        </div>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </div>
+      <div class="cartucho">
+        <div class="rotulo">
+          <h3>Heladería</h3>
+          <span class="jp" lang="ja">アイスクリーム</span>
+        </div>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </div>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · sin lactosa o NotMilk +$0 · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ OPCIÓN C ============ -->
+  <div class="opcion-head" id="opcion-c">
+    <div class="num">OPCIÓN C</div>
+    <h2>El beagle <em>· el perro de la casa</em></h2>
+    <p>La estampa de papel con protagonista: un beagle con hachimaki cuidando su café. Ilustración plana, línea navy, planos de color.</p>
+  </div>
+
+  <article class="carta-a">
+    <div class="cabeza">
+      <img src="LogoTDG-celeste.svg" alt="The Daily Grind">
+      <div class="sello-jp" lang="ja">メニュー</div>
+    </div>
+    <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones · con Nice To Meat</div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <figure class="estampa">
+      <img src="estampa-beagle.jpg" alt="Beagle con hachimaki sentado junto a su café humeante" width="1344" height="896">
+      <figcaption><span>El perro de la casa cuida el mostrador.</span><span class="jp" lang="ja">犬 · いぬ</span></figcaption>
+    </figure>
+
+    <section>
+      <h3>Café</h3>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="firma">
+      <div>
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <div class="dos">
+      <section>
+        <h3>Dulce</h3>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </section>
+      <section>
+        <h3>Heladería</h3>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </section>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · leche sin lactosa o NotMilk sin recargo · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ OPCIÓN D ============ -->
+  <div class="opcion-head" id="opcion-d">
+    <div class="num">OPCIÓN D</div>
+    <h2>La bici <em>· a toda marcha</em></h2>
+    <p>El mismo beagle pedaleando con el café en el canasto y el cono de pistacho en alto. Cielo abierto sobre carta navy.</p>
+  </div>
+
+  <article class="carta-d">
+    <div class="cabeza">
+      <img src="LogoTDG-blanco.svg" alt="The Daily Grind">
+      <div class="lugar"><strong>Casa Providencia</strong>Av. Los Leones · con Nice To Meat</div>
+    </div>
+    <p class="tagline">Mismo ritual. <em>Otro nivel.</em></p>
+
+    <figure class="estampa">
+      <img src="estampa-bici.jpg" alt="Beagle en bicicleta a toda velocidad con café en el canasto y cono de pistacho en alto" width="1344" height="896">
+      <figcaption><span>El café llega igual, llueva o truene.</span><span class="jp" lang="ja">風 · かぜ</span></figcaption>
+    </figure>
+
+    <section>
+      <h3>Café</h3>
+      <p class="sub">Café de especialidad Akyn, tostado por Guille.</p>
+      <div class="cols">
+        <div>
+          <h4>Espresso bar</h4>
+          <div class="item"><span class="n">Espresso</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Lungo</span><span class="dots"></span><span class="p">$2.200</span></div>
+          <div class="item"><span class="n">Americano</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <div class="item"><span class="n">Macchiato</span><span class="dots"></span><span class="p">$2.600</span></div>
+          <div class="item"><span class="n">V60</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <h4>Con leche</h4>
+          <div class="item"><span class="n">Flat white</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Capuccino</span><span class="dots"></span><span class="p">$3.300</span></div>
+          <div class="item"><span class="n">Latte</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Mocaccino</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chocolate</span><span class="dots"></span><span class="p">$3.400</span></div>
+        </div>
+        <div>
+          <h4>De la casa</h4>
+          <div class="item"><span class="n">Matcha latte</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Chai latte</span><span class="dots"></span><span class="p">$3.700</span></div>
+          <div class="item"><span class="n">Dirty chai</span><span class="dots"></span><span class="p">$4.200</span></div>
+          <div class="item"><span class="n">Té e infusiones</span><span class="dots"></span><span class="p">$2.500</span></div>
+          <h4>Fríos</h4>
+          <div class="item"><span class="n">Cold brew</span><span class="dots"></span><span class="p">$3.500</span></div>
+          <div class="item"><span class="n">Espresso tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Cold brew tonic</span><span class="dots"></span><span class="p">$3.900</span></div>
+          <div class="item"><span class="n">Espresso ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+          <div class="item"><span class="n">Cold brew ginger</span><span class="dots"></span><span class="p">$4.500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="firma">
+      <div>
+        <h3>Soft pistacho</h3>
+        <span class="jp" lang="ja">ピスタチオ ソフトクリーム</span>
+        <p>La firma de la casa. Pídelo con topping o sobre tu dulce.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <div class="dos">
+      <section>
+        <h3>Dulce</h3>
+        <p class="sub">Hecho por The Daily Grind.</p>
+        <div class="item"><span class="n">Cheesecake frambuesa</span><span class="dots"></span><span class="p">$4.500</span></div>
+        <div class="item"><span class="n">Snicker</span><span class="dots"></span><span class="p">$3.900</span></div>
+        <div class="item"><span class="n">Con cualquier café</span><span class="dots"></span><span class="p">−$500</span></div>
+      </section>
+      <section>
+        <h3>Heladería</h3>
+        <p class="sub">12 sabores en vitrina.</p>
+        <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+        <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+        <div class="item"><span class="n">Cono</span><span class="dots"></span><span class="p">+$400</span></div>
+        <div class="item"><span class="n">Bocha sobre tu dulce</span><span class="dots"></span><span class="p">+$2.000</span></div>
+      </section>
+    </div>
+
+    <div class="extras">
+      <b>Extras</b> · leche sin lactosa o NotMilk sin recargo · avena barista +$500 · syrup vainilla o caramelo +$500 · shot extra +$1.200
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl</span>
+      <span class="jp" lang="ja">ザ・デイリー・グラインド</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <!-- ============ ART STGO ============ -->
+  <div class="opcion-head" id="artstgo">
+    <div class="num">EDICIÓN FERIA</div>
+    <h2>ART STGO <em>· solo helado</em></h2>
+    <p>La carta del pod en el GAM: vitrina de 7 sabores más el soft de açaí en máquina. Todo en vasito para que la fila avance. Registro urbano, con el guiño lima de la feria.</p>
+  </div>
+
+  <article class="carta-f">
+    <div class="kanji-fondo" lang="ja" aria-hidden="true">氷</div>
+    <div class="luz"></div>
+
+    <div class="cabeza">
+      <img src="LogoTDG-blanco.svg" alt="The Daily Grind">
+      <div class="lugar"><strong>ART STGO</strong>GAM · Santiago<span class="jp" lang="ja"> · 芸術祭</span></div>
+    </div>
+    <p class="tagline">Helado de la casa, <em>en la feria.</em></p>
+
+    <div class="firma">
+      <div>
+        <h3>Soft açaí</h3>
+        <span class="jp" lang="ja">アサイー ソフトクリーム</span>
+        <p>La firma de esta edición. En vasito, con topping si quieres.</p>
+      </div>
+      <div class="precio">$3.900<small>con topping $4.400</small></div>
+    </div>
+
+    <section>
+      <h3 class="seccion">La vitrina</h3>
+      <p class="sub">7 sabores servidos a la vista, en vasito.</p>
+      <ul class="sabores">
+        <li class="insignia">Daily Grind — el celeste de la casa</li>
+        <li class="estreno">ART STGO <span class="jp" lang="ja">初</span></li>
+        <li>Manjar</li>
+        <li>Chocolate 70%</li>
+        <li>Frutilla</li>
+        <li>Mango</li>
+        <li>Menta cacao</li>
+      </ul>
+      <div class="item"><span class="n">1 sabor</span><span class="dots"></span><span class="p">$3.500</span></div>
+      <div class="item"><span class="n">2 sabores</span><span class="dots"></span><span class="p">$4.900</span></div>
+    </section>
+
+    <div class="nota-casa">
+      El sabor ART STGO se estrena en vivo durante la feria. Y la tarjeta de la casa también viaja: <span class="jp" lang="ja">十個目はうちから</span> — el décimo va por la casa.
+    </div>
+
+    <footer>
+      <span>thedailygrind.cl · @dailygrind.cl</span>
+      <span class="draft">precios por confirmar</span>
+    </footer>
+  </article>
+
+  <footer class="foot">
+    The Daily Grind · <span class="jp" lang="ja">日常の浮世絵</span> · MMXXVI ■&#xFE0E;<br>
+    Borrador interno para socios. Nada de esto se imprime hasta validar precios.
+  </footer>
+
+</main>
+
+</body>
+</html>
