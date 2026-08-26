@@ -343,6 +343,14 @@
     .cartucho--feria a { border-color: rgba(232, 255, 119, 0.45); }
     .cartucho--feria a:hover, .cartucho--feria.sel a { border-color: #e8ff77; }
     .cartucho--feria .accion { color: #e8ff77; }
+    /* cartucho de events: el rosado de la línea B2B */
+    .cartucho--events a { border-color: rgba(222, 41, 144, 0.5); }
+    .cartucho--events a:hover, .cartucho--events.sel a { border-color: #de2990; }
+    .cartucho--events h2 { color: #ff7ac2; }
+    .cartucho--events .accion {
+      align-self: flex-start; background: #de2990; color: var(--cream);
+      padding: 8px 16px; border-radius: 8px;
+    }
     .jp {
       color: rgba(249, 243, 236, 0.5);
       font-family: "DotGothic16", "DM Sans", sans-serif;
@@ -531,6 +539,7 @@
         <a href="/eventos"><span>Eventos y activaciones</span><span class="jp" lang="ja">実現</span></a>
         <a href="/menu"><span>El menú</span><span class="jp">メニュー</span></a>
         <a href="/promos"><span>Promos</span><span>→</span></a>
+        <a href="/events"><span>Events</span><span class="jp" lang="ja">イベント</span></a>
         <a href="/historia"><span>La historia</span><span class="jp" lang="ja">物語</span></a>
       </nav>
     </div>
@@ -632,6 +641,19 @@
             tarjeta antes de llegar.
           </p>
           <span class="label accion">La feria &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+      <li class="cartucho cartucho--grande cartucho--events">
+        <a href="/events">
+          <div class="fila">
+            <h2>Nos gusta hacerlo realidad</h2>
+            <span class="label jp" lang="ja">イベント · B2B</span>
+          </div>
+          <p>
+            La barra, el helado de autor y el mundo de la casa viajan a ferias,
+            marcas y espacios. De Maitencillo al GAM, la casa ya sabe hacerlo.
+          </p>
+          <span class="label accion">Ver los events &#x2192;&#xFE0E;</span>
         </a>
       </li>
     </ul>

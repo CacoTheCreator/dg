@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nos gusta hacerlo realidad — The Daily Grind</title>
+  <meta name="description" content="The Daily Grind lleva café de especialidad, helado de autor y un mundo propio a ferias, marcas y espacios. Lo hicimos en la costa, en el campus y en ART STGO. Ahora puede ser en tu evento." />
+  <meta property="og:title" content="Nos gusta hacerlo realidad — The Daily Grind" />
+  <meta property="og:description" content="Café de especialidad, helado de autor y un mundo propio para tu feria, tu marca o tu espacio. Elevamos la experiencia desde los sabores, siempre impulsando el arte." />
+  <meta property="og:image" content="https://dailygrind.cl/img/events/og-events.jpg" />
+  <meta property="og:url" content="https://dailygrind.cl/events" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f9f3ec; --navy: #0e1e56; --navy-2: #0b1845; --navy-3: #081234; --sky: #51b5f2;
+      --sky-lt: #a6d9f8; --pistacho: #c4d870; --pistacho-2: #7fa64a; --shu: #cf3f2f;
+      --beige: #e3ded9; --beige-2: #d9d4cf; --dark: #212529; --mid: #6c757d;
+      --rosa-ev: #de2990;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+      --font-jp: 'Shippori Mincho', serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--cream); color: var(--dark);
+      font-family: var(--font-body); font-weight: 300; line-height: 1.65;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--navy); }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 22px; border-bottom: 1px solid var(--beige-2);
+    }
+    header .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--navy); }
+    header .logo img { height: 42px; }
+    .label { font-weight: 500; text-transform: uppercase; font-size: 11px; color: var(--mid); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+    .hero { position: relative; padding: 76px 0 40px; }
+    .kicker { font-weight: 500; font-size: 13px; color: var(--rosa-ev); }
+    .kicker::before { content: "\25A0\FE0E  "; font-size: 9px; vertical-align: 2px; }
+    h1 {
+      font-family: var(--font-display); font-weight: 700; color: var(--navy);
+      font-size: clamp(38px, 7vw, 72px); line-height: 1.02; margin: 14px 0 18px; max-width: 680px;
+    }
+    h1 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--rosa-ev); }
+    .hero .bajada { max-width: 600px; font-size: 17px; }
+    .tategaki {
+      position: absolute; top: 70px; right: 0;
+      writing-mode: vertical-rl; font-family: var(--font-jp); font-size: 17px;
+      color: var(--navy); opacity: 0.7; line-height: 1;
+    }
+    @media (max-width: 700px) { .tategaki { display: none; } }
+    .sello-kanji {
+      position: absolute; bottom: 6px; right: 4px; z-index: 2;
+      width: 78px; height: 78px; border-radius: 50%;
+      background: var(--rosa-ev); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-jp); font-size: 26px; transform: rotate(-6deg);
+      box-shadow: inset 0 0 0 3px var(--rosa-ev), inset 0 0 0 5px var(--cream);
+    }
+    @media (max-width: 700px) { .sello-kanji { position: static; transform: rotate(-6deg); margin-top: 24px; } }
+
+    section { padding: 58px 0 0; }
+    h2 { font-family: var(--font-display); font-weight: 700; color: var(--navy); font-size: clamp(26px, 4vw, 38px); margin-bottom: 12px; }
+    h2 em { font-style: italic; font-family: var(--font-body); font-weight: 300; color: var(--rosa-ev); }
+    .lead { max-width: 620px; font-size: 16px; }
+
+    /* ── Los casos: de casa en casa ── */
+    .casos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    @media (max-width: 760px) { .casos { grid-template-columns: 1fr; } }
+    .caso {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 14px 40px rgba(14, 30, 86, 0.08);
+      display: flex; flex-direction: column;
+    }
+    .caso img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+    .caso .cuerpo { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+    .caso .num { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--rosa-ev); }
+    .caso h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--navy); margin: 6px 0 8px; }
+    .caso p { font-size: 14.5px; flex: 1; }
+    .caso .ver { margin-top: 14px; font-weight: 500; font-size: 14px; color: var(--navy); text-decoration: none; }
+    .caso .ver:hover { color: var(--rosa-ev); }
+
+    /* ── Lo que podemos armar ── */
+    .formatos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+    @media (max-width: 700px) { .formatos { grid-template-columns: 1fr; } }
+    .formato { background: var(--navy-2); border-radius: 14px; padding: 28px 26px; color: var(--sky-lt); position: relative; overflow: hidden; }
+    .formato h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--cream); margin-bottom: 8px; }
+    .formato p { font-size: 15px; }
+    .formato::before {
+      content: attr(data-jp); position: absolute; top: -30px; right: -8px; pointer-events: none;
+      font-family: var(--font-jp); font-size: 120px; line-height: 1;
+      color: rgba(222, 41, 144, 0.16);
+    }
+
+    /* ── CTA final ── */
+    .llamado { margin-top: 64px; background: var(--navy); border-radius: 14px; padding: 44px 34px; position: relative; overflow: hidden; }
+    .llamado h2 { color: var(--cream); }
+    .llamado p { color: var(--sky-lt); max-width: 540px; font-size: 16px; }
+    .llamado .selloJP { position: absolute; top: 26px; right: 28px; font-family: var(--font-jp); font-size: 14px; color: var(--sky-lt); opacity: 0.8; }
+    .cta-fila { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .btn {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      text-decoration: none; padding: 13px 24px; border-radius: 8px; transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--rosa { background: var(--rosa-ev); color: var(--cream); }
+    .btn--borde { border: 1.5px solid var(--beige-2); color: var(--cream); }
+
+    footer {
+      margin-top: 70px; padding: 34px 22px; border-top: 1px solid var(--beige-2);
+      display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 13px; color: var(--mid);
+    }
+    footer .jp { font-family: var(--font-jp); }
+    footer a { color: var(--mid); }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/"><img src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    <span class="label">Events · de casa en casa</span>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <p class="kicker">Events · La casa viaja</p>
+      <h1>Nos gusta hacerlo <em>realidad</em>.</h1>
+      <p class="bajada">The Daily Grind lleva café de especialidad, helado de autor y un mundo propio a ferias, marcas y espacios que quieren algo memorable. Elevamos la experiencia desde los sabores, siempre impulsando el arte.</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">イベントの家</span>
+      <span class="sello-kanji" lang="ja" aria-label="Kanji hacer realidad">実現</span>
+    </div>
+
+    <section>
+      <h2>Ya lo hicimos <em>realidad</em></h2>
+      <p class="lead">Cada casa que nos ha recibido tuvo su propia versión de la barra. Esta es la ruta hasta hoy.</p>
+      <div class="casos">
+        <article class="caso">
+          <img src="/img/events/jero.jpg" alt="Atardecer en Jeró Maitencillo: el anfitrión al micrófono con la playa de fondo" loading="lazy" />
+          <div class="cuerpo">
+            <span class="num">Jeró · Maitencillo</span>
+            <h3>Un verano frente al mar</h3>
+            <p>La primera casa. Café en la mañana, helado en la tarde y escenario en la noche, con la puesta de sol de telón. Ahí partió el ritual que hoy viaja de barrio en barrio.</p>
+          </div>
+        </article>
+        <article class="caso">
+          <img src="/img/ilustraciones/cafe-universidad.jpg" alt="Ilustración de la cafetería del campus con gente entre clases" loading="lazy" />
+          <div class="cuerpo">
+            <span class="num">UAI · Peñalolén</span>
+            <h3>El campus como escenario</h3>
+            <p>El desayuno entre clases se hizo ritual. Barra estable en la universidad, talleres de café de especialidad, sesiones abiertas de código y colaboraciones con marcas dentro del campus.</p>
+          </div>
+        </article>
+        <article class="caso">
+          <img src="/img/events/artstgo.jpg" alt="El pod de The Daily Grind en el GAM durante ART STGO: una integrante del equipo sirviendo soft en la barra circular" loading="lazy" />
+          <div class="cuerpo">
+            <span class="num">ART STGO '26 · GAM</span>
+            <h3>La barra de la feria de arte</h3>
+            <p>El pod de Plaza Central fue nuestro: vitrina con un sabor estrenado para la feria, soft de açaí y pistacho, señalética propia y una carta viva en pantalla. Los helados se agotaron antes del cierre.</p>
+            <a class="ver" href="/artstgo">Ver la casa de la feria &#x2192;&#xFE0E;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Lo que podemos armar <em>contigo</em></h2>
+      <p class="lead">Cada formato se diseña a la medida del espacio y de la gente que lo va a vivir.</p>
+      <div class="formatos">
+        <div class="formato" data-jp="祭" lang="ja">
+          <h3 lang="es">Ferias y festivales</h3>
+          <p>Barra completa con vitrina de autor y máquinas de soft. El montaje está pensado para la cola: servicio rápido, precios a la vista y una escena que suma al recorrido de la feria.</p>
+        </div>
+        <div class="formato" data-jp="味" lang="ja">
+          <h3 lang="es">Sabores con tu marca</h3>
+          <p>Creamos un sabor de autor junto a tu marca y lo estrenamos en vivo, como la frambuesa que nació para ART STGO. El helado se vuelve pieza de la campaña.</p>
+        </div>
+        <div class="formato" data-jp="家" lang="ja">
+          <h3 lang="es">Campus y oficinas</h3>
+          <p>Residencia por temporada: la barra se instala en tu espacio y trae sus rituales, del taller de café de especialidad a las sesiones abiertas de creación.</p>
+        </div>
+        <div class="formato" data-jp="祝" lang="ja">
+          <h3 lang="es">Celebraciones privadas</h3>
+          <p>Aperturas, lanzamientos y fiestas. La casa llega con su carta y su mundo, a la medida del evento y de su gente.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="llamado">
+      <span class="selloJP" lang="ja">実現</span>
+      <h2>¿Tienes un espacio o una idea?</h2>
+      <p>Escríbenos con lo que tienes en mente, aunque sea una servilleta rayada. Armamos la propuesta y la hacemos realidad.</p>
+      <div class="cta-fila">
+        <a class="btn btn--rosa" href="mailto:pulpabrava@gmail.com?subject=Events%20·%20The%20Daily%20Grind">Escríbenos &#x2192;&#xFE0E;</a>
+        <a class="btn btn--borde" href="https://www.instagram.com/dailygrind.cl/">@dailygrind.cl &#x2197;&#xFE0E;</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>The Daily Grind · Events · MMXXVI</span>
+    <span><span class="jp" lang="ja">実現</span> · <a href="/">volver a la consola</a></span>
+  </footer>
+
+  <script>
+    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
+    // sin terceros. `s` conserva src/utm para separar pauta y orgánico.
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        var src = q.get("src") || q.get("utm_source") || "";
+        var camp = q.get("utm_campaign") || "";
+        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
+          p: location.pathname,
+          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
+          r: (document.referrer || "").slice(0, 120)
+        })], { type: "application/json" }));
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
