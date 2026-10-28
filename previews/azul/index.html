@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>La casa — The Daily Grind</title>
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Estudio Azul v0.1 — dos materiales: tinta y papel.
+       La tinta inunda y llega al borde. El papel se apoya encima,
+       desplazado sobre un bloque plano. No hay medio tono. */
+    :root {
+      --cobalto: #004fc8;
+      --celeste: #51b5f1;
+      --celeste-cl: #a9dbfa;
+      --papel: #ffffff;
+      --tinta: #0a1f4d;
+
+      --sans: "Bricolage Grotesque", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+
+      --desp: 5px;
+      --track: 0.14em;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--cobalto);
+      color: var(--papel);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-optical-sizing: auto;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .ancho {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-left: max(20px, env(safe-area-inset-left, 0px));
+      padding-right: max(20px, env(safe-area-inset-right, 0px));
+    }
+    /* La versal espaciada es la etiqueta de dato del sistema. */
+    .dato {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--track);
+      color: var(--celeste-cl);
+    }
+    .dato b { color: var(--papel); font-weight: 700; }
+
+    /* ── Franja de estado ─────────────────────────────── */
+    .franja { border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+    .franja .ancho {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 18px;
+      padding-block: 13px;
+    }
+    .franja .sep { color: rgba(255, 255, 255, 0.4); }
+    .punto {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--papel);
+      margin-right: 7px;
+      vertical-align: middle;
+    }
+    .franja .logo { margin-left: auto; height: 26px; width: auto; display: block; }
+
+    /* ── Portada ──────────────────────────────────────── */
+    .portada .ancho { padding-block: 58px 44px; }
+    h1 {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: clamp(46px, 11vw, 112px);
+      line-height: 0.88;
+      letter-spacing: -0.015em;
+      max-width: 11ch;
+    }
+    h1 em {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--celeste-cl);
+    }
+    .bajada {
+      margin-top: 24px;
+      max-width: 46ch;
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    /* ── Fichas ───────────────────────────────────────── */
+    .fichas .ancho { padding-block: 0 56px; }
+    .reja {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+      gap: 18px;
+    }
+    .ficha { position: relative; display: flex; }
+    /* El bloque de tinta: la prueba de que son dos capas. */
+    .ficha::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translate(var(--desp), var(--desp));
+      background: var(--tinta);
+      z-index: 0;
+    }
+    .ficha > a {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      background: var(--papel);
+      color: var(--tinta);
+      text-decoration: none;
+      padding: 20px 20px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      border: 1px solid var(--tinta);
+      transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    .ficha > a:focus-visible { outline: 3px solid var(--celeste-cl); outline-offset: 4px; }
+    @media (hover: hover) and (pointer: fine) {
+      .ficha > a:hover { transform: translate(2px, 2px); }
+    }
+    .ficha > a:active { transform: translate(var(--desp), var(--desp)); }
+    .ficha h2 {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .ficha p {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.45;
+      color: rgba(10, 31, 77, 0.78);
+      flex: 1;
+    }
+    .ficha .pie {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(10, 31, 77, 0.16);
+      padding-top: 11px;
+    }
+    .ficha .codigo,
+    .ficha .ir {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--track);
+      color: var(--cobalto);
+    }
+
+    /* La inversión está reservada al espécimen elegido en la votación.
+       Acá la ficha destacada se distingue por la cifra, no por el color. */
+    .recuento { font-family: var(--sans); font-weight: 800; font-size: 40px; line-height: 0.9; color: var(--cobalto); }
+    .recuento small {
+      display: block;
+      margin-top: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: var(--track);
+      text-transform: uppercase;
+      color: rgba(10, 31, 77, 0.55);
+    }
+
+    /* ── Pie ──────────────────────────────────────────── */
+    footer { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.3); }
+    footer .ancho {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px 18px;
+      padding-block: 18px 26px;
+    }
+    footer a { color: var(--celeste-cl); text-decoration: none; }
+    footer a:hover { color: var(--papel); }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 1ms !important; }
+    }
+    @media (max-width: 620px) {
+      /* En dos líneas el separador queda colgando al final: sobra. */
+      .franja .sep { display: none; }
+    }
+    @media (max-width: 480px) {
+      .portada .ancho { padding-block: 40px 32px; }
+      .franja .logo { height: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="franja">
+    <div class="ancho">
+      <span class="dato"><span class="punto" aria-hidden="true"></span><b id="estado">Martes a domingo · 12:00 a 20:00</b></span>
+      <span class="dato sep" aria-hidden="true">·</span>
+      <span class="dato">Los Leones 1012, local 2 · Providencia</span>
+      <img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" />
+    </div>
+  </div>
+
+  <main>
+    <section class="portada">
+      <div class="ancho">
+        <h1>Tu pausa<br /><em>empieza acá.</em></h1>
+        <p class="bajada">
+          Helado artesanal frente a Nice to Meat. Seis sabores en vitrina, café de
+          especialidad y una tarjeta que te devuelve el décimo.
+        </p>
+      </div>
+    </section>
+
+    <section class="fichas">
+      <div class="ancho">
+        <div class="reja">
+
+          <div class="ficha">
+            <a href="/votacion">
+              <h2>La barquillera</h2>
+              <p>
+                Seis sabores y una ronda abierta. Vota con tu tarjeta el que quieres
+                que se quede.
+              </p>
+              <div class="recuento"><span id="votos">—</span><small>Votos esta ronda</small></div>
+              <span class="pie"><span class="codigo">Votación</span><span class="ir">Votar →</span></span>
+            </a>
+          </div>
+
+          <div class="ficha">
+            <a href="/dailyback/auth/google">
+              <h2>Tu tarjeta</h2>
+              <p>
+                Entra con tu Google y la tarjeta queda conectada. Cada helado timbra
+                doble y al quinto el siguiente va de la casa.
+              </p>
+              <span class="pie"><span class="codigo">DailyBack</span><span class="ir">Entrar →</span></span>
+            </a>
+          </div>
+
+          <div class="ficha">
+            <a href="/menu">
+              <h2>La carta</h2>
+              <p>Lo que hay hoy en vitrina, el café y la carta dulce de la casa.</p>
+              <span class="pie"><span class="codigo">Menú</span><span class="ir">Ver →</span></span>
+            </a>
+          </div>
+
+          <div class="ficha">
+            <a href="/laconsola/">
+              <h2>La Consola</h2>
+              <p>
+                Doce juegos. Cada partida deja granos en tu tarjeta y el Rally de la
+                temporada avanza con toda la casa.
+              </p>
+              <span class="pie"><span class="codigo">K01–K12</span><span class="ir">Jugar →</span></span>
+            </a>
+          </div>
+
+          <div class="ficha">
+            <a href="/nicetomeat">
+              <h2>La casa</h2>
+              <p>
+                Av. Los Leones: Nice to Meat pone el espacio y el fuego, nosotros el
+                helado y el soft de pistacho.
+              </p>
+              <span class="pie"><span class="codigo">Providencia</span><span class="ir">Conocer →</span></span>
+            </a>
+          </div>
+
+          <div class="ficha">
+            <a href="/eventos">
+              <h2>Eventos</h2>
+              <p>Llevamos la barra completa a ferias, lanzamientos y campus.</p>
+              <span class="pie"><span class="codigo">B2B</span><span class="ir">Cotizar →</span></span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="ancho">
+      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
+      <span class="dato"><a href="/historia">La historia →</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      // El recuento de la ronda sale del mismo endpoint público de la votación.
+      var el = document.getElementById("votos");
+      fetch("/votacion/api/estado")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d && typeof d.total === "number") el.textContent = d.total; })
+        .catch(function () { /* sin recuento, la ficha igual sirve */ });
+
+      // Abierto de martes a domingo, 12 a 20, hora de Chile.
+      try {
+        var ahora = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
+        var dia = ahora.getDay(); // 0 domingo, 1 lunes
+        var hora = ahora.getHours();
+        var abierto = dia !== 1 && hora >= 12 && hora < 20;
+        document.getElementById("estado").textContent =
+          abierto ? "Abierto ahora · hasta las 20:00" : "Martes a domingo · 12:00 a 20:00";
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
