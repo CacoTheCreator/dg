@@ -35,6 +35,11 @@ crons = ["* * * * *"]
 
 # Variables públicas (no son secretos)
 [vars]
+# La votacion de la barquillera valida la tarjeta contra DailyBack. Apunta al
+# origen de la app y no a dailygrind.cl/dailyback, porque una subpeticion del
+# Worker a su propia zona no vuelve a pasar por las rutas: cae en los assets de
+# `dg` y la validacion fallaria siempre.
+DAILYBACK_ORIGEN = "https://daily-grind-loyalty.vercel.app"
 META_GRAPH_VERSION = "v23.0"
 IG_RATE_LIMIT_24H = "25"
 SESSION_TTL_DAYS = "30"
