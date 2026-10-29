@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>La barquillera — The Daily Grind</title>
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="azul.css" />
+  <style>
+    /* ── Lo propio de la votación ───────────────────────────────────────── */
+    .lectura {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .lectura > span {
+      padding: 14px 32px 14px 0;
+    }
+    .lectura .k {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--celeste-claro);
+      margin-bottom: 5px;
+    }
+    .lectura .v {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--papel);
+    }
+
+    /* El panel de la tarjeta es plano: información sobre la que se actúa. */
+    .panel { margin-top: 40px; max-width: 720px; }
+    .panel h2 { font-size: clamp(24px, 3.4vw, 32px); }
+    .panel p { margin-top: 12px; max-width: 52ch; font-size: 16px; }
+    .panel .fila-botones { margin-top: 24px; }
+    .pegar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    /* Una clase con display le gana al [hidden] del navegador: hay que decirlo. */
+    .pegar[hidden] { display: none; }
+    .pegar input {
+      flex: 1 1 280px;
+      min-width: 0;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--tinta-prof);
+      background: var(--papel);
+      border: 1px solid var(--tinta-prof);
+      padding: 12px 14px;
+    }
+    .pegar input::placeholder { color: rgba(10, 31, 77, 0.45); }
+    .pegar input:focus-visible { outline: 3px solid var(--cobalto); outline-offset: 2px; }
+    .aviso {
+      margin-top: 14px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--cobalto);
+      min-height: 14px;
+    }
+    .aviso.malo { color: #b3002d; }
+
+    /* ── Los seis especímenes ───────────────────────────────────────────── */
+    .barquillera { list-style: none; }
+    .barquillera button {
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      background: var(--papel);
+      border: 1px solid var(--tinta-prof);
+      padding: 20px 20px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+      transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .barquillera button:hover { transform: translate(2px, 2px); }
+    }
+    .barquillera button:active { transform: translate(var(--desplazamiento), var(--desplazamiento)); }
+    .barquillera button:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 4px; }
+
+    .sabor .encabezado {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .sabor h3 {
+      font-weight: 800;
+      font-size: clamp(20px, 2.6vw, 26px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--tinta-prof);
+    }
+    .sabor .cuenta {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 0.85;
+      color: var(--cobalto);
+      text-align: right;
+      flex: none;
+    }
+    /* Barra plana: el sistema no tiene medio tono. */
+    .sabor .barra { height: 8px; background: rgba(10, 31, 77, 0.12); }
+    .sabor .barra span { display: block; height: 100%; background: var(--cobalto); transition: width 220ms cubic-bezier(0.2, 0, 0, 1); }
+    .sabor .pie {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid rgba(10, 31, 77, 0.16);
+      padding-top: 11px;
+    }
+    .sabor .codigo,
+    .sabor .parte {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--cobalto);
+    }
+    .sabor .parte { color: rgba(10, 31, 77, 0.55); }
+
+    /* El sello: cuando el espécimen está elegido, el código se invierte.
+       Es un corte, no un fundido. */
+    .sabor.mio button { border-width: 2px; }
+    .sabor.mio .codigo {
+      background: var(--tinta-prof);
+      color: var(--papel);
+      padding: 4px 8px;
+      margin: -4px -8px;
+    }
+
+    .barquillera.bloqueada button { cursor: default; }
+    .barquillera.bloqueada button:active { transform: none; }
+
+    .nota-pie {
+      margin-top: 26px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--celeste-claro);
+    }
+  </style>
+</head>
+<body>
+  <div class="franja">
+    <div class="ancho">
+      <a class="dato" href="index.html">← La casa</a>
+      <span class="dato sep" aria-hidden="true">·</span>
+      <span class="dato"><b>La barquillera · Tu Pausa</b></span>
+      <a href="index.html"><img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    </div>
+  </div>
+
+  <main>
+    <section class="portada">
+      <div class="ancho">
+        <h1>Elige el sabor que se <em>queda</em>.</h1>
+        <p class="bajada">
+          Seis sabores en la barquillera y una ronda abierta. Tu tarjeta DailyBack
+          es tu voto, y el más votado se queda en la casa de Av. Los Leones.
+        </p>
+
+        <div class="lectura">
+          <span><b class="k">Ronda</b><b class="v" id="v-ronda">—</b></span>
+          <span><b class="k">Estado</b><b class="v">Abierta</b></span>
+          <span><b class="k">Votos</b><b class="v" id="v-total">0</b></span>
+        </div>
+
+        <div class="placa panel" id="panel-socio">
+          <div class="hoja">
+            <h2 id="socio-titulo">Vota con tu tarjeta</h2>
+            <p id="socio-texto">
+              Tu DailyBack es tu voto. Entra con tu Google y la tarjeta queda
+              conectada, o pega acá el link de la tuya si ya la tienes abierta.
+            </p>
+
+            <div class="fila-botones" id="socio-acciones">
+              <a class="boton" href="/dailyback/auth/google?next=/votacion">Entrar con Google →</a>
+              <button class="boton boton--linea" type="button" id="abre-pegar">Pegar el link de mi tarjeta</button>
+            </div>
+
+            <div class="pegar" id="caja-pegar" hidden>
+              <input
+                id="campo-link"
+                type="text"
+                inputmode="url"
+                autocomplete="off"
+                placeholder="https://dailygrind.cl/dailyback/mi-tarjeta/…"
+                aria-label="Link de tu tarjeta DailyBack"
+              />
+              <button class="boton" type="button" id="conectar">Conectar</button>
+            </div>
+
+            <p class="aviso" id="aviso" role="status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho" style="padding-block: 8px 48px">
+        <ul class="barquillera reja" id="barquillera" aria-label="Sabores de la barquillera"></ul>
+        <p class="nota-pie">
+          Un voto por tarjeta · Se puede cambiar mientras la ronda esté abierta
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="ancho">
+      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
+      <span class="dato"><a href="/laconsola/">La Consola →</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // La identidad del socio es la misma que usa El Rally, así que quien ya
+      // jugó en La Consola llega con la tarjeta puesta. Acá solo se guarda el id;
+      // la fuente de verdad vive en DailyBack.
+      var KEY = "laconsola.rally.socio";
+      var API = "/votacion/api";
+      var UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+      // El código de catálogo cierra cada ficha. TDG 03 y TDG 04 todavía tienen
+      // dos nombres según la fuente, así que ambos apuntan al mismo código.
+      var CODIGOS = {
+        "frambuesa": "TDG 01",
+        "chocolate": "TDG 02",
+        "enrique": "TDG 03",
+        "snickers": "TDG 03",
+        "vainilla": "TDG 04",
+        "anti vainilla": "TDG 04",
+        "cookies & cream": "TDG 05",
+        "mango": "TDG 06"
+      };
+
+      function codigoDe(sabor) {
+        var k = String(sabor || "").toLowerCase().replace(/\s+/g, " ").trim();
+        return CODIGOS[k] || "TDG —";
+      }
+
+      var elRonda = document.getElementById("v-ronda");
+      var elTotal = document.getElementById("v-total");
+      var elLista = document.getElementById("barquillera");
+      var elTitulo = document.getElementById("socio-titulo");
+      var elTexto = document.getElementById("socio-texto");
+      var elAcciones = document.getElementById("socio-acciones");
+      var elCaja = document.getElementById("caja-pegar");
+      var elCampo = document.getElementById("campo-link");
+      var elAviso = document.getElementById("aviso");
+
+      var socio = null;
+      var miVoto = null;
+      var enviando = false;
+
+      function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
+      function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) { /* incógnito */ } }
+
+      function idDe(texto) {
+        var m = String(texto || "").match(UUID);
+        return m ? m[0].toLowerCase() : null;
+      }
+
+      function aviso(txt, malo) {
+        elAviso.textContent = txt || "";
+        elAviso.className = "aviso" + (malo ? " malo" : "");
+      }
+
+      // El id puede llegar en el hash, de vuelta del acceso con Google.
+      (function desdeElHash() {
+        var id = idDe(location.hash);
+        if (!id) return;
+        lsSet(KEY, id);
+        history.replaceState(null, "", location.pathname + location.search);
+      })();
+
+      var guardado = lsGet(KEY);
+      if (guardado && UUID.test(guardado)) socio = guardado.toLowerCase();
+
+      function pinta(data) {
+        if (!data) return;
+        elRonda.textContent = data.ronda || "—";
+        elTotal.textContent = String(data.total || 0);
+        miVoto = data.miVoto || null;
+
+        var sabores = data.sabores || [];
+        var total = data.total || 0;
+
+        elLista.className = "barquillera reja" + (socio ? "" : " bloqueada");
+        elLista.innerHTML = "";
+
+        sabores.forEach(function (s) {
+          var parte = total > 0 ? Math.round((s.votos / total) * 100) : 0;
+          var mio = miVoto === s.sabor;
+
+          var li = document.createElement("li");
+          li.className = "sabor ficha" + (mio ? " mio" : "");
+
+          var b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-pressed", mio ? "true" : "false");
+          b.innerHTML =
+            '<span class="encabezado"><h3></h3><span class="cuenta"></span></span>' +
+            '<span class="barra"><span></span></span>' +
+            '<span class="pie"><span class="codigo"></span><span class="parte"></span></span>';
+
+          b.querySelector("h3").textContent = s.sabor;
+          b.querySelector(".cuenta").textContent = s.votos;
+          b.querySelector(".barra span").style.width = parte + "%";
+          b.querySelector(".codigo").textContent = codigoDe(s.sabor);
+          b.querySelector(".parte").textContent = mio ? "Tu voto" : parte + "% del total";
+
+          b.addEventListener("click", function () { vota(s.sabor); });
+          li.appendChild(b);
+          elLista.appendChild(li);
+        });
+
+        if (socio) {
+          elTitulo.textContent = data.nombre ? "Hola, " + data.nombre : "Tu tarjeta está conectada";
+          elTexto.textContent = miVoto
+            ? "Tu voto va para " + miVoto + ". Toca otro sabor y lo cambias."
+            : "Toca el sabor que quieres que se quede en la barquillera.";
+          elAcciones.hidden = true;
+          elCaja.hidden = true;
+        }
+      }
+
+      function estado(id) {
+        var url = API + "/estado" + (id ? "?socio=" + encodeURIComponent(id) : "");
+        return fetch(url)
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .catch(function () { return null; });
+      }
+
+      function vota(sabor) {
+        if (!socio) {
+          aviso("Conecta tu tarjeta DailyBack para votar.", true);
+          elCaja.hidden = false;
+          elCampo.focus();
+          return;
+        }
+        if (enviando || miVoto === sabor) return;
+        enviando = true;
+        aviso("Guardando tu voto…");
+
+        fetch(API + "/voto", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ socio: socio, sabor: sabor })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            enviando = false;
+            if (!res || !res.ok) {
+              aviso((res && res.d && res.d.error) || "El voto no se pudo guardar.", true);
+              return;
+            }
+            // El panel ya dice a qué sabor fue el voto, así que el aviso
+            // se guarda para los errores y para el momento de guardar.
+            pinta(res.d);
+            aviso("");
+          })
+          .catch(function () {
+            enviando = false;
+            aviso("El voto no se pudo guardar. Intenta de nuevo.", true);
+          });
+      }
+
+      function conecta(texto) {
+        var id = idDe(texto);
+        if (!id) { aviso("Ese link no trae el código de una tarjeta.", true); return; }
+        aviso("Revisando tu tarjeta…");
+        estado(id).then(function (res) {
+          if (!res || !res.ok) {
+            aviso((res && res.d && res.d.error) || "No encontramos esa tarjeta.", true);
+            return;
+          }
+          socio = id;
+          lsSet(KEY, id);
+          aviso("");
+          pinta(res.d);
+        });
+      }
+
+      document.getElementById("abre-pegar").addEventListener("click", function () {
+        elCaja.hidden = false;
+        elCampo.focus();
+      });
+      document.getElementById("conectar").addEventListener("click", function () {
+        conecta(elCampo.value);
+      });
+      elCampo.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") conecta(elCampo.value);
+      });
+
+      // Primera carga: el recuento es público, así que la barquillera se ve
+      // aunque todavía no haya tarjeta conectada.
+      estado(socio).then(function (res) {
+        if (res && res.ok) { pinta(res.d); return; }
+        // Una tarjeta guardada que ya no existe deja de contar como socio.
+        if (socio) {
+          socio = null;
+          estado(null).then(function (r2) { if (r2 && r2.ok) pinta(r2.d); });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

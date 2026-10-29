@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Eventos y activaciones — The Daily Grind</title>
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="azul.css" />
+  <style>
+    /* La especificación técnica de un equipo: dato duro al pie de la ficha. */
+    .especificacion {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      line-height: 1.6;
+      color: var(--cobalto);
+      border-top: 1px solid rgba(10, 31, 77, 0.16);
+      padding-top: 11px;
+    }
+    .caso + .caso { margin-top: 22px; }
+    .caso .cuando {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--cobalto);
+    }
+    .caso h3 {
+      margin-top: 8px;
+      font-weight: 800;
+      font-size: clamp(24px, 3.4vw, 34px);
+      line-height: 1;
+      letter-spacing: -0.012em;
+      color: var(--tinta-prof);
+    }
+    .caso .texto { margin-top: 14px; max-width: 58ch; }
+    .caso .lamina { margin-top: 26px; }
+    .caso .tira { margin-top: 26px; }
+    .caso .tira .plancha::before { background: var(--cobalto); }
+    .caso .tira figcaption { color: var(--cobalto); }
+  </style>
+</head>
+<body>
+  <div class="franja">
+    <div class="ancho">
+      <a class="dato" href="index.html">← La casa</a>
+      <span class="dato sep" aria-hidden="true">·</span>
+      <span class="dato"><b>Eventos y activaciones</b></span>
+      <a href="index.html"><img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    </div>
+  </div>
+
+  <main>
+    <section class="portada">
+      <div class="ancho">
+        <h1>Nos gusta hacerlo <em>realidad</em>.</h1>
+        <p class="bajada">
+          Llevamos la casa a donde nos inviten, con la barra completa y la escena que
+          la rodea. Helado hecho por nosotros, café de especialidad y un sabor que se
+          estrena esa misma tarde.
+        </p>
+        <p class="bajada">
+          Lo hicimos una temporada entera frente al mar en Maitencillo, un semestre
+          adentro de un campus y dos días en el GAM con la feria de arte más grande de
+          Santiago.
+        </p>
+
+        <div class="tira">
+          <figure class="plancha">
+            <img src="/img/eventos/jero-set.jpg" alt="Set de música en vivo al atardecer en la barra de Maitencillo" />
+            <figcaption>Maitencillo · el set al atardecer</figcaption>
+          </figure>
+          <figure class="plancha">
+            <img src="/img/eventos/jero-arte.jpg" alt="Cuadro pintado en la barra, con açaí en las manos de la figura" loading="lazy" />
+            <figcaption>Maitencillo · el cuadro en la barra</figcaption>
+          </figure>
+          <figure class="plancha">
+            <img src="/img/eventos/equipo.jpg" alt="El equipo de The Daily Grind atendiendo la barra" loading="lazy" />
+            <figcaption>El equipo en la barra</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho">
+        <h2>Lo que llega <em>con nosotros</em></h2>
+        <p class="lead">
+          Montamos con equipo propio y gráfica propia. La barra está pensada para
+          aguantar cola larga sin que la fila se detenga.
+        </p>
+
+        <div class="reja" style="margin-top: 28px">
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>La barra de helado</h3>
+              <p>
+                Barquillera rotulada con la marca, siete cubetas de cinco litros y
+                vidrio semicurvo con luz interior.
+              </p>
+              <p class="especificacion">
+                130 cm de frente · 230 V · menos de 4 kWh al día · certificada SEC ·
+                sobre ruedas
+              </p>
+              <span class="pie"><span class="codigo">Barra</span><span class="ir">7 cubetas de 5 L</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>Soft en máquina</h3>
+              <p>
+                Hasta tres máquinas de açaí y pistacho, que escalan según el flujo del
+                día. Se sirve en vasito, que es lo que mantiene la fila avanzando.
+              </p>
+              <span class="pie"><span class="codigo">Soft</span><span class="ir">Hasta 3 máquinas</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>Café de especialidad</h3>
+              <p>
+                Grano y métodos de Café Akyn, el café que nos da vida en la casa. Viaja
+                con nosotros a donde vayamos.
+              </p>
+              <span class="pie"><span class="codigo">Café</span><span class="ir">Akyn</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>Un sabor para la ocasión</h3>
+              <p>
+                Una edición pensada con la marca o con un artista invitado, que se
+                estrena en el evento y lleva su propio sello. En ART STGO fue la
+                frambuesa.
+              </p>
+              <span class="pie"><span class="codigo">Edición</span><span class="ir">TDG 01 en ART STGO</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>La gráfica</h3>
+              <p>
+                Tótems de 50 × 150, wrap de columna, vinilos de vitrina, marcadores de
+                sabor y la carta corriendo en pantalla. Producimos a tamaño real y
+                llegamos instalados el día anterior.
+              </p>
+              <span class="pie"><span class="codigo">Gráfica</span><span class="ir">Instalada el día antes</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>El juego</h3>
+              <p>
+                La Consola sube al evento. La gente juega mientras espera, suma granos
+                y se lleva la tarjeta de la casa en el teléfono.
+              </p>
+              <span class="pie"><span class="codigo">K01–K12</span><span class="ir">La Consola</span></span>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="cuerpo">
+              <h3>El balance del día</h3>
+              <p>
+                Queda el conteo de lo que pasó por la barra: cuánta gente, qué se
+                llevaron y a qué hora se movió. Al cierre te llega ese balance junto
+                con las fotos y el video que grabamos.
+              </p>
+              <span class="pie"><span class="codigo">Cierre</span><span class="ir">Balance y material</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho">
+        <h2>Lo que ya <em>hicimos</em></h2>
+        <p class="lead">Tres formatos distintos, la misma casa llegando entera a cada uno.</p>
+
+        <div style="margin-top: 28px">
+          <div class="placa caso">
+            <div class="hoja">
+              <span class="cuando">Verano 2025–2026</span>
+              <h3>Jeró · Maitencillo</h3>
+              <p class="texto">
+                Una temporada completa frente al mar. Partíamos con café en la mañana y
+                cerrábamos con música en vivo cuando bajaba el sol. El arte estuvo en la
+                barra todo el verano, entre la gráfica y los cuadros que colgamos.
+              </p>
+              <div class="lamina">
+                <div><span>Dónde</span><strong>Jeró, Maitencillo</strong></div>
+                <div><span>Formato</span><strong>Temporada de verano</strong></div>
+                <div><span>Qué montamos</span><strong>Barra, música en vivo y gráfica de la casa</strong></div>
+              </div>
+              <div class="tira">
+                <figure class="plancha">
+                  <img src="/img/eventos/jero-mc.jpg" alt="Presentación en vivo en la terraza de Jeró, frente al mar de Maitencillo" loading="lazy" />
+                  <figcaption>La presentación en vivo</figcaption>
+                </figure>
+                <figure class="plancha">
+                  <img src="/img/eventos/jero-publico.jpg" alt="Mesa llena en la terraza de la playa" loading="lazy" />
+                  <figcaption>La terraza llena</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="placa caso">
+            <div class="hoja">
+              <span class="cuando">Un semestre, 2026</span>
+              <h3>UAI · Peñalolén</h3>
+              <p class="texto">
+                Una temporada de un semestre adentro de un campus, con operación diaria
+                y equipo propio. Cada mes abrimos dos talleres a quien quisiera llegar:
+                uno de código y uno de café de especialidad. Ahí probamos la tarjeta con
+                una comunidad que vuelve todos los días.
+              </p>
+              <div class="lamina">
+                <div><span>Dónde</span><strong>Campus UAI, Peñalolén</strong></div>
+                <div><span>Formato</span><strong>Cafetería diaria por un semestre</strong></div>
+                <div><span>Qué montamos</span><strong>Barra, talleres mensuales y el programa de tarjeta</strong></div>
+              </div>
+              <div class="tira">
+                <figure class="plancha">
+                  <img src="/img/eventos/uai-campus.jpg" alt="Ilustración de la cafetería del campus con gente entre clases" loading="lazy" />
+                  <figcaption>La cafetería entre clases</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="placa caso">
+            <div class="hoja">
+              <span class="cuando">22 y 23 de agosto de 2026</span>
+              <h3>ART STGO · GAM</h3>
+              <p class="texto">
+                La feria de arte del GAM. Tomamos uno de los pods circulares de Plaza
+                Central: las máquinas de soft por dentro del anillo, la barquillera sobre
+                la barra y la carta corriendo en una pantalla que se lee desde la fila.
+                Estrenamos la frambuesa como edición de la feria, con su propio sello.
+              </p>
+              <div class="lamina">
+                <div><span>Dónde</span><strong>Pod de Plaza Central, GAM</strong></div>
+                <div><span>Formato</span><strong>Feria de arte, dos días</strong></div>
+                <div><span>Qué montamos</span><strong>Seis sabores, açaí en máquina, gráfica de gran formato y carta en pantalla</strong></div>
+              </div>
+              <div class="fila-botones">
+                <a class="boton" href="/artstgo">Ver la página de la feria ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho">
+        <h2>Cómo lo <em>armamos</em></h2>
+        <div class="pasos">
+          <div>
+            <p class="num">01</p>
+            <h3>Vemos el lugar</h3>
+            <p>Nos cuentas el espacio, el flujo esperado y la fecha. Si se puede, vamos a verlo antes.</p>
+          </div>
+          <div>
+            <p class="num">02</p>
+            <h3>Definimos la carta</h3>
+            <p>Elegimos los sabores, el formato de servicio y el sabor que se estrena ese día.</p>
+          </div>
+          <div>
+            <p class="num">03</p>
+            <h3>Producimos</h3>
+            <p>Gráfica, señalética y montaje. Llegamos instalados antes de que abra la puerta.</p>
+          </div>
+          <div>
+            <p class="num">04</p>
+            <h3>Operamos y cerramos</h3>
+            <p>El equipo atiende todos los días que dure. Al final te llega el balance y el material.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho">
+        <h2>Dónde entramos <em>bien</em></h2>
+        <ul class="listado">
+          <li>Ferias y festivales</li>
+          <li>Lanzamientos de marca</li>
+          <li>Universidades y campus</li>
+          <li>Espacios gastronómicos que quieren postre y café</li>
+          <li>Productoras armando la parada gastronómica de un evento</li>
+          <li>Temporadas de verano en la costa</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="ancho">
+        <div class="placa">
+          <div class="hoja">
+            <h2>Cuéntanos qué se te <em>ocurre</em></h2>
+            <p class="lead">
+              Escríbenos con la fecha y el lugar. Te volvemos con la propuesta armada:
+              carta, montaje, gráfica y presupuesto.
+            </p>
+            <div class="fila-botones">
+              <a class="boton" href="mailto:pulpabrava@gmail.com?subject=Evento%20con%20The%20Daily%20Grind">pulpabrava@gmail.com</a>
+              <a class="boton boton--linea" href="https://www.instagram.com/dailygrind.cl/">@dailygrind.cl ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="ancho">
+      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
+      <span class="dato">
+        <a href="index.html">La casa →</a> ·
+        <a href="historia.html">La historia</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

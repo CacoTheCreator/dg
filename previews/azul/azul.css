@@ -1,0 +1,496 @@
+/* Estudio Azul — hoja del sistema para dailygrind.cl
+   Dos materiales: tinta y papel. La tinta inunda y llega al borde; el papel se
+   apoya encima, desplazado sobre un bloque plano. No hay medio tono: ningún
+   degradado en la capa gráfica, ninguna sombra difusa bajo las fichas.
+   Origen: output/the-daily-grind/creative-dept/conceptualizacion-visual/
+           2026-10-28-sistema-estudio-azul.md */
+
+:root {
+  --cobalto: #004fc8;
+  --celeste: #51b5f1;
+  --papel: #ffffff;
+  --tinta-prof: #0a1f4d;
+  /* «Sobre cobalto: blanco o celeste claro» — regla de color del sistema. */
+  --celeste-claro: #a9dbfa;
+
+  --sans: "Bricolage Grotesque", system-ui, sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
+
+  --desplazamiento: 4px;
+  --tracking-dato: 0.14em;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cobalto);
+  color: var(--papel);
+  font-family: var(--sans);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ancho {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.ancho--angosto { max-width: 760px; }
+
+/* ── La versal espaciada: etiqueta de dato ─────────────────────────────
+   Va solo en ubicación, sabor, código y estado. Nunca en texto corrido. */
+.dato {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  color: var(--celeste-claro);
+}
+.dato b { color: var(--papel); font-weight: 700; }
+
+/* ── Franja de estado ─────────────────────────────────────────────────── */
+.franja { border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+.franja .ancho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  padding-block: 13px;
+}
+.franja .sep { color: rgba(255, 255, 255, 0.4); }
+.franja .logo { margin-left: auto; height: 26px; width: auto; display: block; }
+.franja a.dato { text-decoration: none; }
+.franja a.dato:hover { color: var(--papel); }
+.punto {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--papel);
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
+/* ── Portada ──────────────────────────────────────────────────────────── */
+.portada .ancho { padding-block: 58px 44px; }
+h1 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(44px, 9.5vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  max-width: 17ch;
+}
+/* Una sola palabra en cursiva serif por titular. La serif es el acento. */
+h1 em, h2 em, h3 em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--celeste-claro);
+}
+.bajada {
+  margin-top: 24px;
+  max-width: 48ch;
+  font-size: 17px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.86);
+}
+.bajada + .bajada { margin-top: 14px; }
+
+/* ── Secciones sobre cobalto ──────────────────────────────────────────── */
+section > .ancho { padding-block: 44px; }
+h2 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(28px, 4.6vw, 46px);
+  line-height: 0.96;
+  letter-spacing: -0.012em;
+  max-width: 24ch;
+}
+.lead {
+  margin-top: 14px;
+  max-width: 54ch;
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+/* ── El espécimen: la ficha ───────────────────────────────────────────── */
+.reja {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 18px;
+}
+.reja--dos { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+.ficha { position: relative; display: flex; }
+/* El bloque de tinta: la prueba de que son dos capas. */
+.ficha::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--desplazamiento), var(--desplazamiento));
+  background: var(--tinta-prof);
+  z-index: 0;
+}
+.ficha > a,
+.ficha > .cuerpo {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  background: var(--papel);
+  color: var(--tinta-prof);
+  text-decoration: none;
+  padding: 20px 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  border: 1px solid var(--tinta-prof);
+}
+.ficha > a { transition: transform 160ms cubic-bezier(0.2, 0, 0, 1); }
+.ficha > a:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .ficha > a:hover { transform: translate(2px, 2px); }
+}
+.ficha > a:active { transform: translate(var(--desplazamiento), var(--desplazamiento)); }
+
+.ficha h2,
+.ficha h3 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  max-width: none;
+}
+.ficha p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: rgba(10, 31, 77, 0.78);
+  flex: 1;
+}
+/* Posición fija al pie, sobre una línea, en versal espaciada.
+   Una ficha sin código no está terminada. */
+.ficha .pie {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid rgba(10, 31, 77, 0.16);
+  padding-top: 11px;
+}
+.ficha .codigo,
+.ficha .ir {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  color: var(--cobalto);
+}
+
+/* La cifra: Bricolage 800, grande. La unidad va en la versal espaciada. */
+.cifra {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 0.9;
+  color: var(--cobalto);
+}
+.cifra small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-dato);
+  text-transform: uppercase;
+  color: rgba(10, 31, 77, 0.55);
+}
+
+/* ── El plano: lo útil ────────────────────────────────────────────────
+   Horario, dirección, carta, condiciones. Información sobre la que alguien
+   actúa, compuesta con la misma dignidad que una pieza de campaña. */
+.placa { position: relative; }
+.placa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--desplazamiento), var(--desplazamiento));
+  background: var(--tinta-prof);
+  z-index: 0;
+}
+.placa > .hoja {
+  position: relative;
+  z-index: 1;
+  background: var(--papel);
+  color: var(--tinta-prof);
+  border: 1px solid var(--tinta-prof);
+  padding: clamp(22px, 4vw, 40px);
+}
+.placa h2, .placa h3 { color: var(--tinta-prof); }
+.placa h2 em, .placa h3 em { color: var(--cobalto); }
+.placa p { font-weight: 300; color: rgba(10, 31, 77, 0.82); }
+.placa .lead { color: rgba(10, 31, 77, 0.82); }
+.placa a { color: var(--cobalto); }
+
+/* La lámina: la tabla de datos dentro del plano. */
+.lamina {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(10, 31, 77, 0.16);
+}
+.lamina > div {
+  padding: 15px 0 14px;
+  border-bottom: 1px solid rgba(10, 31, 77, 0.16);
+  padding-right: 18px;
+}
+.lamina span {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  color: var(--cobalto);
+  margin-bottom: 6px;
+}
+.lamina strong {
+  display: block;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--tinta-prof);
+}
+
+/* La lámina sobre cobalto: mismo plano, invertido al campo. */
+.lamina--campo { border-top-color: rgba(255, 255, 255, 0.3); }
+.lamina--campo > div { border-bottom-color: rgba(255, 255, 255, 0.3); }
+.lamina--campo span { color: var(--celeste); }
+.lamina--campo strong { color: var(--papel); }
+
+/* La carta: una lista de nombres, sin etiqueta de dato que inventar. */
+.carta {
+  margin-top: 26px;
+  list-style: none;
+  border-top: 1px solid rgba(10, 31, 77, 0.16);
+}
+.carta li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(10, 31, 77, 0.16);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--tinta-prof);
+}
+
+/* ── El campo: la lámina fotográfica ──────────────────────────────────
+   La foto es el espécimen de la plancha: va enmarcada y desplazada, igual
+   que la ficha, con el rótulo al pie en versal espaciada. */
+.plancha { position: relative; margin-top: 26px; }
+.plancha::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--desplazamiento), var(--desplazamiento));
+  background: var(--tinta-prof);
+  z-index: 0;
+}
+.plancha img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--tinta-prof);
+  background: var(--papel);
+}
+.plancha figcaption {
+  margin-top: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  color: var(--celeste-claro);
+}
+.tira {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+}
+.tira .plancha { margin-top: 0; }
+/* En fila las tomas se recortan parejo: la hilera se lee como una sola hoja. */
+.tira .plancha img { aspect-ratio: 4 / 5; object-fit: cover; }
+
+/* La ficha con lámina: la imagen va al ras del papel y el rótulo debajo.
+   Es la plancha de Atkins, con su etiqueta escrita al pie. */
+.ficha--lamina > a,
+.ficha--lamina > .cuerpo { padding: 0; gap: 0; }
+.ficha--lamina .imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--tinta-prof);
+  background: var(--papel);
+}
+.ficha--lamina .texto { padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+/* La hoja de contacto: muchas tomas en una sola plancha. */
+.contacto {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 1px;
+  background: var(--tinta-prof);
+  border: 1px solid var(--tinta-prof);
+}
+.contacto img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+/* Las planchas del cómic se leen de corrido, no apiladas. */
+.tira-larga {
+  display: flex;
+  gap: 18px;
+  margin-top: 28px;
+  overflow-x: auto;
+  padding-bottom: 14px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.tira-larga .plancha {
+  margin-top: 0;
+  /* Una página de cómic se lee, no se mira: necesita ancho. */
+  flex: 0 0 min(86vw, 620px);
+  scroll-snap-align: start;
+}
+
+/* ── Botones ──────────────────────────────────────────────────────────── */
+.boton {
+  display: inline-block;
+  position: relative;
+  background: var(--papel);
+  color: var(--tinta-prof);
+  border: 1px solid var(--tinta-prof);
+  padding: 13px 20px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--desplazamiento) var(--desplazamiento) 0 var(--tinta-prof);
+  transition: transform 140ms cubic-bezier(0.2, 0, 0, 1), box-shadow 140ms cubic-bezier(0.2, 0, 0, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .boton:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--tinta-prof); }
+}
+.boton:active { transform: translate(var(--desplazamiento), var(--desplazamiento)); box-shadow: none; }
+.boton:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 4px; }
+/* Sobre papel el apoyo cambia de color, nunca desaparece. */
+.hoja .boton { box-shadow: var(--desplazamiento) var(--desplazamiento) 0 var(--cobalto); }
+@media (hover: hover) and (pointer: fine) {
+  .hoja .boton:hover { box-shadow: 2px 2px 0 var(--cobalto); }
+}
+.boton--linea {
+  background: transparent;
+  color: var(--papel);
+  border-color: var(--papel);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .boton--linea:hover { background: var(--papel); color: var(--tinta-prof); transform: none; box-shadow: none; }
+}
+.boton--linea:active { transform: none; box-shadow: none; }
+.hoja .boton--linea {
+  color: var(--cobalto);
+  border-color: var(--cobalto);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hoja .boton--linea:hover { background: var(--cobalto); color: var(--papel); }
+}
+.fila-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+/* Una clase con display le gana al [hidden] del navegador: hay que decirlo. */
+.fila-botones[hidden] { display: none; }
+
+/* ── Rejilla numerada: los pasos ──────────────────────────────────────── */
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0;
+  margin-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+.pasos > div {
+  padding: 20px 20px 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.pasos .num {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--celeste);
+}
+.pasos h3 {
+  margin-top: 12px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.1;
+}
+.pasos p {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ── Lista de datos sobre cobalto ─────────────────────────────────────── */
+.listado { list-style: none; margin-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.3); }
+.listado li {
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+}
+
+/* ── Pie ──────────────────────────────────────────────────────────────── */
+footer { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.3); }
+footer .ancho {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 18px;
+  padding-block: 18px 26px;
+}
+footer a { color: var(--celeste-claro); text-decoration: none; }
+footer a:hover { color: var(--papel); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 1ms !important; }
+}
+@media (max-width: 620px) {
+  /* En dos líneas el separador queda colgando al final: sobra. */
+  .franja .sep { display: none; }
+}
+@media (max-width: 480px) {
+  .portada .ancho { padding-block: 40px 32px; }
+  .franja .logo { height: 22px; }
+  .lamina > div { padding-right: 0; }
+}
