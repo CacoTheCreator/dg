@@ -36,6 +36,11 @@ export default {
       return handleComanda(request, env, url);
     }
 
+    // La barquillera — votacion del sabor, con tarjeta DailyBack
+    if (url.pathname.startsWith("/votacion/api/")) {
+      return handleVotacion(request, env, url);
+    }
+
     // Publisher API
     if (url.pathname.startsWith("/publisher/api/")) {
       return handleApi(request, env, ctx);
@@ -1077,4 +1082,116 @@ function json(data, status = 200) {
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+// ============================================================================
+// La barquillera — votacion del sabor
+// ============================================================================
+
+// La ronda abierta. Rotarla es cambiar esta linea: los votos de la ronda
+// anterior quedan guardados con su etiqueta y el recuento parte limpio.
+const VOTACION_RONDA = "2026-11";
+
+// Los sabores de la barquillera, en el mismo orden que La Comanda.
+const VOTACION_SABORES = [
+  "Mango",
+  "Vainilla",
+  "Cookies & cream",
+  "Enrique",
+  "Frambuesa",
+  "Chocolate",
+];
+
+const VOTACION_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+async function handleVotacion(request, env, url) {
+  const ruta = url.pathname.replace(/^\/votacion\/api/, "");
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: comandaCors() });
+  }
+  if (!env.DB) return comandaJson({ error: "sin base de datos" }, 503);
+
+  try {
+    // GET /estado — el recuento es publico. Con ?socio= agrega su voto y su nombre.
+    if (ruta === "/estado" && request.method === "GET") {
+      const socio = (url.searchParams.get("socio") || "").toLowerCase();
+      if (!socio) return comandaJson(await votacionEstado(env, "", null));
+      if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
+      const tarjeta = await votacionTarjeta(env, socio);
+      if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
+      return comandaJson(await votacionEstado(env, socio, tarjeta));
+    }
+
+    // POST /voto — {socio, sabor}. Volver a votar cambia el sabor, no suma otro.
+    if (ruta === "/voto" && request.method === "POST") {
+      const b = await request.json().catch(() => null);
+      const socio = String(b?.socio || "").toLowerCase();
+      const sabor = String(b?.sabor || "");
+      if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
+      if (!VOTACION_SABORES.includes(sabor)) return comandaJson({ error: "sabor invalido" }, 400);
+
+      const tarjeta = await votacionTarjeta(env, socio);
+      if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
+
+      const ahora = Date.now();
+      await env.DB.prepare(
+        `INSERT INTO votos_barquillera (ronda, socio, sabor, creado, actualizado)
+         VALUES (?, ?, ?, ?, ?)
+         ON CONFLICT(ronda, socio)
+         DO UPDATE SET sabor = excluded.sabor, actualizado = excluded.actualizado`
+      ).bind(VOTACION_RONDA, socio, sabor, ahora, ahora).run();
+
+      return comandaJson(await votacionEstado(env, socio, tarjeta));
+    }
+
+    return comandaJson({ error: "ruta no encontrada" }, 404);
+  } catch (err) {
+    return comandaJson({ error: String(err?.message || err) }, 500);
+  }
+}
+
+// La tarjeta se valida contra DailyBack, que es donde vive el socio. Aca no hay
+// registro de socios: si DailyBack no la reconoce, no hay voto. El origen es
+// una variable para poder apuntar directo a la app si la subpeticion de zona
+// deja de resolver la ruta /dailyback.
+async function votacionTarjeta(env, socio) {
+  const origen = env.DAILYBACK_ORIGEN || "https://dailygrind.cl";
+  const r = await fetch(
+    origen + "/dailyback/api/consola/estado?membership=" + encodeURIComponent(socio),
+    { headers: { Accept: "application/json" } }
+  ).catch(() => null);
+  if (!r || !r.ok) return null;
+  const data = await r.json().catch(() => null);
+  return data && data.ok ? data : null;
+}
+
+async function votacionEstado(env, socio, tarjeta) {
+  const res = await env.DB.prepare(
+    "SELECT sabor, COUNT(*) AS votos FROM votos_barquillera WHERE ronda = ? GROUP BY sabor"
+  ).bind(VOTACION_RONDA).all();
+
+  const cuenta = new Map();
+  for (const fila of res.results || []) {
+    cuenta.set(String(fila.sabor), Number(fila.votos) || 0);
+  }
+
+  const sabores = VOTACION_SABORES.map((s) => ({ sabor: s, votos: cuenta.get(s) || 0 }));
+  const total = sabores.reduce((suma, s) => suma + s.votos, 0);
+
+  let miVoto = null;
+  if (socio) {
+    const fila = await env.DB.prepare(
+      "SELECT sabor FROM votos_barquillera WHERE ronda = ? AND socio = ?"
+    ).bind(VOTACION_RONDA, socio).first();
+    miVoto = fila ? String(fila.sabor) : null;
+  }
+
+  return {
+    ronda: VOTACION_RONDA,
+    sabores,
+    total,
+    miVoto,
+    nombre: (tarjeta && tarjeta.nombre) || null,
+  };
 }
