@@ -32,7 +32,7 @@
   // Si la pedida falla, los monitos no aparecen y la página sigue entera.
   var usos = document.querySelectorAll('use[href^="#monito-"]');
   if (usos.length) {
-    fetch("monitos.svg")
+    fetch("/monitos.svg")
       .then(function (r) { return r.ok ? r.text() : null; })
       .then(function (txt) {
         if (!txt) return;

@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Daily Grind — Vol. 4</title>
+
+  <meta name="description" content="La casa completa es un juego. Juega, suma granos en tu tarjeta y pide tu helado cuando quieras." />
+  <meta property="og:title" content="The Daily Grind — Vol. 4" />
+  <meta property="og:description" content="La casa completa es un juego. Juega, suma granos en tu tarjeta y pide tu helado cuando quieras." />
+  <meta property="og:image" content="https://dailygrind.cl/img/og-home-consola.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://dailygrind.cl" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Daily Grind" />
+  <meta property="og:locale" content="es_CL" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Daily Grind — Vol. 4" />
+  <meta name="twitter:description" content="La casa completa es un juego. Juega, suma granos en tu tarjeta y pide tu helado cuando quieras." />
+  <meta name="twitter:image" content="https://dailygrind.cl/img/og-home-consola.jpg" />
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --navy: #0e1e56;
+      --navy-2: #0b1845;
+      --sky: #51b5f2;
+      --sky-lt: #a6d9f8;
+      --cream: #f9f3ec;
+      --beige: #e3ded9;
+      --pistacho: #c4d870;
+      --morado: #8a4fd8;
+      --rosa: #ff4f9a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* La pantalla encendida: brillo suave arriba + barrido de líneas casi invisible */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(120% 60% at 50% -10%, rgba(81, 181, 242, 0.16), transparent 60%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(249, 243, 236, 0.025) 0 1px,
+          transparent 1px 4px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+    main, header, footer { position: relative; z-index: 1; }
+
+    .label {
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .label--dim { color: rgba(249, 243, 236, 0.55); }
+
+    /* ── HUD superior ─────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    .hud-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .hud-logo img { height: 26px; display: block; }
+    .hud-vol { color: rgba(249, 243, 236, 0.55); }
+    .hud-right { position: relative; display: flex; align-items: center; gap: 14px; }
+
+    .btn-menu {
+      background: none;
+      border: 1px solid rgba(249, 243, 236, 0.35);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .btn-menu:hover, .btn-menu[aria-expanded="true"] {
+      border-color: var(--pistacho);
+      color: var(--pistacho);
+    }
+
+    /* ── Menú desplegable ─────────────────────────── */
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 250px;
+      background: var(--navy-2);
+      border: 1px solid rgba(249, 243, 236, 0.2);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      display: none;
+      z-index: 30;
+    }
+    .menu-panel.abierto { display: block; animation: cae 0.18s ease both; }
+    @keyframes cae {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .menu-panel a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 18px;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(249, 243, 236, 0.08);
+      transition: background 0.12s ease;
+    }
+    .menu-panel a:last-child { border-bottom: none; }
+    .menu-panel a:hover { background: rgba(81, 181, 242, 0.1); }
+    .menu-panel .google {
+      background: var(--pistacho);
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .menu-panel .google:hover { background: #d2e388; }
+    .menu-panel .google small {
+      display: block;
+      font-weight: 300;
+      font-size: 11px;
+      margin-top: 2px;
+      color: rgba(14, 30, 86, 0.75);
+    }
+
+    /* ── Hero ─────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 64px 20px 40px;
+      position: relative;
+    }
+    .hero .tategaki {
+      position: absolute;
+      top: 12px;
+      right: 22px;
+      writing-mode: vertical-rl;
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      color: rgba(166, 217, 248, 0.55);
+      line-height: 1;
+      animation: sube 0.6s 0.24s ease both;
+    }
+    @media (max-width: 700px) { .hero .tategaki { display: none; } }
+    .hero .kicker {
+      color: var(--sky);
+      margin-bottom: 18px;
+      animation: sube 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: clamp(38px, 8vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      animation: sube 0.6s 0.08s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+    .hero p.bajada {
+      max-width: 500px;
+      margin: 22px auto 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(249, 243, 236, 0.78);
+      text-wrap: balance;
+      animation: sube 0.6s 0.16s ease both;
+    }
+    .start {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 34px;
+      padding: 15px 34px;
+      background: var(--pistacho);
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      transition: transform 0.12s ease, background 0.12s ease;
+      animation: sube 0.6s 0.24s ease both;
+    }
+    .start:hover { background: #d2e388; transform: translateY(-2px); }
+    .start .cursor { animation: parpadea 1.1s steps(1) infinite; }
+    @keyframes parpadea { 50% { opacity: 0; } }
+    @keyframes sube {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hint-teclas {
+      margin-top: 26px;
+      color: rgba(249, 243, 236, 0.4);
+      animation: sube 0.6s 0.32s ease both;
+    }
+    .hint-teclas kbd {
+      font-family: inherit;
+      border: 1px solid rgba(249, 243, 236, 0.3);
+      padding: 2px 6px;
+      margin: 0 1px;
+      font-size: 9px;
+    }
+
+    /* ── La puerta rosada: eventos y activaciones ──
+       Rosado propio de la línea de eventos. No es el rosa del Delaire,
+       que sigue siendo candado del postre. */
+    .puerta-eventos {
+      width: min(980px, calc(100% - 40px));
+      margin: 44px auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 24px;
+      background: var(--rosa);
+      color: var(--navy);
+      text-decoration: none;
+      box-shadow: 4px 4px 0 rgba(4, 9, 26, 0.45);
+      transition: transform 0.12s ease, background 0.12s ease;
+      animation: sube 0.6s 0.36s ease both;
+    }
+    .puerta-eventos:hover { background: #ff6aab; transform: translateY(-2px); }
+    .puerta-eventos .frase {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: clamp(19px, 3.4vw, 27px);
+      line-height: 1.1;
+    }
+    .puerta-eventos .sub {
+      display: block;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 4px;
+      color: rgba(14, 30, 86, 0.92);
+    }
+    .puerta-eventos .flecha {
+      font-family: "Shippori Mincho", serif;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    @media (max-width: 560px) {
+      .puerta-eventos { padding: 16px 18px; }
+      .puerta-eventos .flecha span { display: none; }
+    }
+
+    /* ── Cartuchos ────────────────────────────────── */
+    .cartuchos {
+      width: min(980px, calc(100% - 40px));
+      margin: 26px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      list-style: none;
+    }
+    .cartucho { grid-column: span 1; }
+    .cartucho--grande { grid-column: span 2; }
+    .cartucho a {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+      padding: 26px 26px 22px;
+      border: 1px solid rgba(249, 243, 236, 0.18);
+      color: var(--cream);
+      text-decoration: none;
+      background: rgba(11, 24, 69, 0.55);
+      transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    }
+    .cartucho .fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .cartucho h2 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+    .cartucho h2::before {
+      content: "► ";
+      color: var(--pistacho);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .cartucho p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(249, 243, 236, 0.72);
+      max-width: 560px;
+      flex: 1;
+    }
+    .cartucho .accion { color: var(--sky); }
+    .cartucho.sel a, .cartucho a:hover {
+      border-color: var(--pistacho);
+      background: rgba(11, 24, 69, 0.9);
+      transform: translateY(-3px);
+    }
+    .cartucho.sel h2::before, .cartucho a:hover h2::before { opacity: 1; }
+    .cartucho--pronto a { cursor: default; }
+    .cartucho--pronto .accion { color: rgba(249, 243, 236, 0.45); }
+    /* cartucho de la feria: borde y acción en el lima de ART STGO (cita de su marca) */
+    .cartucho--feria a { border-color: rgba(232, 255, 119, 0.45); }
+    .cartucho--feria a:hover, .cartucho--feria.sel a { border-color: #e8ff77; }
+    .cartucho--feria .accion { color: #e8ff77; }
+    .jp {
+      color: rgba(249, 243, 236, 0.5);
+      font-family: "DotGothic16", "DM Sans", sans-serif;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    /* ── Paseo del personaje ──────────────────────── */
+    .paseo-strip {
+      margin-top: 72px;
+      background: var(--cream);
+      color: var(--navy);
+      padding: 10px 20px 4px;
+      position: relative;
+    }
+    .paseo-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.12 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .paseo-strip .marco { position: relative; }
+    .paseo-strip .marco {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+    canvas.paseo {
+      display: block;
+      width: 100%;
+      height: 170px;
+      touch-action: manipulation;
+    }
+    .paseo-strip .pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 0 8px;
+    }
+    #cambia-personaje {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: rgba(14, 30, 86, 0.55);
+      padding: 4px 0;
+    }
+    .paseo-strip .label--casa { color: rgba(14, 30, 86, 0.55); }
+
+    /* ── Pop: entra a la comunidad ────────────────── */
+    .pop-fondo {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(8, 18, 52, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: aparece 0.2s ease both;
+    }
+    .pop-fondo[hidden] { display: none; }
+    @keyframes aparece { from { opacity: 0; } to { opacity: 1; } }
+    .pop-caja {
+      width: min(430px, 100%);
+      background: var(--navy-2);
+      border: 1px solid rgba(249, 243, 236, 0.35);
+      box-shadow: 6px 6px 0 rgba(4, 9, 26, 0.55);
+      padding: 30px 28px 22px;
+      animation: sube 0.25s ease both;
+    }
+    .pop-caja .label { color: var(--sky); }
+    .pop-caja h2 {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 27px;
+      line-height: 1.05;
+      margin: 12px 0 10px;
+    }
+    .pop-caja p.texto {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(249, 243, 236, 0.78);
+    }
+    .pop-google {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: var(--pistacho);
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+      transition: background 0.12s ease;
+    }
+    .pop-google:hover { background: #d2e388; }
+    .pop-google small {
+      display: block;
+      font-weight: 300;
+      font-size: 11px;
+      text-transform: none;
+      margin-top: 2px;
+      color: rgba(14, 30, 86, 0.75);
+    }
+    .pop-luego {
+      margin-top: 12px;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(249, 243, 236, 0.5);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 8px 0;
+    }
+    .pop-luego:hover { color: var(--cream); }
+    @media (max-width: 480px) {
+      .pop-fondo { align-items: flex-end; padding: 0; }
+      .pop-caja {
+        width: 100%;
+        box-shadow: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding-bottom: 30px;
+      }
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px;
+      border-top: 1px solid rgba(249, 243, 236, 0.14);
+    }
+    footer a { color: rgba(249, 243, 236, 0.55); text-decoration: none; }
+    footer a:hover { color: var(--sky); }
+
+    @media (max-width: 480px) {
+      .cartuchos { grid-template-columns: 1fr; }
+      .cartucho--grande { grid-column: span 1; }
+      .hero { padding-top: 46px; }
+      .hint-teclas { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="hud-logo" href="/">
+      <img src="/LogoTDG.svg" alt="The Daily Grind" />
+      <span class="label hud-vol">Vol. 4 · MMXXVI</span>
+    </a>
+    <div class="hud-right">
+      <button
+        class="btn-menu"
+        id="abre-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-panel"
+      >
+        Menú ■
+      </button>
+      <nav class="menu-panel" id="menu-panel" aria-label="Menú de la casa">
+        <a class="google" href="/dailyback/auth/google">
+          <span>
+            Entrar con Google
+            <small>Tu tarjeta queda conectada al tiro</small>
+          </span>
+          <span>→</span>
+        </a>
+        <a href="/laconsola/"><span>La Consola</span><span class="jp">ラ・コンソラ</span></a>
+        <a href="/laconsola/rally/"><span>El Rally</span><span class="jp">ラリー</span></a>
+        <a href="/votacion"><span>La barquillera</span><span class="jp" lang="ja">投票</span></a>
+        <a href="/eventos"><span>Eventos y activaciones</span><span class="jp" lang="ja">実現</span></a>
+        <a href="/menu"><span>El menú</span><span class="jp">メニュー</span></a>
+        <a href="/promos"><span>Promos</span><span>→</span></a>
+        <a href="/historia"><span>La historia</span><span class="jp" lang="ja">物語</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="label kicker">La consola de la casa</p>
+      <span class="tategaki" lang="ja" aria-hidden="true">ザ・デイリー・グラインド</span>
+      <h1>Press <em>start</em><br />para entrar</h1>
+      <p class="bajada">
+        Bienvenido al portal de The Daily Grind. Juega, suma granos en tu
+        tarjeta y pide tu helado cuando quieras. La casa completa es un juego.
+      </p>
+      <a class="start" href="/laconsola/">
+        Jugar ahora <span class="cursor">▮</span>
+      </a>
+      <p class="label hint-teclas">
+        Muévete con <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> y entra con <kbd>Enter</kbd>
+      </p>
+    </section>
+
+    <ul class="cartuchos" id="cartuchos">
+      <li class="cartucho cartucho--grande">
+        <a href="/laconsola/">
+          <div class="fila">
+            <h2>La Consola</h2>
+            <span class="label jp">K01–K12 · ラ・コンソラ</span>
+          </div>
+          <p>
+            Snake, Granos, Tostado, Salto de Grano y la Sala 2. Cada partida
+            deja granos en tu tarjeta y el Rally de la temporada avanza con
+            toda la casa.
+          </p>
+          <span class="label accion">Jugar →</span>
+        </a>
+      </li>
+      <li class="cartucho" id="cartucho-tarjeta">
+        <a href="/dailyback/auth/google">
+          <div class="fila">
+            <h2>Tu tarjeta</h2>
+            <span class="label jp">DailyBack</span>
+          </div>
+          <p>
+            Entra con tu Google y tu tarjeta queda conectada: tus granos, tus
+            sellos y tu tueste de la temporada, todo en un solo lugar.
+          </p>
+          <span class="label accion">Entrar con Google →</span>
+        </a>
+      </li>
+      <li class="cartucho" id="cartucho-barquillera">
+        <a href="/votacion">
+          <div class="fila">
+            <h2>La barquillera</h2>
+            <span class="label jp" lang="ja">投票</span>
+          </div>
+          <p>
+            Seis sabores y una ronda abierta. Vota con tu tarjeta el que quieres
+            que se quede en la casa de Av. Los Leones.
+          </p>
+          <span class="label accion">Votar tu sabor →</span>
+        </a>
+      </li>
+      <li class="cartucho">
+        <a href="/menu">
+          <div class="fila">
+            <h2>El menú</h2>
+            <span class="label jp">メニュー</span>
+          </div>
+          <p>
+            La carta se está poniendo al día para la casa nueva. La de la
+            feria ya está lista en ART STGO.
+          </p>
+          <span class="label accion">Cargando &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+      <li class="cartucho">
+        <a href="/nicetomeat">
+          <div class="fila">
+            <h2>La casa nueva</h2>
+            <span class="label jp" lang="ja">ナイス・トゥ・ミート</span>
+          </div>
+          <p>
+            Ya estamos en Av. Los Leones: Nice To Meat pone el espacio y el
+            fuego; nosotros, helado, soft de pistacho y café de especialidad.
+          </p>
+          <span class="label accion">Conocer la casa &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+      <li class="cartucho">
+        <a href="/akyn">
+          <div class="fila">
+            <h2>Café Akyn</h2>
+            <span class="label jp" lang="ja">珈琲の世界</span>
+          </div>
+          <p>
+            El café de especialidad de Ñuñoa que nos da vida: grano, V60 y
+            despacho en bici. Su vitrina vive en la casa.
+          </p>
+          <span class="label accion">Ver la vitrina &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+      <li class="cartucho cartucho--grande cartucho--feria">
+        <a href="/artstgo">
+          <div class="fila">
+            <h2>ART STGO</h2>
+            <span class="label jp" lang="ja">芸術祭 · 22 y 23 de agosto</span>
+          </div>
+          <p>
+            La feria de arte del GAM. Llevamos helado y açaí al pod de
+            Plaza Central y estrenamos un sabor hecho con un artista. Parte tu
+            tarjeta antes de llegar.
+          </p>
+          <span class="label accion">La feria &#x2192;&#xFE0E;</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="paseo-strip">
+      <div class="marco">
+        <canvas
+          class="paseo"
+          id="paseo"
+          aria-label="El personaje de la casa paseando por el portal. Tócalo y salta."
+        ></canvas>
+        <div class="pie">
+          <span class="label label--casa">The Daily Grind · el arte en tu rutina</span>
+          <span class="label label--casa" id="runner-score">Salta con espacio · doble para la vuelta · とぶ</span>
+          <button id="cambia-personaje" type="button"></button>
+        </div>
+      </div>
+    </div>
+
+    <a class="puerta-eventos" href="/eventos">
+      <span class="frase">
+        Nos gusta hacerlo realidad
+        <span class="sub">Llevamos la barra completa a ferias, lanzamientos y campus</span>
+      </span>
+      <span class="flecha"><span lang="ja">実現</span> &#x2192;&#xFE0E;</span>
+    </a>
+  </main>
+
+  <div class="pop-fondo" id="pop-comunidad" hidden>
+    <div class="pop-caja" role="dialog" aria-modal="true" aria-labelledby="pop-titulo">
+      <p class="label">DailyBack · <span class="jp" lang="ja">コミュニティ</span></p>
+      <h2 id="pop-titulo">Entra a la comunidad</h2>
+      <p class="texto">
+        Un toque con tu Google y tu tarjeta queda lista: los juegos suman
+        granos, cada helado timbra y el décimo va por la casa.
+      </p>
+      <a class="pop-google" href="/dailyback/auth/google">
+        <span>Entrar con Google<small>Tu tarjeta se crea al tiro</small></span>
+        <span>→</span>
+      </a>
+      <button class="pop-luego" id="pop-luego" type="button">Por ahora no</button>
+    </div>
+  </div>
+
+  <footer>
+    <span class="label label--dim">The Daily Grind · Vol. 4 · MMXXVI · <span class="jp" lang="ja">ザ・デイリー・グラインド</span></span>
+    <a class="label" href="/historia">La historia →</a>
+  </footer>
+
+  <script src="/laconsola/assets/caco.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      // Menú desplegable
+      var btnMenu = document.getElementById("abre-menu");
+      var panel = document.getElementById("menu-panel");
+      btnMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var abierto = panel.classList.toggle("abierto");
+        btnMenu.setAttribute("aria-expanded", abierto ? "true" : "false");
+      });
+      document.addEventListener("click", function (e) {
+        if (!panel.contains(e.target) && e.target !== btnMenu) {
+          panel.classList.remove("abierto");
+          btnMenu.setAttribute("aria-expanded", "false");
+        }
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          panel.classList.remove("abierto");
+          btnMenu.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Navegación con flechas entre cartuchos, como en la consola
+      var cartuchos = Array.prototype.slice.call(
+        document.querySelectorAll("#cartuchos .cartucho")
+      );
+      var sel = -1;
+      function marca(i) {
+        cartuchos.forEach(function (c, j) {
+          c.classList.toggle("sel", j === i);
+        });
+        sel = i;
+        if (i >= 0) {
+          cartuchos[i].scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+        var paso = 0;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") paso = 1;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") paso = -1;
+        else if (e.key === "Enter" && sel >= 0) {
+          var link = cartuchos[sel].querySelector("a");
+          if (link && link.getAttribute("aria-disabled") !== "true") link.click();
+          return;
+        } else return;
+        e.preventDefault();
+        var n = cartuchos.length;
+        marca(((sel + paso) % n + n) % n);
+      });
+      cartuchos.forEach(function (c, i) {
+        c.addEventListener("mouseenter", function () { marca(i); });
+      });
+
+      // El runner de la casa: el personaje pasea hasta que aprietas espacio
+      // y la franja se convierte en el juego de saltar tazas y granos.
+      var paseo = document.getElementById("paseo");
+      var marcador = document.getElementById("runner-score");
+      var HINT = "Salta con espacio · doble para la vuelta · とぶ";
+
+      function initRunner(canvas) {
+        var OUT = "#0e1e56";
+        var CREAM = "#f9f3ec";
+        var SKY = "#51b5f2";
+        var GRANO = "#6f4e37";
+        var ctx = canvas.getContext("2d");
+        var W = 0, H = 0;
+
+        function fit() {
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          canvas.width = Math.max(1, rect.width * dpr);
+          canvas.height = Math.max(1, rect.height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          W = rect.width;
+          H = rect.height;
+        }
+        fit();
+        window.addEventListener("resize", fit);
+
+        var reduce = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        var mejor = 0;
+        try { mejor = parseInt(localStorage.getItem("portal.runner.best") || "0", 10) || 0; } catch (_) {}
+
+        var st = {
+          modo: "ambiente",   // ambiente | corre | choque
+          x: 60, dir: 1, t: 0, hasta: 0,
+          y: 0, vy: 0,        // salto (y <= 0 en el aire)
+          saltos: 0, giro: -1, // doble salto + vueltita (giro 0..1, -1 apagado)
+          vel: 0, dist: 0,
+          obs: [], prox: 0,
+          chispas: [],
+        };
+        window.__paseo = st;
+
+        // La tinta de los obstáculos cambia con la luz del día
+        var tintaObs = OUT;
+
+        // Obstáculos en el idioma flat de la casa
+        function dTaza(c) {
+          c.beginPath();
+          c.moveTo(-8, 0); c.lineTo(-11, -24); c.lineTo(11, -24); c.lineTo(8, 0);
+          c.closePath();
+          c.fillStyle = CREAM; c.fill();
+          c.strokeStyle = tintaObs; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.rect(-13, -30, 26, 6);
+          c.fillStyle = SKY; c.fill(); c.stroke();
+        }
+        function dGrano(c) {
+          c.beginPath();
+          c.ellipse(0, -9, 12, 9, 0, 0, Math.PI * 2);
+          c.fillStyle = GRANO; c.fill();
+          c.strokeStyle = tintaObs; c.lineWidth = 2.6; c.stroke();
+          c.beginPath();
+          c.moveTo(-8, -13); c.quadraticCurveTo(2, -9, -6, -3);
+          c.stroke();
+        }
+        var TIPOS = [
+          { w: 26, h: 30, dib: function (c) { dTaza(c); } },
+          { w: 24, h: 18, dib: function (c) { dGrano(c); } },
+          { w: 58, h: 30, dib: function (c) { c.save(); c.translate(-15, 0); dTaza(c); c.restore(); c.save(); c.translate(15, 0); dTaza(c); c.restore(); } },
+        ];
+
+        // ── El barrio detrás: el paseo cuenta el viaje de la casa ──
+        // Paralaje a media velocidad; con los metros se hace de noche y
+        // van apareciendo las paradas: la cafetería, Providencia, la playa
+        // Jeró, el Mónaco y la UAI. Después el barrio da la vuelta.
+        var P_FONDO = 0.5;
+        var CICLO = 7400;
+        var C_DIA = [249, 243, 236], C_NOCHE = [8, 18, 52];
+        var T_DIA = [14, 30, 86], T_NOCHE = [166, 217, 248];
+        var S_DIA = [14, 30, 86], S_NOCHE = [30, 52, 120];
+        var V_DIA = [249, 243, 236], V_NOCHE = [232, 195, 74];
+
+        function mezcla(a, b, t) {
+          return "rgb(" +
+            Math.round(a[0] + (b[0] - a[0]) * t) + "," +
+            Math.round(a[1] + (b[1] - a[1]) * t) + "," +
+            Math.round(a[2] + (b[2] - a[2]) * t) + ")";
+        }
+        // Bokashi del cielo: papel → celeste pálido → noche (nunca gris turbio)
+        var C_TARDE = [166, 217, 248];
+        function cielo(t) {
+          return t < 0.4
+            ? mezcla(C_DIA, C_TARDE, t / 0.4)
+            : mezcla(C_TARDE, C_NOCHE, (t - 0.4) / 0.6);
+        }
+
+        // Cada parada se dibuja con la base del suelo en y=0, centrada en x=0.
+        // S trae la luz del momento: silueta, tinta, ventana, franja y noche.
+        function dCafeteria(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-58, -74, 116, 74);
+          for (var i = 0; i < 6; i++) {
+            c.fillStyle = i % 2 ? SKY : CREAM;
+            c.globalAlpha = 1 - S.noche * 0.45;
+            c.fillRect(-64 + i * 21.34, -82, 21.5, 12);
+            c.globalAlpha = 1;
+          }
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.strokeRect(-64, -82, 128, 12);
+          c.fillStyle = S.ventana;
+          c.fillRect(-46, -58, 50, 36);
+          c.fillRect(16, -50, 28, 50);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.strokeRect(-46, -58, 50, 36);
+          c.strokeRect(16, -50, 28, 50);
+          c.beginPath(); c.moveTo(0, -96); c.lineTo(0, -82); c.stroke();
+          c.save(); c.translate(0, -98);
+          c.beginPath();
+          c.moveTo(-7, 6); c.lineTo(-9, -8); c.lineTo(9, -8); c.lineTo(7, 6);
+          c.closePath();
+          c.fillStyle = CREAM; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 2; c.stroke();
+          c.restore();
+        }
+        function dProvidencia(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-92, -96, 52, 96);
+          c.fillRect(-30, -132, 60, 132);
+          c.fillRect(40, -72, 50, 72);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.beginPath(); c.moveTo(0, -132); c.lineTo(0, -150); c.stroke();
+          c.fillStyle = S.ventana;
+          var col, fila;
+          for (col = 0; col < 2; col++) for (fila = 0; fila < 3; fila++)
+            c.fillRect(-84 + col * 22, -86 + fila * 28, 12, 14);
+          for (col = 0; col < 3; col++) for (fila = 0; fila < 4; fila++)
+            c.fillRect(-22 + col * 17, -122 + fila * 30, 10, 14);
+          for (col = 0; col < 2; col++) for (fila = 0; fila < 2; fila++)
+            c.fillRect(48 + col * 20, -62 + fila * 28, 12, 14);
+        }
+        function dJero(c, S) {
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          var o;
+          for (o = 0; o < 3; o++) {
+            c.beginPath();
+            c.moveTo(-90 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(-60 + o * 12, -16 - o * 8, -30 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(0 + o * 12, 4 - o * 8, 30 + o * 12, -6 - o * 8);
+            c.quadraticCurveTo(60 + o * 12, -16 - o * 8, 90 + o * 12, -6 - o * 8);
+            c.stroke();
+          }
+          c.beginPath(); c.moveTo(52, 0); c.lineTo(46, -62); c.stroke();
+          c.beginPath();
+          c.moveTo(6, -54); c.quadraticCurveTo(46, -92, 86, -54);
+          c.closePath();
+          c.fillStyle = S.silueta; c.fill();
+          c.strokeStyle = S.tinta; c.stroke();
+          c.beginPath();
+          c.moveTo(26, -57); c.quadraticCurveTo(46, -88, 66, -57);
+          c.fillStyle = CREAM;
+          c.globalAlpha = 1 - S.noche * 0.5;
+          c.fill();
+          c.globalAlpha = 1;
+          c.stroke();
+        }
+        function dMonaco(c, S) {
+          c.fillStyle = S.silueta;
+          c.fillRect(-62, -70, 124, 70);
+          c.fillStyle = S.silueta;
+          c.fillRect(-52, -88, 104, 20);
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.strokeRect(-52, -88, 104, 20);
+          c.fillStyle = mezcla(V_DIA, V_NOCHE, S.noche);
+          c.font = "700 13px Syne, sans-serif";
+          c.textAlign = "center";
+          c.fillText("MÓNACO", 0, -73);
+          // la pantalla del fútbol
+          c.fillStyle = PISTA;
+          c.fillRect(-38, -56, 44, 26);
+          c.strokeStyle = S.tinta; c.strokeRect(-38, -56, 44, 26);
+          c.strokeStyle = "rgba(14,30,86,0.6)";
+          c.lineWidth = 1.4;
+          c.beginPath(); c.moveTo(-16, -56); c.lineTo(-16, -30); c.stroke();
+          c.beginPath(); c.arc(-16, -43, 5, 0, Math.PI * 2); c.stroke();
+          c.beginPath(); c.arc(-25, -46, 2.2, 0, Math.PI * 2);
+          c.fillStyle = CREAM; c.fill();
+          c.fillStyle = S.ventana;
+          c.fillRect(16, -52, 30, 52);
+        }
+        function dUai(c, S) {
+          c.beginPath();
+          c.moveTo(-100, 0);
+          c.quadraticCurveTo(0, -52, 100, 0);
+          c.closePath();
+          c.fillStyle = S.silueta;
+          c.globalAlpha = 0.55; c.fill(); c.globalAlpha = 1;
+          c.fillStyle = S.silueta;
+          c.fillRect(-46, -78, 92, 52);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          var p;
+          for (p = 0; p < 4; p++) {
+            c.fillStyle = S.ventana;
+            c.fillRect(-38 + p * 22, -70, 10, 36);
+          }
+          c.fillStyle = S.silueta;
+          c.beginPath();
+          c.moveTo(-52, -78); c.lineTo(0, -100); c.lineTo(52, -78);
+          c.closePath(); c.fill();
+          c.strokeStyle = S.tinta; c.stroke();
+        }
+        var PISTA = "#c4d870";
+
+        // ── Los volúmenes: el recuerdo aparece de noche, camino a casa ──
+        // Vol. 1 música, Vol. 2 rechill, Vol. 3 apenas un guiño. El camaleón
+        // acompaña en cada uno y muta de color: arena, verde, rosado.
+        var ARENA = "#d9c7a2", VERDE = "#3c5c48", ROSA = "#e8a7b8", NEGRO = "#232a3d";
+
+        function dCamaleon(c, color, S) {
+          c.save();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.6;
+          // cola enrollada
+          c.beginPath(); c.arc(9, -5, 4, Math.PI * 0.2, Math.PI * 1.6);
+          c.strokeStyle = color; c.lineWidth = 2.4; c.stroke();
+          // cuerpo
+          c.beginPath(); c.ellipse(0, -6, 8, 5, 0, 0, Math.PI * 2);
+          c.fillStyle = color; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.4; c.stroke();
+          // cabeza con casco
+          c.beginPath();
+          c.moveTo(-6, -9); c.lineTo(-12, -12); c.lineTo(-13, -7); c.lineTo(-8, -3);
+          c.closePath(); c.fillStyle = color; c.fill(); c.stroke();
+          c.beginPath(); c.arc(-10, -9, 1.2, 0, Math.PI * 2);
+          c.fillStyle = S.tinta; c.fill();
+          // patitas
+          c.beginPath(); c.moveTo(-3, -1); c.lineTo(-3, 0); c.moveTo(4, -1); c.lineTo(4, 0);
+          c.strokeStyle = S.tinta; c.stroke();
+          c.restore();
+        }
+        function dRack(c, S, ancho) {
+          c.strokeStyle = S.tinta; c.lineWidth = 2.2;
+          c.beginPath();
+          c.moveTo(-ancho, 0); c.lineTo(-ancho, -96);
+          c.moveTo(ancho, 0); c.lineTo(ancho, -96);
+          c.moveTo(-ancho - 8, -96); c.lineTo(ancho + 8, -96);
+          c.stroke();
+        }
+        function dPolera(c, S, x, ancho, alto, color) {
+          c.save();
+          c.translate(x, -94);
+          c.beginPath();
+          c.moveTo(-ancho * 0.5, 4); c.lineTo(-ancho * 0.82, 12); c.lineTo(-ancho * 0.62, 22);
+          c.lineTo(-ancho * 0.45, 16); c.lineTo(-ancho * 0.45, alto);
+          c.lineTo(ancho * 0.45, alto); c.lineTo(ancho * 0.45, 16);
+          c.lineTo(ancho * 0.62, 22); c.lineTo(ancho * 0.82, 12); c.lineTo(ancho * 0.5, 4);
+          c.closePath();
+          c.fillStyle = color; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.restore();
+        }
+        function dVol1(c, S) {
+          dRack(c, S, 42);
+          // el hoodie arena: capucha, cuerpo y bolsillo
+          c.save(); c.translate(0, -94);
+          c.beginPath();
+          c.moveTo(-13, 2); c.quadraticCurveTo(0, -8, 13, 2);
+          c.lineTo(22, 8); c.lineTo(24, 62); c.lineTo(-24, 62); c.lineTo(-22, 8);
+          c.closePath();
+          c.fillStyle = ARENA; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.beginPath(); c.moveTo(-13, 2); c.quadraticCurveTo(0, 14, 13, 2);
+          c.stroke();
+          // el elefante con su rosa roja al medio
+          c.fillStyle = "#55617e";
+          c.beginPath(); c.ellipse(1, 36, 8, 6, 0, 0, Math.PI * 2); c.fill();
+          c.beginPath(); c.arc(-8, 33, 4, 0, Math.PI * 2); c.fill();
+          c.beginPath(); c.moveTo(-11, 34); c.quadraticCurveTo(-15, 38, -12, 42);
+          c.strokeStyle = "#55617e"; c.lineWidth = 2; c.stroke();
+          c.beginPath(); c.arc(1, 34, 2.6, 0, Math.PI * 2);
+          c.fillStyle = "#cf3f2f"; c.fill();
+          c.restore();
+          // el vinilo apoyado, la música primero
+          c.beginPath(); c.arc(60, -16, 15, 0, Math.PI * 2);
+          c.fillStyle = "#16244f"; c.fill();
+          c.strokeStyle = S.tinta; c.lineWidth = 1.8; c.stroke();
+          c.beginPath(); c.arc(60, -16, 5, 0, Math.PI * 2);
+          c.fillStyle = "#e8c34a"; c.fill();
+          c.fillStyle = S.tinta;
+          c.font = "13px 'DM Sans', sans-serif";
+          c.textAlign = "center";
+          c.fillText("♪", 74, -44);
+          c.save(); c.translate(-30, -96); dCamaleon(c, ARENA, S); c.restore();
+        }
+        function dVol2(c, S) {
+          dRack(c, S, 46);
+          dPolera(c, S, -22, 30, 54, VERDE);
+          dPolera(c, S, 22, 30, 54, ARENA);
+          // "daily grind" al medio, rechill
+          c.fillStyle = S.tinta;
+          c.font = "italic 6px 'DM Sans', sans-serif";
+          c.textAlign = "center";
+          c.fillText("daily grind", 22, -62);
+          // la joya: cadenita con colgante dorado
+          c.strokeStyle = "#e8c34a"; c.lineWidth = 1.4;
+          c.beginPath(); c.moveTo(52, -96); c.quadraticCurveTo(56, -80, 52, -66); c.stroke();
+          c.beginPath(); c.arc(52, -62, 3.4, 0, Math.PI * 2);
+          c.fillStyle = "#e8c34a"; c.fill();
+          c.save(); c.translate(-34, -96); dCamaleon(c, VERDE, S); c.restore();
+        }
+        function dVol3(c, S) {
+          // la repisa baja del guiño: tres cilindritos y tres poleras mini
+          dRack(c, S, 40);
+          dPolera(c, S, -24, 22, 40, ROSA);
+          dPolera(c, S, 0, 22, 40, CREAM);
+          dPolera(c, S, 24, 22, 40, NEGRO);
+          c.strokeStyle = S.tinta; c.lineWidth = 2;
+          c.beginPath(); c.moveTo(-36, -28); c.lineTo(36, -28); c.stroke();
+          c.beginPath(); c.moveTo(-30, -28); c.lineTo(-30, 0); c.moveTo(30, -28); c.lineTo(30, 0);
+          c.stroke();
+          var molCol = [ROSA, CREAM, NEGRO];
+          for (var mo = 0; mo < 3; mo++) {
+            var mx = -14 + mo * 14;
+            c.fillStyle = molCol[mo];
+            c.fillRect(mx - 5, -38, 10, 8);
+            c.strokeStyle = S.tinta; c.lineWidth = 1.4;
+            c.strokeRect(mx - 5, -38, 10, 8);
+            c.beginPath(); c.ellipse(mx, -38, 5, 2, 0, 0, Math.PI * 2);
+            c.fillStyle = molCol[mo]; c.fill(); c.stroke();
+          }
+          c.save(); c.translate(46, -28); dCamaleon(c, ROSA, S); c.restore();
+        }
+
+        var PARADAS = [
+          { m: 0,   cap: "la cafetería · Vol. 4",  dib: dCafeteria },
+          { m: 180, cap: "barrio Providencia",     dib: dProvidencia },
+          { m: 380, cap: "la playa Jeró · Casa I", dib: dJero },
+          { m: 580, cap: "Mónaco · el restobar",   dib: dMonaco },
+          { m: 780, cap: "la UAI · Casa II",       dib: dUai },
+          { m: 940, cap: "Vol. 1 · la música",     dib: dVol1 },
+          { m: 1040, cap: "Vol. 2 · rechill",      dib: dVol2 },
+          { m: 1140, cap: "Vol. 3 · un guiño",     dib: dVol3 },
+        ];
+
+        function dibujaBarrio(noche) {
+          var bgOff = st.dist * P_FONDO;
+          var luzS = {
+            noche: noche,
+            silueta: mezcla(S_DIA, S_NOCHE, noche),
+            tinta: mezcla(T_DIA, T_NOCHE, noche),
+            ventana: mezcla(V_DIA, V_NOCHE, noche),
+          };
+          for (var i = 0; i < PARADAS.length; i++) {
+            var pa = PARADAS[i];
+            var x0 = pa.m === 0 ? W * 0.55 : W + pa.m * 5;
+            var sx = x0 - bgOff;
+            sx = ((sx % CICLO) + CICLO) % CICLO;
+            if (sx > W + 160 && sx < CICLO - 160) continue;
+            if (sx >= CICLO - 160) sx -= CICLO;
+            ctx.save();
+            ctx.translate(sx, suelo - 4);
+            ctx.scale(esc, esc);
+            pa.dib(ctx, luzS);
+            ctx.font = "500 12px 'DM Sans', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillStyle = luzS.tinta;
+            ctx.globalAlpha = 0.55;
+            ctx.fillText(pa.cap.toUpperCase(), 0, -158);
+            ctx.globalAlpha = 1;
+            ctx.restore();
+          }
+        }
+
+        function dibujaCielo(noche) {
+          if (noche > 0) {
+            var deg = ctx.createLinearGradient(0, 0, 0, H);
+            deg.addColorStop(0, cielo(Math.min(1, noche * 1.15)));
+            deg.addColorStop(1, cielo(noche * 0.8));
+            ctx.fillStyle = deg;
+            ctx.fillRect(0, 0, W, H);
+          }
+          // el sol shu se pone y la luna sube
+          if (noche > 0.02 && noche < 0.85) {
+            var sy = 24 + noche * (H + 20);
+            if (sy < suelo - 4) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(0, 0, W, suelo - 2);
+              ctx.clip();
+              ctx.beginPath();
+              ctx.arc(W * 0.8, sy, 13, 0, Math.PI * 2);
+              ctx.fillStyle = "#cf3f2f";
+              ctx.globalAlpha = 0.9 - noche * 0.6;
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+          if (noche > 0.35) {
+            var f = (noche - 0.35) / 0.65;
+            var ly = H * 0.75 - (H * 0.75 - 26) * f;
+            ctx.beginPath();
+            ctx.arc(W * 0.16, ly, 10, 0, Math.PI * 2);
+            ctx.fillStyle = CREAM;
+            ctx.globalAlpha = f;
+            ctx.fill();
+            ctx.fillStyle = cielo(Math.min(1, noche * 1.15));
+            ctx.beginPath();
+            ctx.arc(W * 0.16 + 5, ly - 3, 8.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+          if (noche > 0.45) {
+            var fe = (noche - 0.45) / 0.55;
+            ctx.fillStyle = CREAM;
+            for (var e = 0; e < 26; e++) {
+              var exx = (e * 137.51 + 40) % W;
+              var eyy = ((e * 71.3 + 12) % (H * 0.6));
+              ctx.globalAlpha = fe * (0.25 + 0.45 * Math.abs(Math.sin(st.t * 1.2 + e * 1.7)));
+              ctx.fillRect(exx, eyy, 2, 2);
+            }
+            ctx.globalAlpha = 1;
+          }
+        }
+
+        function pinta() {
+          if (!marcador) return;
+          var m = Math.floor(st.dist / 10);
+          if (st.modo === "corre") {
+            marcador.textContent = String(m).padStart(4, "0") + " m";
+          } else if (st.modo === "choque") {
+            marcador.textContent =
+              String(m).padStart(4, "0") + " m · mejor " +
+              String(mejor).padStart(4, "0") + " · espacio para otra";
+          } else {
+            marcador.textContent = HINT;
+          }
+        }
+
+        function empieza() {
+          st.modo = "corre";
+          st.y = 0; st.vy = 0;
+          st.saltos = 0; st.giro = -1;
+          st.vel = 190; st.dist = 0;
+          st.obs = [];
+          st.prox = 380;
+          st.dir = 1;
+          pinta();
+        }
+
+        function salta() {
+          if (st.y === 0) {
+            st.vy = -330;
+            st.saltos = 1;
+          } else if (st.saltos === 1) {
+            st.vy = -290;
+            st.saltos = 2;
+            st.giro = 0;
+          }
+        }
+
+        function chispea(x, y) {
+          for (var i = 0; i < 12; i++) {
+            st.chispas.push({
+              x: x + (Math.random() - 0.5) * 24,
+              y: y - 20,
+              vx: (Math.random() - 0.5) * 160,
+              vy: -(80 + Math.random() * 120),
+              r: 2.5 + Math.random() * 2,
+            });
+          }
+        }
+
+        function accion() {
+          if (st.modo === "corre") salta();
+          else empieza();
+        }
+        canvas.style.cursor = "pointer";
+        canvas.addEventListener("pointerdown", accion);
+        document.addEventListener("keydown", function (e) {
+          if (e.code !== "Space") return;
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") return;
+          e.preventDefault();
+          accion();
+        });
+
+        var esc, suelo;
+        function charBox() {
+          return {
+            x0: st.x - 12 * esc, x1: st.x + 12 * esc,
+            y0: suelo + st.y - 96 * esc, y1: suelo + st.y,
+          };
+        }
+
+        var last = 0;
+        function loop(ts) {
+          if (!last) last = ts;
+          var dt = Math.min((ts - last) / 1000, 0.05);
+          last = ts;
+          st.t += dt;
+
+          var rect = canvas.getBoundingClientRect();
+          var dpr = window.devicePixelRatio || 1;
+          if (Math.abs(canvas.width - rect.width * dpr) > 2) fit();
+
+          suelo = H - 14;
+          esc = Math.min(H / 270, 0.62);
+
+          if (st.modo === "ambiente" && !reduce) {
+            st.x += st.dir * 34 * dt;
+            if (st.x > W - 46) st.dir = -1;
+            if (st.x < 46) st.dir = 1;
+          } else if (st.modo === "corre") {
+            st.vel = Math.min(st.vel + 9 * dt, 430);
+            st.dist += st.vel * dt;
+            st.x += (Math.max(46, W * 0.18) - st.x) * Math.min(1, dt * 4);
+
+            // salto
+            if (st.y < 0 || st.vy < 0) {
+              st.vy += 1050 * dt;
+              st.y += st.vy * dt;
+              if (st.y >= 0) { st.y = 0; st.vy = 0; st.saltos = 0; st.giro = -1; }
+            }
+            if (st.giro >= 0) {
+              st.giro += dt / 0.55;
+              if (st.giro >= 1) st.giro = -1;
+            }
+
+            // obstáculos
+            st.prox -= st.vel * dt;
+            for (var i = st.obs.length - 1; i >= 0; i--) {
+              st.obs[i].x -= st.vel * dt;
+              if (st.obs[i].x < -70) st.obs.splice(i, 1);
+            }
+            if (st.prox <= 0) {
+              var tipo = TIPOS[Math.floor(Math.random() * TIPOS.length)];
+              st.obs.push({ x: W + 40, tipo: tipo });
+              st.prox = 240 + Math.random() * 320 + st.vel * 0.35;
+            }
+
+            // colisión
+            var cb = charBox();
+            for (var j = 0; j < st.obs.length; j++) {
+              var o = st.obs[j];
+              var m = 4; // margen amable
+              if (
+                cb.x1 - m > o.x - o.tipo.w / 2 &&
+                cb.x0 + m < o.x + o.tipo.w / 2 &&
+                cb.y1 > suelo - o.tipo.h + m
+              ) {
+                st.modo = "choque";
+                var mts = Math.floor(st.dist / 10);
+                if (mts > mejor) {
+                  mejor = mts;
+                  try { localStorage.setItem("portal.runner.best", String(mejor)); } catch (_) {}
+                }
+                chispea(st.x, suelo);
+                break;
+              }
+            }
+            pinta();
+          }
+
+          // ---- dibujo ----
+          // La noche cae con los metros: atardece desde los 240 m (el sol shu
+          // se pone sobre la playa Jeró) y es plena llegando a la UAI.
+          var noche = Math.max(0, Math.min(1, (st.dist / 10 - 240) / 460));
+          tintaObs = mezcla(T_DIA, T_NOCHE, noche);
+
+          ctx.clearRect(0, 0, W, H);
+          dibujaCielo(noche);
+          dibujaBarrio(noche);
+
+          ctx.strokeStyle = tintaObs;
+          ctx.globalAlpha = 0.35;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(8, suelo + 1);
+          ctx.lineTo(W - 8, suelo + 1);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+
+          for (var k = 0; k < st.obs.length; k++) {
+            var ob = st.obs[k];
+            ctx.save();
+            ctx.translate(ob.x, suelo);
+            ob.tipo.dib(ctx);
+            ctx.restore();
+          }
+
+          for (var p = st.chispas.length - 1; p >= 0; p--) {
+            var ch = st.chispas[p];
+            ch.vy += 260 * dt;
+            ch.x += ch.vx * dt;
+            ch.y += ch.vy * dt;
+            if (ch.y > suelo + 10) { st.chispas.splice(p, 1); continue; }
+            ctx.beginPath();
+            ctx.ellipse(ch.x, ch.y, ch.r, ch.r * 0.78, 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = GRANO;
+            ctx.fill();
+          }
+
+          var pose = "walk";
+          if (st.modo === "ambiente") pose = reduce ? "idle" : "walk";
+          else if (st.modo === "corre") pose = st.y < 0 ? "jump" : "walk";
+          else if (st.modo === "choque") pose = "idle";
+
+          ctx.save();
+          ctx.translate(st.x, suelo + st.y);
+          ctx.scale(st.dir * esc, esc);
+          if (st.giro > 0) {
+            // la vueltita: giro completo alrededor del centro del cuerpo
+            ctx.translate(0, -50);
+            ctx.rotate(st.giro * Math.PI * 2);
+            ctx.translate(0, 50);
+          }
+          window.Caco.dibujar(ctx, pose, st.modo === "corre" ? st.t * 2.1 : st.t);
+          ctx.restore();
+
+          window.requestAnimationFrame(loop);
+        }
+        window.requestAnimationFrame(loop);
+        pinta();
+      }
+
+      if (paseo && window.Caco) initRunner(paseo);
+      else if (marcador) marcador.style.display = "none";
+
+      var btnP = document.getElementById("cambia-personaje");
+      function pintaBtn() {
+        var q = window.Caco.quien();
+        var signo =
+          q === "connie"
+            ? '<span style="color: #8a4fd8; font-size: 13px">♀</span>'
+            : '<span style="color: #51b5f2; font-size: 13px">♂</span>';
+        btnP.innerHTML = "Te acompaña " + signo + " · cambiar ⇄";
+      }
+      if (btnP && window.Caco) {
+        pintaBtn();
+        btnP.addEventListener("click", function () {
+          window.Caco.setQuien(window.Caco.quien() === "connie" ? "caco" : "connie");
+          pintaBtn();
+        });
+      } else if (btnP) {
+        btnP.style.display = "none";
+      }
+
+      // ── Comunidad: pop de invitación + saludo a los de la casa ──
+      // Si el Rally ya conectó una tarjeta (laconsola.rally.socio) o hay
+      // sesión DailyBack, el pop no aparece: el cartucho saluda por nombre.
+      var POP_KEY = "portal.comunidad.vista";
+      var POP_DIAS = 7;
+      function socioRally() {
+        try {
+          var id = localStorage.getItem("laconsola.rally.socio");
+          return id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
+            ? id
+            : null;
+        } catch (_) { return null; }
+      }
+      function sesionDailyback() {
+        try { return /(^|;\s*)sb-[^=;]*-auth-token/.test(document.cookie); } catch (_) { return false; }
+      }
+      function popVisto() {
+        try {
+          var t = parseInt(localStorage.getItem(POP_KEY) || "0", 10);
+          return !!t && Date.now() - t < POP_DIAS * 864e5;
+        } catch (_) { return true; }
+      }
+      function marcaPop() {
+        try { localStorage.setItem(POP_KEY, String(Date.now())); } catch (_) {}
+      }
+
+      var pop = document.getElementById("pop-comunidad");
+      var socio = socioRally();
+
+      if (socio) {
+        fetch("/dailyback/api/consola/estado?membership=" + encodeURIComponent(socio))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (!d || !d.ok) return;
+            var card = document.getElementById("cartucho-tarjeta");
+            if (!card) return;
+            var link = card.querySelector("a");
+            var h2 = card.querySelector("h2");
+            var p = card.querySelector("p");
+            var accion = card.querySelector(".accion");
+            if (h2 && d.nombre) h2.textContent = "Hola, " + d.nombre;
+            if (p) {
+              p.textContent =
+                "Tu tarjeta está activa: llevas " + d.granos +
+                (d.granos === 1 ? " grano" : " granos") +
+                " de la temporada. Sigue jugando y cada helado timbra.";
+            }
+            if (accion) accion.innerHTML = "Ver tu tarjeta →︎";
+            if (link) link.setAttribute("href", "/dailyback/mi-tarjeta/" + socio);
+          })
+          .catch(function () {});
+      } else if (pop && !sesionDailyback() && !popVisto()) {
+        var cierraPop = function () {
+          pop.hidden = true;
+          marcaPop();
+        };
+        window.setTimeout(function () {
+          pop.hidden = false;
+          var luego = document.getElementById("pop-luego");
+          if (luego) luego.addEventListener("click", cierraPop);
+          pop.addEventListener("click", function (e) {
+            if (e.target === pop) cierraPop();
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && !pop.hidden) cierraPop();
+          });
+          var cta = pop.querySelector(".pop-google");
+          if (cta) cta.addEventListener("click", marcaPop);
+        }, 2400);
+      }
+    })();
+  </script>
+  <script>
+    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
+    // sin terceros. `s` conserva src/utm para separar feria, pauta y orgánico.
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        var src = q.get("src") || q.get("utm_source") || "";
+        var camp = q.get("utm_campaign") || "";
+        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
+          p: location.pathname,
+          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
+          r: (document.referrer || "").slice(0, 120)
+        })], { type: "application/json" }));
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

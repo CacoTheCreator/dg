@@ -4,350 +4,242 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>La barquillera — The Daily Grind</title>
-  <meta name="description" content="Seis sabores en la barquillera y una ronda abierta. Vota con tu tarjeta DailyBack: el más votado se queda." />
-  <meta property="og:title" content="La barquillera — The Daily Grind" />
-  <meta property="og:description" content="Seis sabores en la barquillera y una ronda abierta. Vota con tu tarjeta DailyBack: el más votado se queda." />
-  <meta property="og:url" content="https://dailygrind.cl/votacion" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="The Daily Grind" />
-  <meta property="og:locale" content="es_CL" />
   <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet"
   />
+  <link rel="stylesheet" href="/azul.css" />
   <style>
-    :root {
-      --navy: #0e1e56;
-      --navy-2: #0b1845;
-      --sky: #51b5f2;
-      --sky-lt: #a6d9f8;
-      --cream: #f9f3ec;
-      --pistacho: #c4d870;
-      /* La marca de registro y el rayado vienen del registro de Irrumpe OS.
-         Acá se dibujan con los colores de la casa. */
-      --marca: rgba(166, 217, 248, 0.5);
-      --marca-viva: var(--pistacho);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--navy);
-      color: var(--cream);
-      font-family: "DM Sans", sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow-x: hidden;
-    }
-    /* La pantalla encendida, igual que en la consola de la home. */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(120% 60% at 50% -10%, rgba(81, 181, 242, 0.16), transparent 60%),
-        repeating-linear-gradient(0deg, rgba(249, 243, 236, 0.025) 0 1px, transparent 1px 4px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    main, header, footer { position: relative; z-index: 1; }
-
-    .label {
-      font-weight: 500;
-      text-transform: uppercase;
-      font-size: 11px;
-    }
-    .jp { font-family: "DotGothic16", "DM Sans", sans-serif; }
-    /* Lectura de instrumento: números y claves en tipografía de píxeles. */
-    .px { font-family: "DotGothic16", "DM Sans", sans-serif; font-variant-numeric: tabular-nums; }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 18px 24px;
-      border-bottom: 1px solid rgba(249, 243, 236, 0.12);
-    }
-    .hud-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--cream); }
-    .hud-logo img { height: 26px; width: auto; display: block; }
-    .volver { color: rgba(249, 243, 236, 0.55); text-decoration: none; }
-    .volver:hover { color: var(--sky-lt); }
-
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 56px 24px 72px;
-    }
-
-    /* ── Marcas de registro, prestadas de Irrumpe OS ──────────────
-       Ocho tramos de un pixel dibujan las cuatro esquinas por fuera del
-       panel, así que la pieza se lee montada sobre la pantalla. Van en una
-       capa propia porque el `background` abreviado de cada panel borraría
-       un background-image puesto en el mismo elemento. */
-    .reg { position: relative; }
-    .reg::after {
-      content: "";
-      position: absolute;
-      inset: -5px;
-      pointer-events: none;
-      --m: 11px;
-      --g: 1px;
-      background-image:
-        linear-gradient(var(--marca) 0 0), linear-gradient(var(--marca) 0 0),
-        linear-gradient(var(--marca) 0 0), linear-gradient(var(--marca) 0 0),
-        linear-gradient(var(--marca) 0 0), linear-gradient(var(--marca) 0 0),
-        linear-gradient(var(--marca) 0 0), linear-gradient(var(--marca) 0 0);
-      background-repeat: no-repeat;
-      background-size:
-        var(--m) var(--g), var(--g) var(--m),
-        var(--m) var(--g), var(--g) var(--m),
-        var(--m) var(--g), var(--g) var(--m),
-        var(--m) var(--g), var(--g) var(--m);
-      background-position:
-        0 0, 0 0,
-        100% 0, 100% 0,
-        0 100%, 0 100%,
-        100% 100%, 100% 100%;
-    }
-
-    /* Rayado diagonal: la regla de Irrumpe OS, en crema sobre azul. */
-    .rayado {
-      height: 10px;
-      margin: 38px 0 34px;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(249, 243, 236, 0.5) 0 5px,
-        transparent 5px 10px
-      );
-    }
-
-    /* ── Cabeza ─────────────────────────────────────────── */
-    .cabeza { position: relative; }
-    .tategaki {
-      position: absolute;
-      top: -6px;
-      right: 0;
-      writing-mode: vertical-rl;
-      font-family: "Shippori Mincho", serif;
-      font-size: 13px;
-      color: rgba(166, 217, 248, 0.4);
-    }
-    .kicker { color: var(--sky); margin-bottom: 18px; }
-    h1 {
-      font-family: "Syne", sans-serif;
-      font-weight: 700;
-      font-size: clamp(34px, 6vw, 60px);
-      line-height: 1.03;
-      max-width: 15ch;
-    }
-    h1 em { font-style: normal; color: var(--sky); }
-    .texto {
-      margin-top: 18px;
-      max-width: 54ch;
-      font-size: 16px;
-      line-height: 1.6;
-      color: rgba(249, 243, 236, 0.78);
-    }
-
-    /* Lectura: la fila de campos con clave y valor. */
+    /* ── Lo propio de la votación ───────────────────────────────────────── */
     .lectura {
-      margin-top: 28px;
       display: flex;
       flex-wrap: wrap;
       gap: 0;
-      padding: 14px 18px;
-      background: rgba(11, 24, 69, 0.55);
+      margin-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     }
-    .campo { display: flex; align-items: baseline; gap: 9px; padding: 2px 20px 2px 0; margin-right: 20px; border-right: 1px solid rgba(249, 243, 236, 0.12); }
-    .campo:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
-    .campo .k { font-weight: 500; text-transform: uppercase; font-size: 10px; color: rgba(249, 243, 236, 0.5); }
-    .campo .v { font-size: 15px; color: var(--cream); font-weight: 400; }
-    .campo .v.on { color: var(--pistacho); }
-
-    /* ── Panel del socio ────────────────────────────────── */
-    .socio { padding: 26px; background: rgba(11, 24, 69, 0.55); }
-    .socio h2 { font-family: "Syne", sans-serif; font-weight: 700; font-size: 21px; }
-    .socio p { margin-top: 9px; font-size: 15px; line-height: 1.55; color: rgba(249, 243, 236, 0.74); max-width: 52ch; }
-    .acciones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; align-items: center; }
-    .boton {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 12px 20px;
-      background: var(--pistacho);
-      color: #15200f;
-      font-family: "Syne", sans-serif;
+    .lectura > span {
+      padding: 14px 32px 14px 0;
+    }
+    .lectura .k {
+      display: block;
+      font-size: 10px;
       font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-      border: 0;
-      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--celeste-claro);
+      margin-bottom: 5px;
     }
-    .boton:hover { filter: brightness(1.08); }
-    .boton--fino {
-      background: transparent;
-      color: var(--sky-lt);
-      border: 1px solid rgba(166, 217, 248, 0.4);
-      font-weight: 400;
+    .lectura .v {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--papel);
     }
-    .boton--fino:hover { border-color: var(--sky-lt); filter: none; }
-    .pegar { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-    .pegar input {
-      flex: 1 1 260px;
-      padding: 11px 13px;
-      background: rgba(14, 30, 86, 0.8);
-      border: 1px solid rgba(249, 243, 236, 0.2);
-      color: var(--cream);
-      font-family: "DM Sans", sans-serif;
-      font-size: 14px;
-      border-radius: 0;
-    }
-    .pegar input:focus { outline: 0; border-color: var(--sky); }
-    .aviso { margin-top: 14px; font-size: 13px; color: var(--sky-lt); }
-    /* Sin mensaje no deja hueco: el panel conectado es solo saludo y estado. */
-    .aviso:empty { display: none; }
-    .aviso.malo { color: #ff9ab5; }
-    [hidden] { display: none !important; }
 
-    /* ── La barquillera ─────────────────────────────────── */
-    .barquillera {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
+    /* El panel de la tarjeta es plano: información sobre la que se actúa. */
+    .panel { margin-top: 40px; max-width: 720px; }
+    .panel h2 { font-size: clamp(24px, 3.4vw, 32px); }
+    .panel p { margin-top: 12px; max-width: 52ch; font-size: 16px; }
+    .panel .fila-botones { margin-top: 24px; }
+    .pegar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    /* Una clase con display le gana al [hidden] del navegador: hay que decirlo. */
+    .pegar[hidden] { display: none; }
+    .pegar input {
+      flex: 1 1 280px;
+      min-width: 0;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--tinta-prof);
+      background: var(--papel);
+      border: 1px solid var(--tinta-prof);
+      padding: 12px 14px;
     }
-    .sabor { display: flex; }
-    .sabor button {
-      flex: 1;
+    .pegar input::placeholder { color: rgba(10, 31, 77, 0.45); }
+    .pegar input:focus-visible { outline: 3px solid var(--cobalto); outline-offset: 2px; }
+    .aviso {
+      margin-top: 14px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--cobalto);
+      min-height: 14px;
+    }
+    .aviso.malo { color: #b3002d; }
+
+    /* ── Los seis especímenes ───────────────────────────────────────────── */
+    .barquillera { list-style: none; }
+    .barquillera button {
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      background: var(--papel);
+      border: 1px solid var(--tinta-prof);
+      padding: 20px 20px 15px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      padding: 22px 22px 18px;
-      /* Trama de puntos: el fondo de Irrumpe OS, apenas visible. */
-      background:
-        radial-gradient(rgba(249, 243, 236, 0.085) 1px, transparent 1px) 0 0 / 15px 15px,
-        rgba(11, 24, 69, 0.55);
-      border: 1px solid rgba(249, 243, 236, 0.18);
-      color: var(--cream);
-      text-align: left;
-      font-family: inherit;
-      cursor: pointer;
-      transition: border-color 0.15s ease, transform 0.15s ease;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+      transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
     }
-    .sabor button:hover { border-color: rgba(166, 217, 248, 0.6); transform: translateY(-2px); }
-    .sabor button:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
-    .sabor .fila { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-    .sabor h3 { font-family: "Syne", sans-serif; font-weight: 700; font-size: 19px; }
-    .sabor .cuenta { font-size: 17px; color: var(--sky-lt); }
-    .barra { height: 6px; background: rgba(249, 243, 236, 0.12); }
-    .barra span { display: block; height: 100%; background: var(--sky); width: 0; transition: width 0.4s ease; }
-    .sabor .pieza { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .sabor .parte { font-size: 11px; color: rgba(249, 243, 236, 0.5); text-transform: uppercase; font-weight: 500; }
-    .sabor .marca-voto { font-size: 11px; text-transform: uppercase; font-weight: 500; color: var(--pistacho); }
+    @media (hover: hover) and (pointer: fine) {
+      .barquillera button:hover { transform: translate(2px, 2px); }
+    }
+    .barquillera button:active { transform: translate(var(--desplazamiento), var(--desplazamiento)); }
+    .barquillera button:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 4px; }
 
-    /* El voto propio enciende el panel y sus marcas de registro. */
-    .sabor.mio { --marca: var(--marca-viva); }
-    .sabor.mio button { border-color: var(--pistacho); }
-    .sabor.mio .barra span { background: var(--pistacho); }
-    .sabor.mio .cuenta { color: var(--pistacho); }
+    .sabor .encabezado {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .sabor h3 {
+      font-weight: 800;
+      font-size: clamp(20px, 2.6vw, 26px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--tinta-prof);
+    }
+    .sabor .cuenta {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 0.85;
+      color: var(--cobalto);
+      text-align: right;
+      flex: none;
+    }
+    /* Barra plana: el sistema no tiene medio tono. */
+    .sabor .barra { height: 8px; background: rgba(10, 31, 77, 0.12); }
+    .sabor .barra span { display: block; height: 100%; background: var(--cobalto); transition: width 220ms cubic-bezier(0.2, 0, 0, 1); }
+    .sabor .pie {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid rgba(10, 31, 77, 0.16);
+      padding-top: 11px;
+    }
+    .sabor .codigo,
+    .sabor .parte {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--cobalto);
+    }
+    .sabor .parte { color: rgba(10, 31, 77, 0.55); }
+
+    /* El sello: cuando el espécimen está elegido, el código se invierte.
+       Es un corte, no un fundido. */
+    .sabor.mio button { border-width: 2px; }
+    .sabor.mio .codigo {
+      background: var(--tinta-prof);
+      color: var(--papel);
+      padding: 4px 8px;
+      margin: -4px -8px;
+    }
 
     .barquillera.bloqueada button { cursor: default; }
-    .barquillera.bloqueada button:hover { border-color: rgba(249, 243, 236, 0.18); transform: none; }
+    .barquillera.bloqueada button:active { transform: none; }
 
-    .pie-nota { margin-top: 26px; font-size: 13px; color: rgba(249, 243, 236, 0.5); }
-
-    footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      padding: 22px 24px;
-      border-top: 1px solid rgba(249, 243, 236, 0.12);
-      color: rgba(249, 243, 236, 0.55);
-    }
-    footer a { color: rgba(249, 243, 236, 0.55); text-decoration: none; }
-    footer a:hover { color: var(--sky-lt); }
-
-    @media (max-width: 480px) {
-      main { padding: 38px 18px 56px; }
-      .campo { padding-right: 14px; margin-right: 14px; }
-      .tategaki { display: none; }
+    .nota-pie {
+      margin-top: 26px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--celeste-claro);
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="hud-logo" href="/">
-      <img src="/LogoTDG.svg" alt="The Daily Grind" />
-      <span class="label" style="color: rgba(249,243,236,0.55)">Vol. 4 · MMXXVI</span>
-    </a>
-    <a class="label volver" href="/">Volver a la consola →</a>
-  </header>
+  <div class="franja">
+    <div class="ancho">
+      <a class="dato" href="/">← La casa</a>
+      <span class="dato sep" aria-hidden="true">·</span>
+      <span class="dato"><b>La barquillera · Tu Pausa</b></span>
+      <a href="/"><img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    </div>
+  </div>
 
   <main>
-    <section class="cabeza">
-      <span class="tategaki" lang="ja" aria-hidden="true">投票</span>
-      <p class="label kicker">Tu Pausa · la barquillera</p>
-      <h1>Elige el sabor<br /><em>que se queda</em></h1>
-      <p class="texto">
-        Seis sabores en la barquillera y una ronda abierta. Tu tarjeta DailyBack
-        es tu voto, y el más votado se queda en la casa de Av. Los Leones.
-      </p>
+    <section class="portada">
+      <div class="ancho">
+        <div class="portada-fila">
+          <div>
+            <h1>Elige el sabor que se <em>queda</em>.</h1>
+            <p class="bajada">
+              Seis sabores en la barquillera y una ronda abierta. Tu tarjeta DailyBack
+              es tu voto, y el más votado se queda en la casa de Av. Los Leones.
+            </p>
+          </div>
+          <svg class="monito monito--portada" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
+        </div>
 
-      <div class="lectura reg px">
-        <span class="campo"><b class="k">Ronda</b><b class="v" id="v-ronda">—</b></span>
-        <span class="campo"><b class="k">Estado</b><b class="v on">Abierta</b></span>
-        <span class="campo"><b class="k">Votos</b><b class="v" id="v-total">0</b></span>
+        <div class="lectura">
+          <span><b class="k">Ronda</b><b class="v" id="v-ronda">—</b></span>
+          <span><b class="k">Estado</b><b class="v">Abierta</b></span>
+          <span><b class="k">Votos</b><b class="v" id="v-total">0</b></span>
+        </div>
+
+        <div class="placa panel" id="panel-socio">
+          <div class="hoja">
+            <h2 id="socio-titulo">Vota con tu tarjeta</h2>
+            <p id="socio-texto">
+              Tu DailyBack es tu voto. Entra con tu Google y la tarjeta queda
+              conectada, o pega acá el link de la tuya si ya la tienes abierta.
+            </p>
+
+            <div class="fila-botones" id="socio-acciones">
+              <a class="boton" href="/dailyback/auth/google?next=/votacion">Entrar con Google →</a>
+              <button class="boton boton--linea" type="button" id="abre-pegar">Pegar el link de mi tarjeta</button>
+            </div>
+
+            <div class="pegar" id="caja-pegar" hidden>
+              <input
+                id="campo-link"
+                type="text"
+                inputmode="url"
+                autocomplete="off"
+                placeholder="https://dailygrind.cl/dailyback/mi-tarjeta/…"
+                aria-label="Link de tu tarjeta DailyBack"
+              />
+              <button class="boton" type="button" id="conectar">Conectar</button>
+            </div>
+
+            <p class="aviso" id="aviso" role="status"></p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <div class="rayado" aria-hidden="true"></div>
-
-    <section class="socio reg" id="panel-socio">
-      <h2 id="socio-titulo">Vota con tu tarjeta</h2>
-      <p id="socio-texto">
-        Tu DailyBack es tu voto. Entra con tu Google y la tarjeta queda conectada,
-        o pega acá el link de la tuya si ya la tienes abierta.
-      </p>
-
-      <div class="acciones" id="socio-acciones">
-        <a class="boton" href="/dailyback/auth/google?next=/votacion">Entrar con Google →</a>
-        <button class="boton boton--fino" type="button" id="abre-pegar">Pegar el link de mi tarjeta</button>
+    <section>
+      <div class="ancho" style="padding-block: 8px 48px">
+        <ul class="barquillera reja" id="barquillera" aria-label="Sabores de la barquillera"></ul>
+        <p class="nota-pie">
+          Un voto por tarjeta · Se puede cambiar mientras la ronda esté abierta
+        </p>
       </div>
-
-      <div class="pegar" id="caja-pegar" hidden>
-        <input
-          id="campo-link"
-          type="text"
-          inputmode="url"
-          autocomplete="off"
-          placeholder="https://dailygrind.cl/dailyback/mi-tarjeta/…"
-          aria-label="Link de tu tarjeta DailyBack"
-        />
-        <button class="boton" type="button" id="conectar">Conectar</button>
-      </div>
-
-      <p class="aviso" id="aviso" role="status"></p>
     </section>
-
-    <ul class="barquillera" id="barquillera" aria-label="Sabores de la barquillera"></ul>
-
-    <p class="pie-nota">
-      Un voto por tarjeta. Lo puedes cambiar mientras la ronda esté abierta.
-    </p>
   </main>
 
   <footer>
-    <span class="label">The Daily Grind · Vol. 4 · MMXXVI · <span class="jp" lang="ja">ザ・デイリー・グラインド</span></span>
-    <a class="label" href="/laconsola/">La Consola →</a>
+    <div class="ancho">
+      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
+      <span class="dato"><a href="/laconsola/">La Consola →</a></span>
+    </div>
   </footer>
 
   <script>
@@ -360,6 +252,24 @@
       var KEY = "laconsola.rally.socio";
       var API = "/votacion/api";
       var UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+      // El código de catálogo cierra cada ficha. TDG 03 y TDG 04 todavía tienen
+      // dos nombres según la fuente, así que ambos apuntan al mismo código.
+      var CODIGOS = {
+        "frambuesa": "TDG 01",
+        "chocolate": "TDG 02",
+        "enrique": "TDG 03",
+        "snickers": "TDG 03",
+        "vainilla": "TDG 04",
+        "anti vainilla": "TDG 04",
+        "cookies & cream": "TDG 05",
+        "mango": "TDG 06"
+      };
+
+      function codigoDe(sabor) {
+        var k = String(sabor || "").toLowerCase().replace(/\s+/g, " ").trim();
+        return CODIGOS[k] || "TDG —";
+      }
 
       var elRonda = document.getElementById("v-ronda");
       var elTotal = document.getElementById("v-total");
@@ -408,7 +318,7 @@
         var sabores = data.sabores || [];
         var total = data.total || 0;
 
-        elLista.className = "barquillera" + (socio ? "" : " bloqueada");
+        elLista.className = "barquillera reja" + (socio ? "" : " bloqueada");
         elLista.innerHTML = "";
 
         sabores.forEach(function (s) {
@@ -416,21 +326,21 @@
           var mio = miVoto === s.sabor;
 
           var li = document.createElement("li");
-          li.className = "sabor reg" + (mio ? " mio" : "");
+          li.className = "sabor ficha" + (mio ? " mio" : "");
 
           var b = document.createElement("button");
           b.type = "button";
           b.setAttribute("aria-pressed", mio ? "true" : "false");
           b.innerHTML =
-            '<span class="fila"><h3></h3><span class="cuenta px"></span></span>' +
+            '<span class="encabezado"><h3></h3><span class="cuenta"></span></span>' +
             '<span class="barra"><span></span></span>' +
-            '<span class="pieza"><span class="parte px"></span><span class="marca-voto"></span></span>';
+            '<span class="pie"><span class="codigo"></span><span class="parte"></span></span>';
 
           b.querySelector("h3").textContent = s.sabor;
           b.querySelector(".cuenta").textContent = s.votos;
           b.querySelector(".barra span").style.width = parte + "%";
-          b.querySelector(".parte").textContent = parte + "% del total";
-          b.querySelector(".marca-voto").textContent = mio ? "Tu voto ■" : "";
+          b.querySelector(".codigo").textContent = codigoDe(s.sabor);
+          b.querySelector(".parte").textContent = mio ? "Tu voto" : parte + "% del total";
 
           b.addEventListener("click", function () { vota(s.sabor); });
           li.appendChild(b);
@@ -527,21 +437,6 @@
       });
     })();
   </script>
-  <script>
-    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
-    // sin terceros. `s` conserva src/utm para separar feria, pauta y orgánico.
-    (function () {
-      try {
-        var q = new URLSearchParams(location.search);
-        var src = q.get("src") || q.get("utm_source") || "";
-        var camp = q.get("utm_campaign") || "";
-        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
-          p: location.pathname,
-          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
-          r: (document.referrer || "").slice(0, 120)
-        })], { type: "application/json" }));
-      } catch (e) {}
-    })();
-  </script>
+  <script src="/azul.js"></script>
 </body>
 </html>

@@ -4,241 +4,56 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>El menú — The Daily Grind</title>
-  <meta name="description" content="La carta de The Daily Grind se está poniendo al día para la casa nueva de Providencia. Vuelve pronto — o mira la carta de la feria en ART STGO." />
-  <meta property="og:title" content="El menú — The Daily Grind" />
-  <meta property="og:description" content="La carta se está poniendo al día para la casa nueva. La carta de la feria ya vive en ART STGO." />
-  <meta property="og:url" content="https://dailygrind.cl/menu" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="The Daily Grind" />
-  <meta property="og:locale" content="es_CL" />
   <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700&family=DotGothic16&family=Shippori+Mincho:wght@400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet"
   />
-  <style>
-    :root {
-      --navy: #0e1e56;
-      --navy-2: #0b1845;
-      --sky: #51b5f2;
-      --sky-lt: #a6d9f8;
-      --cream: #f9f3ec;
-      --pistacho: #c4d870;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--navy);
-      color: var(--cream);
-      font-family: "DM Sans", sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    /* La pantalla encendida, igual que la consola */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(120% 60% at 50% -10%, rgba(81, 181, 242, 0.16), transparent 60%),
-        repeating-linear-gradient(
-          0deg,
-          rgba(249, 243, 236, 0.025) 0 1px,
-          transparent 1px 4px
-        );
-      pointer-events: none;
-      z-index: 0;
-    }
-    header, main, footer { position: relative; z-index: 1; }
-    .label {
-      font-weight: 500;
-      text-transform: uppercase;
-      font-size: 11px;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 18px 20px;
-      border-bottom: 1px solid rgba(249, 243, 236, 0.14);
-    }
-    .hud-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--cream);
-      text-decoration: none;
-    }
-    .hud-logo img { height: 26px; display: block; }
-    header .volver {
-      color: rgba(249, 243, 236, 0.55);
-      text-decoration: none;
-    }
-    header .volver:hover { color: var(--sky); }
-
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-    }
-    .pantalla {
-      max-width: 560px;
-      text-align: center;
-      position: relative;
-    }
-    .pantalla .tategaki {
-      position: absolute;
-      top: -16px;
-      right: -54px;
-      writing-mode: vertical-rl;
-      font-family: "Shippori Mincho", serif;
-      font-size: 15px;
-      color: rgba(166, 217, 248, 0.55);
-      line-height: 1;
-    }
-    @media (max-width: 700px) { .pantalla .tategaki { display: none; } }
-    .pantalla .kicker { color: var(--sky); margin-bottom: 18px; }
-    h1 {
-      font-family: "Syne", sans-serif;
-      font-weight: 700;
-      font-size: clamp(32px, 7vw, 56px);
-      line-height: 1.02;
-      letter-spacing: -0.02em;
-    }
-    h1 em { font-style: normal; color: var(--sky); }
-    .pantalla p.texto {
-      margin: 20px auto 0;
-      max-width: 460px;
-      font-size: 15px;
-      line-height: 1.65;
-      color: rgba(249, 243, 236, 0.78);
-      text-wrap: balance;
-    }
-    /* Barra de carga en el idioma de la consola */
-    .carga {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 32px;
-      font-family: "DotGothic16", "DM Sans", sans-serif;
-      font-size: 14px;
-      color: var(--sky-lt);
-    }
-    .carga .bloques { display: inline-flex; gap: 4px; }
-    .carga .bloques span {
-      width: 13px;
-      height: 13px;
-      background: rgba(249, 243, 236, 0.16);
-    }
-    .carga .bloques span.lleno { background: var(--pistacho); }
-    .carga .bloques span:nth-child(1) { animation: llena 2.8s steps(1) infinite; }
-    .carga .bloques span:nth-child(2) { animation: llena 2.8s steps(1) 0.35s infinite; }
-    .carga .bloques span:nth-child(3) { animation: llena 2.8s steps(1) 0.7s infinite; }
-    .carga .bloques span:nth-child(4) { animation: llena 2.8s steps(1) 1.05s infinite; }
-    .carga .bloques span:nth-child(5) { animation: llena 2.8s steps(1) 1.4s infinite; }
-    @keyframes llena {
-      0%, 12% { background: rgba(249, 243, 236, 0.16); }
-      50%, 88% { background: var(--pistacho); }
-      100% { background: rgba(249, 243, 236, 0.16); }
-    }
-    .acciones {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 36px;
-    }
-    .acciones a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 22px;
-      text-decoration: none;
-      font-weight: 500;
-      text-transform: uppercase;
-      font-size: 11px;
-      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-    }
-    .acciones .feria {
-      background: var(--pistacho);
-      color: var(--navy);
-    }
-    .acciones .feria:hover { background: #d2e388; transform: translateY(-2px); }
-    .acciones .consola {
-      border: 1px solid rgba(249, 243, 236, 0.35);
-      color: var(--cream);
-    }
-    .acciones .consola:hover { border-color: var(--sky); color: var(--sky); }
-
-    footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 20px;
-      border-top: 1px solid rgba(249, 243, 236, 0.14);
-    }
-    footer span { color: rgba(249, 243, 236, 0.55); }
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; }
-      .carga .bloques span { background: var(--pistacho); }
-    }
-  </style>
+  <link rel="stylesheet" href="/azul.css" />
 </head>
 <body>
-  <header>
-    <a class="hud-logo" href="/">
-      <img src="/LogoTDG.svg" alt="The Daily Grind" />
-      <span class="label" style="color: rgba(249,243,236,0.55)">Vol. 4 · MMXXVI</span>
-    </a>
-    <a class="label volver" href="/">Volver a la consola →</a>
-  </header>
+  <div class="franja">
+    <div class="ancho">
+      <a class="dato" href="/">← La casa</a>
+      <span class="dato sep" aria-hidden="true">·</span>
+      <span class="dato"><b>El menú de la casa</b></span>
+      <a href="/"><img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" /></a>
+    </div>
+  </div>
 
   <main>
-    <div class="pantalla">
-      <span class="tategaki" lang="ja" aria-hidden="true">メニュー</span>
-      <p class="label kicker">El menú de la casa</p>
-      <h1>La carta se está<br /><em>poniendo al día</em></h1>
-      <p class="texto">
-        La casa nueva de Providencia trae carta nueva. La estamos afinando
-        con Nice To Meat y aparece aquí apenas salga del horno.
-      </p>
-      <div class="carga" aria-hidden="true">
-        <span class="bloques"><span></span><span></span><span></span><span></span><span></span></span>
-        <span lang="ja">ロード中</span>
+    <section class="portada">
+      <div class="ancho ancho--angosto">
+        <div class="placa">
+          <div class="hoja">
+            <h1 style="font-size: clamp(34px, 6vw, 62px)">La carta se está poniendo al <em>día</em>.</h1>
+            <p class="lead" style="margin-top: 20px; font-size: 17px">
+              La casa nueva de Providencia trae carta nueva. La estamos afinando con Nice to Meat y aparece acá apenas salga del horno.
+            </p>
+            <div class="lamina" style="margin-top: 30px">
+              <div><span>Estado</span><strong>En preparación</strong></div>
+              <div><span>Dónde</span><strong>Los Leones 1012, local 2</strong></div>
+              <div><span>Horario</span><strong>Martes a domingo, 12:00 a 20:00</strong></div>
+            </div>
+            <div class="fila-botones">
+              <a class="boton" href="/votacion">Votar el sabor →</a>
+              <a class="boton boton--linea" href="/artstgo#carta">La carta de la feria ↗</a>
+            </div>
+          </div>
+        </div>
+        <svg class="monito monito--placa" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
       </div>
-      <div class="acciones">
-        <a class="feria" href="/artstgo#carta">La carta de la feria →</a>
-        <a class="consola" href="/laconsola/">Jugar mientras →</a>
-      </div>
-    </div>
+    </section>
   </main>
 
   <footer>
-    <span class="label">The Daily Grind · Vol. 4 · MMXXVI</span>
-    <a class="label volver" href="/artstgo" style="text-decoration:none;color:rgba(249,243,236,0.55)">ART STGO · 22 y 23 de agosto</a>
+    <div class="ancho">
+      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI · Carta</span>
+      <span class="dato"><a href="/laconsola/">Jugar mientras →</a></span>
+    </div>
   </footer>
-  <script>
-    // Conteo propio de visitas: beacon anónimo al D1 de La Consola. Sin cookies,
-    // sin terceros. `s` conserva src/utm para separar feria, pauta y orgánico.
-    (function () {
-      try {
-        var q = new URLSearchParams(location.search);
-        var src = q.get("src") || q.get("utm_source") || "";
-        var camp = q.get("utm_campaign") || "";
-        navigator.sendBeacon("/laconsola/api/hit", new Blob([JSON.stringify({
-          p: location.pathname,
-          s: (src + (camp ? "/" + camp : "")).slice(0, 60),
-          r: (document.referrer || "").slice(0, 120)
-        })], { type: "application/json" }));
-      } catch (e) {}
-    })();
-  </script>
+  <script src="/azul.js"></script>
 </body>
 </html>

@@ -25,6 +25,21 @@ export default {
       return Response.redirect(target.toString(), 301);
     }
 
+    // Compat: la capa azul dejó de ser preview y pasó a ser el sitio. Los
+    // links que ya se mandaron a socios siguen llegando a donde corresponde.
+    // Va antes del portón a propósito: estas páginas ya son públicas y pedir
+    // el PIN para redirigir no protegería nada.
+    const azMatch = url.pathname.match(/^\/previews\/azul(?:\/(.*))?$/);
+    if (azMatch) {
+      const resto = azMatch[1] || "";
+      let destino;
+      if (resto === "" || resto === "index.html") destino = "/";
+      else if (resto === "laconsola.html") destino = "/laconsola/";
+      else if (resto.endsWith(".html")) destino = "/" + resto.slice(0, -5);
+      else destino = "/" + resto;
+      return Response.redirect(new URL(destino, url).toString(), 301);
+    }
+
     // Previews gate (PIN simple, sin correo)
     if (url.pathname === "/previews" || url.pathname.startsWith("/previews/")) {
       const gated = await handlePreviewsGate(request, env, url);
