@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<!--
+  Los sabores de la casa, dibujados con la misma mano que los monitos: línea
+  sobre el cobalto, nunca relleno, y el color por `currentColor`.
+
+  Cada uno dibuja la cosa y no una bolita con un color distinto: doce bolitas
+  en línea serían doce círculos iguales y no se entendería ninguna.
+-->
+<defs>
+  <style>
+    .s-linea   { fill: none; stroke: currentColor; stroke-width: 5;
+                 stroke-linecap: round; stroke-linejoin: round; }
+    .s-detalle { fill: none; stroke: currentColor; stroke-width: 3.5;
+                 stroke-linecap: round; stroke-linejoin: round; }
+    .s-punto   { fill: currentColor; stroke: none; }
+  </style>
+</defs>
+
+<symbol id="sabor-frambuesa" viewBox="0 0 120 120">
+  <path class="s-linea" d="M30 52 C30 48 90 48 90 52 C90 82 76 100 60 100
+                           C44 100 30 82 30 52 Z"/>
+  <circle class="s-detalle" cx="44" cy="62" r="8"/>
+  <circle class="s-detalle" cx="60" cy="60" r="8"/>
+  <circle class="s-detalle" cx="76" cy="62" r="8"/>
+  <circle class="s-detalle" cx="52" cy="78" r="8"/>
+  <circle class="s-detalle" cx="68" cy="78" r="8"/>
+  <circle class="s-detalle" cx="60" cy="92" r="6"/>
+  <path class="s-linea" d="M60 48 V34"/>
+  <path class="s-detalle" d="M60 46 L40 40 M60 46 L80 40 M60 44 L50 32 M60 44 L70 32"/>
+</symbol>
+
+<symbol id="sabor-mango" viewBox="0 0 120 120">
+  <path class="s-linea" d="M44 96 C26 82 26 52 48 38 C70 24 92 34 94 54
+                           C96 76 68 110 44 96 Z"/>
+  <path class="s-detalle" d="M84 36 C92 22 104 20 108 24 C106 36 94 42 84 38"/>
+  <path class="s-detalle" d="M84 38 L80 30"/>
+</symbol>
+
+<symbol id="sabor-frutilla" viewBox="0 0 120 120">
+  <path class="s-linea" d="M60 104 C34 90 24 68 30 52 C36 38 52 36 60 46
+                           C68 36 84 38 90 52 C96 68 86 90 60 104 Z"/>
+  <path class="s-detalle" d="M60 46 V26 M60 32 L42 24 M60 32 L78 24"/>
+  <circle class="s-punto" cx="48" cy="62" r="3.4"/>
+  <circle class="s-punto" cx="72" cy="62" r="3.4"/>
+  <circle class="s-punto" cx="60" cy="74" r="3.4"/>
+  <circle class="s-punto" cx="44" cy="80" r="3.4"/>
+  <circle class="s-punto" cx="76" cy="80" r="3.4"/>
+</symbol>
+
+<symbol id="sabor-pina" viewBox="0 0 120 120">
+  <path class="s-linea" d="M36 56 C36 44 84 44 84 56 L84 94 C84 108 36 108 36 94 Z"/>
+  <path class="s-detalle" d="M44 58 L66 90 M60 54 L82 86 M76 58 L84 70
+                             M76 58 L54 90 M60 54 L38 86 M44 58 L36 70"/>
+  <path class="s-linea" d="M60 46 C58 34 59 24 60 18 C61 24 62 34 60 46"/>
+  <path class="s-linea" d="M56 46 C44 40 36 30 34 22 C44 24 54 32 58 42"/>
+  <path class="s-linea" d="M64 46 C76 40 84 30 86 22 C76 24 66 32 62 42"/>
+</symbol>
+
+<symbol id="sabor-macerati" viewBox="0 0 120 120">
+  <path class="s-linea" d="M34 44 L42 98 C54 106 66 106 78 98 L86 44 Z"/>
+  <path class="s-detalle" d="M36 62 H84"/>
+  <path class="s-linea" d="M72 44 L92 20 L100 40 Z"/>
+  <path class="s-detalle" d="M78 38 L92 28"/>
+  <path class="s-linea" d="M26 30 C20 38 20 44 26 44 C32 44 32 38 26 30 Z"/>
+</symbol>
+
+<symbol id="sabor-locura" viewBox="0 0 120 120">
+  <path class="s-linea" d="M60 34 C84 34 96 50 96 66 C96 86 80 102 60 106
+                           C40 102 24 86 24 66 C24 50 36 34 60 34 Z"/>
+  <path class="s-detalle" d="M60 34 V22"/>
+  <path class="s-detalle" d="M60 28 C72 18 86 18 90 24 C82 34 68 36 60 30"/>
+  <path class="s-detalle" d="M60 44 C52 60 52 84 60 104"/>
+</symbol>
+
+<symbol id="sabor-menta-chips" viewBox="0 0 120 120">
+  <path class="s-linea" d="M52 100 C30 92 20 68 28 44 C54 38 80 52 84 76
+                           C86 92 72 100 52 100 Z"/>
+  <path class="s-detalle" d="M52 100 C44 78 40 62 28 44"/>
+  <path class="s-detalle" d="M44 82 L34 72 M52 70 L42 58 M60 88 L50 76"/>
+  <rect class="s-punto" x="70" y="38" width="12" height="10" rx="3"
+        transform="rotate(-20 76 43)"/>
+  <rect class="s-punto" x="82" y="62" width="12" height="10" rx="3"
+        transform="rotate(16 88 67)"/>
+  <rect class="s-punto" x="62" y="92" width="12" height="10" rx="3"
+        transform="rotate(30 68 97)"/>
+</symbol>
+
+<symbol id="sabor-pie-limon" viewBox="0 0 120 120">
+  <path class="s-linea" d="M20 98 H100"/>
+  <path class="s-linea" d="M24 98 L28 78 L92 78 L96 98"/>
+  <path class="s-detalle" d="M28 78 H92"/>
+  <path class="s-linea" d="M28 78 C30 62 36 56 44 60 C46 44 56 40 62 50
+                           C68 38 82 42 84 56 C92 56 94 68 92 78"/>
+</symbol>
+
+<symbol id="sabor-chocolate" viewBox="0 0 120 120">
+  <path class="s-linea" d="M28 40 H78 L92 54 V96 H28 Z"/>
+  <path class="s-detalle" d="M28 58 H92 M28 77 H92 M50 40 V96 M71 40 V96"/>
+  <path class="s-detalle" d="M78 40 V54 H92"/>
+</symbol>
+
+<symbol id="sabor-cookies-cream" viewBox="0 0 120 120">
+  <path class="s-linea" d="M60 26 C79 26 94 41 94 60 C94 79 79 94 60 94
+                           C41 94 26 79 26 60 C26 41 41 26 60 26 Z"/>
+  <path class="s-linea" d="M94 56 C84 58 82 66 90 70 C84 76 88 84 94 82"/>
+  <circle class="s-punto" cx="48" cy="48" r="4.5"/>
+  <circle class="s-punto" cx="68" cy="44" r="4.5"/>
+  <circle class="s-punto" cx="44" cy="70" r="4.5"/>
+  <circle class="s-punto" cx="64" cy="68" r="4.5"/>
+  <circle class="s-punto" cx="56" cy="84" r="4.5"/>
+</symbol>
+
+<symbol id="sabor-enrique" viewBox="0 0 120 120">
+  <path class="s-linea" d="M60 22 C75 22 84 33 82 46 C81 54 75 57 71 61
+                           C75 65 81 69 82 77 C84 90 75 101 60 101
+                           C45 101 36 90 38 77 C39 69 45 65 49 61
+                           C45 57 39 54 38 46 C36 33 45 22 60 22 Z"/>
+  <path class="s-detalle" d="M46 36 C53 41 67 41 74 36"/>
+  <path class="s-detalle" d="M46 76 C53 81 67 81 74 76"/>
+</symbol>
+
+<symbol id="sabor-anti-vainilla" viewBox="0 0 120 120">
+  <path class="s-linea" d="M40 102 C32 80 36 48 54 28 C62 20 72 24 70 34
+                           C66 58 58 88 50 104 Z"/>
+  <path class="s-detalle" d="M46 92 C48 72 52 50 62 34"/>
+  <path class="s-linea" d="M84 34 C94 28 100 34 96 42 C104 44 104 54 96 56
+                           C98 66 88 70 84 62 C78 70 70 64 72 56
+                           C64 54 66 44 74 42 C70 34 78 28 84 34 Z"/>
+  <circle class="s-punto" cx="84" cy="48" r="4.5"/>
+</symbol>
+</svg>

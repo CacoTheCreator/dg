@@ -26,13 +26,18 @@
       .catch(function () { /* sin recuento, la ficha igual sirve */ });
   }
 
-  // Los monitos viven en un solo archivo y entran al documento una vez. Se
-  // pide por fetch en vez de repetir el dibujo en cada página: `<use>` no
-  // alcanza archivos externos, así que el sprite tiene que estar adentro.
-  // Si la pedida falla, los monitos no aparecen y la página sigue entera.
-  var usos = document.querySelectorAll('use[href^="#monito-"]');
-  if (usos.length) {
-    fetch("/monitos.svg")
+  // Los dibujos viven en pliegos aparte y entran al documento una vez. Se
+  // piden por fetch en vez de repetir el dibujo en cada página: `<use>` no
+  // alcanza archivos externos, así que el pliego tiene que estar adentro.
+  // Cada página pide solo los que usa. Si una pedida falla, esos dibujos no
+  // aparecen y la página sigue entera.
+  [
+    { prefijo: "#monito-", archivo: "/monitos.svg" },
+    { prefijo: "#sabor-", archivo: "/sabores.svg" }
+  ].forEach(function (pliego) {
+    var usos = document.querySelectorAll('use[href^="' + pliego.prefijo + '"]');
+    if (!usos.length) return;
+    fetch(pliego.archivo)
       .then(function (r) { return r.ok ? r.text() : null; })
       .then(function (txt) {
         if (!txt) return;
@@ -41,7 +46,7 @@
         caja.innerHTML = txt;
         document.body.insertBefore(caja, document.body.firstChild);
         // Los `<use>` ya se parsearon apuntando a nada. Se les vuelve a
-        // escribir el destino para que resuelvan contra el sprite recién
+        // escribir el destino para que resuelvan contra el pliego recién
         // puesto, en vez de confiar en que el navegador lo reintente solo.
         Array.prototype.forEach.call(usos, function (u) {
           var destino = u.getAttribute("href");
@@ -49,6 +54,6 @@
           u.setAttribute("href", destino);
         });
       })
-      .catch(function () { /* la página se lee igual sin monitos */ });
-  }
+      .catch(function () { /* la página se lee igual sin dibujos */ });
+  });
 })();
