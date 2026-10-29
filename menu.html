@@ -55,7 +55,39 @@
     .firma { margin-top: 40px; }
     .firma .hoja { display: flex; flex-direction: row; gap: 26px;
                    align-items: center; flex-wrap: wrap; }
-    .firma .hoja > div { flex: 1; min-width: 240px; }
+    .firma .velado > div { flex: 1; min-width: 240px; }
+
+    /* Bloqueado: se ve que hay algo y no se alcanza a leer. El desenfoque va
+       sobre el contenido y nunca sobre el rótulo, que tiene que quedar nítido
+       para que se entienda que es a propósito y no un fallo de la página. */
+    .firma--bloqueada .cuerpo { position: relative; flex-direction: column; }
+    .firma--bloqueada .velado {
+      display: flex;
+      flex-direction: row;
+      gap: 26px;
+      align-items: center;
+      flex-wrap: wrap;
+      filter: blur(7px);
+      opacity: 0.55;
+      user-select: none;
+      pointer-events: none;
+    }
+    .firma--bloqueada .cuerpo > .candado {
+      position: absolute;
+      inset: auto 0 50%;
+      transform: translateY(50%);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-dato);
+      color: var(--tinta-prof);
+    }
+    .firma--bloqueada .cuerpo > .candado .candado-marca { color: var(--cobalto); }
     .firma svg { width: 112px; height: 146px; color: #c3cde1; flex: none; }
     .firma h2 { font-size: clamp(26px, 4vw, 38px); line-height: 1; }
     .firma p { margin-top: 12px; font-size: 15px; font-weight: 300; line-height: 1.5; }
@@ -158,17 +190,23 @@
 
         </div>
 
-        <div class="ficha firma">
+        <div class="ficha firma firma--bloqueada">
           <div class="cuerpo hoja">
-            <div>
-              <h2>El soft de pistacho es el sello de la casa.</h2>
-              <p>
-                Va en bowl, con base cremosa y toppings encima. Es otra línea,
-                aparte de la vitrina de cono y tarrina, y es lo que hay que
-                probar si vienes por primera vez.
-              </p>
+            <span class="candado">
+              <span class="candado-marca" aria-hidden="true">■</span>
+              Todavía no se desbloquea
+            </span>
+            <div class="velado">
+              <div>
+                <h2>El soft de pistacho es el sello de la casa.</h2>
+                <p>
+                  Va en bowl, con base cremosa y toppings encima. Es otra línea,
+                  aparte de la vitrina de cono y tarrina, y es lo que hay que
+                  probar si vienes por primera vez.
+                </p>
+              </div>
+              <svg viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
             </div>
-            <svg viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
           </div>
         </div>
 
