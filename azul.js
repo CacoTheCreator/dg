@@ -31,12 +31,18 @@
   // alcanza archivos externos, así que el pliego tiene que estar adentro.
   // Cada página pide solo los que usa. Si una pedida falla, esos dibujos no
   // aparecen y la página sigue entera.
+  // Una página puede pedir un pliego por adelantado con
+  // `<body data-pliegos="sabores">`. Hace falta cuando los `<use>` no existen
+  // todavía al cargar porque los crea el guion después de una respuesta: sin
+  // esto el pliego nunca se pediría y los dibujos no aparecerían nunca.
+  var pedidos = (document.body.getAttribute("data-pliegos") || "").split(/\s+/);
+
   [
-    { prefijo: "#monito-", archivo: "/monitos.svg" },
-    { prefijo: "#sabor-", archivo: "/sabores.svg" }
+    { nombre: "monitos", prefijo: "#monito-", archivo: "/monitos.svg" },
+    { nombre: "sabores", prefijo: "#sabor-", archivo: "/sabores.svg" }
   ].forEach(function (pliego) {
     var usos = document.querySelectorAll('use[href^="' + pliego.prefijo + '"]');
-    if (!usos.length) return;
+    if (!usos.length && pedidos.indexOf(pliego.nombre) === -1) return;
     fetch(pliego.archivo)
       .then(function (r) { return r.ok ? r.text() : null; })
       .then(function (txt) {

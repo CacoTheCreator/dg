@@ -98,6 +98,61 @@
     .barquillera button:active { transform: translate(var(--desplazamiento), var(--desplazamiento)); }
     .barquillera button:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 4px; }
 
+    /* El dibujo del sabor va arriba del nombre, en el gris de papel, para que
+       el número y el nombre sigan mandando. Es el mismo trazo de la carta. */
+    .sabor .dibujo {
+      width: 54px;
+      height: 54px;
+      display: block;
+      color: #c3cde1;
+      margin-bottom: -4px;
+    }
+    .sabor.mio .dibujo { color: var(--cobalto); }
+
+    /* Mientras se busca la ronda: las fichas vacías, para que se vea que hay
+       seis cosas viniendo y no una página rota. */
+    .barquillera.cargando .hueco { pointer-events: none; }
+    .barquillera.cargando .hueco::after {
+      content: "";
+      display: block;
+      position: relative;
+      z-index: 1;
+      height: 148px;
+      background: var(--papel);
+      border: 1px solid var(--tinta-prof);
+      opacity: 0.4;
+      animation: respira 1.4s ease-in-out infinite;
+    }
+    @keyframes respira { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.5; } }
+
+    /* Cuando no se pudo traer la ronda hay que decirlo y dar la salida. */
+    .sin-ronda {
+      list-style: none;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .sin-ronda p { font-size: 16px; font-weight: 300; }
+    /* `.barquillera button` pinta las fichas de sabor: blanco, ancho completo y
+       en columna. El botón de reintentar está adentro, así que hay que
+       devolverlo a ser un botón. */
+    .sin-ronda .boton {
+      width: auto;
+      background: transparent;
+      color: var(--papel);
+      border-color: var(--papel);
+      box-shadow: none;
+      padding: 13px 20px;
+      display: inline-block;
+      flex-direction: row;
+      gap: 0;
+      text-align: center;
+    }
+    .sin-ronda .boton:hover { transform: none; }
+
     .sabor .encabezado {
       display: flex;
       align-items: flex-start;
@@ -164,7 +219,7 @@
     }
   </style>
 </head>
-<body>
+<body data-pliegos="monitos sabores">
   <div class="franja">
     <div class="ancho">
       <a class="dato" href="/">← La casa</a>
@@ -266,6 +321,19 @@
         "mango": "TDG 06"
       };
 
+      // Del nombre del sabor al id de su dibujo en el pliego. Se normaliza en
+      // vez de mantener una tabla, así un sabor nuevo del servidor trae su
+      // dibujo sin tocar esta página.
+      var DIBUJO_APODO = { "cookies-cream": "cookies-cream", "pie-de-limon": "pie-limon" };
+      function dibujoDe(sabor) {
+        var base = String(sabor || "")
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/&/g, " ")
+          .trim().replace(/\s+/g, "-");
+        return DIBUJO_APODO[base] || base;
+      }
+
       function codigoDe(sabor) {
         var k = String(sabor || "").toLowerCase().replace(/\s+/g, " ").trim();
         return CODIGOS[k] || "TDG —";
@@ -309,6 +377,29 @@
       var guardado = lsGet(KEY);
       if (guardado && UUID.test(guardado)) socio = guardado.toLowerCase();
 
+      function cargando() {
+        elLista.className = "barquillera reja cargando";
+        elLista.innerHTML =
+          '<li class="sabor ficha hueco"></li>'.repeat(6);
+      }
+
+      function falla() {
+        elLista.className = "barquillera";
+        elLista.innerHTML = "";
+        var caja = document.createElement("li");
+        caja.className = "sin-ronda";
+        var texto = document.createElement("p");
+        texto.textContent = "No pudimos traer la ronda. Puede ser la conexión.";
+        var boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "boton";
+        boton.textContent = "Reintentar";
+        boton.addEventListener("click", arranca);
+        caja.appendChild(texto);
+        caja.appendChild(boton);
+        elLista.appendChild(caja);
+      }
+
       function pinta(data) {
         if (!data) return;
         elRonda.textContent = data.ronda || "—";
@@ -332,6 +423,8 @@
           b.type = "button";
           b.setAttribute("aria-pressed", mio ? "true" : "false");
           b.innerHTML =
+            '<svg class="dibujo" viewBox="0 0 120 120" aria-hidden="true">' +
+            '<use href="#sabor-' + dibujoDe(s.sabor) + '"/></svg>' +
             '<span class="encabezado"><h3></h3><span class="cuenta"></span></span>' +
             '<span class="barra"><span></span></span>' +
             '<span class="pie"><span class="codigo"></span><span class="parte"></span></span>';
@@ -357,11 +450,26 @@
         }
       }
 
+      // Toda pedida lleva plazo. Un fetch colgado no se rechaza solo, y sin
+      // plazo la página se quedaba esperando una respuesta que no llegaba
+      // nunca: el aviso congelado y los botones muertos hasta recargar.
+      var PLAZO = 9000;
+      function pide(url, opciones) {
+        var corta = new AbortController();
+        var reloj = setTimeout(function () { corta.abort(); }, PLAZO);
+        var cfg = Object.assign({ signal: corta.signal }, opciones || {});
+        return fetch(url, cfg)
+          .then(function (r) {
+            return r.json()
+              .catch(function () { return {}; })
+              .then(function (d) { return { ok: r.ok, d: d }; });
+          })
+          .catch(function () { return null; })
+          .then(function (res) { clearTimeout(reloj); return res; });
+      }
+
       function estado(id) {
-        var url = API + "/estado" + (id ? "?socio=" + encodeURIComponent(id) : "");
-        return fetch(url)
-          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
-          .catch(function () { return null; });
+        return pide(API + "/estado" + (id ? "?socio=" + encodeURIComponent(id) : ""));
       }
 
       function vota(sabor) {
@@ -375,12 +483,11 @@
         enviando = true;
         aviso("Guardando tu voto…");
 
-        fetch(API + "/voto", {
+        pide(API + "/voto", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ socio: socio, sabor: sabor })
         })
-          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
           .then(function (res) {
             enviando = false;
             if (!res || !res.ok) {
@@ -391,10 +498,6 @@
             // se guarda para los errores y para el momento de guardar.
             pinta(res.d);
             aviso("");
-          })
-          .catch(function () {
-            enviando = false;
-            aviso("El voto no se pudo guardar. Intenta de nuevo.", true);
           });
       }
 
@@ -427,14 +530,22 @@
 
       // Primera carga: el recuento es público, así que la barquillera se ve
       // aunque todavía no haya tarjeta conectada.
-      estado(socio).then(function (res) {
-        if (res && res.ok) { pinta(res.d); return; }
-        // Una tarjeta guardada que ya no existe deja de contar como socio.
-        if (socio) {
-          socio = null;
-          estado(null).then(function (r2) { if (r2 && r2.ok) pinta(r2.d); });
-        }
-      });
+      function arranca() {
+        cargando();
+        estado(socio).then(function (res) {
+          if (res && res.ok) { pinta(res.d); return; }
+          // Una tarjeta guardada que ya no existe deja de contar como socio.
+          if (socio) {
+            socio = null;
+            estado(null).then(function (r2) {
+              if (r2 && r2.ok) { pinta(r2.d); } else { falla(); }
+            });
+            return;
+          }
+          falla();
+        });
+      }
+      arranca();
     })();
   </script>
   <script src="/azul.js"></script>
