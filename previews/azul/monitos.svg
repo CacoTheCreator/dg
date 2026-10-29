@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<!--
+  Los monitos de la casa.
+
+  Van dibujados en línea sobre el cobalto y nunca rellenos: el fondo se ve a
+  través de ellos. Eso es lo que los separa de una calcomanía y lo que los deja
+  en el mismo linaje de cianotipo que el resto de Estudio Azul. Nice To Meat
+  resuelve su mascota al revés, con mancha negra cerrada sobre crema, así que
+  las dos casas se acompañan sin parecerse.
+
+  El color sale de `currentColor`: la misma figura es blanca sobre el cobalto y
+  gris sobre el papel, sin tocar este archivo.
+
+  Gramática común: trazo 5 en el cuerpo, 9 en brazos y piernas, 4 en la cara.
+  Puntas y uniones redondas. Lo único relleno son los ojos.
+
+  Cada uno tiene su propia postura a propósito, para que cuatro figuras no se
+  lean como la misma plantilla cambiada de cuerpo: el barquillo camina y
+  saluda, la bolita salta, la tarjeta se apunta a sí misma y el cartucho se
+  apoya con las piernas cruzadas.
+-->
+<defs>
+  <style>
+    .m-cuerpo { fill: none; stroke: currentColor; stroke-width: 5;
+                stroke-linecap: round; stroke-linejoin: round; }
+    .m-miembro{ fill: none; stroke: currentColor; stroke-width: 9;
+                stroke-linecap: round; stroke-linejoin: round; }
+    .m-cara   { fill: none; stroke: currentColor; stroke-width: 4;
+                stroke-linecap: round; stroke-linejoin: round; }
+    .m-ojo    { fill: currentColor; stroke: none; }
+    .m-guante { fill: none; stroke: currentColor; stroke-width: 5; }
+  </style>
+</defs>
+
+<!-- EL BARQUILLO · camina y saluda. Acompaña la carta. -->
+<symbol id="monito-barquillo" viewBox="0 0 200 260">
+  <path class="m-cuerpo" d="M62 118 C56 90 72 66 90 72 C97 54 123 54 130 72
+                            C150 70 156 96 138 118 Z"/>
+  <path class="m-cuerpo" d="M66 118 L100 182 L134 118"/>
+  <path class="m-cara" d="M78 118 L106 171 M90 118 L112 159 M102 118 L118 148
+                          M114 118 L124 137 M122 118 L94 171 M110 118 L88 159
+                          M98 118 L82 148 M86 118 L76 137"/>
+  <circle class="m-ojo" cx="85" cy="92" r="6"/>
+  <circle class="m-ojo" cx="115" cy="90" r="6"/>
+  <path class="m-cara" d="M86 104 Q100 117 114 102"/>
+  <path class="m-miembro" d="M68 126 C46 134 34 152 38 168"/>
+  <circle class="m-guante" cx="37" cy="178" r="10"/>
+  <path class="m-miembro" d="M132 124 C156 114 168 90 160 70"/>
+  <circle class="m-guante" cx="158" cy="60" r="10"/>
+  <path class="m-miembro" d="M96 177 C84 196 73 211 67 225"/>
+  <path class="m-miembro" d="M104 177 C116 194 127 207 133 219"/>
+  <rect class="m-cuerpo" x="46" y="218" width="34" height="17" rx="8.5"
+        transform="rotate(-10 63 226)"/>
+  <rect class="m-cuerpo" x="120" y="212" width="34" height="17" rx="8.5"
+        transform="rotate(10 137 220)"/>
+</symbol>
+
+<!-- LA BOLITA · salta. Acompaña la votación. -->
+<symbol id="monito-bolita" viewBox="0 0 200 260">
+  <path class="m-cuerpo" d="M50 116 C50 70 72 46 100 46 C128 46 150 70 150 116
+                            Q142 132 129 124 Q116 114 104 126
+                            Q92 138 79 126 Q63 113 50 116 Z"/>
+  <circle class="m-ojo" cx="85" cy="86" r="6.5"/>
+  <circle class="m-ojo" cx="115" cy="84" r="6.5"/>
+  <path class="m-cara" d="M86 98 Q100 115 114 96"/>
+  <path class="m-miembro" d="M54 104 C34 90 28 66 38 50"/>
+  <circle class="m-guante" cx="40" cy="41" r="10"/>
+  <path class="m-miembro" d="M146 102 C166 88 172 64 162 48"/>
+  <circle class="m-guante" cx="160" cy="39" r="10"/>
+  <path class="m-miembro" d="M86 132 C74 154 72 176 84 190"/>
+  <path class="m-miembro" d="M114 132 C126 154 128 176 116 190"/>
+  <rect class="m-cuerpo" x="62" y="188" width="34" height="17" rx="8.5"
+        transform="rotate(-16 79 196)"/>
+  <rect class="m-cuerpo" x="104" y="188" width="34" height="17" rx="8.5"
+        transform="rotate(16 121 196)"/>
+</symbol>
+
+<!-- LA TARJETA · se apunta los granos. Acompaña DailyBack. -->
+<symbol id="monito-tarjeta" viewBox="0 0 200 260">
+  <rect class="m-cuerpo" x="44" y="58" width="112" height="132" rx="14"/>
+  <path class="m-cuerpo" d="M44 134 H156"/>
+  <circle class="m-ojo" cx="82" cy="94" r="6.5"/>
+  <circle class="m-ojo" cx="118" cy="94" r="6.5"/>
+  <path class="m-cara" d="M84 110 Q100 124 116 108"/>
+  <circle class="m-cara" cx="62" cy="152" r="5"/>
+  <circle class="m-cara" cx="81" cy="152" r="5"/>
+  <circle class="m-cara" cx="100" cy="152" r="5"/>
+  <circle class="m-cara" cx="119" cy="152" r="5"/>
+  <circle class="m-cara" cx="138" cy="152" r="5"/>
+  <circle class="m-cara" cx="62" cy="173" r="5"/>
+  <circle class="m-cara" cx="81" cy="173" r="5"/>
+  <circle class="m-cara" cx="100" cy="173" r="5"/>
+  <circle class="m-cara" cx="119" cy="173" r="5"/>
+  <circle class="m-ojo" cx="138" cy="173" r="7"/>
+  <path class="m-miembro" d="M46 122 C24 130 22 154 42 158"/>
+  <path class="m-miembro" d="M154 122 C180 138 182 172 164 184"/>
+  <circle class="m-guante" cx="160" cy="190" r="10"/>
+  <path class="m-cara" d="M152 184 L144 177"/>
+  <path class="m-miembro" d="M76 190 C73 208 71 222 70 234"/>
+  <path class="m-miembro" d="M118 190 C121 208 123 222 124 234"/>
+  <rect class="m-cuerpo" x="53" y="232" width="34" height="17" rx="8.5"/>
+  <rect class="m-cuerpo" x="107" y="232" width="34" height="17" rx="8.5"/>
+</symbol>
+
+<!-- EL CARTUCHO · apoyado, piernas cruzadas. Acompaña La Consola. -->
+<symbol id="monito-cartucho" viewBox="0 0 200 260">
+  <g transform="rotate(-5 100 130)">
+    <path class="m-cuerpo" d="M54 54 H146 V162 H118 V176 H82 V162 H54 Z"/>
+    <rect class="m-cuerpo" x="70" y="68" width="60" height="46" rx="6"/>
+    <circle class="m-ojo" cx="86" cy="86" r="6"/>
+    <circle class="m-ojo" cx="114" cy="86" r="6"/>
+    <path class="m-cara" d="M88 98 Q100 110 112 96"/>
+    <path class="m-cara" d="M72 130 H128 M84 143 H116"/>
+  </g>
+  <path class="m-miembro" d="M52 110 C32 118 26 140 38 152"/>
+  <circle class="m-guante" cx="44" cy="159" r="10"/>
+  <path class="m-miembro" d="M148 102 C170 94 180 70 172 52"/>
+  <circle class="m-guante" cx="170" cy="43" r="10"/>
+  <path class="m-miembro" d="M88 178 C92 198 110 208 122 224"/>
+  <path class="m-miembro" d="M112 178 C108 198 90 208 78 224"/>
+  <rect class="m-cuerpo" x="110" y="220" width="34" height="17" rx="8.5"
+        transform="rotate(10 127 228)"/>
+  <rect class="m-cuerpo" x="58" y="220" width="34" height="17" rx="8.5"
+        transform="rotate(-10 75 228)"/>
+</symbol>
+</svg>

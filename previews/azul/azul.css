@@ -494,3 +494,64 @@ footer a:hover { color: var(--papel); }
   .franja .logo { height: 22px; }
   .lamina > div { padding-right: 0; }
 }
+
+/* ---------------------------------------------------------------------------
+   LOS MONITOS
+
+   Acompañan, no decoran: cada uno está parado junto a la cosa que explica.
+   Van en línea y nunca rellenos, así que el fondo se ve a través de ellos.
+   El color sale de `currentColor`, que es lo que deja a la misma figura
+   blanca sobre el cobalto y gris sobre el papel.
+--------------------------------------------------------------------------- */
+.monito {
+  display: block;
+  flex: none;
+  pointer-events: none;
+}
+
+/* Dentro de una ficha se para en la esquina, detrás del texto y en un gris
+   que no le compite al titular. */
+/* Se para por encima de la línea del pie: cruzarla le cortaba las piernas. */
+.ficha .monito {
+  position: absolute;
+  right: 10px;
+  bottom: 42px;
+  width: 94px;
+  height: 122px;
+  color: #c3cde1;
+  z-index: 0;
+}
+.ficha > a > :not(.monito),
+.ficha > .cuerpo > :not(.monito) { position: relative; z-index: 1; }
+
+/* Sobre el cobalto va blanco y grande, al lado del titular. */
+.monito--portada {
+  width: 180px;
+  height: 234px;
+  color: var(--papel);
+  opacity: 0.9;
+}
+
+@media (max-width: 719px) {
+  .monito--portada { display: none; }
+  .ficha .monito { width: 76px; height: 99px; bottom: 40px; }
+}
+
+/* El titular manda y el monito se para a su lado, en la misma línea de base. */
+.portada-fila {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+}
+.portada-fila > div { flex: 1; min-width: 0; }
+.monito--portada { margin-bottom: -10px; }
+
+/* En las páginas de espera se para solo, debajo de la placa. */
+.monito--placa {
+  width: 150px;
+  height: 195px;
+  color: var(--papel);
+  opacity: 0.9;
+  margin: 30px auto 0;
+}
