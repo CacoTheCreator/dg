@@ -1095,7 +1095,7 @@ const VOTACION_RONDA = "2026-11";
 // Los sabores de la barquillera, en el mismo orden que La Comanda.
 const VOTACION_SABORES = [
   "Mango",
-  "Vainilla",
+  "Anti vainilla",
   "Cookies & cream",
   "Enrique",
   "Frambuesa",
