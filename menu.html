@@ -114,7 +114,7 @@
           <div>
             <h1>Doce sabores en la <em>vitrina</em>.</h1>
             <p class="bajada">
-              Helado hecho por nosotros, en cono o tarrina. Los Leones 1012, local 2.
+              Helado hecho por nosotros, en cono o tarrina. <span data-campo="direccion">Los Leones 1012, local 2</span>.
             </p>
           </div>
           <svg class="monito monito--portada" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
@@ -124,7 +124,7 @@
 
     <section>
       <div class="ancho" style="padding-block: 0 20px">
-        <div class="sabores">
+        <div class="sabores" data-lista="carta">
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-macerati"/></svg>
@@ -190,7 +190,7 @@
 
         </div>
 
-        <div class="ficha firma firma--bloqueada">
+        <div class="ficha firma firma--bloqueada" data-bloqueo="pistacho_bloqueado">
           <div class="cuerpo hoja">
             <span class="candado">
               <span class="candado-marca" aria-hidden="true">■</span>
@@ -215,8 +215,8 @@
           <div class="lamina lamina--campo">
             <div><span>Café</span><strong>De especialidad, preparado acá</strong></div>
             <div><span>Dulce</span><strong>Dos postres de la tienda, rotan</strong></div>
-            <div><span>Dónde</span><strong>Los Leones 1012, local 2 · Providencia</strong></div>
-            <div><span>Horario</span><strong>Martes a domingo, 12:00 a 20:00</strong></div>
+            <div><span>Dónde</span><strong><span data-campo="direccion">Los Leones 1012, local 2</span> · <span data-campo="comuna">Providencia</span></strong></div>
+            <div><span>Horario</span><strong><span data-campo="horario_dias">Martes a domingo</span>, <span data-campo="horario_horas">12:00 a 20:00</span></strong></div>
           </div>
           <div class="fila-botones" style="margin-top: 26px">
             <a class="boton" href="/votacion">Votar el que se queda →</a>

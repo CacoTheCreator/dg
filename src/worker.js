@@ -65,6 +65,18 @@ export default {
       return handleMedia(request, env);
     }
 
+    // Panel de contenido — interno, con PIN
+    if (url.pathname === "/panel" || url.pathname.startsWith("/panel/")) {
+      const cerrado = await handlePanel(request, env, url);
+      if (cerrado) return cerrado;
+    }
+
+    // Las páginas con contenido editable salen con lo que diga la base. El
+    // resto, incluidos todos los assets, se sirve tal cual.
+    if (PAGINAS_CON_CONTENIDO.has(url.pathname)) {
+      return sirveConContenido(request, env, url);
+    }
+
     return env.ASSETS.fetch(request);
   },
 
@@ -1209,4 +1221,319 @@ async function votacionEstado(env, socio, tarjeta) {
     miVoto,
     nombre: (tarjeta && tarjeta.nombre) || null,
   };
+}
+
+// ============================================================================
+// Contenido editable — lo que cambia sin que cambie el diseño
+// ============================================================================
+//
+// El horario estaba escrito a mano en cuatro páginas y la dirección en otras
+// cuatro. Acá vive una sola vez, en D1, y se pone en la página al servirla con
+// HTMLRewriter. Se hace en el servidor y no en el navegador a propósito: así lo
+// que ve un buscador es el contenido de verdad y no hay parpadeo.
+//
+// Si la tabla está vacía o la consulta falla, la página muestra lo que trae
+// escrito. Ese texto sigue siendo correcto, así que una caída de D1 no deja el
+// sitio sin horario: lo deja con el horario del último despliegue.
+
+const CONTENIDO_DEFECTO = {
+  horario_dias: "Martes a domingo",
+  horario_horas: "12:00 a 20:00",
+  horario_abre: "12",
+  horario_cierra: "20",
+  horario_dia_cerrado: "1", // 0 domingo, 1 lunes
+  direccion: "Los Leones 1012, local 2",
+  comuna: "Providencia",
+  pistacho_bloqueado: "si",
+  carta: "",
+};
+
+// Las páginas que se reescriben. El resto se sirve tal cual.
+const PAGINAS_CON_CONTENIDO = new Set([
+  "/", "/index.html",
+  "/menu", "/menu.html",
+  "/promos", "/promos.html",
+  "/votacion", "/votacion.html",
+  "/nicetomeat", "/nicetomeat.html",
+  "/historia", "/historia.html",
+  "/eventos", "/eventos.html",
+]);
+
+async function leerContenido(env) {
+  const valores = Object.assign({}, CONTENIDO_DEFECTO);
+  if (!env.DB) return valores;
+  try {
+    const res = await env.DB.prepare("SELECT clave, valor FROM contenido").all();
+    for (const fila of res.results || []) {
+      if (fila && typeof fila.clave === "string") valores[fila.clave] = String(fila.valor);
+    }
+  } catch (_) {
+    // Tabla sin crear todavía, o D1 caído. Quedan los valores del despliegue.
+  }
+  return valores;
+}
+
+// Una ficha de sabor, con su dibujo y su estado de bloqueo. El nombre del
+// dibujo se normaliza igual que en la página de la votación, así un sabor
+// nuevo trae su dibujo sin tocar código.
+function dibujoDeSabor(nombre) {
+  const base = String(nombre || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/&/g, " ")
+    .trim().replace(/\s+/g, "-");
+  return base === "pie-de-limon" ? "pie-limon" : base;
+}
+
+function fichaDeSabor(sabor) {
+  const nombre = htmlEscape(sabor.nombre || "");
+  const que = sabor.que ? `<span class="que">${htmlEscape(sabor.que)}</span>` : "";
+  const dibujo = htmlEscape(sabor.dibujo || dibujoDeSabor(sabor.nombre));
+  if (sabor.bloqueado) {
+    return (
+      `<div class="sabor-ficha sabor-ficha--bloqueada">` +
+      `<span class="candado"><span class="candado-marca" aria-hidden="true">■</span>Aún no</span>` +
+      `<span class="velado">` +
+      `<svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-${dibujo}"/></svg>` +
+      `<span class="nombre">${nombre}</span>${que}</span></div>`
+    );
+  }
+  return (
+    `<div class="sabor-ficha">` +
+    `<svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-${dibujo}"/></svg>` +
+    `<span class="nombre">${nombre}</span>${que}</div>`
+  );
+}
+
+function reescribePagina(respuesta, c) {
+  const rw = new HTMLRewriter();
+
+  // Campos de texto sueltos: horario, dirección, comuna.
+  rw.on("[data-campo]", {
+    element(el) {
+      const clave = el.getAttribute("data-campo");
+      if (clave && Object.prototype.hasOwnProperty.call(c, clave) && c[clave] !== "") {
+        el.setInnerContent(c[clave]);
+      }
+    },
+  });
+
+  // El indicador de «abierto ahora» calcula con estas horas, así que viajan
+  // como atributos en vez de quedar escritas en el guion.
+  rw.on("#estado", {
+    element(el) {
+      el.setAttribute("data-abre", c.horario_abre);
+      el.setAttribute("data-cierra", c.horario_cierra);
+      el.setAttribute("data-dia-cerrado", c.horario_dia_cerrado);
+      el.setAttribute("data-dias", c.horario_dias);
+      el.setAttribute("data-horas", c.horario_horas);
+    },
+  });
+
+  // La carta completa. Sin lista guardada no se toca: queda la del despliegue.
+  rw.on('[data-lista="carta"]', {
+    element(el) {
+      let sabores = null;
+      try { sabores = JSON.parse(c.carta || "null"); } catch (_) { sabores = null; }
+      if (!Array.isArray(sabores) || !sabores.length) return;
+      el.setInnerContent(sabores.map(fichaDeSabor).join(""), { html: true });
+    },
+  });
+
+  // Bloqueos de bloque entero, como el del soft de pistacho.
+  rw.on("[data-bloqueo]", {
+    element(el) {
+      const clave = el.getAttribute("data-bloqueo");
+      const bloqueado = String(c[clave] || "") === "si";
+      const clases = (el.getAttribute("class") || "")
+        .split(/\s+/).filter((x) => x && x !== "firma--bloqueada");
+      if (bloqueado) clases.push("firma--bloqueada");
+      el.setAttribute("class", clases.join(" "));
+    },
+  });
+
+  return rw.transform(respuesta);
+}
+
+async function sirveConContenido(request, env, url) {
+  // La pedida va sin validadores: con `If-None-Match` el pipeline de assets
+  // contesta 304 contra el ETag del ARCHIVO, que no cambia cuando cambia la
+  // base, y la página volvería con el contenido viejo.
+  const limpia = new Request(request);
+  limpia.headers.delete("If-None-Match");
+  limpia.headers.delete("If-Modified-Since");
+
+  const respuesta = await env.ASSETS.fetch(limpia);
+  const tipo = respuesta.headers.get("content-type") || "";
+  if (!tipo.includes("text/html")) return respuesta;
+
+  const c = await leerContenido(env);
+  const reescrita = reescribePagina(respuesta, c);
+
+  // Y la respuesta sale sin ETag y sin caché. El ETag describiría el archivo y
+  // no lo servido, y una copia guardada en el navegador o en el borde haría
+  // que una edición del panel tardara en verse. Son páginas chicas: el costo
+  // de no cachearlas es menor que el de mostrar un horario viejo.
+  const cabeceras = new Headers(reescrita.headers);
+  cabeceras.delete("ETag");
+  cabeceras.delete("Last-Modified");
+  cabeceras.set("Cache-Control", "no-store");
+  return new Response(reescrita.body, {
+    status: reescrita.status,
+    statusText: reescrita.statusText,
+    headers: cabeceras,
+  });
+}
+
+// ============================================================================
+// Panel de contenido — /panel, interno, con PIN
+// ============================================================================
+//
+// Mismo portón que /previews: cookie firmada con HMAC del PIN, sin estado en la
+// base. Rotar el PIN invalida todas las sesiones de una.
+//
+// El PIN sale de PANEL_PIN y, si no está puesto, del PUBLISHER_PIN que ya
+// existe. Es la misma audiencia interna, y así el panel funciona desde el
+// primer despliegue sin tener que crear un secreto antes. Si se quiere separar,
+// basta con poner PANEL_PIN.
+
+const PANEL_COOKIE = "dg-panel-session";
+
+function panelPin(env) {
+  return env.PANEL_PIN || env.PUBLISHER_PIN || "";
+}
+
+async function panelToken(env) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw", enc.encode(panelPin(env)), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode("dg-panel-v1"));
+  return bufToHex(sig);
+}
+
+async function panelAutenticado(request, env) {
+  const esperado = await panelToken(env);
+  const cookie = request.headers.get("Cookie") || "";
+  const m = cookie.match(new RegExp(`${PANEL_COOKIE}=([a-f0-9]+)`));
+  return !!(m && m[1] === esperado);
+}
+
+function panelJson(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+  });
+}
+
+// Claves que el panel puede escribir. Una lista cerrada: así un formulario
+// manipulado no puede inventar filas nuevas en la tabla.
+const PANEL_CLAVES = new Set(Object.keys(CONTENIDO_DEFECTO));
+
+async function handlePanel(request, env, url) {
+  // Sin PIN configurado el panel no existe. Cerrado, no abierto: esto escribe.
+  if (!panelPin(env)) return new Response("Panel no configurado", { status: 404 });
+
+  const ttlDias = parseInt(env.SESSION_TTL_DAYS || "30", 10);
+
+  if (request.method === "POST" && url.pathname === "/panel/__gate") {
+    const form = await request.formData().catch(() => null);
+    const pin = form ? String(form.get("pin") || "") : "";
+    if (pin && pin === panelPin(env)) {
+      const esperado = await panelToken(env);
+      return new Response(null, {
+        status: 303,
+        headers: {
+          "Location": "/panel/",
+          "Set-Cookie": `${PANEL_COOKIE}=${esperado}; Path=/panel; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttlDias * 86400}`,
+        },
+      });
+    }
+    return panelLogin(true);
+  }
+
+  const dentro = await panelAutenticado(request, env);
+
+  if (url.pathname.startsWith("/panel/api/")) {
+    if (!dentro) return panelJson({ error: "sin sesión" }, 401);
+    if (!env.DB) return panelJson({ error: "sin base de datos" }, 503);
+
+    if (url.pathname === "/panel/api/contenido" && request.method === "GET") {
+      return panelJson({ ok: true, contenido: await leerContenido(env) });
+    }
+
+    if (url.pathname === "/panel/api/contenido" && request.method === "POST") {
+      const cuerpo = await request.json().catch(() => null);
+      if (!cuerpo || typeof cuerpo !== "object") {
+        return panelJson({ error: "cuerpo inválido" }, 400);
+      }
+      const ahora = Date.now();
+      const escrituras = [];
+      for (const [clave, valor] of Object.entries(cuerpo)) {
+        if (!PANEL_CLAVES.has(clave)) continue;
+        escrituras.push(
+          env.DB.prepare(
+            "INSERT INTO contenido (clave, valor, actualizado, por) VALUES (?, ?, ?, ?) " +
+            "ON CONFLICT(clave) DO UPDATE SET valor = excluded.valor, " +
+            "actualizado = excluded.actualizado, por = excluded.por"
+          ).bind(clave, String(valor), ahora, "panel")
+        );
+      }
+      if (!escrituras.length) return panelJson({ error: "nada que guardar" }, 400);
+      try {
+        await env.DB.batch(escrituras);
+      } catch (e) {
+        return panelJson({ error: "no se pudo guardar: " + String(e && e.message || e) }, 500);
+      }
+      return panelJson({ ok: true, guardadas: escrituras.length, contenido: await leerContenido(env) });
+    }
+
+    return panelJson({ error: "ruta desconocida" }, 404);
+  }
+
+  if (!dentro) return panelLogin(false);
+  return null; // autenticado → que lo sirva ASSETS
+}
+
+function panelLogin(error) {
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel — The Daily Grind</title>
+<link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;letter-spacing:0}
+  body{min-height:100vh;display:grid;place-items:center;background:#004FC8;color:#fff;
+       font-family:"Bricolage Grotesque",system-ui,sans-serif;padding:24px}
+  form{width:100%;max-width:340px;text-align:center}
+  h1{font-size:28px;font-weight:800;line-height:1;margin-bottom:10px}
+  p{font-size:14px;font-weight:300;opacity:.85;margin-bottom:24px}
+  input{width:100%;padding:14px 16px;font:inherit;font-size:18px;text-align:center;
+        background:#fff;color:#0a1f4d;border:1px solid #0a1f4d;margin-bottom:14px}
+  button{width:100%;padding:14px;font:inherit;font-size:11px;font-weight:700;
+         text-transform:uppercase;background:transparent;color:#fff;border:1px solid #fff;
+         cursor:pointer}
+  .mal{color:#a9dbfa;font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<form method="POST" action="/panel/__gate">
+  <h1>Panel de la casa</h1>
+  <p>Acá se edita la carta, el horario y lo que está bloqueado.</p>
+  <input type="password" name="pin" inputmode="numeric" autocomplete="current-password"
+         placeholder="PIN" autofocus required>
+  <button type="submit">Entrar</button>
+  ${error ? '<p class="mal">Ese PIN no es.</p>' : ""}
+</form>
+</body>
+</html>`;
+  return new Response(html, {
+    status: error ? 401 : 200,
+    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store",
+               "X-Robots-Tag": "noindex, nofollow" },
+  });
 }

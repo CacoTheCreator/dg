@@ -3,17 +3,25 @@
 (function () {
   "use strict";
 
-  // Abierto de martes a domingo, 12 a 20, hora de Chile.
+  // El horario lo pone el Worker en atributos, desde lo que diga el panel. Si
+  // no están —porque la base no contestó— no se toca nada y queda el horario
+  // escrito en el HTML, que sigue siendo cierto.
   var estado = document.getElementById("estado");
-  if (estado) {
+  if (estado && estado.hasAttribute("data-abre")) {
     try {
-      var ahora = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
-      var dia = ahora.getDay(); // 0 domingo, 1 lunes
-      var hora = ahora.getHours();
-      var abierto = dia !== 1 && hora >= 12 && hora < 20;
-      estado.textContent = abierto
-        ? "Abierto ahora · hasta las 20:00"
-        : "Martes a domingo · 12:00 a 20:00";
+      var abre = parseInt(estado.getAttribute("data-abre"), 10);
+      var cierra = parseInt(estado.getAttribute("data-cierra"), 10);
+      var diaCerrado = parseInt(estado.getAttribute("data-dia-cerrado"), 10);
+      var dias = estado.getAttribute("data-dias") || "";
+      var horas = estado.getAttribute("data-horas") || "";
+      if (!isNaN(abre) && !isNaN(cierra)) {
+        var ahora = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
+        var hora = ahora.getHours();
+        var abierto = ahora.getDay() !== diaCerrado && hora >= abre && hora < cierra;
+        estado.textContent = abierto
+          ? "Abierto ahora · hasta las " + cierra + ":00"
+          : dias + " · " + horas;
+      }
     } catch (e) { /* queda el horario escrito en el HTML */ }
   }
 
