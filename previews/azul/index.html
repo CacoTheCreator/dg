@@ -35,7 +35,7 @@
       line-height: 0.96;
       letter-spacing: -0.015em;
     }
-    .principales p { font-size: 15px; }
+    .principales p { font-size: 15px; padding-right: 104px; }
     .principales .ir { font-size: 11px; }
 
     /* Lo demás de la casa, en una sola línea de datos. */
@@ -87,10 +87,15 @@
   <main>
     <section class="portada">
       <div class="ancho">
-        <h1>Tu pausa empieza <em>acá</em>.</h1>
-        <p class="bajada">
-          Helado artesanal frente a Nice to Meat, en Providencia.
-        </p>
+        <div class="portada-fila">
+          <div>
+            <h1>Tu pausa empieza <em>acá</em>.</h1>
+            <p class="bajada">
+              Helado artesanal frente a Nice to Meat, en Providencia.
+            </p>
+          </div>
+          <svg class="monito monito--portada" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
+        </div>
       </div>
     </section>
 
@@ -100,6 +105,7 @@
 
           <div class="ficha">
             <a href="menu.html">
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
               <h2>Ver la carta</h2>
               <p>Lo que hay hoy en vitrina, el café y la carta dulce de la casa.</p>
               <span class="pie"><span class="codigo">Carta</span><span class="ir">Ver →</span></span>
@@ -108,6 +114,7 @@
 
           <div class="ficha">
             <a href="votacion.html">
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
               <h2>Votar tu helado</h2>
               <p>Seis sabores y una ronda abierta. El más votado se queda.</p>
               <div class="cifra"><span id="votos">—</span><small>Votos esta ronda</small></div>
@@ -117,6 +124,7 @@
 
           <div class="ficha">
             <a href="/dailyback/auth/google">
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-tarjeta"/></svg>
               <h2>Tu DailyBack</h2>
               <p>Entra con tu Google y la tarjeta queda conectada. El décimo va por la casa.</p>
               <span class="pie"><span class="codigo">La tarjeta</span><span class="ir">Entrar →</span></span>
@@ -125,6 +133,7 @@
 
           <div class="ficha">
             <a href="laconsola.html">
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-cartucho"/></svg>
               <h2>La Consola</h2>
               <p>La sala de juegos de la casa. Cada partida deja granos en tu tarjeta.</p>
               <span class="pie"><span class="codigo">K01–K12</span><span class="ir">Jugar →</span></span>
