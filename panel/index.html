@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Panel — The Daily Grind</title>
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --cobalto: #004fc8;
+      --celeste: #51b5f1;
+      --papel: #ffffff;
+      --tinta: #0a1f4d;
+      --celeste-claro: #a9dbfa;
+      --sans: "Bricolage Grotesque", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+      --tracking: 0.14em;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; letter-spacing: 0; }
+    body {
+      background: var(--cobalto);
+      color: var(--papel);
+      font-family: var(--sans);
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+    .ancho { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+    .franja {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-block: 14px;
+      position: sticky;
+      top: 0;
+      background: var(--cobalto);
+      z-index: 20;
+    }
+    .franja .ancho { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .dato {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: var(--tracking); color: var(--celeste);
+    }
+    .franja a { color: var(--celeste-claro); text-decoration: none; }
+    .franja .logo { height: 22px; margin-left: auto; }
+
+    h1 { font-size: clamp(32px, 6vw, 56px); font-weight: 800; line-height: 0.95; margin-top: 36px; }
+    h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--celeste-claro); }
+    .bajada { margin-top: 12px; font-size: 15px; font-weight: 300; max-width: 60ch; }
+
+    section { margin-top: 44px; }
+    h2 {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: var(--tracking); color: var(--celeste);
+      padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin-top: 20px; }
+    label { display: block; }
+    label .que {
+      display: block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: var(--tracking); color: var(--celeste); margin-bottom: 7px;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%; padding: 12px 14px; font: inherit; font-size: 15px; font-weight: 500;
+      background: var(--papel); color: var(--tinta); border: 1px solid var(--tinta);
+    }
+    input:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 2px; }
+    .pista { font-size: 12px; font-weight: 300; color: var(--celeste-claro); margin-top: 6px; }
+
+    /* La carta: una fila por sabor, en papel para que se lea como una lista de
+       trabajo y no como la web. */
+    .sabores { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .fila {
+      background: var(--papel); color: var(--tinta); border: 1px solid var(--tinta);
+      padding: 14px; display: grid; gap: 10px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .fila { grid-template-columns: 1.1fr 1.4fr auto auto; align-items: center; }
+    }
+    .fila input { border-color: rgba(10, 31, 77, 0.35); }
+    .fila .marca {
+      display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: var(--tracking); white-space: nowrap;
+      cursor: pointer;
+    }
+    .fila .marca input { width: 18px; height: 18px; accent-color: var(--cobalto); }
+    .quitar {
+      font: inherit; font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: var(--tracking); background: transparent; color: var(--tinta);
+      border: 1px solid rgba(10, 31, 77, 0.35); padding: 10px 12px; cursor: pointer;
+    }
+    .quitar:hover { background: var(--tinta); color: var(--papel); }
+
+    .boton {
+      display: inline-block; background: var(--papel); color: var(--tinta);
+      border: 1px solid var(--tinta); padding: 13px 20px; font-family: var(--sans);
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: var(--tracking); cursor: pointer;
+      box-shadow: 4px 4px 0 var(--tinta);
+    }
+    .boton:active { transform: translate(4px, 4px); box-shadow: none; }
+    .boton--linea { background: transparent; color: var(--papel); border-color: var(--papel); box-shadow: none; }
+    .boton[disabled] { opacity: 0.5; cursor: default; box-shadow: none; }
+
+    .fila-botones { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+    /* La barra de guardar queda pegada abajo: la carta es larga y el botón no
+       puede quedar a doce sabores de distancia. */
+    .guardar {
+      position: fixed; inset: auto 0 0; z-index: 30;
+      background: var(--tinta); border-top: 1px solid rgba(255, 255, 255, 0.3);
+      padding-block: 14px;
+    }
+    .guardar .ancho { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .aviso { font-size: 13px; font-weight: 300; }
+    .aviso.mal { color: var(--celeste-claro); }
+  </style>
+</head>
+<body>
+  <div class="franja">
+    <div class="ancho">
+      <a class="dato" href="/">← Ver el sitio</a>
+      <span class="dato" aria-hidden="true">·</span>
+      <span class="dato"><b>Panel de la casa</b></span>
+      <img class="logo" src="/LogoTDG.svg" alt="The Daily Grind" />
+    </div>
+  </div>
+
+  <main class="ancho">
+    <h1>Lo que cambia <em>sin</em> tocar código.</h1>
+    <p class="bajada">
+      Lo que se guarda acá sale en el sitio al instante, en todas las páginas donde
+      aparece. El horario está en cuatro páginas y la dirección en otras cuatro:
+      acá se escriben una sola vez.
+    </p>
+
+    <section>
+      <h2>Horario</h2>
+      <div class="rejilla">
+        <label>
+          <span class="que">Días, como se escriben</span>
+          <input type="text" id="horario_dias" />
+        </label>
+        <label>
+          <span class="que">Horas, como se escriben</span>
+          <input type="text" id="horario_horas" />
+        </label>
+        <label>
+          <span class="que">Abre a las</span>
+          <input type="number" id="horario_abre" min="0" max="23" />
+          <span class="pista">En números. Con esto se calcula el «abierto ahora».</span>
+        </label>
+        <label>
+          <span class="que">Cierra a las</span>
+          <input type="number" id="horario_cierra" min="0" max="23" />
+        </label>
+        <label>
+          <span class="que">Día cerrado</span>
+          <input type="number" id="horario_dia_cerrado" min="0" max="6" />
+          <span class="pista">0 domingo, 1 lunes, 2 martes, y así.</span>
+        </label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Dónde</h2>
+      <div class="rejilla">
+        <label>
+          <span class="que">Dirección</span>
+          <input type="text" id="direccion" />
+        </label>
+        <label>
+          <span class="que">Comuna</span>
+          <input type="text" id="comuna" />
+        </label>
+      </div>
+    </section>
+
+    <section>
+      <h2>La carta</h2>
+      <p class="pista" style="margin-top: 12px">
+        El dibujo se busca solo por el nombre. Si pones un sabor sin dibujo, la ficha
+        sale sin figura y hay que dibujarla antes.
+      </p>
+      <div class="sabores" id="sabores"></div>
+      <div class="fila-botones">
+        <button type="button" class="boton boton--linea" id="agregar">Agregar un sabor</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bloqueos</h2>
+      <div class="rejilla">
+        <label class="marca" style="display:flex;align-items:center;gap:10px;margin-top:18px">
+          <input type="checkbox" id="pistacho_bloqueado" style="width:20px;height:20px;accent-color:var(--celeste)" />
+          <span>El soft de pistacho está bloqueado en la carta</span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <div class="guardar">
+    <div class="ancho">
+      <button type="button" class="boton" id="guardar">Guardar</button>
+      <p class="aviso" id="aviso" role="status">Cargando…</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var CAMPOS = ["horario_dias", "horario_horas", "horario_abre", "horario_cierra",
+                    "horario_dia_cerrado", "direccion", "comuna"];
+      var elSabores = document.getElementById("sabores");
+      var elAviso = document.getElementById("aviso");
+      var elGuardar = document.getElementById("guardar");
+
+      function aviso(texto, mal) {
+        elAviso.textContent = texto;
+        elAviso.className = "aviso" + (mal ? " mal" : "");
+      }
+
+      // Toda pedida lleva plazo: sin esto una llamada colgada deja el botón
+      // desactivado y el panel inservible hasta recargar.
+      function pide(url, opciones) {
+        var corta = new AbortController();
+        var reloj = setTimeout(function () { corta.abort(); }, 9000);
+        var cfg = Object.assign({ signal: corta.signal }, opciones || {});
+        return fetch(url, cfg)
+          .then(function (r) {
+            return r.json().catch(function () { return {}; })
+              .then(function (d) { return { ok: r.ok, d: d }; });
+          })
+          .catch(function () { return null; })
+          .then(function (res) { clearTimeout(reloj); return res; });
+      }
+
+      function filaSabor(sabor) {
+        var fila = document.createElement("div");
+        fila.className = "fila";
+
+        var nombre = document.createElement("input");
+        nombre.type = "text";
+        nombre.placeholder = "Nombre del sabor";
+        nombre.value = sabor.nombre || "";
+        nombre.className = "s-nombre";
+
+        var que = document.createElement("input");
+        que.type = "text";
+        que.placeholder = "Qué es, si el nombre no lo dice";
+        que.value = sabor.que || "";
+        que.className = "s-que";
+
+        var marca = document.createElement("label");
+        marca.className = "marca";
+        var caja = document.createElement("input");
+        caja.type = "checkbox";
+        caja.className = "s-bloqueado";
+        caja.checked = !!sabor.bloqueado;
+        marca.appendChild(caja);
+        marca.appendChild(document.createTextNode("Bloqueado"));
+
+        var quitar = document.createElement("button");
+        quitar.type = "button";
+        quitar.className = "quitar";
+        quitar.textContent = "Quitar";
+        quitar.addEventListener("click", function () { fila.remove(); });
+
+        fila.appendChild(nombre);
+        fila.appendChild(que);
+        fila.appendChild(marca);
+        fila.appendChild(quitar);
+        return fila;
+      }
+
+      function pintaCarta(lista) {
+        elSabores.innerHTML = "";
+        (lista || []).forEach(function (s) { elSabores.appendChild(filaSabor(s)); });
+      }
+
+      function leeCarta() {
+        return Array.prototype.map.call(elSabores.querySelectorAll(".fila"), function (f) {
+          return {
+            nombre: f.querySelector(".s-nombre").value.trim(),
+            que: f.querySelector(".s-que").value.trim(),
+            bloqueado: f.querySelector(".s-bloqueado").checked
+          };
+        }).filter(function (s) { return s.nombre; });
+      }
+
+      function pinta(c) {
+        CAMPOS.forEach(function (k) {
+          var el = document.getElementById(k);
+          if (el) el.value = c[k] || "";
+        });
+        document.getElementById("pistacho_bloqueado").checked = c.pistacho_bloqueado === "si";
+        var lista = null;
+        try { lista = JSON.parse(c.carta || "null"); } catch (_) { lista = null; }
+        pintaCarta(Array.isArray(lista) ? lista : []);
+      }
+
+      document.getElementById("agregar").addEventListener("click", function () {
+        var fila = filaSabor({});
+        elSabores.appendChild(fila);
+        fila.querySelector(".s-nombre").focus();
+      });
+
+      elGuardar.addEventListener("click", function () {
+        var cuerpo = {};
+        CAMPOS.forEach(function (k) {
+          var el = document.getElementById(k);
+          if (el) cuerpo[k] = el.value.trim();
+        });
+        cuerpo.pistacho_bloqueado = document.getElementById("pistacho_bloqueado").checked ? "si" : "no";
+        cuerpo.carta = JSON.stringify(leeCarta());
+
+        elGuardar.disabled = true;
+        aviso("Guardando…");
+        pide("/panel/api/contenido", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cuerpo)
+        }).then(function (res) {
+          elGuardar.disabled = false;
+          if (!res || !res.ok) {
+            aviso((res && res.d && res.d.error) || "No se pudo guardar. Intenta de nuevo.", true);
+            return;
+          }
+          aviso("Guardado. Ya está en el sitio.");
+        });
+      });
+
+      function carga() {
+        aviso("Cargando…");
+        pide("/panel/api/contenido").then(function (res) {
+          if (!res || !res.ok) {
+            aviso((res && res.d && res.d.error) || "No pudimos traer el contenido.", true);
+            return;
+          }
+          pinta(res.d.contenido || {});
+          aviso("");
+        });
+      }
+      carga();
+    })();
+  </script>
+</body>
+</html>

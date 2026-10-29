@@ -555,3 +555,36 @@ footer a:hover { color: var(--papel); }
   opacity: 0.9;
   margin: 30px auto 0;
 }
+
+/* ---------------------------------------------------------------------------
+   SABOR BLOQUEADO
+
+   La ficha de un sabor que todavía no se desbloquea. Mismo trato que el bloque
+   del soft: el contenido borroso y el rótulo nítido encima, porque un
+   desenfoque sin rótulo se lee como que la página se rompió.
+--------------------------------------------------------------------------- */
+.sabor-ficha--bloqueada { position: relative; }
+.sabor-ficha--bloqueada .velado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  filter: blur(6px);
+  opacity: 0.5;
+  user-select: none;
+  pointer-events: none;
+}
+.sabor-ficha--bloqueada .candado {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-dato);
+  color: var(--papel);
+}
+.sabor-ficha--bloqueada .candado-marca { color: var(--celeste); }

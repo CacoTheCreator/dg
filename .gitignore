@@ -26,3 +26,4 @@ dailygrind-backups/
 *-backups/
 *.sql.gz
 backup-dumps/
+.dev.vars
