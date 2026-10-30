@@ -82,7 +82,7 @@
       grid-template-columns: 1fr;
     }
     @media (min-width: 720px) {
-      .fila { grid-template-columns: 1.1fr 1.4fr auto auto; align-items: center; }
+      .fila { grid-template-columns: 1fr 1.3fr auto auto auto; align-items: center; }
     }
     .fila input { border-color: rgba(10, 31, 77, 0.35); }
     .fila .marca {
@@ -196,6 +196,24 @@
     </section>
 
     <section>
+      <h2>La votación</h2>
+      <p class="pista" style="margin-top: 12px">
+        Los sabores que entran a la ronda se marcan arriba, en la carta. Son los
+        mismos: lo que no está en la carta no se puede votar.
+      </p>
+      <div class="rejilla">
+        <label>
+          <span class="que">Ronda abierta</span>
+          <input type="text" id="votacion_ronda" />
+          <span class="pista">
+            Cambiar esto parte el recuento de cero. Los votos de la ronda anterior
+            quedan guardados con su etiqueta, no se borran.
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section>
       <h2>Bloqueos</h2>
       <div class="rejilla">
         <label class="marca" style="display:flex;align-items:center;gap:10px;margin-top:18px">
@@ -218,7 +236,7 @@
       "use strict";
 
       var CAMPOS = ["horario_dias", "horario_horas", "horario_abre", "horario_cierra",
-                    "horario_dia_cerrado", "direccion", "comuna"];
+                    "horario_dia_cerrado", "direccion", "comuna", "votacion_ronda"];
       var elSabores = document.getElementById("sabores");
       var elAviso = document.getElementById("aviso");
       var elGuardar = document.getElementById("guardar");
@@ -268,6 +286,15 @@
         marca.appendChild(caja);
         marca.appendChild(document.createTextNode("Bloqueado"));
 
+        var marcaVoto = document.createElement("label");
+        marcaVoto.className = "marca";
+        var cajaVoto = document.createElement("input");
+        cajaVoto.type = "checkbox";
+        cajaVoto.className = "s-vota";
+        cajaVoto.checked = !!sabor.vota;
+        marcaVoto.appendChild(cajaVoto);
+        marcaVoto.appendChild(document.createTextNode("Se vota"));
+
         var quitar = document.createElement("button");
         quitar.type = "button";
         quitar.className = "quitar";
@@ -277,6 +304,7 @@
         fila.appendChild(nombre);
         fila.appendChild(que);
         fila.appendChild(marca);
+        fila.appendChild(marcaVoto);
         fila.appendChild(quitar);
         return fila;
       }
@@ -291,7 +319,8 @@
           return {
             nombre: f.querySelector(".s-nombre").value.trim(),
             que: f.querySelector(".s-que").value.trim(),
-            bloqueado: f.querySelector(".s-bloqueado").checked
+            bloqueado: f.querySelector(".s-bloqueado").checked,
+            vota: f.querySelector(".s-vota").checked
           };
         }).filter(function (s) { return s.nombre; });
       }

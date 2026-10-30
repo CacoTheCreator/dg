@@ -1119,6 +1119,26 @@ function sleep(ms) {
 // anterior quedan guardados con su etiqueta y el recuento parte limpio.
 const VOTACION_RONDA = "2026-11";
 
+// La ronda abierta y qué sabores entran salen del panel. La lista de arriba y
+// la de abajo son la red: si la base no contesta o nadie marcó ningún sabor
+// para votar, la votación sigue andando con lo del último despliegue en vez de
+// quedar sin sabores, que la dejaría muerta.
+async function votacionAbierta(env) {
+  const c = await leerContenido(env);
+  const ronda = (c.votacion_ronda || "").trim() || VOTACION_RONDA;
+  let sabores = null;
+  try {
+    const carta = JSON.parse(c.carta || "null");
+    if (Array.isArray(carta)) {
+      sabores = carta
+        .filter((s) => s && s.vota && String(s.nombre || "").trim())
+        .map((s) => String(s.nombre).trim());
+    }
+  } catch (_) { sabores = null; }
+  if (!sabores || !sabores.length) sabores = VOTACION_SABORES;
+  return { ronda, sabores };
+}
+
 // Los sabores de la barquillera, en el mismo orden que La Comanda.
 const VOTACION_SABORES = [
   "Mango",
@@ -1142,12 +1162,13 @@ async function handleVotacion(request, env, url) {
   try {
     // GET /estado — el recuento es publico. Con ?socio= agrega su voto y su nombre.
     if (ruta === "/estado" && request.method === "GET") {
+      const abierta = await votacionAbierta(env);
       const socio = (url.searchParams.get("socio") || "").toLowerCase();
-      if (!socio) return comandaJson(await votacionEstado(env, "", null));
+      if (!socio) return comandaJson(await votacionEstado(env, "", null, abierta));
       if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
       const tarjeta = await votacionTarjeta(env, socio);
       if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
-      return comandaJson(await votacionEstado(env, socio, tarjeta));
+      return comandaJson(await votacionEstado(env, socio, tarjeta, abierta));
     }
 
     // POST /voto — {socio, sabor}. Volver a votar cambia el sabor, no suma otro.
@@ -1155,8 +1176,9 @@ async function handleVotacion(request, env, url) {
       const b = await request.json().catch(() => null);
       const socio = String(b?.socio || "").toLowerCase();
       const sabor = String(b?.sabor || "");
+      const abierta = await votacionAbierta(env);
       if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
-      if (!VOTACION_SABORES.includes(sabor)) return comandaJson({ error: "sabor invalido" }, 400);
+      if (!abierta.sabores.includes(sabor)) return comandaJson({ error: "sabor invalido" }, 400);
 
       const tarjeta = await votacionTarjeta(env, socio);
       if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
@@ -1167,9 +1189,9 @@ async function handleVotacion(request, env, url) {
          VALUES (?, ?, ?, ?, ?)
          ON CONFLICT(ronda, socio)
          DO UPDATE SET sabor = excluded.sabor, actualizado = excluded.actualizado`
-      ).bind(VOTACION_RONDA, socio, sabor, ahora, ahora).run();
+      ).bind(abierta.ronda, socio, sabor, ahora, ahora).run();
 
-      return comandaJson(await votacionEstado(env, socio, tarjeta));
+      return comandaJson(await votacionEstado(env, socio, tarjeta, abierta));
     }
 
     return comandaJson({ error: "ruta no encontrada" }, 404);
@@ -1193,29 +1215,30 @@ async function votacionTarjeta(env, socio) {
   return data && data.ok ? data : null;
 }
 
-async function votacionEstado(env, socio, tarjeta) {
+async function votacionEstado(env, socio, tarjeta, abierta) {
+  const { ronda, sabores: nombres } = abierta || (await votacionAbierta(env));
   const res = await env.DB.prepare(
     "SELECT sabor, COUNT(*) AS votos FROM votos_barquillera WHERE ronda = ? GROUP BY sabor"
-  ).bind(VOTACION_RONDA).all();
+  ).bind(ronda).all();
 
   const cuenta = new Map();
   for (const fila of res.results || []) {
     cuenta.set(String(fila.sabor), Number(fila.votos) || 0);
   }
 
-  const sabores = VOTACION_SABORES.map((s) => ({ sabor: s, votos: cuenta.get(s) || 0 }));
+  const sabores = nombres.map((s) => ({ sabor: s, votos: cuenta.get(s) || 0 }));
   const total = sabores.reduce((suma, s) => suma + s.votos, 0);
 
   let miVoto = null;
   if (socio) {
     const fila = await env.DB.prepare(
       "SELECT sabor FROM votos_barquillera WHERE ronda = ? AND socio = ?"
-    ).bind(VOTACION_RONDA, socio).first();
+    ).bind(ronda, socio).first();
     miVoto = fila ? String(fila.sabor) : null;
   }
 
   return {
-    ronda: VOTACION_RONDA,
+    ronda,
     sabores,
     total,
     miVoto,
@@ -1245,6 +1268,7 @@ const CONTENIDO_DEFECTO = {
   direccion: "Los Leones 1012, local 2",
   comuna: "Providencia",
   pistacho_bloqueado: "si",
+  votacion_ronda: "2026-11",
   carta: "",
 };
 
