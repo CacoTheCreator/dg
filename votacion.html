@@ -109,6 +109,17 @@
     }
     .sabor.mio .dibujo { color: var(--cobalto); }
 
+    /* Mientras se busca la ronda, el recuento tampoco afirma nada: una barra
+       que respira en vez de una cifra que todavía no se sabe. */
+    .lectura.cargando .v {
+      display: inline-block;
+      min-width: 54px;
+      height: 22px;
+      border-radius: 1px;
+      background: rgba(255, 255, 255, 0.28);
+      animation: respira 1.4s ease-in-out infinite;
+    }
+
     /* Mientras se busca la ronda: las fichas vacías, para que se vea que hay
        seis cosas viniendo y no una página rota. */
     .barquillera.cargando .hueco { pointer-events: none; }
@@ -243,10 +254,13 @@
           <svg class="monito monito--portada" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
         </div>
 
-        <div class="lectura">
-          <span><b class="k">Ronda</b><b class="v" id="v-ronda">—</b></span>
-          <span><b class="k">Estado</b><b class="v">Abierta</b></span>
-          <span><b class="k">Votos</b><b class="v" id="v-total">0</b></span>
+        <!-- Parte en carga y con los valores vacíos a propósito. Un «0 votos»
+             escrito en el HTML es una afirmación falsa durante la espera, y
+             quien ya votó la lee como que su voto no quedó. -->
+        <div class="lectura cargando" id="lectura" aria-busy="true">
+          <span><b class="k">Ronda</b><b class="v" id="v-ronda"></b></span>
+          <span><b class="k">Estado</b><b class="v" id="v-estado"></b></span>
+          <span><b class="k">Votos</b><b class="v" id="v-total"></b></span>
         </div>
 
         <div class="placa panel" id="panel-socio">
@@ -339,7 +353,9 @@
         return CODIGOS[k] || "TDG —";
       }
 
+      var elLectura = document.getElementById("lectura");
       var elRonda = document.getElementById("v-ronda");
+      var elEstado = document.getElementById("v-estado");
       var elTotal = document.getElementById("v-total");
       var elLista = document.getElementById("barquillera");
       var elTitulo = document.getElementById("socio-titulo");
@@ -352,6 +368,9 @@
       var socio = null;
       var miVoto = null;
       var enviando = false;
+      // Se levanta cuando ya se pintó la respuesta con tarjeta, para que la
+      // pasada pública, si llega tarde, no borre el voto propio de la pantalla.
+      var completo = false;
 
       function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
       function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) { /* incógnito */ } }
@@ -383,7 +402,46 @@
           '<li class="sabor ficha hueco"></li>'.repeat(6);
       }
 
+      // El recuento calla mientras no se sepa. Antes el HTML traía «0» escrito
+      // y la página lo sostenía los dos segundos que demora la respuesta.
+      function cabeceraCargando() {
+        elLectura.classList.add("cargando");
+        elLectura.setAttribute("aria-busy", "true");
+        elRonda.textContent = "";
+        elEstado.textContent = "";
+        elTotal.textContent = "";
+      }
+
+      function cabeceraLista() {
+        elLectura.classList.remove("cargando");
+        elLectura.removeAttribute("aria-busy");
+      }
+
+      // Con una tarjeta guardada no se le puede ofrecer «Entrar con Google» a
+      // alguien que ya entró. El panel espera callado hasta tener la respuesta.
+      function panelRevisando() {
+        elTitulo.textContent = "Revisando tu tarjeta…";
+        elTexto.textContent = "Un segundo y queda lista para votar.";
+        elAcciones.hidden = true;
+        elCaja.hidden = true;
+      }
+
+      // El panel de invitación es lo correcto para quien llega sin tarjeta, y
+      // también la salida cuando la guardada ya no sirve o la ronda no carga.
+      function panelInvita() {
+        elTitulo.textContent = "Vota con tu tarjeta";
+        elTexto.textContent =
+          "Tu DailyBack es tu voto. Entra con tu Google y la tarjeta queda " +
+          "conectada, o pega acá el link de la tuya si ya la tienes abierta.";
+        elAcciones.hidden = false;
+      }
+
       function falla() {
+        cabeceraLista();
+        elRonda.textContent = "—";
+        elEstado.textContent = "—";
+        elTotal.textContent = "—";
+        panelInvita();
         elLista.className = "barquillera";
         elLista.innerHTML = "";
         var caja = document.createElement("li");
@@ -400,11 +458,17 @@
         elLista.appendChild(caja);
       }
 
-      function pinta(data) {
+      // `parcial` es la pasada del recuento público, que llega antes que la
+      // respuesta con tarjeta: pinta la ronda y los sabores y deja lo personal
+      // —el voto propio y el panel— como está, para no afirmar de más.
+      function pinta(data, parcial) {
         if (!data) return;
+        if (!parcial) completo = true;
+        cabeceraLista();
         elRonda.textContent = data.ronda || "—";
+        elEstado.textContent = "Abierta";
         elTotal.textContent = String(data.total || 0);
-        miVoto = data.miVoto || null;
+        if (!parcial) miVoto = data.miVoto || null;
 
         var sabores = data.sabores || [];
         var total = data.total || 0;
@@ -440,13 +504,17 @@
           elLista.appendChild(li);
         });
 
-        if (socio) {
+        if (parcial) {
+          // El panel sigue en «Revisando tu tarjeta…» hasta que llegue la otra.
+        } else if (socio) {
           elTitulo.textContent = data.nombre ? "Hola, " + data.nombre : "Tu tarjeta está conectada";
           elTexto.textContent = miVoto
             ? "Tu voto va para " + miVoto + ". Toca otro sabor y lo cambias."
             : "Toca el sabor que quieres que se quede en la barquillera.";
           elAcciones.hidden = true;
           elCaja.hidden = true;
+        } else {
+          panelInvita();
         }
       }
 
@@ -532,6 +600,21 @@
       // aunque todavía no haya tarjeta conectada.
       function arranca() {
         cargando();
+        cabeceraCargando();
+        completo = false;
+
+        // El recuento es público y sale de D1 en medio segundo. Validar la
+        // tarjeta exige saltar a DailyBack, que es otra aplicación y cuesta un
+        // segundo y medio. Pedir las dos cosas en una sola llamada hacía que
+        // toda la página esperara a la lenta; ahora salen juntas y el recuento
+        // entra apenas llega, con lo personal sumándose encima.
+        if (socio) {
+          panelRevisando();
+          estado(null).then(function (res) {
+            if (!completo && res && res.ok) pinta(res.d, true);
+          });
+        }
+
         estado(socio).then(function (res) {
           if (res && res.ok) { pinta(res.d); return; }
           // Una tarjeta guardada que ya no existe deja de contar como socio.
