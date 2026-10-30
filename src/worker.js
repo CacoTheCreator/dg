@@ -1177,11 +1177,18 @@ async function handleVotacion(request, env, url) {
   try {
     // GET /estado — el recuento es publico. Con ?socio= agrega su voto y su nombre.
     if (ruta === "/estado" && request.method === "GET") {
-      const abierta = await votacionAbierta(env);
       const socio = (url.searchParams.get("socio") || "").toLowerCase();
+      if (socio && !VOTACION_UUID.test(socio)) {
+        return comandaJson({ error: "tarjeta invalida" }, 400);
+      }
+      // La ronda sale de D1 y la tarjeta de DailyBack, que es un salto a otra
+      // aplicacion y es lo caro de esta ruta. No dependen entre si, asi que
+      // esperarlas en fila sumaba las dos esperas en vez de correr la larga.
+      const [abierta, tarjeta] = await Promise.all([
+        votacionAbierta(env),
+        socio ? votacionTarjeta(env, socio) : null,
+      ]);
       if (!socio) return comandaJson(await votacionEstado(env, "", null, abierta));
-      if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
-      const tarjeta = await votacionTarjeta(env, socio);
       if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
       return comandaJson(await votacionEstado(env, socio, tarjeta, abierta));
     }
@@ -1191,11 +1198,13 @@ async function handleVotacion(request, env, url) {
       const b = await request.json().catch(() => null);
       const socio = String(b?.socio || "").toLowerCase();
       const sabor = String(b?.sabor || "");
-      const abierta = await votacionAbierta(env);
       if (!VOTACION_UUID.test(socio)) return comandaJson({ error: "tarjeta invalida" }, 400);
-      if (!abierta.sabores.includes(sabor)) return comandaJson({ error: "sabor invalido" }, 400);
 
-      const tarjeta = await votacionTarjeta(env, socio);
+      const [abierta, tarjeta] = await Promise.all([
+        votacionAbierta(env),
+        votacionTarjeta(env, socio),
+      ]);
+      if (!abierta.sabores.includes(sabor)) return comandaJson({ error: "sabor invalido" }, 400);
       if (!tarjeta) return comandaJson({ error: "tarjeta no encontrada" }, 404);
 
       const ahora = Date.now();
@@ -1232,9 +1241,16 @@ async function votacionTarjeta(env, socio) {
 
 async function votacionEstado(env, socio, tarjeta, abierta) {
   const { ronda, sabores: nombres } = abierta || (await votacionAbierta(env));
-  const res = await env.DB.prepare(
-    "SELECT sabor, COUNT(*) AS votos FROM votos_barquillera WHERE ronda = ? GROUP BY sabor"
-  ).bind(ronda).all();
+  const [res, fila] = await Promise.all([
+    env.DB.prepare(
+      "SELECT sabor, COUNT(*) AS votos FROM votos_barquillera WHERE ronda = ? GROUP BY sabor"
+    ).bind(ronda).all(),
+    socio
+      ? env.DB.prepare(
+          "SELECT sabor FROM votos_barquillera WHERE ronda = ? AND socio = ?"
+        ).bind(ronda, socio).first()
+      : null,
+  ]);
 
   const cuenta = new Map();
   for (const fila of res.results || []) {
@@ -1244,13 +1260,7 @@ async function votacionEstado(env, socio, tarjeta, abierta) {
   const sabores = nombres.map((s) => ({ sabor: s, votos: cuenta.get(s) || 0 }));
   const total = sabores.reduce((suma, s) => suma + s.votos, 0);
 
-  let miVoto = null;
-  if (socio) {
-    const fila = await env.DB.prepare(
-      "SELECT sabor FROM votos_barquillera WHERE ronda = ? AND socio = ?"
-    ).bind(ronda, socio).first();
-    miVoto = fila ? String(fila.sabor) : null;
-  }
+  const miVoto = fila ? String(fila.sabor) : null;
 
   return {
     ronda,
