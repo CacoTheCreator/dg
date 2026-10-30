@@ -256,7 +256,11 @@ h2 {
   border-bottom: 1px solid rgba(10, 31, 77, 0.16);
   padding-right: 18px;
 }
-.lamina span {
+/* Solo el rótulo, que es hijo directo del div. Antes esto agarraba también
+   los `data-campo` de adentro del `strong`, así que la dirección y el horario
+   se dibujaban como etiqueta chica en mayúsculas, cada dato en su propia línea
+   y el separador suelto en el medio. */
+.lamina > div > span {
   display: block;
   font-size: 10px;
   font-weight: 700;
@@ -276,7 +280,10 @@ h2 {
 /* La lámina sobre cobalto: mismo plano, invertido al campo. */
 .lamina--campo { border-top-color: rgba(255, 255, 255, 0.3); }
 .lamina--campo > div { border-bottom-color: rgba(255, 255, 255, 0.3); }
-.lamina--campo span { color: var(--celeste); }
+/* Acotada igual que la de arriba, por dos razones: para ganarle en peso, y
+   para que no pinte de celeste los `data-campo` de adentro del `strong`, que
+   tienen que leerse en papel como el resto del dato. */
+.lamina--campo > div > span { color: var(--celeste); }
 .lamina--campo strong { color: var(--papel); }
 
 /* La carta: una lista de nombres, sin etiqueta de dato que inventar. */
