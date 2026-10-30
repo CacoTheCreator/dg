@@ -19,25 +19,16 @@
     h1 { font-size: clamp(40px, 7.4vw, 86px); }
     .bajada { margin-top: 18px; font-size: 16px; }
 
-    /* El elenco: los cuatro parados en fila sobre el cobalto, del tamaño de
-       una persona en la vereda. Van en blanco porque están sobre el campo, no
-       sobre el papel. */
-    .elenco {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 34px;
-      color: var(--papel);
-    }
-    .elenco svg { width: 100%; max-width: 210px; height: auto; display: block; }
-    /* El segundo y el cuarto bajan un pelo: una fila perfectamente alineada se
-       ve armada por una máquina, y estos están parados, no formados. */
-    .elenco svg:nth-child(2) { transform: translateY(10px) scale(0.94); }
-    .elenco svg:nth-child(4) { transform: translateY(6px) scale(0.97); }
-    @media (max-width: 719px) {
-      .elenco { gap: 4px; margin-top: 24px; }
-    }
+    /* Cada ficha tiene su personaje y está parado adentro de lo que nombra:
+       el barquillo lleva a la carta, la bolita a la votación, la tarjeta a
+       DailyBack y el cartucho a la Consola. Antes iban en fila arriba, lejos de
+       las fichas y sin alinearse con ellas, porque las fichas son dos por dos.
+       El tamaño, el rincón y el gris los pone `.ficha .monito` en azul.css, que
+       estaba escrito desde antes y no se había usado nunca. */
+    /* El monito mide 77 y se para a 10 del borde: 88 de aire dejan que el
+       párrafo termine donde él empieza. Sin esto el texto le cruza la cara y
+       se leen peor los dos. */
+    .principales .ficha p { padding-right: 88px; }
 
     /* Dos por dos, no una hilera angosta: cuatro cosas grandes y parejas. */
     .principales {
@@ -110,15 +101,6 @@
         <p class="bajada">
           Helado artesanal frente a Nice to Meat, en Providencia.
         </p>
-
-        <!-- Los cuatro de la casa, en el mismo orden que las cuatro fichas de
-             abajo. No es adorno: es la llave de lo que sigue. -->
-        <div class="elenco" aria-hidden="true">
-          <svg viewBox="0 0 200 260"><use href="#monito-barquillo"/></svg>
-          <svg viewBox="0 0 200 260"><use href="#monito-bolita"/></svg>
-          <svg viewBox="0 0 200 260"><use href="#monito-tarjeta"/></svg>
-          <svg viewBox="0 0 200 260"><use href="#monito-cartucho"/></svg>
-        </div>
       </div>
     </section>
 
@@ -130,6 +112,7 @@
             <a href="/menu">
               <h2>Ver la carta</h2>
               <p>Lo que hay hoy en vitrina, el café y la carta dulce de la casa.</p>
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
               <span class="pie"><span class="codigo">Carta</span><span class="ir">Ver →</span></span>
             </a>
           </div>
@@ -139,6 +122,7 @@
               <h2>Votar tu helado</h2>
               <p>Seis sabores y una ronda abierta. El más votado se queda.</p>
               <div class="cifra"><span id="votos">—</span><small>Votos esta ronda</small></div>
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
               <span class="pie"><span class="codigo">La barquillera</span><span class="ir">Votar →</span></span>
             </a>
           </div>
@@ -147,6 +131,7 @@
             <a href="/dailyback/auth/google">
               <h2>Tu DailyBack</h2>
               <p>Entra con tu Google y la tarjeta queda conectada. El décimo va por la casa.</p>
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-tarjeta"/></svg>
               <span class="pie"><span class="codigo">La tarjeta</span><span class="ir">Entrar →</span></span>
             </a>
           </div>
@@ -155,6 +140,7 @@
             <a href="/laconsola/">
               <h2>La Consola</h2>
               <p>La sala de juegos de la casa. Cada partida deja granos en tu tarjeta.</p>
+              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-cartucho"/></svg>
               <span class="pie"><span class="codigo">K01–K12</span><span class="ir">Jugar →</span></span>
             </a>
           </div>

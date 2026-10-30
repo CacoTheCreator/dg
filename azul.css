@@ -518,9 +518,13 @@ footer a:hover { color: var(--papel); }
 .ficha .monito {
   position: absolute;
   right: 10px;
-  bottom: 42px;
-  width: 94px;
-  height: 122px;
+  /* La línea del pie cae a 46 del borde de abajo: a 42 los pies la cruzaban
+     por 3 píxeles. Medido en la portada, no estimado. */
+  bottom: 54px;
+  /* 100 de alto es lo que entra en la ficha más baja de la portada, que mide
+     172. La proporción sale del dibujo: 200 × 260. */
+  width: 77px;
+  height: 100px;
   color: #c3cde1;
   z-index: 0;
 }
@@ -537,7 +541,9 @@ footer a:hover { color: var(--papel); }
 
 @media (max-width: 719px) {
   .monito--portada { display: none; }
-  .ficha .monito { width: 76px; height: 99px; bottom: 40px; }
+  /* El pie del teléfono ocupa 14 más que el de escritorio, así que a 40 los
+     pies cruzaban la línea. Medido a 375 de ancho. */
+  .ficha .monito { width: 76px; height: 99px; bottom: 54px; }
 }
 
 /* El titular manda y el monito se para a su lado, en la misma línea de base. */
