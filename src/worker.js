@@ -86,7 +86,11 @@ export default {
    * @param {Env} env
    */
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(processQueue(env));
+    ctx.waitUntil(
+      encolaRepeticiones(env)
+        .catch(() => { /* una regla rota no puede frenar la cola */ })
+        .then(() => processQueue(env))
+    );
   },
 };
 
@@ -114,6 +118,17 @@ async function handleApi(request, env, ctx) {
     if (path === "/history" && request.method === "GET") return apiHistory(request, env);
     if (path === "/upload" && request.method === "POST") return apiUpload(request, env);
     if (path === "/whoami" && request.method === "GET") return apiWhoami(env);
+
+    if (path === "/repeticiones" && request.method === "GET") return apiRepeticionesList(env);
+    if (path === "/repeticiones" && request.method === "POST") return apiRepeticionesAdd(request, env);
+    const repMatch = path.match(/^\/repeticiones\/([a-z0-9-]+)$/);
+    if (repMatch) {
+      if (request.method === "DELETE") return apiRepeticionesDel(env, repMatch[1]);
+      if (request.method === "PATCH") {
+        const b = await request.json().catch(() => ({}));
+        return apiRepeticionesToggle(env, repMatch[1], !!b.activa);
+      }
+    }
 
     const idMatch = path.match(/^\/queue\/([a-z0-9-]+)(\/publish-now)?$/);
     if (idMatch) {
@@ -1560,4 +1575,125 @@ function panelLogin(error) {
     headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store",
                "X-Robots-Tag": "noindex, nofollow" },
   });
+}
+
+// ============================================================================
+// Repeticiones — las publicaciones que salen solas
+// ============================================================================
+//
+// El Publisher sabía agendar para una fecha y hora, pero no repetir, así que la
+// historia de «abrimos» había que cargarla a mano cada día. Una regla dice qué
+// pieza, a qué hora y qué días; el cron la mete a la cola de siempre y de ahí
+// en adelante el camino es el mismo, con sus reintentos y su límite de
+// Instagram.
+
+// La hora de la regla es hora de Chile, no UTC: nadie piensa «publico a las
+// 15:00 UTC». El cambio de horario de verano se resuelve solo porque la zona lo
+// resuelve, en vez de guardar un desfase fijo que se desfasaría en septiembre.
+function ahoraEnChile() {
+  const partes = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Santiago",
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", weekday: "short", hour12: false,
+  }).formatToParts(new Date());
+  const p = Object.fromEntries(partes.map((x) => [x.type, x.value]));
+  const dias = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  return {
+    fecha: `${p.year}-${p.month}-${p.day}`,
+    hora: parseInt(p.hour, 10) % 24, // algunas zonas devuelven 24 a medianoche
+    minuto: parseInt(p.minute, 10),
+    dia: dias[p.weekday] ?? 0,
+  };
+}
+
+async function encolaRepeticiones(env) {
+  if (!env.DB) return;
+  const ahora = ahoraEnChile();
+  let filas;
+  try {
+    const res = await env.DB.prepare(
+      "SELECT id, nombre, platform, kind, params, hora, minuto, dias FROM repeticiones " +
+      "WHERE activa = 1 AND COALESCE(ultima, '') <> ?"
+    ).bind(ahora.fecha).all();
+    filas = res.results || [];
+  } catch (_) {
+    return; // tabla sin crear todavía: el cron sigue con lo suyo
+  }
+
+  const minutosAhora = ahora.hora * 60 + ahora.minuto;
+  for (const r of filas) {
+    if (!String(r.dias || "").includes(String(ahora.dia))) continue;
+    if (Number(r.hora) * 60 + Number(r.minuto) > minutosAhora) continue;
+
+    // Marcar primero y encolar solo si esta corrida fue la que marcó. Si dos
+    // ticks se pisaran, el segundo no cambia ninguna fila y no encola nada.
+    const marca = await env.DB.prepare(
+      "UPDATE repeticiones SET ultima = ? WHERE id = ? AND COALESCE(ultima, '') <> ?"
+    ).bind(ahora.fecha, r.id, ahora.fecha).run();
+    if (!marca.meta || marca.meta.changes !== 1) continue;
+
+    try {
+      const params = JSON.parse(r.params || "{}");
+      validateParams(r.platform, r.kind, params);
+      await env.DB.prepare(
+        "INSERT INTO queue (id, platform, kind, params, scheduled_at, status, attempts, created_at) " +
+        "VALUES (?,?,?,?,?,'pending',0,?)"
+      ).bind(
+        crypto.randomUUID().slice(0, 8), r.platform, r.kind, r.params,
+        new Date().toISOString(), new Date().toISOString()
+      ).run();
+    } catch (_) {
+      // Una regla con la pieza mal escrita no puede frenar a las demás ni
+      // reintentarse en bucle: queda marcada como hecha por hoy y mañana se
+      // vuelve a intentar, para que un error no publique cien veces.
+    }
+  }
+}
+
+async function apiRepeticionesList(env) {
+  const res = await env.DB.prepare(
+    "SELECT id, nombre, platform, kind, params, hora, minuto, dias, activa, ultima " +
+    "FROM repeticiones ORDER BY hora, minuto"
+  ).all();
+  return json({ ok: true, repeticiones: res.results || [] });
+}
+
+async function apiRepeticionesAdd(request, env) {
+  const b = await request.json().catch(() => ({}));
+  const { nombre, platform, kind, params, hora, minuto, dias } = b;
+  if (!ALLOWED[platform] || !ALLOWED[platform].includes(kind)) {
+    return json({ error: "platform_kind_invalido" }, 400);
+  }
+  const h = parseInt(hora, 10);
+  const m = parseInt(minuto ?? 0, 10);
+  if (!(h >= 0 && h <= 23) || !(m >= 0 && m <= 59)) {
+    return json({ error: "hora_invalida" }, 400);
+  }
+  const d = String(dias || "").replace(/[^0-6]/g, "");
+  if (!d) return json({ error: "dias_invalidos" }, 400);
+  try {
+    validateParams(platform, kind, params || {});
+  } catch (e) {
+    return json({ error: String(e.message || e) }, 400);
+  }
+  const id = crypto.randomUUID().slice(0, 8);
+  await env.DB.prepare(
+    "INSERT INTO repeticiones (id, nombre, platform, kind, params, hora, minuto, dias, activa, creada) " +
+    "VALUES (?,?,?,?,?,?,?,?,1,?)"
+  ).bind(
+    id, String(nombre || "Sin nombre").slice(0, 80), platform, kind,
+    JSON.stringify(params), h, m, d, new Date().toISOString()
+  ).run();
+  return json({ ok: true, id });
+}
+
+async function apiRepeticionesToggle(env, id, activa) {
+  await env.DB.prepare("UPDATE repeticiones SET activa = ? WHERE id = ?")
+    .bind(activa ? 1 : 0, id).run();
+  return json({ ok: true });
+}
+
+async function apiRepeticionesDel(env, id) {
+  await env.DB.prepare("DELETE FROM repeticiones WHERE id = ?").bind(id).run();
+  return json({ ok: true });
 }

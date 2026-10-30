@@ -363,6 +363,39 @@
   </section>
 
   <!-- ───── Cola ───── -->
+  <!-- ───── Se repiten ───── -->
+  <section>
+    <div class="section__head">
+      <h2 class="section__title">Se repiten</h2>
+      <span class="section__count" id="rep-count">0 reglas</span>
+    </div>
+    <div class="composer">
+      <div class="form-row">
+        <label class="form-label" for="rep-nombre">Nombre</label>
+        <input id="rep-nombre" class="form-input" placeholder="Abrimos · desde las doce" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="rep-archivo">La pieza</label>
+        <input id="rep-archivo" type="file" accept="image/*,video/*" />
+        <span class="format-hint">Se sube una vez y queda guardada. La misma sale cada día.</span>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="rep-hora">A las</label>
+        <input id="rep-hora" class="form-input" type="time" value="12:00" />
+        <span class="format-hint">Hora de Chile.</span>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Días</label>
+        <div id="rep-dias" style="display:flex;gap:14px;flex-wrap:wrap"></div>
+      </div>
+      <div class="composer__actions">
+        <button id="rep-crear" class="btn" type="button">Crear la repetición</button>
+        <span class="composer__status" id="rep-estado"></span>
+      </div>
+    </div>
+    <div id="rep-lista" class="item-list"></div>
+  </section>
+
   <section>
     <div class="section__head">
       <h2 class="section__title">Cola</h2>
@@ -1064,6 +1097,9 @@ async function boot() {
   }
   await refreshQueue();
   await refreshHistory();
+  repPintaDias();
+  await repCarga();
+  document.getElementById("rep-crear").addEventListener("click", repCrear);
   setInterval(refreshQueue, 30_000);
   setInterval(refreshHistory, 60_000);
 }
@@ -1072,6 +1108,122 @@ async function boot() {
 (async () => {
   try { await api("/me"); boot(); } catch { /* show gate */ }
 })();
+
+/* ───── Se repiten ─────────────────────────────────────────────────────────
+   Una regla guarda la pieza, la hora y los días. El cron la mete a la cola de
+   siempre, así que de ahí en adelante el camino es el mismo que el de una
+   publicación cargada a mano. */
+const REP_DIAS = [["1","Lun"],["2","Mar"],["3","Mié"],["4","Jue"],["5","Vie"],["6","Sáb"],["0","Dom"]];
+
+function repPintaDias() {
+  const caja = document.getElementById("rep-dias");
+  caja.innerHTML = "";
+  REP_DIAS.forEach(([n, etiqueta]) => {
+    const lab = document.createElement("label");
+    lab.style.cssText = "display:flex;align-items:center;gap:6px;cursor:pointer";
+    const c = document.createElement("input");
+    c.type = "checkbox"; c.value = n; c.className = "rep-dia";
+    c.checked = n !== "1"; // lunes cerrado, que es como abre la casa
+    lab.appendChild(c);
+    lab.appendChild(document.createTextNode(etiqueta));
+    caja.appendChild(lab);
+  });
+}
+
+function repEstado(txt, mal) {
+  const el = document.getElementById("rep-estado");
+  el.textContent = txt || "";
+  el.style.color = mal ? "var(--danger, #e66)" : "";
+}
+
+async function repCarga() {
+  let data;
+  try { data = await api("/repeticiones"); } catch { return; }
+  const lista = data.repeticiones || [];
+  document.getElementById("rep-count").textContent =
+    lista.length + (lista.length === 1 ? " regla" : " reglas");
+  const caja = document.getElementById("rep-lista");
+  caja.innerHTML = "";
+  if (!lista.length) {
+    caja.innerHTML = '<div class="empty">Todavía no hay nada que se repita solo.</div>';
+    return;
+  }
+  lista.forEach((r) => {
+    const nombres = REP_DIAS.filter(([n]) => String(r.dias).includes(n)).map(([, e]) => e);
+    const fila = document.createElement("div");
+    fila.className = "item";
+    fila.innerHTML =
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-weight:700">' + escapeHtml(r.nombre) + "</div>" +
+        '<div class="mono" style="opacity:.7;font-size:12px">' +
+          String(r.hora).padStart(2, "0") + ":" + String(r.minuto).padStart(2, "0") +
+          " · " + nombres.join(" ") + " · " + r.platform + " " + r.kind +
+          (r.ultima ? " · última: " + r.ultima : " · todavía no sale") +
+        "</div>" +
+      "</div>";
+    const btnPausa = document.createElement("button");
+    btnPausa.className = "btn btn--ghost";
+    btnPausa.type = "button";
+    btnPausa.textContent = r.activa ? "Pausar" : "Reanudar";
+    btnPausa.onclick = async () => {
+      await api("/repeticiones/" + r.id, { method: "PATCH", body: JSON.stringify({ activa: !r.activa }) });
+      repCarga();
+    };
+    const btnBorra = document.createElement("button");
+    btnBorra.className = "btn btn--ghost";
+    btnBorra.type = "button";
+    btnBorra.textContent = "Borrar";
+    btnBorra.onclick = async () => {
+      await api("/repeticiones/" + r.id, { method: "DELETE" });
+      repCarga();
+    };
+    const acciones = document.createElement("div");
+    acciones.style.cssText = "display:flex;gap:8px";
+    acciones.appendChild(btnPausa);
+    acciones.appendChild(btnBorra);
+    fila.appendChild(acciones);
+    caja.appendChild(fila);
+  });
+}
+
+async function repCrear() {
+  const nombre = document.getElementById("rep-nombre").value.trim();
+  const archivo = document.getElementById("rep-archivo").files[0];
+  const hora = document.getElementById("rep-hora").value;
+  const dias = Array.from(document.querySelectorAll(".rep-dia:checked")).map((c) => c.value).join("");
+
+  if (!nombre) return repEstado("Ponle un nombre para reconocerla.", true);
+  if (!archivo) return repEstado("Falta la pieza.", true);
+  if (!hora) return repEstado("Falta la hora.", true);
+  if (!dias) return repEstado("Elige al menos un día.", true);
+
+  const boton = document.getElementById("rep-crear");
+  boton.disabled = true;
+  repEstado("Subiendo la pieza…");
+  try {
+    const subida = await apiUpload(archivo);
+    const esVideo = (archivo.type || "").startsWith("video/");
+    const params = esVideo ? { video_url: subida.url } : { image_url: subida.url };
+    const [h, m] = hora.split(":");
+    await api("/repeticiones", {
+      method: "POST",
+      body: JSON.stringify({
+        nombre, platform: "ig", kind: "story", params,
+        hora: parseInt(h, 10), minuto: parseInt(m, 10), dias,
+      }),
+    });
+    document.getElementById("rep-nombre").value = "";
+    document.getElementById("rep-archivo").value = "";
+    repEstado("Listo. Desde mañana sale sola.");
+    repCarga();
+  } catch (e) {
+    repEstado(String(e.message || e), true);
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+
 </script>
 </body>
 </html>
