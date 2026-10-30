@@ -88,7 +88,10 @@ h1 {
   letter-spacing: -0.015em;
   max-width: 17ch;
 }
-/* Una sola palabra en cursiva serif por titular. La serif es el acento. */
+/* La serifa no es el acento de todos los titulares: aparecía en los ocho y eso
+   convertía la firma en plantilla. Ahora la lleva la casa, con una palabra, y la
+   historia, con una línea entera. El resto va en sans plano, y lo que distingue a
+   cada página es la escala, que sale de para qué sirve la página. */
 h1 em, h2 em, h3 em {
   font-family: var(--serif);
   font-style: italic;
@@ -588,3 +591,14 @@ footer a:hover { color: var(--papel); }
   color: var(--papel);
 }
 .sabor-ficha--bloqueada .candado-marca { color: var(--celeste); }
+
+/* ---------------------------------------------------------------------------
+   ESCALA POR OFICIO
+
+   Un titular no mide lo mismo en la puerta de entrada que encima de una lista.
+   En la carta, los doce dibujos son el protagonista y el titular es su rótulo;
+   en la papeleta y en lo comercial el titular sí manda; y en lo legal y en lo
+   que está en espera se achica, porque nadie llega ahí a admirar nada.
+--------------------------------------------------------------------------- */
+h1.rotulo   { font-size: clamp(30px, 4.6vw, 52px); max-width: 22ch; }
+h1.utilidad { font-size: clamp(27px, 3.8vw, 42px); max-width: 24ch; }
