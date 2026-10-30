@@ -59,11 +59,19 @@
                desborde por los lados, como se desborda el helado. Al ancho del
                logotipo lee como embudo. -->
           <svg viewBox="0 0 120 86" aria-hidden="true">
+            <defs>
+              <clipPath id="cono-silueta"><path d="M6 6 L60 80 L114 6 Z"/></clipPath>
+            </defs>
             <g fill="none" stroke="currentColor" stroke-width="6"
                stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 6 L60 80 L114 6"/>
-              <path d="M26 10 L54 48 M50 8 L78 46 M74 10 L94 36
-                       M94 10 L70 44 M70 8 L42 46 M46 10 L26 36"/>
+              <!-- Cada línea del enrejado corre paralela a un borde del cono y
+                   muere contra el borde opuesto, que es como se enrolla un
+                   barquillo. El recorte guarda las puntas redondas adentro. -->
+              <g clip-path="url(#cono-silueta)">
+                <path d="M33 6 L73.5 61.5 M60 6 L87 43 M87 6 L100.5 24.5
+                         M33 6 L19.5 24.5 M60 6 L33 43 M87 6 L46.5 61.5"/>
+              </g>
             </g>
           </svg>
         </div>
