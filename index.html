@@ -19,6 +19,26 @@
     h1 { font-size: clamp(40px, 7.4vw, 86px); }
     .bajada { margin-top: 18px; font-size: 16px; }
 
+    /* El elenco: los cuatro parados en fila sobre el cobalto, del tamaño de
+       una persona en la vereda. Van en blanco porque están sobre el campo, no
+       sobre el papel. */
+    .elenco {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 34px;
+      color: var(--papel);
+    }
+    .elenco svg { width: 100%; max-width: 210px; height: auto; display: block; }
+    /* El segundo y el cuarto bajan un pelo: una fila perfectamente alineada se
+       ve armada por una máquina, y estos están parados, no formados. */
+    .elenco svg:nth-child(2) { transform: translateY(10px) scale(0.94); }
+    .elenco svg:nth-child(4) { transform: translateY(6px) scale(0.97); }
+    @media (max-width: 719px) {
+      .elenco { gap: 4px; margin-top: 24px; }
+    }
+
     /* Dos por dos, no una hilera angosta: cuatro cosas grandes y parejas. */
     .principales {
       display: grid;
@@ -34,7 +54,7 @@
       line-height: 0.96;
       letter-spacing: -0.015em;
     }
-    .principales p { font-size: 15px; padding-right: 104px; }
+    .principales p { font-size: 15px; }
     .principales .ir { font-size: 11px; }
 
     /* Lo demás de la casa, en una sola línea de datos. */
@@ -86,14 +106,18 @@
   <main>
     <section class="portada">
       <div class="ancho">
-        <div class="portada-fila">
-          <div>
-            <h1>Tu pausa empieza <em>acá</em>.</h1>
-            <p class="bajada">
-              Helado artesanal frente a Nice to Meat, en Providencia.
-            </p>
-          </div>
-          <svg class="monito monito--portada" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
+        <h1>Tu pausa empieza <em>acá</em>.</h1>
+        <p class="bajada">
+          Helado artesanal frente a Nice to Meat, en Providencia.
+        </p>
+
+        <!-- Los cuatro de la casa, en el mismo orden que las cuatro fichas de
+             abajo. No es adorno: es la llave de lo que sigue. -->
+        <div class="elenco" aria-hidden="true">
+          <svg viewBox="0 0 200 260"><use href="#monito-barquillo"/></svg>
+          <svg viewBox="0 0 200 260"><use href="#monito-bolita"/></svg>
+          <svg viewBox="0 0 200 260"><use href="#monito-tarjeta"/></svg>
+          <svg viewBox="0 0 200 260"><use href="#monito-cartucho"/></svg>
         </div>
       </div>
     </section>
@@ -104,7 +128,6 @@
 
           <div class="ficha">
             <a href="/menu">
-              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-barquillo"/></svg>
               <h2>Ver la carta</h2>
               <p>Lo que hay hoy en vitrina, el café y la carta dulce de la casa.</p>
               <span class="pie"><span class="codigo">Carta</span><span class="ir">Ver →</span></span>
@@ -113,7 +136,6 @@
 
           <div class="ficha">
             <a href="/votacion">
-              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-bolita"/></svg>
               <h2>Votar tu helado</h2>
               <p>Seis sabores y una ronda abierta. El más votado se queda.</p>
               <div class="cifra"><span id="votos">—</span><small>Votos esta ronda</small></div>
@@ -123,7 +145,6 @@
 
           <div class="ficha">
             <a href="/dailyback/auth/google">
-              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-tarjeta"/></svg>
               <h2>Tu DailyBack</h2>
               <p>Entra con tu Google y la tarjeta queda conectada. El décimo va por la casa.</p>
               <span class="pie"><span class="codigo">La tarjeta</span><span class="ir">Entrar →</span></span>
@@ -132,7 +153,6 @@
 
           <div class="ficha">
             <a href="/laconsola/">
-              <svg class="monito" viewBox="0 0 200 260" aria-hidden="true"><use href="#monito-cartucho"/></svg>
               <h2>La Consola</h2>
               <p>La sala de juegos de la casa. Cada partida deja granos en tu tarjeta.</p>
               <span class="pie"><span class="codigo">K01–K12</span><span class="ir">Jugar →</span></span>
