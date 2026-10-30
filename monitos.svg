@@ -123,4 +123,34 @@
   <rect class="m-cuerpo" x="58" y="220" width="34" height="17" rx="8.5"
         transform="rotate(-10 75 228)"/>
 </symbol>
+<symbol id="monito-perro" viewBox="0 0 200 260">
+  <!-- El perro de la casa, sentado y esperando. Misma mano que los otros
+       monitos: línea sobre el cobalto, nunca relleno, trazo 5 en el cuerpo,
+       9 en las patas, 4 en la cara. Sentado y no de pie porque es el único
+       que no es un helado: que se note que es un animal y no un personaje. -->
+  <!-- orejas, detrás de la cabeza -->
+  <path class="m-cuerpo" d="M66 56 C48 50 40 72 46 96 C50 112 62 116 70 108"/>
+  <path class="m-cuerpo" d="M134 56 C152 50 160 72 154 96 C150 112 138 116 130 108"/>
+  <!-- cabeza -->
+  <path class="m-cuerpo" d="M100 42 C126 42 142 60 142 82 C142 106 124 122 100 122
+                            C76 122 58 106 58 82 C58 60 74 42 100 42 Z"/>
+  <circle class="m-ojo" cx="86" cy="78" r="6.5"/>
+  <circle class="m-ojo" cx="114" cy="78" r="6.5"/>
+  <!-- hocico -->
+  <path class="m-cara" d="M100 92 L100 100"/>
+  <path class="m-cara" d="M100 100 Q90 110 83 102"/>
+  <path class="m-cara" d="M100 100 Q110 110 117 102"/>
+  <ellipse class="m-ojo" cx="100" cy="90" rx="7" ry="5"/>
+  <!-- cuerpo sentado -->
+  <path class="m-cuerpo" d="M78 124 C66 146 60 178 66 206
+                            C74 216 126 216 134 206
+                            C140 178 134 146 122 124"/>
+  <!-- patas delanteras -->
+  <path class="m-miembro" d="M81 160 L81 199"/>
+  <path class="m-miembro" d="M119 160 L119 199"/>
+  <rect class="m-cuerpo" x="64" y="198" width="34" height="16" rx="8"/>
+  <rect class="m-cuerpo" x="102" y="198" width="34" height="16" rx="8"/>
+  <!-- cola -->
+  <path class="m-miembro" d="M136 192 C158 188 166 168 156 152"/>
+</symbol>
 </svg>

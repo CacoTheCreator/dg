@@ -128,4 +128,17 @@
                            C64 54 66 44 74 42 C70 34 78 28 84 34 Z"/>
   <circle class="s-punto" cx="84" cy="48" r="4.5"/>
 </symbol>
+<symbol id="sabor-pistacho" viewBox="0 0 120 120">
+  <!-- El pistacho: la cáscara abierta de par en par y el grano adentro. Se
+       reconoce por la abertura, no por el color: en línea sobre cobalto una
+       cáscara cerrada sería una almendra cualquiera, así que las dos mitades
+       van separadas de verdad y el grano asoma entre ellas. Es el sello de la
+       casa y el único sabor del soft, por eso tiene dibujo propio. -->
+  <path class="s-linea" d="M54 16 C30 26 18 50 24 76 C28 96 42 106 54 104"/>
+  <path class="s-linea" d="M66 16 C90 26 102 50 96 76 C92 96 78 106 66 104"/>
+  <path class="s-linea" d="M60 40 C72 46 74 66 66 82 C62 90 58 90 54 82
+                           C46 66 48 46 60 40 Z"/>
+  <circle class="s-punto" cx="36" cy="58" r="3.5"/>
+  <circle class="s-punto" cx="84" cy="58" r="3.5"/>
+</symbol>
 </svg>
