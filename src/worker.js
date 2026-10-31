@@ -528,6 +528,7 @@ function validateParams(platform, kind, p) {
   if (platform === "ig" && kind === "story") {
     if (!p.image_url && !p.video_url) throw new Error("story requiere image_url o video_url");
   }
+  if (platform === "ig" && kind === "retirar") req("history_id");
 }
 
 // ============================================================================
@@ -611,7 +612,7 @@ async function processQueue(env) {
 
   for (const raw of results) {
     const item = decodeItem({ ...raw });
-    if (item.platform === "ig" && igPublishedLast24h >= rateLimit) {
+    if (item.platform === "ig" && item.kind !== "retirar" && igPublishedLast24h >= rateLimit) {
       // posponer 30 min, no quemar intentos
       const newWhen = new Date(Date.now() + 30 * 60_000).toISOString();
       await env.DB.prepare("UPDATE queue SET scheduled_at = ? WHERE id = ?").bind(newWhen, item.id).run();
@@ -627,13 +628,14 @@ async function processQueue(env) {
           "INSERT INTO history (id, platform, kind, params, scheduled_at, status, attempts, media_id, post_id, permalink, created_at, finalized_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
         ).bind(
           item.id, item.platform, item.kind, JSON.stringify(item.params),
-          item.scheduled_at, "published", item.attempts + 1,
+          item.scheduled_at, item.kind === "retirar" ? "retiro hecho" : "published",
+          item.attempts + 1,
           result.media_id || null, result.post_id || null, result.permalink || null,
           raw.created_at || new Date().toISOString(), new Date().toISOString()
         ),
         env.DB.prepare("DELETE FROM queue WHERE id = ?").bind(item.id),
       ]);
-      if (item.platform === "ig") igPublishedLast24h++;
+      if (item.platform === "ig" && item.kind !== "retirar") igPublishedLast24h++;
     } catch (e) {
       const attempts = item.attempts + 1;
       const MAX_ATTEMPTS = 3;
@@ -666,6 +668,42 @@ async function processQueue(env) {
 // Graph API (FB + IG)
 // ============================================================================
 
+// Retira un posteo ya publicado. La API de Instagram permite DELETE sobre el
+// media id por la vía de Facebook Login, que es la que usa este Worker.
+//
+// Borra de verdad y no se deshace, así que no acepta un media id suelto: recibe
+// el id de una fila de `history` y saca de ahí el media. Lo que el Publisher no
+// publicó, el Publisher no lo retira.
+async function igRetirar(env, params) {
+  const fila = await env.DB.prepare(
+    "SELECT id, platform, media_id, permalink FROM history " +
+    "WHERE id = ? AND status = 'published' AND media_id IS NOT NULL"
+  ).bind(String(params.history_id)).first();
+  if (!fila) throw new Error("no hay un posteo publicado con ese id");
+  if (fila.platform !== "ig") throw new Error("por ahora solo se retira de Instagram");
+
+  const token = env.PAGE_ACCESS_TOKEN;
+  if (!token) throw new Error("sin credenciales");
+
+  const resp = await fetch(
+    `${GRAPH(env)}/${fila.media_id}?access_token=${encodeURIComponent(token)}`,
+    { method: "DELETE" }
+  );
+  const data = await resp.json().catch(() => ({}));
+
+  // Se le cree a la API, no al optimismo: solo se marca si ella dijo que sí.
+  if (!resp.ok || data.success === false) {
+    const detalle = (data && data.error && data.error.message) || `HTTP ${resp.status}`;
+    throw new Error("Meta no lo borró: " + detalle);
+  }
+
+  await env.DB.prepare(
+    "UPDATE history SET status = 'retirado', error = ? WHERE id = ?"
+  ).bind("retirado el " + new Date().toISOString(), fila.id).run();
+
+  return { media_id: fila.media_id, permalink: fila.permalink };
+}
+
 async function publishItem(env, item) {
   const { platform, kind, params } = item;
   if (platform === "fb") {
@@ -674,6 +712,7 @@ async function publishItem(env, item) {
     if (kind === "photo") return fbPhoto(env, params.image_url, params.caption);
   }
   if (platform === "ig") {
+    if (kind === "retirar") return igRetirar(env, params);
     if (kind === "photo") return igPhoto(env, params);
     if (kind === "reel") return igReel(env, item, params);
     if (kind === "carousel") return igCarousel(env, item, params);
@@ -1535,6 +1574,58 @@ async function handlePanel(request, env, url) {
         return panelJson({ error: "no se pudo guardar: " + String(e && e.message || e) }, 500);
       }
       return panelJson({ ok: true, guardadas: escrituras.length, contenido: await leerContenido(env) });
+    }
+
+    // ── Retirar un posteo ya publicado ──────────────────────────────────
+    // La API de Instagram sí permite borrar con DELETE /<IG_MEDIA_ID> por la
+    // vía de Facebook Login, que es la que usa este Worker. Esto borra de
+    // verdad y no se puede deshacer, así que la ruta solo acepta ids que
+    // estén en `history` con status `published`: no se le puede pasar un
+    // media id cualquiera y que lo borre.
+
+    if (url.pathname === "/panel/api/publicados" && request.method === "GET") {
+      const { results } = await env.DB.prepare(
+        "SELECT id, platform, media_id, permalink, params, finalized_at " +
+        "FROM history WHERE status = 'published' AND media_id IS NOT NULL " +
+        "ORDER BY finalized_at DESC LIMIT 20"
+      ).all();
+      const items = (results || []).map((r) => {
+        let caption = "";
+        try { caption = JSON.parse(r.params || "{}").caption || ""; } catch (_) {}
+        return {
+          id: r.id,
+          platform: r.platform,
+          permalink: r.permalink,
+          cuando: r.finalized_at,
+          caption: caption.slice(0, 120),
+        };
+      });
+      return panelJson({ ok: true, publicados: items });
+    }
+
+    if (url.pathname === "/panel/api/retirar" && request.method === "POST") {
+      const cuerpo = await request.json().catch(() => null);
+      const id = cuerpo && typeof cuerpo.id === "string" ? cuerpo.id : "";
+      if (!id) return panelJson({ error: "falta el id" }, 400);
+
+      const fila = await env.DB.prepare(
+        "SELECT id, permalink FROM history " +
+        "WHERE id = ? AND status = 'published' AND media_id IS NOT NULL"
+      ).bind(id).first();
+      if (!fila) return panelJson({ error: "ese posteo no está publicado acá" }, 404);
+
+      // El panel encola; quien borra es la cola, igual que quien publica. Un
+      // solo camino destructivo y uno solo que hay que revisar.
+      const ahora = new Date().toISOString();
+      await env.DB.prepare(
+        "INSERT INTO queue (id, platform, kind, params, scheduled_at, status, attempts, created_at, created_by) " +
+        "VALUES (?,?,?,?,?,'pending',0,?,?)"
+      ).bind(
+        crypto.randomUUID(), "ig", "retirar",
+        JSON.stringify({ history_id: fila.id }), ahora, ahora, "panel"
+      ).run();
+
+      return panelJson({ ok: true, encolado: fila.permalink });
     }
 
     return panelJson({ error: "ruta desconocida" }, 404);
