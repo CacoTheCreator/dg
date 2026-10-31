@@ -628,7 +628,7 @@ async function processQueue(env) {
           "INSERT INTO history (id, platform, kind, params, scheduled_at, status, attempts, media_id, post_id, permalink, created_at, finalized_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
         ).bind(
           item.id, item.platform, item.kind, JSON.stringify(item.params),
-          item.scheduled_at, item.kind === "retirar" ? "retiro hecho" : "published",
+          item.scheduled_at, item.kind === "retirar" ? "retiro" : "published",
           item.attempts + 1,
           result.media_id || null, result.post_id || null, result.permalink || null,
           raw.created_at || new Date().toISOString(), new Date().toISOString()
