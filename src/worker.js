@@ -736,13 +736,57 @@ async function fbPhoto(env, imageUrl, caption) {
   return { post_id: r.post_id, media_id: r.id, permalink: r.post_id ? `https://www.facebook.com/${r.post_id}` : null };
 }
 
+// Las cuentas que van en todo lo que publica la casa. Caco las fijó el
+// 01-11-2026: la suya y la de Joaquín. La del vecino entra sólo cuando la pieza
+// lo nombra, porque es la cuenta de otro negocio y no se la etiqueta a diario.
+const ETIQUETAS_DE_LA_CASA = ["eldiez.lw", "_joaquinrmz"];
+const ETIQUETA_VECINO = "nicetomeatburger";
+
+// En una historia la posición es opcional, y sin ella Meta menciona a la
+// persona sin dibujar el sticker encima del arte: eso es lo que pidió Caco,
+// etiquetar sin que se vea el arroba. En una foto del feed la posición es
+// obligatoria, y la etiqueta igual sólo aparece al tocar la imagen.
+function etiquetasDeLaPieza(params, conPosicion) {
+  if (params.sin_etiquetas) return null;
+  const quienes = Array.isArray(params.user_tags) && params.user_tags.length
+    ? params.user_tags.slice()
+    : ETIQUETAS_DE_LA_CASA.slice();
+  if (params.etiquetar_vecino && !quienes.includes(ETIQUETA_VECINO)) {
+    quienes.push(ETIQUETA_VECINO);
+  }
+  if (!quienes.length) return null;
+  const n = quienes.length;
+  return JSON.stringify(quienes.map((username, i) => conPosicion
+    ? { username, x: Number(((i + 1) / (n + 1)).toFixed(2)), y: 0.92 }
+    : { username }));
+}
+
+// Un arroba equivocado no puede dejar a la casa sin publicar. Si Meta rechaza
+// el container por las menciones, se vuelve a pedir sin ellas y queda anotado
+// en el historial por qué salió sin etiquetas.
+async function crearContainer(env, payload, etiquetas, params) {
+  if (!etiquetas) return metaPost(`/${env.IG_USER_ID}/media`, payload, env);
+  try {
+    return await metaPost(`/${env.IG_USER_ID}/media`,
+      { ...payload, user_tags: etiquetas }, env);
+  } catch (e) {
+    params._etiquetas_rechazadas = String(e && e.message).slice(0, 180);
+    return metaPost(`/${env.IG_USER_ID}/media`, payload, env);
+  }
+}
+
 async function igPhoto(env, params) {
   requirePublicUrl(params.image_url);
   // Si ya hay container creado en intento anterior, reusarlo
   if (!params._container) {
-    const c = await metaPost(`/${env.IG_USER_ID}/media`, {
+    const payload = {
       image_url: params.image_url, caption: params.caption, access_token: env.PAGE_ACCESS_TOKEN,
-    }, env);
+    };
+    // La ubicación pide el ID de una página de Facebook del lugar. Mientras no
+    // exista, el posteo sale igual y sin ubicación.
+    const lugar = params.location_id || env.IG_LOCATION_ID;
+    if (lugar) payload.location_id = lugar;
+    const c = await crearContainer(env, payload, etiquetasDeLaPieza(params, true), params);
     params._container = c.id;
   }
   const status = await igStatus(env, params._container);
@@ -783,7 +827,9 @@ async function igStory(env, params) {
     };
     if (isVideo) payload.video_url = mediaUrl;
     else payload.image_url = mediaUrl;
-    const c = await metaPost(`/${env.IG_USER_ID}/media`, payload, env);
+    // La ubicación no se puede: Meta no publica stickers en historias, y el de
+    // ubicación es uno. Esa parte va a mano desde la app.
+    const c = await crearContainer(env, payload, etiquetasDeLaPieza(params, false), params);
     params._container = c.id;
   }
   const status = await igStatus(env, params._container);
