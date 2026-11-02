@@ -90,6 +90,8 @@ export default {
       encolaRepeticiones(env)
         .catch(() => { /* una regla rota no puede frenar la cola */ })
         .then(() => processQueue(env))
+        .then(() => conciliacionDiaria(env))
+        .catch(() => { /* conciliar es higiene: nunca frena lo que publica */ })
     );
   },
 };
@@ -674,6 +676,70 @@ async function processQueue(env) {
 // Borra de verdad y no se deshace, así que no acepta un media id suelto: recibe
 // el id de una fila de `history` y saca de ahí el media. Lo que el Publisher no
 // publicó, el Publisher no lo retira.
+// Meta no deja borrar un posteo con este token, pero sí deja preguntarle si
+// todavía existe. Con eso la base se entera sola de lo que alguien borró desde
+// la app, que hasta ahora había que arreglar a mano cada vez.
+async function igExiste(env, mediaId) {
+  const token = env.PAGE_ACCESS_TOKEN;
+  if (!token) throw new Error("sin credenciales");
+  const resp = await fetch(
+    `${GRAPH(env)}/${mediaId}?fields=id&access_token=${encodeURIComponent(token)}`
+  );
+  if (resp.ok) return true;
+  const data = await resp.json().catch(() => ({}));
+  const err = (data && data.error) || {};
+  const noEsta = err.code === 803 || err.code === 100 ||
+    /does not exist|Unsupported get request/i.test(err.message || "");
+  if (noEsta) return false;
+  // Un problema de red o de permiso no es un posteo borrado. Si no se sabe,
+  // no se toca la fila: marcar de más sería mentir igual que marcar de menos.
+  throw new Error(`no pude preguntar por ${mediaId}: ${err.message || "HTTP " + resp.status}`);
+}
+
+// Una pasada al día alcanza: lo que se borra a mano no es urgente, y preguntar
+// por cada posteo cada minuto sería gastar llamadas a Meta para nada.
+async function conciliacionDiaria(env) {
+  const hoy = ahoraEnChile().fecha;
+  const fila = await env.DB.prepare(
+    "SELECT valor FROM contenido WHERE clave = 'conciliacion_ultima'"
+  ).first();
+  if (fila && fila.valor === hoy) return;
+  // Se anota la fecha antes de salir a la red: si la pasada falla a medias no
+  // se repite en bucle cada minuto durante todo el día.
+  await env.DB.prepare(
+    "INSERT INTO contenido (clave, valor, actualizado, por) VALUES ('conciliacion_ultima', ?, ?, 'cron') " +
+    "ON CONFLICT(clave) DO UPDATE SET valor = excluded.valor, actualizado = excluded.actualizado"
+  ).bind(hoy, Date.now()).run();
+  await conciliarPublicados(env);
+}
+
+// Recorre lo que la base cree publicado y marca lo que ya no está en Instagram.
+async function conciliarPublicados(env, limite = 40) {
+  const { results } = await env.DB.prepare(
+    "SELECT id, media_id, permalink FROM history " +
+    "WHERE status = 'published' AND media_id IS NOT NULL AND platform = 'ig' " +
+    "ORDER BY finalized_at DESC LIMIT ?"
+  ).bind(limite).all();
+
+  const retirados = [], dudosos = [];
+  let siguen = 0;
+  for (const f of results || []) {
+    try {
+      if (await igExiste(env, f.media_id)) { siguen++; continue; }
+      await env.DB.prepare(
+        "UPDATE history SET status = 'retirado', error = ? WHERE id = ?"
+      ).bind(
+        "ya no está en Instagram: lo borraron desde la app. Detectado el " +
+        new Date().toISOString(), f.id
+      ).run();
+      retirados.push(f.permalink);
+    } catch (e) {
+      dudosos.push({ permalink: f.permalink, por: String(e.message).slice(0, 140) });
+    }
+  }
+  return { revisados: (results || []).length, siguen, retirados, dudosos };
+}
+
 async function igRetirar(env, params) {
   const fila = await env.DB.prepare(
     "SELECT id, platform, media_id, permalink FROM history " +
@@ -694,7 +760,24 @@ async function igRetirar(env, params) {
   // Se le cree a la API, no al optimismo: solo se marca si ella dijo que sí.
   if (!resp.ok || data.success === false) {
     const detalle = (data && data.error && data.error.message) || `HTTP ${resp.status}`;
-    throw new Error("Meta no lo borró: " + detalle);
+    // Antes de devolver un error que no ayuda: preguntar si el posteo sigue ahí.
+    // Si ya no está, alguien lo borró a mano y lo único que falta es anotarlo.
+    let sigue = true;
+    try { sigue = await igExiste(env, fila.media_id); } catch (_) {}
+    if (!sigue) {
+      await env.DB.prepare(
+        "UPDATE history SET status = 'retirado', error = ? WHERE id = ?"
+      ).bind(
+        "ya estaba borrado en Instagram cuando se pidió el retiro, el " +
+        new Date().toISOString(), fila.id
+      ).run();
+      return { media_id: fila.media_id, permalink: fila.permalink, ya_no_estaba: true };
+    }
+    throw new Error(
+      "Meta no lo borró: " + detalle +
+      ". Al token le falta instagram_manage_contents, así que el borrado va a mano " +
+      "desde la app; después la conciliación lo deja marcado solo."
+    );
   }
 
   await env.DB.prepare(
@@ -1647,6 +1730,11 @@ async function handlePanel(request, env, url) {
         };
       });
       return panelJson({ ok: true, publicados: items });
+    }
+
+    if (url.pathname === "/panel/api/conciliar" && request.method === "POST") {
+      const r = await conciliarPublicados(env);
+      return panelJson({ ok: true, ...r });
     }
 
     if (url.pathname === "/panel/api/retirar" && request.method === "POST") {
