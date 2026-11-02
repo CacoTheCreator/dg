@@ -715,9 +715,13 @@ async function conciliacionDiaria(env) {
 
 // Recorre lo que la base cree publicado y marca lo que ya no está en Instagram.
 async function conciliarPublicados(env, limite = 40) {
+  // Sólo lo que vive en el perfil. Una historia desaparece sola a las 24 horas:
+  // preguntarle a Meta si existe devuelve que no, y marcarla como «la borraron
+  // desde la app» es mentir sobre algo que pasó por diseño.
   const { results } = await env.DB.prepare(
     "SELECT id, media_id, permalink FROM history " +
     "WHERE status = 'published' AND media_id IS NOT NULL AND platform = 'ig' " +
+    "AND kind IN ('photo', 'carousel', 'reel') " +
     "ORDER BY finalized_at DESC LIMIT ?"
   ).bind(limite).all();
 
