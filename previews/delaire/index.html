@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f9f3ec">
+<meta name="robots" content="noindex,nofollow">
+<title>Delaire · The Daily Grind</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;1,300&family=Syne:wght@400;700;800&family=Shippori+Mincho:wght@400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f9f3ec;
+    --navy: #0e1e56;
+    --navy-2: #0b1845;
+    --sky: #51b5f2;
+    --sky-lt: #a6d9f8;
+    --pistacho: #c4d870;
+    --shu: #cf3f2f;
+    --beige: #e3ded9;
+    --beige-2: #d9d4cf;
+    --mid: #6c757d;
+    --white: #ffffff;
+    --sakura: #f2b8c6;
+    --rosa: #e0526f;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-jp: 'Shippori Mincho', serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* grano de papel */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  .shell {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 18px 90px;
+  }
+
+  header.brand {
+    position: relative;
+    margin-bottom: 30px;
+  }
+  .brand .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--rosa);
+  }
+  .brand .sello {
+    position: absolute;
+    top: -6px;
+    right: 0;
+    font-family: var(--font-jp);
+    font-size: 34px;
+    line-height: 1;
+    color: var(--rosa);
+    border: 2px solid var(--rosa);
+    border-radius: 50%;
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    transform: rotate(-6deg);
+  }
+  .brand h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(46px, 12vw, 72px);
+    line-height: 1;
+    margin-top: 14px;
+  }
+  .brand h1 em {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--rosa);
+  }
+  .brand p.lead {
+    margin-top: 16px;
+    font-weight: 300;
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--navy);
+    max-width: 500px;
+  }
+  .brand .aviso {
+    display: inline-block;
+    margin-top: 18px;
+    border: 1px solid rgba(224, 82, 111, 0.5);
+    color: var(--rosa);
+    background: rgba(242, 184, 198, 0.18);
+    font-size: 13px;
+    font-weight: 300;
+    padding: 7px 12px;
+    border-radius: 8px;
+  }
+
+  figure.pieza { margin: 26px 0; }
+  figure.pieza img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+  }
+  figure.pieza figcaption {
+    margin-top: 9px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--mid);
+  }
+  figure.pieza figcaption .jp {
+    font-family: var(--font-jp);
+    color: var(--rosa);
+    white-space: nowrap;
+  }
+
+  /* historia */
+  section.historia {
+    margin: 40px 0;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 18px 44px rgba(14, 30, 86, 0.08);
+  }
+  .historia .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--rosa);
+    margin-bottom: 10px;
+  }
+  .historia h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.15;
+  }
+  .historia p {
+    margin-top: 12px;
+    font-weight: 300;
+    font-size: 15.5px;
+    line-height: 1.7;
+  }
+  .historia img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-top: 18px;
+  }
+  .historia figcaption {
+    margin-top: 8px;
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--mid);
+  }
+
+  /* ficha */
+  .ficha {
+    margin: 34px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .ficha div {
+    background: rgba(242, 184, 198, 0.22);
+    border-radius: 12px;
+    padding: 13px 12px;
+  }
+  .ficha .k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--rosa);
+  }
+  .ficha .v {
+    margin-top: 5px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+  @media (max-width: 430px) {
+    .ficha { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* pasos */
+  h2.pasos-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    margin: 46px 0 6px;
+  }
+  h2.pasos-title em {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--rosa);
+  }
+  p.pasos-lede {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mid);
+    max-width: 460px;
+  }
+
+  article.paso {
+    margin: 30px 0;
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 18px 44px rgba(14, 30, 86, 0.08);
+  }
+  .paso img { display: block; width: 100%; height: auto; }
+  .paso .cuerpo { padding: 20px 22px 24px; }
+  .paso .marca {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .paso .num {
+    font-family: var(--font-jp);
+    font-size: 26px;
+    line-height: 1;
+    color: var(--rosa);
+  }
+  .paso h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 21px;
+  }
+  .paso p {
+    margin-top: 10px;
+    font-weight: 300;
+    font-size: 15.5px;
+    line-height: 1.7;
+  }
+  .paso ul {
+    margin: 12px 0 0;
+    list-style: none;
+  }
+  .paso ul li {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.5;
+    padding: 7px 0;
+    border-top: 1px dashed var(--beige-2);
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .paso ul li:first-child { border-top: 0; margin-top: 4px; }
+  .paso ul li span:last-child { color: var(--rosa); white-space: nowrap; }
+  .paso .nota {
+    margin-top: 14px;
+    font-size: 13.5px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mid);
+  }
+
+  /* servicio */
+  section.servicio {
+    margin: 44px 0 0;
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 24px 22px;
+  }
+  .servicio .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--sakura);
+  }
+  .servicio h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 23px;
+    margin-top: 10px;
+  }
+  .servicio p {
+    margin-top: 12px;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--sky-lt);
+  }
+  .servicio p strong { color: var(--cream); font-weight: 500; }
+
+  footer.colofon {
+    margin-top: 54px;
+    padding-top: 22px;
+    border-top: 1px solid var(--beige-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+  }
+  .colofon img { width: 72px; height: auto; display: block; }
+  .colofon .jp {
+    font-family: var(--font-jp);
+    font-size: 13px;
+    color: var(--rosa);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  @media print {
+    body::before { display: none; }
+    .paso, section.historia { box-shadow: none; border: 1px solid var(--beige-2); }
+    section.servicio { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="brand">
+    <span class="eyebrow">THE DAILY GRIND · LA CARTA DULCE</span>
+    <span class="sello">桜</span>
+    <h1>Delaire<em>.</em></h1>
+    <p class="lead">El cheesecake de la abuela de Connie. Una receta con historia, de esas que se hacen con las manos y sin apuro. Súper simple, como las cosas que duran. En la casa se viste de rosa.</p>
+    <span class="aviso">Cantidades de referencia · la receta de la abuela viene en camino y esta página se ajusta a lo que ella mande</span>
+  </header>
+
+  <figure class="pieza">
+    <img src="hero.jpg" alt="El Delaire completo sobre su plato de torta, con la cubierta rosa brillante y una porción cortada" width="1200" height="800">
+    <figcaption>
+      <span>El Delaire, listo para la vitrina. La cubierta rosa es la firma.</span>
+      <span class="jp">桜 · さくら</span>
+    </figcaption>
+  </figure>
+
+  <section class="historia">
+    <div class="kicker">LA HISTORIA</div>
+    <h2>Viene de una cocina de verdad</h2>
+    <p>Antes de llegar a la vitrina, este cheesecake vivió años en la cocina de la abuela de Connie. Se hacía para las visitas, para los domingos, para celebrar sin motivo. La receta pasa a la casa tal como es: pocos ingredientes, gestos simples, paciencia. Lo único que suma The Daily Grind es el toque rosa por encima, para que se reconozca de lejos.</p>
+    <figure>
+      <img src="abuela.jpg" alt="Ilustración de la abuela con su delantal, sosteniendo el Delaire recién hecho" width="1200" height="800">
+      <figcaption>La autora original, con su torta. La receta se respeta.</figcaption>
+    </figure>
+  </section>
+
+  <div class="ficha">
+    <div><div class="k">MOLDE</div><div class="v">24 cm</div></div>
+    <div><div class="k">RINDE</div><div class="v">12 porciones</div></div>
+    <div><div class="k">MANOS ACTIVAS</div><div class="v">~1,5 h</div></div>
+    <div><div class="k">REPOSO FRÍO</div><div class="v">4 h mínimo</div></div>
+    <div><div class="k">VIDA EN VITRINA</div><div class="v">4 días frío</div></div>
+    <div><div class="k">SE VENDE</div><div class="v">$4.500</div></div>
+  </div>
+
+  <h2 class="pasos-title">Cómo se hace <em>· en cuatro gestos</em></h2>
+  <p class="pasos-lede">Cada paso con lo suyo. Si es tu primera vez, léelo entero antes de partir y deja todo pesado sobre el mesón.</p>
+
+  <article class="paso">
+    <img src="paso-base.jpg" alt="Manos presionando la base de galleta molida dentro del molde" width="1000" height="1000" loading="lazy">
+    <div class="cuerpo">
+      <div class="marca"><span class="num">一</span><h3>La base</h3></div>
+      <p>Muele la galleta hasta que quede arena. Mezcla con la mantequilla derretida y presiona pareja contra el fondo del molde, con los dedos o con la base de un vaso. Al frío mientras sigues.</p>
+      <ul>
+        <li><span>Galleta molida</span><span>250 g</span></li>
+        <li><span>Mantequilla derretida</span><span>120 g</span></li>
+      </ul>
+      <p class="nota">Pareja y firme: la base es el piso de todo lo que viene.</p>
+    </div>
+  </article>
+
+  <article class="paso">
+    <img src="paso-mezcla.jpg" alt="Bowl azul con la mezcla cremosa batiéndose a mano" width="1000" height="1000" loading="lazy">
+    <div class="cuerpo">
+      <div class="marca"><span class="num">二</span><h3>La mezcla</h3></div>
+      <p>Bate el queso crema con el azúcar hasta que esté suave, sin grumos. Suma los huevos de a uno, después la crema, la vainilla y la ralladura de limón. Batir lo justo: si se bate de más, se agrieta en el horno. Vierte sobre la base.</p>
+      <ul>
+        <li><span>Queso crema</span><span>750 g</span></li>
+        <li><span>Azúcar</span><span>180 g</span></li>
+        <li><span>Huevos</span><span>3</span></li>
+        <li><span>Crema</span><span>200 ml</span></li>
+        <li><span>Vainilla + ralladura de limón</span><span>a gusto</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="paso">
+    <img src="paso-reposo.jpg" alt="El Delaire enfriándose junto a la ventana mientras el beagle de la casa espera" width="1000" height="1000" loading="lazy">
+    <div class="cuerpo">
+      <div class="marca"><span class="num">三</span><h3>El reposo</h3></div>
+      <p>Horno suave a 160 °C por unos 50 minutos: está listo cuando los bordes firmes y el centro apenas tiembla. Se enfría dentro del horno apagado con la puerta entreabierta, y después mínimo 4 horas de refrigerador. De un día para otro queda mejor. El perro de la casa ya lo sabe: lo difícil es esperar.</p>
+      <ul>
+        <li><span>Horno</span><span>160 °C · ~50 min</span></li>
+        <li><span>Frío</span><span>4 h mínimo</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="paso">
+    <img src="paso-rosa.jpg" alt="El toque rosa: la salsa de frambuesa cayendo sobre una porción" width="1000" height="1000" loading="lazy">
+    <div class="cuerpo">
+      <div class="marca"><span class="num">四</span><h3>El toque rosa</h3></div>
+      <p>Frambuesas a fuego suave con el azúcar hasta que suelten su jugo; la maicena disuelta al final para que brille y tome cuerpo. Se cuela si se quiere fino, se deja rústico si se quiere honesto. Sobre la torta completa antes de vitrina, o sobre cada porción al servir.</p>
+      <ul>
+        <li><span>Frambuesa</span><span>300 g</span></li>
+        <li><span>Azúcar</span><span>3 cdas</span></li>
+        <li><span>Maicena</span><span>1 cdta</span></li>
+      </ul>
+      <p class="nota">El rosa es del Delaire y de nadie más: en la carta de la casa, ningún otro postre lo lleva.</p>
+    </div>
+  </article>
+
+  <section class="servicio">
+    <div class="kicker">EN LA VITRINA</div>
+    <h2>Cómo se sirve en la casa</h2>
+    <p>Porción limpia, cuchillo caliente y seco entre corte y corte. El toque rosa siempre a la vista: si la porción sale sin rosa, no es Delaire. Va acompañado de su historia — <strong>si alguien pregunta, se cuenta: es la receta de una abuela, y se respeta.</strong> En vitrina dura 4 días refrigerado; se etiqueta con fecha al entrar.</p>
+  </section>
+
+  <footer class="colofon">
+    <img src="../menu/LogoTDG-celeste.svg" alt="The Daily Grind">
+    <div class="jp">デザートの家<br>El postre de la casa · MMXXVI</div>
+  </footer>
+
+</div>
+</body>
+</html>
