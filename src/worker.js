@@ -1458,8 +1458,8 @@ async function votacionEstado(env, socio, tarjeta, abierta) {
 
 const CONTENIDO_DEFECTO = {
   horario_dias: "Martes a domingo",
-  horario_horas: "12:00 a 20:00",
-  horario_abre: "12",
+  horario_horas: "13:00 a 20:00",
+  horario_abre: "13",
   horario_cierra: "20",
   horario_dia_cerrado: "1", // 0 domingo, 1 lunes
   direccion: "Los Leones 1012, local 2",
