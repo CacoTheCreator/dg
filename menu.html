@@ -95,6 +95,28 @@
     .mas { margin-top: 40px; }
     .mas h2 { font-size: 22px; line-height: 1; }
     .mas .lamina { margin-top: 16px; }
+
+    .tarifa { margin: 30px 0 30px; }
+    .tarifa .renglon {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 0; font-size: 17px;
+      border-top: 1px solid rgba(249, 243, 236, .22);
+    }
+    .tarifa .renglon strong { font-weight: 500; }
+    .tarifa .salto {
+      padding: 18px 0 16px;
+      border-top: 1px solid rgba(249, 243, 236, .22);
+      border-bottom: 1px solid rgba(249, 243, 236, .22);
+    }
+    .tarifa .salto .k {
+      display: block; font-size: 13px; letter-spacing: 0;
+      text-transform: uppercase; opacity: .72;
+    }
+    .tarifa .salto .v {
+      display: block; font-family: Syne, sans-serif; font-weight: 700;
+      font-size: clamp(44px, 12vw, 72px); line-height: 1; margin-top: 4px;
+    }
+    .tarifa .pie { margin-top: 14px; font-size: 15px; opacity: .78; line-height: 1.45; }
   </style>
 </head>
 <body>
@@ -123,6 +145,16 @@
 
     <section>
       <div class="ancho" style="padding-block: 0 20px">
+        <div class="tarifa">
+          <div class="renglon"><span>Una bocha</span><strong data-campo="precio_simple">$3.500</strong></div>
+          <div class="salto">
+            <span class="k">Dos bochas</span>
+            <strong class="v" data-campo="precio_doble">$4.700</strong>
+          </div>
+          <div class="renglon"><span>En cono</span><strong data-campo="precio_cono">+$400</strong></div>
+          <p class="pie">En vasito o en cono. La segunda bocha sale más barata que la primera.</p>
+        </div>
+
         <div class="sabores" data-lista="carta">
 
           <div class="sabor-ficha">
