@@ -1458,12 +1458,15 @@ async function votacionEstado(env, socio, tarjeta, abierta) {
 
 const CONTENIDO_DEFECTO = {
   horario_dias: "Martes a domingo",
-  horario_horas: "12:00 a 20:00",
-  horario_abre: "12",
+  horario_horas: "13:00 a 20:00",
+  horario_abre: "13",
   horario_cierra: "20",
   horario_dia_cerrado: "1", // 0 domingo, 1 lunes
   direccion: "Los Leones 1012, local 2",
   comuna: "Providencia",
+  precio_simple: "$3.500",
+  precio_doble: "$4.700",
+  precio_cono: "+$400",
   pistacho_bloqueado: "si",
   votacion_ronda: "2026-11",
   carta: "",
