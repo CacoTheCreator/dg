@@ -3,6 +3,8 @@
 //
 // Source canónico bajo control editorial; redeploy con `npx wrangler deploy`.
 
+import { handleVisitas } from './visitas.js';
+
 const GRAPH = (env) => `https://graph.facebook.com/${env.META_GRAPH_VERSION || "v23.0"}`;
 
 export default {
@@ -1681,6 +1683,10 @@ async function handlePanel(request, env, url) {
   if (url.pathname.startsWith("/panel/api/")) {
     if (!dentro) return panelJson({ error: "sin sesión" }, 401);
     if (!env.DB) return panelJson({ error: "sin base de datos" }, 503);
+
+    if (url.pathname === '/panel/api/visitas' || url.pathname.startsWith('/panel/api/visitas/')) {
+      return handleVisitas(request, env, url);
+    }
 
     if (url.pathname === "/panel/api/contenido" && request.method === "GET") {
       return panelJson({ ok: true, contenido: await leerContenido(env) });

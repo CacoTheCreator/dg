@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Visitas al local — The Daily Grind</title>
+  <link rel="icon" href="/LogoTDG.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root{--blue:#004fc8;--ink:#0a1f4d;--pale:#a9dbfa}
+    *{box-sizing:border-box;letter-spacing:0}body{margin:0;background:var(--blue);color:white;font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.45}
+    a{color:inherit}button,input{font:inherit}button,a.action{min-height:46px;border:1px solid currentColor;border-radius:12px;padding:11px 16px;cursor:pointer}
+    button{background:white;color:var(--ink);font-weight:700}button:disabled{opacity:.55;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--pale);outline-offset:3px}
+    .shell{max-width:1040px;margin:auto;padding:0 24px}header{border-bottom:1px solid #ffffff4d;padding:18px 0}header .shell{display:flex;align-items:center;gap:24px}header img{width:64px;margin-left:auto}
+    main{padding-bottom:70px!important}h1{font-size:clamp(36px,6vw,64px);line-height:1;margin:38px 0 16px;font-weight:800}h1 em{font-family:'Instrument Serif',serif;font-weight:400}h2{font-size:24px;margin:0 0 16px}
+    p{margin:10px 0}.intro{max-width:70ch;color:var(--pale)}section{margin-top:32px;padding-top:26px;border-top:1px solid #ffffff4d}
+    label{display:flex;gap:8px;align-items:center;flex-wrap:wrap}input{min-height:46px;border-radius:10px;border:1px solid #ffffff80;padding:8px 10px;background:white;color:var(--ink);max-width:100%}
+    .sources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.sources button{text-align:left;font-size:17px;min-height:64px}.sources button:last-child{background:transparent;color:white}
+    .message{min-height:28px;font-weight:600}.error{background:#fff;color:var(--ink);padding:14px;border-radius:12px}.pending{border:1px solid var(--pale);border-radius:12px;padding:16px;margin:14px 0}.pending button{margin-top:8px}
+    .filters,.shortcuts,.summary-head{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.shortcuts{margin:14px 0}.shortcuts button,.secondary{background:transparent;color:white}.summary-head{justify-content:space-between}.summary-head a{font-size:14px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.metric{border:1px solid #ffffff4d;border-radius:16px;padding:20px}.metric strong{display:block;font-size:38px;line-height:1.1;margin:10px 0}.metric span{color:var(--pale);font-size:14px}
+    .breakdown{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}.source-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ffffff30}.source-row b{font-size:20px}
+    .muted{font-size:14px;color:var(--pale)}.entries{list-style:none;margin:16px 0;padding:0}.entry{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid #ffffff30}.entry strong,.entry small{display:block}.entry small{color:var(--pale)}.entry button{flex-shrink:0;font-size:14px}.voided strong{text-decoration:line-through}.empty{padding:18px 0;color:var(--pale)}[hidden]{display:none!important}
+    @media(max-width:600px){.shell{padding:0 18px}.sources{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr}.metric{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 18px}.metric strong{margin:0 0 0 auto}.metric span{flex-basis:100%}.breakdown{grid-template-columns:1fr}.filters label{width:100%;justify-content:space-between}.filters input{width:67%}.entry{gap:8px}.entry button{padding:9px 12px}header img{width:50px}}
+  </style>
+</head>
+<body>
+  <header><div class="shell"><a href="/panel/">← Panel de la casa</a><img src="/LogoTDG.svg" alt="The Daily Grind"></div></header>
+  <main class="shell">
+    <h1>Qué te trajo <em>por acá.</em></h1>
+    <p class="intro">Registra una visita por persona o grupo que llega junto, compre o no. Pregunta «¿Qué te trajo hoy por acá?» y toca su respuesta una vez. Cada toque guarda una visita.</p>
+    <p class="muted">Cuenta atenciones a personas o grupos, no personas individuales, bochas ni clics. Si mencionan varios motivos, pide el principal.</p>
+    <section aria-labelledby="newTitle">
+      <h2 id="newTitle">Registrar una visita</h2>
+      <label>Fecha de la visita <input type="date" id="visitDate" required></label>
+      <div id="sources" class="sources" aria-label="Origen declarado"></div>
+      <div id="pending" class="pending" hidden><p id="pendingText"></p><button id="retry">Reintentar el mismo registro</button></div>
+      <p id="notice" class="message" role="status" aria-live="polite">Conectando con el registro…</p>
+    </section>
+    <section aria-labelledby="summaryTitle">
+      <div class="summary-head"><h2 id="summaryTitle">Resumen de visitas</h2><a id="export" class="action" hidden>Descargar resumen CSV</a></div>
+      <form id="filters" class="filters"><label>Desde <input type="date" id="from" required></label><label>Hasta <input type="date" id="to" required></label><button type="submit">Consultar</button></form>
+      <div class="shortcuts"><button data-days="1">Hoy</button><button data-days="7">7 días</button><button data-days="30">30 días</button><button data-days="90">90 días</button></div>
+      <p id="sync" class="muted" role="status">Sin datos confirmados todavía.</p>
+      <div id="summary" hidden>
+        <div class="metrics">
+          <div class="metric">Visitas registradas<strong id="total">—</strong><span>Una por persona o grupo atendido.</span></div>
+          <div class="metric">Con origen conocido<strong id="known">—</strong><span id="coverage">—</span></div>
+          <div class="metric">Sin respuesta<strong id="unknown">—</strong><span>Incluidas en el total y en la cobertura.</span></div>
+        </div>
+        <div id="breakdown" class="breakdown"></div>
+        <p class="muted">Estos datos dependen del registro del equipo. Cero registros no demuestra que no hubo visitas. Las visitas anuladas se excluyen del resumen.</p>
+      </div>
+    </section>
+    <section aria-labelledby="recentTitle"><h2 id="recentTitle">Últimos registros del período</h2><p class="muted">Hasta 100 registros. Si te equivocaste, anula la visita y vuelve a registrarla con el origen correcto. Puedes restaurar una anulación.</p><ul id="entries" class="entries"></ul></section>
+  </main>
+  <script>
+  (() => {
+    'use strict';
+    const $ = id => document.getElementById(id);
+    const endpoint = '/panel/api/visitas';
+    const pendingKey = 'dg-visita-pendiente-v1';
+    let today = '', origins = {}, pending = null, busy = false, ready = false;
+    let refreshQueue = Promise.resolve();
+    let appliedFrom = '', appliedTo = '';
+    try {
+      pending = JSON.parse(localStorage.getItem(pendingKey) || 'null');
+      if (pending && (!/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(pending.id || '') ||
+          !/^\d{4}-\d{2}-\d{2}$/.test(pending.fecha || '') || typeof pending.origen !== 'string')) pending = null;
+    } catch (_) {}
+    function message(text, error = false) { $('notice').textContent = text; $('notice').className = 'message' + (error ? ' error' : ''); }
+    function lock() {
+      document.querySelectorAll('[data-source]').forEach(b => b.disabled = busy || !ready || !!pending);
+      $('visitDate').disabled = busy || !!pending || !ready;
+      $('retry').disabled = busy || !ready;
+      $('pending').hidden = !pending;
+      if (pending) $('pendingText').textContent = 'Registro por confirmar: ' + (origins[pending.origen] || pending.origen) + ', ' + pending.fecha + '. Reintenta para confirmar el guardado sin duplicarlo.';
+      document.querySelectorAll('[data-change]').forEach(b => b.disabled = busy);
+    }
+    async function api(path, data) {
+      let res;
+      try { res = await fetch(path, data ? {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)} : {cache:'no-store'}); }
+      catch (_) { throw new Error('No se pudo conectar con el registro.'); }
+      if (res.status === 401) throw new Error('La sesión venció. Abre el Panel de la casa e ingresa el PIN; luego vuelve al registro.');
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error || 'No se pudo confirmar la operación.');
+      return body;
+    }
+    function render(data) {
+      $('summary').hidden = false;
+      $('total').textContent = data.total; $('known').textContent = data.conocidas; $('unknown').textContent = data.sinRespuesta;
+      $('coverage').textContent = data.cobertura === null ? 'Sin visitas registradas para calcular cobertura.' : Math.round(data.cobertura * 100) + '% de las visitas tienen origen conocido.';
+      $('breakdown').replaceChildren();
+      Object.entries(origins).forEach(([key,label]) => {
+        const row = document.createElement('div'); row.className = 'source-row';
+        const name = document.createElement('span'); name.textContent = label;
+        const count = document.createElement('b'); count.textContent = data.porOrigen[key]; row.append(name,count); $('breakdown').append(row);
+      });
+      $('entries').replaceChildren();
+      if (!data.ultimas.length) { const li=document.createElement('li');li.className='empty';li.textContent='Todavía no hay registros en este período.';$('entries').append(li); }
+      data.ultimas.forEach(v => {
+        const li=document.createElement('li');li.className='entry'+(v.anulado?' voided':'');
+        const text=document.createElement('div'), name=document.createElement('strong'), detail=document.createElement('small'), button=document.createElement('button');
+        name.textContent=origins[v.origen]+(v.anulado?' · Anulada':'');
+        detail.textContent=v.fecha+' · Registrada '+new Intl.DateTimeFormat('es-CL',{timeZone:'America/Santiago',dateStyle:'short',timeStyle:'short'}).format(new Date(v.creado));
+        button.textContent=v.anulado?'Restaurar':'Anular';button.className='secondary';button.dataset.change=v.id;
+        button.addEventListener('click',()=>change(v.id,v.anulado?'restaurar':'anular'));
+        text.append(name,detail);li.append(text,button);$('entries').append(li);
+      });
+      $('export').href=endpoint+'/exportar?'+new URLSearchParams({desde:data.desde,hasta:data.hasta});$('export').hidden=false;
+      $('sync').textContent='Período: '+data.desde+' a '+data.hasta+'. Actualizado a las '+new Intl.DateTimeFormat('es-CL',{timeZone:'America/Santiago',timeStyle:'short'}).format(new Date())+' · Hora de Chile.';
+      lock();
+    }
+    function refresh(from = appliedFrom, to = appliedTo) {
+      const run = async () => {
+      try {
+        let data=await api(endpoint+(from?'?'+new URLSearchParams({desde:from,hasta:to}):''));
+        if (ready && data.hoy !== today) {
+          if ($('visitDate').value === today && !pending) $('visitDate').value = data.hoy;
+          if (from === today && to === today) {
+            data = await api(endpoint);
+            $('from').value = data.desde; $('to').value = data.hasta;
+          }
+        }
+        today=data.hoy;origins=data.origenes;appliedFrom=data.desde;appliedTo=data.hasta;
+        $('visitDate').max=today;$('from').max=today;$('to').max=today;
+        if (!ready) {
+          $('visitDate').value=today;$('visitDate').max=today;$('from').value=data.desde;$('to').value=data.hasta;$('from').max=today;$('to').max=today;
+          Object.entries(origins).forEach(([key,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.source=key;button.addEventListener('click',()=>save(key));$('sources').append(button);});
+          ready=true;message(pending?'Hay una visita pendiente de confirmación.':'Listo para registrar.');
+        }
+        render(data);return true;
+      } catch(e) { $('sync').textContent='No se pudo actualizar. '+e.message+' Los datos anteriores pueden estar desactualizados.'; if(!ready) message(e.message,true); return false; }
+      finally { lock(); }
+      };
+      refreshQueue = refreshQueue.then(run, run);
+      return refreshQueue;
+    }
+    async function save(source) {
+      if(busy || !ready || (source && pending)) return;
+      if (!pending) {
+        if (!$('visitDate').reportValidity()) return;
+        pending={id:crypto.randomUUID(),fecha:$('visitDate').value,origen:source};
+        try { localStorage.setItem(pendingKey,JSON.stringify(pending)); } catch (_) { pending=null;message('El navegador no permite conservar el registro pendiente. Habilita el almacenamiento del sitio antes de registrar.',true);return; }
+      }
+      busy=true;lock();message('Guardando visita…');
+      try {
+        const result=await api(endpoint,pending);
+        localStorage.removeItem(pendingKey);pending=null;
+        message(result.visita.anulado?'El registro ya estaba anulado. Puedes restaurarlo desde la lista.':'Visita guardada: '+origins[result.visita.origen]+'.');
+        await refresh();
+      } catch(e) { message(e.message+' El registro sigue pendiente de confirmación.',true); }
+      finally { busy=false;lock(); }
+    }
+    async function change(id, action) {
+      if(busy)return;busy=true;lock();
+      try { await api(endpoint+'/'+id+'/'+action,{});message(action==='anular'?'Visita anulada. Puedes restaurarla desde la lista.':'Visita restaurada.');await refresh(); }
+      catch(e){message(e.message+' Consulta el resumen antes de volver a intentarlo.',true);}
+      finally{busy=false;lock();}
+    }
+    $('retry').addEventListener('click',()=>save());
+    $('filters').addEventListener('submit',async e=>{e.preventDefault();await refresh($('from').value,$('to').value);});
+    document.querySelectorAll('[data-days]').forEach(button=>button.addEventListener('click',async()=>{
+      if(!today)return;const from=new Date(today+'T12:00:00Z');from.setUTCDate(from.getUTCDate()-Number(button.dataset.days)+1);
+      $('from').value=from.toISOString().slice(0,10);$('to').value=today;await refresh($('from').value,$('to').value);
+    }));
+    refresh();setInterval(()=>{if(!busy&&!document.hidden)refresh();},30000);
+    window.addEventListener('online',()=>refresh());
+  })();
+  </script>
+</body>
+</html>
