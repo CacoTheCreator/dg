@@ -13,52 +13,176 @@
   />
   <link rel="stylesheet" href="/azul.css" />
   <style>
-    /* Cuatro cosas se hacen desde acá. Son grandes porque son el motivo
-       de la página, no una grilla de secciones. */
-    .portada .ancho { padding-block: 44px 28px; }
-    h1 { font-size: clamp(40px, 7.4vw, 86px); }
-    .bajada { margin-top: 18px; font-size: 16px; }
+    /* ───────────────────────────────────────────────────────────────────
+       LA PÁGINA ES UN HELADO
 
-    /* Cada ficha tiene su personaje y está parado adentro de lo que nombra:
-       el barquillo lleva a la carta, la bolita a la votación, la tarjeta a
-       DailyBack y el cartucho a la Consola. Antes iban en fila arriba, lejos de
-       las fichas y sin alinearse con ellas, porque las fichas son dos por dos.
-       El tamaño, el rincón y el gris los pone `.ficha .monito` en azul.css, que
-       estaba escrito desde antes y no se había usado nunca. */
-    /* El monito mide 77 y se para a 10 del borde: 88 de aire dejan que el
-       párrafo termine donde él empieza. Sin esto el texto le cruza la cara y
-       se leen peor los dos. */
-    .principales .ficha p { padding-right: 88px; }
+       Arriba las bolitas, apoyadas en el borde. De ahí para abajo el
+       barquillo: las paredes se van cerrando y todo lo que hace la casa
+       va parado adentro, cada cosa más angosta que la anterior, hasta la
+       punta. El dibujo se traza a medida que uno baja.
 
-    /* Dos por dos, no una hilera angosta: cuatro cosas grandes y parejas. */
-    .principales {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+       Las paredes salen de dos números y nada más: `R`, el medio ancho
+       del borde, y la altura del tramo. El resto lo mide el guion sobre
+       la página real, porque el alto de una ficha cambia con el texto
+       que entra y con la pantalla, y una pared dibujada sobre un alto
+       supuesto deja las fichas cruzando la línea.
+
+       Misma mano que los monitos: línea sobre el cobalto, nunca relleno.
+       El rombo del gofre es el mismo rayado cruzado que lleva el
+       barquillo del monito en la cara.
+    ─────────────────────────────────────────────────────────────────── */
+
+    /* ── La corona: las bolitas ─────────────────────────────────────── */
+    .corona {
+      padding-top: clamp(18px, 4vw, 40px);
+      overflow: hidden;
     }
-    @media (min-width: 720px) {
-      .principales { grid-template-columns: repeat(2, 1fr); }
+    /* Las bolitas son del tamaño de la página, no un dibujito al medio:
+       el borde del barquillo es el ancho de la pantalla, así que ellas
+       tienen que asomarse por encima de ese ancho. En el teléfono la caja
+       es más alta y el dibujo se recorta por los lados, que es justo lo que
+       hace una bolita que sobresale del barquillo. */
+    .bolitas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1400 / 400;
+      color: var(--papel);
     }
-    .principales .ficha > a { padding: 24px 24px 17px; gap: 13px; }
-    .principales h2 {
-      font-size: clamp(28px, 3.2vw, 38px);
+    .bolitas .b-linea {
+      fill: var(--cobalto);
+      stroke: currentColor;
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .bolitas .b-marca {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0.5;
+    }
+
+    /* ── El barquillo ───────────────────────────────────────────────── */
+    .barquillo {
+      position: relative;
+      overflow: hidden;
+      /* Debajo de lo último escrito queda el cono solo, cerrándose hasta
+         la punta. El guion lo ajusta al alto real; esto es el arranque. */
+      padding-bottom: clamp(190px, 26vh, 360px);
+    }
+
+    /* El dibujo entero. Se traza de arriba hacia abajo: lo que todavía no
+       se baja, todavía no está dibujado. */
+    .cono {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      --avance: 1;
+      /* El filo se desvanece en vez de cortar: así se lee como una línea que
+         todavía no llegó hasta ahí, y no como un pedazo de página sin pintar. */
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0,
+        #000 calc(var(--avance) * 100%),
+        transparent calc(var(--avance) * 100% + 110px)
+      );
+      mask-image: linear-gradient(
+        to bottom,
+        #000 0,
+        #000 calc(var(--avance) * 100%),
+        transparent calc(var(--avance) * 100% + 110px)
+      );
+    }
+
+    /* El gofre y las paredes viven en una caja del doble del ancho, porque
+       arriba el cono es más ancho que la pantalla: uno empieza adentro del
+       helado y las paredes aparecen más abajo, cuando se cierran. */
+    .gofre,
+    .paredes {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -50%;
+      right: -50%;
+    }
+    .gofre {
+      background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.14) 0 1.5px, transparent 1.5px 46px),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.14) 0 1.5px, transparent 1.5px 46px);
+      clip-path: polygon(var(--izq, 15%) 0, var(--der, 85%) 0, 50% 100%);
+    }
+    .paredes { width: auto; height: auto; }
+    .paredes .pared {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.6);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+    .paredes .borde {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.85);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+    .paredes .chorreo {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.62);
+      stroke-width: 8;
+      stroke-linecap: round;
+    }
+
+    .dentro { position: relative; z-index: 1; }
+
+    /* Cada cosa de la casa es un tramo, y cada tramo entra justo entre las
+       dos paredes a la altura donde está parado. Las medidas de acá son el
+       arranque y lo que queda si el guion no corre; el guion las ajusta
+       contra el dibujo. */
+    .tramo {
+      width: 100%;
+      margin-inline: auto;
+      padding-inline: max(20px, env(safe-area-inset-left, 0px));
+      max-width: 1120px;
+    }
+    .tramo + .tramo { margin-top: 20px; }
+
+    .tramo--portada { padding-block: clamp(30px, 5vw, 54px) 10px; text-align: center; }
+    .tramo--portada h1 {
+      margin-inline: auto;
+      font-size: clamp(40px, 7.4vw, 86px);
+      max-width: 15ch;
+    }
+    .tramo--portada .bajada {
+      margin: 20px auto 0;
+      font-size: 17px;
+      max-width: 42ch;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Las cuatro puertas, una abajo de la otra y cada una más angosta.
+       El monito de cada ficha se para adentro de lo que nombra. */
+    .puerta + .puerta { margin-top: 22px; }
+    .puerta .ficha > a { padding: 24px 24px 17px; gap: 13px; }
+    .puerta h2 {
+      font-size: clamp(27px, 3vw, 36px);
       line-height: 0.96;
       letter-spacing: -0.015em;
     }
-    .principales p { font-size: 15px; }
-    .principales .ir { font-size: 11px; }
+    .puerta p { font-size: 15px; padding-right: 88px; }
+    .puerta .ir { font-size: 11px; }
 
-    /* Lo demás de la casa, en una sola línea de datos. */
+    /* Lo demás de la casa, ya cerca de la punta: una lista angosta. */
+    .tramo--resto { margin-top: 42px; }
     .secundarias {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 0;
-      margin-top: 36px;
       border-top: 1px solid rgba(255, 255, 255, 0.3);
     }
     .secundarias a {
       display: block;
-      padding: 17px 20px 18px 0;
+      padding: 16px 18px 17px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       text-decoration: none;
       color: var(--papel);
@@ -82,6 +206,36 @@
       color: var(--celeste);
     }
     .secundarias a:focus-visible { outline: 3px solid var(--celeste-claro); outline-offset: 2px; }
+
+    /* La firma, lo último que entra antes de que el cono se cierre. */
+    .tramo--firma {
+      margin-top: 46px;
+      text-align: center;
+      max-width: 280px;
+    }
+    .tramo--firma .dato { display: block; line-height: 1.7; }
+
+    /* ── El pie, debajo de la punta ─────────────────────────────────── */
+    footer { border-top: none; }
+    footer .ancho {
+      justify-content: center;
+      text-align: center;
+      padding-block: 10px 30px;
+    }
+
+    @media (max-width: 719px) {
+      .bolitas { aspect-ratio: 1400 / 620; }
+      .tramo--portada h1 { max-width: 12ch; }
+      .puerta p { padding-right: 84px; }
+      .secundarias { grid-template-columns: 1fr; }
+      .secundarias a { padding-right: 0; }
+      /* Cerca de la punta la columna es angosta: el rótulo más largo de la
+         lista, «Casa III · Providencia», no entra con el espaciado de arriba. */
+      .secundarias .que { font-size: 9px; letter-spacing: 0.1em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cono { -webkit-mask-image: none; mask-image: none; }
+    }
   </style>
 </head>
 <body>
@@ -95,19 +249,59 @@
   </div>
 
   <main>
-    <section class="portada">
-      <div class="ancho">
-        <h1>Tu pausa empieza <em>acá</em>.</h1>
-        <p class="bajada">
-          Helado artesanal frente a Nice to Meat, en Providencia.
-        </p>
+    <!-- Las bolitas, apoyadas en el borde del barquillo. -->
+    <div class="corona">
+      <svg class="bolitas" viewBox="0 0 1400 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <!-- Tres bolitas apoyadas en el borde. La de atrás asoma entre las
+             dos de adelante, que la tapan: por eso va dibujada primero y
+             las de adelante llevan el cobalto adentro, para taparla de
+             verdad. El fondo se sigue viendo a través de las tres; lo que
+             no se ve es la línea de atrás cruzando la de adelante.
+             El borde de abajo va en gotas: eso la hace helado y no pelota. -->
+        <path class="b-linea" d="M494 276
+          C494 120 586 24 700 24 C814 24 906 120 906 276
+          Q890 340 856 310 Q822 280 788 320 Q754 360 720 326
+          Q686 292 652 330 Q618 368 584 330 Q550 292 516 314
+          Q500 326 494 276 Z"/>
+        <path class="b-marca" d="M592 116 Q632 80 682 86"/>
+
+        <path class="b-linea" d="M104 300
+          C104 156 202 90 336 90 C470 90 568 156 568 300
+          Q552 380 516 352 Q480 324 444 374 Q408 424 372 382
+          Q336 340 300 388 Q264 436 228 386 Q192 336 156 362
+          Q124 386 104 300 Z"/>
+        <path class="b-marca" d="M198 194 Q244 152 306 158"/>
+
+        <path class="b-linea" d="M832 300
+          C832 156 930 90 1064 90 C1198 90 1296 156 1296 300
+          Q1276 386 1240 362 Q1204 338 1168 386 Q1132 434 1096 388
+          Q1060 342 1024 382 Q988 422 952 374 Q916 326 880 352
+          Q848 376 832 300 Z"/>
+        <path class="b-marca" d="M926 194 Q972 152 1034 158"/>
+      </svg>
+    </div>
+
+    <!-- El barquillo: todo lo que hace la casa va parado adentro. -->
+    <section class="barquillo">
+      <div class="cono" aria-hidden="true">
+        <div class="gofre"></div>
+        <svg class="paredes" preserveAspectRatio="none">
+          <path class="borde" d="M0 0 H0"/>
+          <path class="pared" d="M0 0 L0 0"/>
+          <path class="pared" d="M0 0 L0 0"/>
+          <path class="chorreo" d="M0 0"/>
+        </svg>
       </div>
-    </section>
 
-    <section>
-      <div class="ancho" style="padding-block: 0 52px">
-        <div class="principales">
+      <div class="dentro">
+        <div class="tramo tramo--portada">
+          <h1>Tu pausa empieza <em>acá</em>.</h1>
+          <p class="bajada">
+            Helado artesanal frente a Nice to Meat, en Providencia.
+          </p>
+        </div>
 
+        <div class="tramo puerta">
           <div class="ficha">
             <a href="/menu">
               <h2>Ver la carta</h2>
@@ -116,7 +310,9 @@
               <span class="pie"><span class="codigo">Carta</span><span class="ir">Ver →</span></span>
             </a>
           </div>
+        </div>
 
+        <div class="tramo puerta">
           <div class="ficha">
             <a href="/votacion">
               <h2>Votar tu helado</h2>
@@ -126,7 +322,9 @@
               <span class="pie"><span class="codigo">La barquillera</span><span class="ir">Votar →</span></span>
             </a>
           </div>
+        </div>
 
+        <div class="tramo puerta">
           <div class="ficha">
             <a href="/dailyback/auth/google">
               <h2>Tu DailyBack</h2>
@@ -135,7 +333,9 @@
               <span class="pie"><span class="codigo">La tarjeta</span><span class="ir">Entrar →</span></span>
             </a>
           </div>
+        </div>
 
+        <div class="tramo puerta">
           <div class="ficha">
             <a href="/laconsola/">
               <h2>La Consola</h2>
@@ -144,38 +344,179 @@
               <span class="pie"><span class="codigo">K01–K12</span><span class="ir">Jugar →</span></span>
             </a>
           </div>
-
         </div>
 
-        <nav class="secundarias" aria-label="El resto de la casa">
-          <a href="/nicetomeat">
-            <span class="nombre">La casa</span>
-            <span class="que">Casa III · Providencia</span>
-          </a>
-          <a href="/eventos">
-            <span class="nombre">Eventos</span>
-            <span class="que">Llevamos la barra</span>
-          </a>
-          <a href="/historia">
-            <span class="nombre">La historia</span>
-            <span class="que">Vol. 1 al 4</span>
-          </a>
-          <a href="/promos">
-            <span class="nombre">Promos</span>
-            <span class="que">En preparación</span>
-          </a>
-        </nav>
+        <div class="tramo tramo--resto">
+          <nav class="secundarias" aria-label="El resto de la casa">
+            <a href="/nicetomeat">
+              <span class="nombre">La casa</span>
+              <span class="que">Casa III · Providencia</span>
+            </a>
+            <a href="/eventos">
+              <span class="nombre">Eventos</span>
+              <span class="que">Llevamos la barra</span>
+            </a>
+            <a href="/historia">
+              <span class="nombre">La historia</span>
+              <span class="que">Vol. 1 al 4</span>
+            </a>
+            <a href="/promos">
+              <span class="nombre">Promos</span>
+              <span class="que">En preparación</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="tramo tramo--firma">
+          <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="ancho">
-      <span class="dato">The Daily Grind · Vol. 4 · MMXXVI</span>
       <span class="dato"><a href="/privacidad">Datos personales →</a> · <a href="https://www.instagram.com/dailygrind.cl/">@dailygrind.cl ↗</a></span>
     </div>
   </footer>
 
   <script src="/azul.js"></script>
+  <script>
+    /* El cono se mide sobre la página armada, no sobre un alto supuesto.
+       Dos números lo definen: `R`, el medio ancho del borde de arriba, y
+       el alto del tramo. De ahí sale a qué ancho puede entrar cada cosa a
+       la altura donde quedó parada.
+
+       Va en tres vueltas porque angostar un tramo lo hace más alto, y más
+       alto significa más abajo, y más abajo significa más angosto. Tres
+       vueltas bastan para que deje de moverse. */
+    (function () {
+      "use strict";
+
+      var barq = document.querySelector(".barquillo");
+      var cono = document.querySelector(".cono");
+      var gofre = document.querySelector(".gofre");
+      var svg = document.querySelector(".paredes");
+      if (!barq || !cono || !gofre || !svg) return;
+
+      var tramos = Array.prototype.slice.call(barq.querySelectorAll(".tramo"));
+      var paredes = svg.querySelectorAll(".pared");
+      var borde = svg.querySelector(".borde");
+      var chorreo = svg.querySelector(".chorreo");
+
+      // El borde de arriba es más ancho que la pantalla: uno entra adentro
+      // del helado y recién más abajo ve cerrarse las paredes. El medio
+      // ancho del borde sale del alto, para que el cono guarde su forma —
+      // alto y angosto, como un barquillo y no como una copa — y nunca baje
+      // de lo que hace falta para que arriba no se vea el filo.
+      var PROPORCION_ANCHA = 0.30;   // escritorio
+      var PROPORCION_ANGOSTA = 0.20; // teléfono: el cono se cierra más tarde
+      // Del alto total, lo que queda de cono solo debajo de todo lo escrito.
+      // En el teléfono es más, porque ahí las paredes se cierran sobre un
+      // ancho chico y lo último escrito necesita quedar más arriba.
+      var SOBRA_ANCHA = 0.21;
+      var SOBRA_ANGOSTA = 0.26;
+      // Más angosto que esto no se escribe: el rótulo del pie deja de leerse.
+      var ANCHO_MIN = 150;
+
+      function vuelta() {
+        var caja = barq.getBoundingClientRect();
+        var W = caja.width;
+        var H = caja.height;
+        if (!W || !H) return null;
+
+        var angosto = W < 720;
+        var R = Math.max(0.62 * W, (angosto ? PROPORCION_ANGOSTA : PROPORCION_ANCHA) * H);
+        var aire = angosto ? 16 : 28;
+
+        tramos.forEach(function (tramo) {
+          var r = tramo.getBoundingClientRect();
+          // Lo que manda es el borde de abajo del tramo: es donde el cono
+          // está más cerrado de todo lo que ese tramo ocupa.
+          var t = (r.bottom - caja.top) / H;
+          var cabe = 2 * (R * (1 - t) - aire);
+          tramo.style.maxWidth = Math.max(ANCHO_MIN, Math.min(cabe, 1120)) + "px";
+        });
+
+        // Debajo de lo último escrito queda cono solo, hasta la punta.
+        barq.style.paddingBottom = Math.round((angosto ? SOBRA_ANGOSTA : SOBRA_ANCHA) * H) + "px";
+
+        return { W: W, H: H, R: R };
+      }
+
+      function dibujar() {
+        var m;
+        // Angostar un tramo lo hace más alto, y más alto lo deja más abajo,
+        // y más abajo lo quiere más angosto. Cuatro vueltas y deja de moverse.
+        for (var i = 0; i < 4; i++) m = vuelta() || m;
+        if (!m) return;
+
+        // La caja del dibujo mide el doble de ancho que la página, centrada,
+        // así que el eje del cono cae en su medio.
+        var caja = 2 * m.W;
+        var eje = m.W;
+        var izq = eje - m.R;
+        var der = eje + m.R;
+
+        gofre.style.setProperty("--izq", (izq / caja) * 100 + "%");
+        gofre.style.setProperty("--der", (der / caja) * 100 + "%");
+
+        svg.setAttribute("viewBox", "0 0 " + caja + " " + m.H);
+        borde.setAttribute("d", "M" + izq + " 1 H" + der);
+        paredes[0].setAttribute("d", "M" + izq + " 1 L" + eje + " " + (m.H - 2));
+        paredes[1].setAttribute("d", "M" + der + " 1 L" + eje + " " + (m.H - 2));
+
+        // Un hilo que se escapó por el borde y bajó por el gofre. Uno solo:
+        // dos ya serían un dibujo de helado derretido, y este helado recién
+        // se sirve.
+        // Pegado al canto izquierdo, lejos del titular: en el teléfono el
+        // titular ocupa casi todo el ancho y un hilo encima de las letras se
+        // lee como una raya, no como helado.
+        var x = m.W * 0.5 + (m.W < 720 ? 26 : 0.16 * m.W);
+        var largo = Math.max(120, Math.min(200, m.H * 0.09));
+        chorreo.setAttribute(
+          "d",
+          "M" + x + " 2 C" + (x + 15) + " " + largo * 0.32 +
+            ", " + (x - 13) + " " + largo * 0.58 +
+            ", " + (x + 5) + " " + largo
+        );
+      }
+
+      // El dibujo se traza hasta donde uno ya bajó: lo que viene más abajo
+      // todavía no existe. Quien pidió menos movimiento lo ve entero.
+      var quieto = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var pedido = false;
+
+      function avanzar() {
+        pedido = false;
+        var caja = barq.getBoundingClientRect();
+        var visto = window.innerHeight * 0.88 - caja.top;
+        var avance = Math.max(0, Math.min(1, visto / caja.height));
+        cono.style.setProperty("--avance", avance.toFixed(4));
+      }
+
+      function pedir() {
+        if (pedido) return;
+        pedido = true;
+        requestAnimationFrame(avanzar);
+      }
+
+      function arrancar() {
+        dibujar();
+        if (!quieto.matches) avanzar();
+      }
+
+      arrancar();
+      // Las fuentes cambian el alto del texto, y con él todo el cono.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(arrancar);
+      window.addEventListener("load", arrancar);
+
+      if (!quieto.matches) window.addEventListener("scroll", pedir, { passive: true });
+      window.addEventListener("resize", function () {
+        dibujar();
+        if (!quieto.matches) avanzar();
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>
