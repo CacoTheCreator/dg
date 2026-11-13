@@ -41,11 +41,11 @@
       font-weight: 800;
       font-size: 18px;
       line-height: 1.05;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
     }
     .sabor-ficha .que {
-      font-size: 13px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 500;
       line-height: 1.3;
       color: var(--celeste-claro);
     }
@@ -95,6 +95,27 @@
     .mas { margin-top: 40px; }
     .mas h2 { font-size: 22px; line-height: 1; }
     .mas .lamina { margin-top: 16px; }
+
+    .tarifa { margin: 30px 0 30px; }
+    .tarifa .renglon {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 0; font-size: 17px;
+      border-top: 1px solid rgba(255, 255, 255, .3);
+    }
+    .tarifa .renglon strong { font-weight: 500; }
+    .tarifa .salto {
+      padding: 18px 0 16px;
+      border-top: 1px solid rgba(255, 255, 255, .3);
+    }
+    .tarifa .salto .k {
+      display: block; font-size: 13px; letter-spacing: 0;
+      text-transform: uppercase; opacity: .72;
+    }
+    .tarifa .salto .v {
+      display: block; font-family: var(--sans); font-weight: 800;
+      font-size: clamp(44px, 12vw, 72px); line-height: 1; margin-top: 4px;
+    }
+    .tarifa .pie { margin-top: 14px; font-size: 15px; opacity: .78; line-height: 1.45; }
   </style>
 </head>
 <body>
@@ -123,12 +144,22 @@
 
     <section>
       <div class="ancho" style="padding-block: 0 20px">
+        <div class="tarifa">
+          <div class="salto">
+            <span class="k">Doble · dos bochas</span>
+            <strong class="v" data-campo="precio_doble">$4.700</strong>
+          </div>
+          <div class="renglon"><span>Simple · una bocha</span><strong data-campo="precio_simple">$3.500</strong></div>
+          <div class="renglon"><span>En cono</span><strong data-campo="precio_cono">+$400</strong></div>
+          <p class="pie">Vasito sin recargo. También puedes elegir cono.</p>
+        </div>
+
         <div class="sabores" data-lista="carta">
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-macerati"/></svg>
             <span class="nombre">Macerati</span>
-            <span class="que">Piña pasada al ron</span>
+            <span class="que">Pasas al ron</span>
           </div>
 
           <div class="sabor-ficha">
@@ -140,51 +171,61 @@
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-enrique"/></svg>
             <span class="nombre">Enrique</span>
+            <span class="que">Maní para rato</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-anti-vainilla"/></svg>
             <span class="nombre">Anti vainilla</span>
+            <span class="que">Helado de vainilla</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-chocolate"/></svg>
             <span class="nombre">Chocolate</span>
+            <span class="que">Helado de chocolate</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-cookies-cream"/></svg>
             <span class="nombre">Cookies &amp; cream</span>
+            <span class="que">Helado de cookies &amp; cream</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-frambuesa"/></svg>
             <span class="nombre">Frambuesa</span>
+            <span class="que">Helado de frambuesa</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-frutilla"/></svg>
             <span class="nombre">Frutilla</span>
+            <span class="que">Helado de frutilla</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-mango"/></svg>
             <span class="nombre">Mango</span>
+            <span class="que">Helado de mango</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-pina"/></svg>
             <span class="nombre">Piña</span>
+            <span class="que">Helado de piña</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-menta-chips"/></svg>
             <span class="nombre">Menta chips</span>
+            <span class="que">Helado de menta chips</span>
           </div>
 
           <div class="sabor-ficha">
             <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sabor-pie-limon"/></svg>
             <span class="nombre">Pie de limón</span>
+            <span class="que">Helado de pie de limón</span>
           </div>
 
         </div>
@@ -216,12 +257,13 @@
             <div><span>Dulce</span><strong>Dos postres de la tienda, rotan</strong></div>
             <div><span>Perros</span><strong>Entran contigo, y les servimos agua</strong></div>
             <div><span>Dónde</span><strong><span data-campo="direccion">Los Leones 1012, local 2</span>&nbsp;· <span data-campo="comuna">Providencia</span></strong></div>
-            <div><span>Horario</span><strong><span data-campo="horario_dias">Martes a domingo</span>, <span data-campo="horario_horas">12:00 a 20:00</span></strong></div>
+            <div><span>Horario</span><strong><span data-campo="horario_dias">Martes a domingo</span>, <span data-campo="horario_horas">13:00 a 20:00</span></strong></div>
           </div>
           <div class="fila-botones" style="margin-top: 26px">
-            <a class="boton" href="/votacion">Votar el que se queda →</a>
+            <a class="boton" href="/votacion?utm_source=carta&utm_medium=web&utm_campaign=votacion">Votar con DailyBack →</a>
             <a class="boton boton--linea" href="/nicetomeat">La casa que nos recibe →</a>
           </div>
+          <p style="margin-top: 16px; font-size: 15px">Conecta tu tarjeta y elige el sabor que se queda. Un voto por DailyBack.</p>
         </div>
       </div>
     </section>

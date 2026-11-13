@@ -3,6 +3,8 @@
 //
 // Source canónico bajo control editorial; redeploy con `npx wrangler deploy`.
 
+import { handleVisitas } from './visitas.js';
+
 const GRAPH = (env) => `https://graph.facebook.com/${env.META_GRAPH_VERSION || "v23.0"}`;
 
 export default {
@@ -1458,12 +1460,15 @@ async function votacionEstado(env, socio, tarjeta, abierta) {
 
 const CONTENIDO_DEFECTO = {
   horario_dias: "Martes a domingo",
-  horario_horas: "12:00 a 20:00",
-  horario_abre: "12",
+  horario_horas: "13:00 a 20:00",
+  horario_abre: "13",
   horario_cierra: "20",
   horario_dia_cerrado: "1", // 0 domingo, 1 lunes
   direccion: "Los Leones 1012, local 2",
   comuna: "Providencia",
+  precio_simple: "$3.500",
+  precio_doble: "$4.700",
+  precio_cono: "+$400",
   pistacho_bloqueado: "si",
   votacion_ronda: "2026-11",
   carta: "",
@@ -1678,6 +1683,10 @@ async function handlePanel(request, env, url) {
   if (url.pathname.startsWith("/panel/api/")) {
     if (!dentro) return panelJson({ error: "sin sesión" }, 401);
     if (!env.DB) return panelJson({ error: "sin base de datos" }, 503);
+
+    if (url.pathname === '/panel/api/visitas' || url.pathname.startsWith('/panel/api/visitas/')) {
+      return handleVisitas(request, env, url);
+    }
 
     if (url.pathname === "/panel/api/contenido" && request.method === "GET") {
       return panelJson({ ok: true, contenido: await leerContenido(env) });
