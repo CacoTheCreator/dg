@@ -492,6 +492,12 @@
         var caja = barq.getBoundingClientRect();
         var visto = window.innerHeight * 0.88 - caja.top;
         var avance = Math.max(0, Math.min(1, visto / caja.height));
+        // Abajo del todo el dibujo tiene que quedar terminado. El pie va
+        // debajo de la punta y mide menos que el aire que se deja adelante,
+        // así que la cuenta sola se queda corta por unas decenas de píxeles
+        // y la punta no llega a cerrar, justo donde remata la página.
+        var raiz = document.documentElement;
+        if (window.innerHeight + window.scrollY >= raiz.scrollHeight - 4) avance = 1;
         cono.style.setProperty("--avance", avance.toFixed(4));
       }
 
