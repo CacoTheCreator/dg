@@ -47,6 +47,10 @@
       width: 100%;
       aspect-ratio: 1400 / 400;
       color: var(--papel);
+      /* Se hunden en el barquillo cuando uno empieza a bajar. La corona
+         recorta, así que el canto de abajo se va metiendo adentro. */
+      transform: translateY(var(--hundir, 0px));
+      will-change: transform;
     }
     .bolitas .b-linea {
       fill: var(--cobalto);
@@ -132,6 +136,30 @@
       stroke-width: 8;
       stroke-linecap: round;
     }
+    .paredes .gota { fill: rgba(255, 255, 255, 0.62); }
+    /* El gofre tejido en perspectiva. Reemplaza al rayado parejo apenas el
+       guion puede dibujarlo; el de CSS queda de respaldo. */
+    .paredes .tejido {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.19);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+    }
+    /* El canto del barquillo: dos líneas y sus dientes. Un borde de un pelo
+       dejaba las bolitas flotando encima en vez de metidas adentro. */
+    .paredes .labio {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.55);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+    .paredes .dientes {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.32);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+    .cono[data-tejido] .gofre { display: none; }
 
     .dentro { position: relative; z-index: 1; }
 
@@ -286,10 +314,14 @@
       <div class="cono" aria-hidden="true">
         <div class="gofre"></div>
         <svg class="paredes" preserveAspectRatio="none">
+          <path class="tejido" d=""/>
+          <path class="pared" d="M0 0 L0 0"/>
+          <path class="pared" d="M0 0 L0 0"/>
+          <path class="dientes" d=""/>
+          <path class="labio" d="M0 0 H0"/>
           <path class="borde" d="M0 0 H0"/>
-          <path class="pared" d="M0 0 L0 0"/>
-          <path class="pared" d="M0 0 L0 0"/>
           <path class="chorreo" d="M0 0"/>
+          <circle class="gota" cx="0" cy="0" r="0"/>
         </svg>
       </div>
 
@@ -400,9 +432,18 @@
       if (!barq || !cono || !gofre || !svg) return;
 
       var tramos = Array.prototype.slice.call(barq.querySelectorAll(".tramo"));
+      // El dibujo se traza hasta donde uno ya bajó: lo que viene más abajo
+      // todavía no existe. Quien pidió menos movimiento lo ve entero.
+      var quieto = window.matchMedia("(prefers-reduced-motion: reduce)");
       var paredes = svg.querySelectorAll(".pared");
       var borde = svg.querySelector(".borde");
+      var labio = svg.querySelector(".labio");
+      var dientes = svg.querySelector(".dientes");
+      var tejido = svg.querySelector(".tejido");
       var chorreo = svg.querySelector(".chorreo");
+      var gota = svg.querySelector(".gota");
+      var corona = document.querySelector(".corona");
+      var geo = null;
 
       // El borde de arriba es más ancho que la pantalla: uno entra adentro
       // del helado y recién más abajo ve cerrarse las paredes. El medio
@@ -444,6 +485,77 @@
         return { W: W, H: H, R: R };
       }
 
+      // El gofre, tejido en las coordenadas de la superficie del cono y no
+      // en las de la pantalla. Sobre la superficie el rombo mide siempre lo
+      // mismo; al traerlo a la pantalla se achica solo hacia la punta, que es
+      // lo que hace que el cono se lea como un volumen en el que uno va
+      // metido. El rayado parejo de antes se leía como empapelado detrás de
+      // una V.
+      //
+      //   s      profundidad sobre la superficie, 0 en el canto
+      //   t      dónde cae en la página, t = 1 - e^(-s)
+      //   u      de lado a lado, de -1 a 1, siempre entre las dos paredes
+      //
+      // Cada hilo del tejido es `u = c ± inclinación · s`: una recta sobre la
+      // superficie, que en pantalla sale curva porque el cono se cierra.
+      function tejerGofre(m, eje, canto) {
+        var H = m.H, R = m.R;
+        var PASO = 0.1;    // ancho del rombo, en unidades de u
+        var incl = H / (2 * R); // deja el rombo parejo, ni aplastado ni estirado
+        var s0 = canto / H;
+        var d = "";
+
+        // El tejido se corta donde el rombo baja de 10 px. Más abajo las
+        // líneas se juntan y la punta se empasta en una mancha gris, que es
+        // lo contrario de lo que el gofre tiene que hacer ahí.
+        var S_MAX = Math.max(1.4, Math.min(2.8, Math.log((PASO * R) / 10)));
+
+        for (var lado = 0; lado < 2; lado++) {
+          var signo = lado === 0 ? 1 : -1;
+          var cDesde = signo > 0 ? -1 - incl * S_MAX : -1;
+          var cHasta = signo > 0 ? 1 : 1 + incl * S_MAX;
+          var i = 0;
+          for (var c = cDesde; c <= cHasta; c += PASO, i++) {
+            var a = (-1 - c) / (signo * incl);
+            var b = (1 - c) / (signo * incl);
+            var sLo = Math.max(s0, Math.min(a, b));
+            // Cada hilo se corta un poco antes o un poco después que su
+            // vecino: cortados todos a la misma altura dejaban un filo recto
+            // cruzando el cono, que se ve como un error y no como un tejido.
+            var jitter = ((i % 5) / 5 - 0.4) * 0.45;
+            var sHi = Math.min(S_MAX + jitter, Math.max(a, b));
+            if (sHi <= sLo + 0.02) continue;
+            for (var k = 0; k <= 10; k++) {
+              var sk = sLo + (sHi - sLo) * (k / 10);
+              var e = Math.exp(-sk);
+              var x = eje + (c + signo * incl * sk) * R * e;
+              d += (k ? " L" : "M") + x.toFixed(1) + " " + (H * (1 - e)).toFixed(1);
+            }
+          }
+        }
+        return d;
+      }
+
+      // El hilo que se escapó por el canto. Se alarga mientras uno baja: el
+      // helado se derrite mientras lo miras. La gota va suelta más abajo.
+      function chorrear(avance) {
+        if (!geo) return;
+        var x = geo.W * 0.5 + (geo.W < 720 ? 24 : 0.085 * geo.W);
+        var base = Math.max(110, Math.min(180, geo.H * 0.08));
+        var largo = base * (1 + avance * 0.9);
+        var y = geo.canto;
+        chorreo.setAttribute(
+          "d",
+          "M" + x + " " + y +
+            " C" + (x + 15) + " " + (y + largo * 0.32) +
+            ", " + (x - 13) + " " + (y + largo * 0.6) +
+            ", " + (x + 5) + " " + (y + largo)
+        );
+        gota.setAttribute("cx", x + 5);
+        gota.setAttribute("cy", y + largo + 3 + avance * 16);
+        gota.setAttribute("r", 7);
+      }
+
       function dibujar() {
         var m;
         // Angostar un tramo lo hace más alto, y más alto lo deja más abajo,
@@ -458,33 +570,33 @@
         var izq = eje - m.R;
         var der = eje + m.R;
 
-        gofre.style.setProperty("--izq", (izq / caja) * 100 + "%");
-        gofre.style.setProperty("--der", (der / caja) * 100 + "%");
-
         svg.setAttribute("viewBox", "0 0 " + caja + " " + m.H);
-        borde.setAttribute("d", "M" + izq + " 1 H" + der);
-        paredes[0].setAttribute("d", "M" + izq + " 1 L" + eje + " " + (m.H - 2));
-        paredes[1].setAttribute("d", "M" + der + " 1 L" + eje + " " + (m.H - 2));
 
-        // Un hilo que se escapó por el borde y bajó por el gofre. Uno solo:
-        // dos ya serían un dibujo de helado derretido, y este helado recién
-        // se sirve.
-        // Pegado al canto izquierdo, lejos del titular: en el teléfono el
-        // titular ocupa casi todo el ancho y un hilo encima de las letras se
-        // lee como una raya, no como helado.
-        var x = m.W * 0.5 + (m.W < 720 ? 26 : 0.16 * m.W);
-        var largo = Math.max(120, Math.min(200, m.H * 0.09));
-        chorreo.setAttribute(
-          "d",
-          "M" + x + " 2 C" + (x + 15) + " " + largo * 0.32 +
-            ", " + (x - 13) + " " + largo * 0.58 +
-            ", " + (x + 5) + " " + largo
-        );
+        // El canto: un barquillo tiene espesor, no una línea de un pelo. Con
+        // él las bolitas quedan metidas adentro y no apoyadas sobre una raya.
+        var canto = Math.max(10, Math.min(17, m.H * 0.008));
+        var prop = 1 - canto / m.H;
+        var rBajo = m.R * prop;
+        borde.setAttribute("d", "M" + izq + " 2 H" + der);
+        labio.setAttribute("d", "M" + (eje - rBajo) + " " + canto + " H" + (eje + rBajo));
+
+        var paso = Math.max(28, m.W / 24);
+        var d = "";
+        for (var x = izq + paso / 2; x < der; x += paso) {
+          d += "M" + x.toFixed(1) + " 3 L" + (eje + (x - eje) * prop).toFixed(1) + " " + canto;
+        }
+        dientes.setAttribute("d", d);
+
+        paredes[0].setAttribute("d", "M" + izq + " 2 L" + eje + " " + (m.H - 2));
+        paredes[1].setAttribute("d", "M" + der + " 2 L" + eje + " " + (m.H - 2));
+
+        tejido.setAttribute("d", tejerGofre(m, eje, canto));
+        cono.setAttribute("data-tejido", "");
+
+        geo = { W: m.W, H: m.H, canto: canto };
+        chorrear(quieto.matches ? 1 : 0);
       }
 
-      // El dibujo se traza hasta donde uno ya bajó: lo que viene más abajo
-      // todavía no existe. Quien pidió menos movimiento lo ve entero.
-      var quieto = window.matchMedia("(prefers-reduced-motion: reduce)");
       var pedido = false;
 
       function avanzar() {
@@ -499,6 +611,13 @@
         var raiz = document.documentElement;
         if (window.innerHeight + window.scrollY >= raiz.scrollHeight - 4) avance = 1;
         cono.style.setProperty("--avance", avance.toFixed(4));
+
+        // Las bolitas se hunden en el barquillo apenas uno arranca a bajar.
+        if (corona) {
+          var hundir = Math.max(0, Math.min(1, window.scrollY / 460));
+          corona.style.setProperty("--hundir", (hundir * 18).toFixed(1) + "px");
+        }
+        chorrear(avance);
       }
 
       function pedir() {
